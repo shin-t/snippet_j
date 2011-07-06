@@ -38,12 +38,6 @@ h1 {
 	margin-bottom: 1em;
 }
 
-a.header-main:link, a.header-main:visited {
-	font-size: 3em;
-	font-weight: bold;
-}
-
-
 ul {
     padding-left: 15px;
 }
@@ -281,4 +275,15 @@ th.desc a {
 .buttons input.save {
     background: transparent url(../images/skin/database_save.png) 5px 50% no-repeat;
     padding-left: 28px;
+}
+
+/* */
+a.header-main:link, a.header-main:visited {
+	font-size: 3em;
+	font-weight: bold;
+}
+
+#search {
+	float: right;
+	margin: 2em 1em;
 }

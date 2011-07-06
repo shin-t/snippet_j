@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
+                    <g:each in="${searchResults}" status="i" var="snippetInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                             <td><g:link action="show" id="${snippetInstance.id}">${fieldValue(bean: snippetInstance, field: "id")}</g:link></td>
@@ -54,7 +54,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${snippetInstanceTotal}" />
+                <g:paginate total="${resultCount}" params="${flash}" />
             </div>
         </div>
     </body>

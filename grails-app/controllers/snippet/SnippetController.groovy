@@ -9,8 +9,8 @@ class SnippetController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [snippetInstanceList: Snippet.list(params), snippetInstanceTotal: Snippet.count()]
+    	params.max = Math.min(params.max ? params.int('max') : 10, 100)
+    	[snippetInstanceList: Snippet.list(params), snippetInstanceTotal: Snippet.count()]
     }
 
     def create = {
@@ -96,5 +96,13 @@ class SnippetController {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
             redirect(action: "list")
         }
+    }
+    
+    def search = {
+    	//render Snippet.search(params.q, params)
+    	def searchResults = Snippet.search(params.q, params)
+    	flash.message = "${searchResults.total} results foundo for search: ${params.q}"
+    	flash.q = params.q
+    	[searchResults:searchResults.results, resultCount:searchResults.total]
     }
 }

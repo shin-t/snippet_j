@@ -60,7 +60,7 @@
                                     <label for="snippet"><g:message code="snippet.snippet.label" default="Snippet" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}">
-                                    <pre><code><g:textField name="snippet" value="${snippetInstance?.snippet}" /></code></pre>
+                                    <pre><code><g:textArea name="snippet" value="${snippetInstance?.snippet}" /></code></pre>
                                 </td>
                             </tr>
                         

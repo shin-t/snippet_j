@@ -17,6 +17,12 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            <div class="search"
+            <g:form action="list">
+			<g:textField id="keyword" name="keyword" value="keyword" />
+			<g:submitButton name="search" />
+			</g:form>
+			</div>
             <div class="list">
                 <table>
                     <thead>

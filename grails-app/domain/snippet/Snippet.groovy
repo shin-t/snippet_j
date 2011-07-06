@@ -1,6 +1,7 @@
 package snippet
 
 class Snippet {
+	static searchable = true
 	String name
 	String language
 	String comment
@@ -8,7 +9,7 @@ class Snippet {
     static constraints = {
     	name(blank:false)
     	language(blank:false)
-    	comment(blank:false)
+    	comment()
     	snippet(blank:false)
     }
 }

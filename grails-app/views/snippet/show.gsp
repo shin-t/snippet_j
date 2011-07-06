@@ -53,7 +53,7 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="snippet.snippet.label" default="Snippet" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: snippetInstance, field: "snippet")}</td>
+                            <td valign="top" class="value"><pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre></td>
                             
                         </tr>
                     

@@ -7,6 +7,8 @@ class Snippet {
 	String snippet
     static constraints = {
     	name(blank:false)
+    	language(blank:false)
+    	comment(blank:false)
     	snippet(blank:false)
     }
 }

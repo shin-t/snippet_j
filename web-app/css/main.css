@@ -287,3 +287,6 @@ a.header-main:link, a.header-main:visited {
 	float: right;
 	margin: 2em 1em;
 }
+#loginHeader {
+	float: right;
+}

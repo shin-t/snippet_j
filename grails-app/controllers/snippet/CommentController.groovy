@@ -21,7 +21,6 @@ class CommentController {
 
     def save = {
         def commentInstance = new Comment(params)
-		commentInstance.date = new Date()
         if (commentInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.id])}"
             redirect(action: "show", id: commentInstance.id)

@@ -1,6 +1,7 @@
 package snippet
 
 class User {
+
     static hasMany = [snippet:Snippet, comment:Comment]
     
     String login
@@ -12,6 +13,6 @@ class User {
     static constraints = {
         login(unique:true)
         password(password:true)
-        name(blank:false)
+        name()
     }
 }

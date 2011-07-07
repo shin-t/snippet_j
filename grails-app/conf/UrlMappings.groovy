@@ -8,6 +8,7 @@ class UrlMappings {
 		}
 
 		"/"(controller:"snippet", action:"list")
+		"/$id"(controller:"snippet", action="list")
 		"500"(view:'/error')
 	}
 }

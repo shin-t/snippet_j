@@ -1,11 +1,11 @@
 
 
-<%@ page import="snippet.Snippet" %>
+<%@ page import="snippet.User" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
+        <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -18,9 +18,9 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${snippetInstance}">
+            <g:hasErrors bean="${userInstance}">
             <div class="errors">
-                <g:renderErrors bean="${snippetInstance}" as="list" />
+                <g:renderErrors bean="${userInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
@@ -30,37 +30,28 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="description"><g:message code="snippet.description.label" default="Description" /></label>
+                                    <label for="login"><g:message code="user.login.label" default="Login" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'description', 'errors')}">
-                                    <g:textField name="description" value="${snippetInstance?.description}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="name"><g:message code="snippet.name.label" default="Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${snippetInstance?.name}" />
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'login', 'errors')}">
+                                    <g:textField name="login" value="${userInstance?.login}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="snippet"><g:message code="snippet.snippet.label" default="Snippet" /></label>
+                                    <label for="password"><g:message code="user.password.label" default="Password" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}">
-                                    <g:textField name="snippet" value="${snippetInstance?.snippet}" />
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'password', 'errors')}">
+                                    <g:passwordField name="password" value="${userInstance?.password}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="author"><g:message code="snippet.author.label" default="Author" /></label>
+                                    <label for="name"><g:message code="user.name.label" default="Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'author', 'errors')}">
-                                    <g:select name="author.id" from="${snippet.User.list()}" optionKey="id" value="${snippetInstance?.author?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'name', 'errors')}">
+                                    <g:textField name="name" value="${userInstance?.name}" />
                                 </td>
                             </tr>
                         

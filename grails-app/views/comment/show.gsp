@@ -30,13 +30,6 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="comment.comment.label" default="Comment" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: commentInstance, field: "comment")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="comment.date.label" default="Date" /></td>
                             
                             <td valign="top" class="value"><g:formatDate date="${commentInstance?.date}" /></td>
@@ -44,9 +37,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="comment.name.label" default="Name" /></td>
+                            <td valign="top" class="name"><g:message code="comment.comment.label" default="Comment" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: commentInstance, field: "name")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: commentInstance, field: "comment")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="comment.author.label" default="Author" /></td>
+                            
+                            <td valign="top" class="value"><g:link controller="user" action="show" id="${commentInstance?.author?.id}">${commentInstance?.author?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     

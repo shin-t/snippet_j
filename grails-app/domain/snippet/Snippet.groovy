@@ -1,15 +1,16 @@
 package snippet
 
 class Snippet {
+
 	static searchable = true
-	String description
-	String name
-	String language
-	String snippet
+
+    static belongsTo = [author:User]
 
 	static hasMany = [comments:Comment]
-	
-    static belongsTo = [author:User]
+
+	String description
+	String name
+	String snippet
 
 	List comments() {
 		return comments.collect{it.comment}
@@ -18,7 +19,6 @@ class Snippet {
     static constraints = {
     	description(blank:false)
     	name(blank:false)
-    	language(blank:false)
     	snippet(blank:false)
     }
 }

@@ -28,27 +28,6 @@
                     <table>
                         <tbody>
                         
-                            <g:hiddenField name="snippet.id" value="${commentInstance?.snippet?.id}" />
-                            
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="name"><g:message code="comment.name.label" default="Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: commentInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${commentInstance?.name}" />
-                                </td>
-                            </tr>
-                            
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="comment"><g:message code="comment.comment.label" default="Comment" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: commentInstance, field: 'comment', 'errors')}">
-                                    <g:textArea name="comment" value="${commentInstance?.comment}" />
-                                </td>
-                            </tr>
-                        
-                            <!--
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="date"><g:message code="comment.date.label" default="Date" /></label>
@@ -57,7 +36,25 @@
                                     <g:datePicker name="date" precision="day" value="${commentInstance?.date}"  />
                                 </td>
                             </tr>
-
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="comment"><g:message code="comment.comment.label" default="Comment" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: commentInstance, field: 'comment', 'errors')}">
+                                    <g:textField name="comment" value="${commentInstance?.comment}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="author"><g:message code="comment.author.label" default="Author" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: commentInstance, field: 'author', 'errors')}">
+                                    <g:select name="author.id" from="${snippet.User.list()}" optionKey="id" value="${commentInstance?.author?.id}"  />
+                                </td>
+                            </tr>
+                        
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="snippet"><g:message code="comment.snippet.label" default="Snippet" /></label>
@@ -66,7 +63,6 @@
                                     <g:select name="snippet.id" from="${snippet.Snippet.list()}" optionKey="id" value="${commentInstance?.snippet?.id}"  />
                                 </td>
                             </tr>
-                            -->                        
                         
                         </tbody>
                     </table>

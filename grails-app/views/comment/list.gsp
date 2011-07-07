@@ -24,11 +24,11 @@
                         
                             <g:sortableColumn property="id" title="${message(code: 'comment.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="comment" title="${message(code: 'comment.comment.label', default: 'Comment')}" />
-                        
                             <g:sortableColumn property="date" title="${message(code: 'comment.date.label', default: 'Date')}" />
                         
-                            <g:sortableColumn property="name" title="${message(code: 'comment.name.label', default: 'Name')}" />
+                            <g:sortableColumn property="comment" title="${message(code: 'comment.comment.label', default: 'Comment')}" />
+                        
+                            <th><g:message code="comment.author.label" default="Author" /></th>
                         
                             <th><g:message code="comment.snippet.label" default="Snippet" /></th>
                         
@@ -40,11 +40,11 @@
                         
                             <td><g:link action="show" id="${commentInstance.id}">${fieldValue(bean: commentInstance, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: commentInstance, field: "comment")}</td>
-                        
                             <td><g:formatDate date="${commentInstance.date}" /></td>
                         
-                            <td>${fieldValue(bean: commentInstance, field: "name")}</td>
+                            <td>${fieldValue(bean: commentInstance, field: "comment")}</td>
+                        
+                            <td>${fieldValue(bean: commentInstance, field: "author")}</td>
                         
                             <td>${fieldValue(bean: commentInstance, field: "snippet")}</td>
                         

@@ -1,10 +1,10 @@
 
-<%@ page import="snippet.Snippet" %>
+<%@ page import="snippet.User" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
+        <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -23,47 +23,53 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="snippet.id.label" default="Id" /></td>
+                            <td valign="top" class="name"><g:message code="user.id.label" default="Id" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: snippetInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="snippet.description.label" default="Description" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: snippetInstance, field: "description")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "id")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="snippet.name.label" default="Name" /></td>
+                            <td valign="top" class="name"><g:message code="user.login.label" default="Login" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: snippetInstance, field: "name")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="snippet.snippet.label" default="Snippet" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: snippetInstance, field: "snippet")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "login")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="snippet.author.label" default="Author" /></td>
+                            <td valign="top" class="name"><g:message code="user.password.label" default="Password" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="user" action="show" id="${snippetInstance?.author?.id}">${snippetInstance?.author?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "password")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="snippet.comments.label" default="Comments" /></td>
+                            <td valign="top" class="name"><g:message code="user.name.label" default="Name" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "name")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="user.comment.label" default="Comment" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
-                                <g:each in="${snippetInstance.comments}" var="c">
+                                <g:each in="${userInstance.comment}" var="c">
                                     <li><g:link controller="comment" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
+                                </g:each>
+                                </ul>
+                            </td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="user.snippet.label" default="Snippet" /></td>
+                            
+                            <td valign="top" style="text-align: left;" class="value">
+                                <ul>
+                                <g:each in="${userInstance.snippet}" var="s">
+                                    <li><g:link controller="snippet" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
                             </td>
@@ -75,7 +81,7 @@
             </div>
             <div class="buttons">
                 <g:form>
-                    <g:hiddenField name="id" value="${snippetInstance?.id}" />
+                    <g:hiddenField name="id" value="${userInstance?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>

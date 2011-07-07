@@ -1,10 +1,10 @@
 
-<%@ page import="snippet.Snippet" %>
+<%@ page import="snippet.User" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
+        <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -22,31 +22,27 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'snippet.id.label', default: 'Id')}" />
+                            <g:sortableColumn property="id" title="${message(code: 'user.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="description" title="${message(code: 'snippet.description.label', default: 'Description')}" />
+                            <g:sortableColumn property="login" title="${message(code: 'user.login.label', default: 'Login')}" />
                         
-                            <g:sortableColumn property="name" title="${message(code: 'snippet.name.label', default: 'Name')}" />
+                            <g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
                         
-                            <g:sortableColumn property="snippet" title="${message(code: 'snippet.snippet.label', default: 'Snippet')}" />
-                        
-                            <th><g:message code="snippet.author.label" default="Author" /></th>
+                            <g:sortableColumn property="name" title="${message(code: 'user.name.label', default: 'Name')}" />
                         
                         </tr>
                     </thead>
                     <tbody>
-                    <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
+                    <g:each in="${userInstanceList}" status="i" var="userInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${snippetInstance.id}">${fieldValue(bean: snippetInstance, field: "id")}</g:link></td>
+                            <td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: snippetInstance, field: "description")}</td>
+                            <td>${fieldValue(bean: userInstance, field: "login")}</td>
                         
-                            <td>${fieldValue(bean: snippetInstance, field: "name")}</td>
+                            <td>${fieldValue(bean: userInstance, field: "password")}</td>
                         
-                            <td>${fieldValue(bean: snippetInstance, field: "snippet")}</td>
-                        
-                            <td>${fieldValue(bean: snippetInstance, field: "author")}</td>
+                            <td>${fieldValue(bean: userInstance, field: "name")}</td>
                         
                         </tr>
                     </g:each>
@@ -54,7 +50,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${snippetInstanceTotal}" />
+                <g:paginate total="${userInstanceTotal}" />
             </div>
         </div>
     </body>

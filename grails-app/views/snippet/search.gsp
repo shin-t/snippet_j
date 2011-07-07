@@ -28,8 +28,6 @@
                         
                             <g:sortableColumn property="language" title="${message(code: 'snippet.language.label', default: 'Language')}" />
                         
-                            <g:sortableColumn property="comment" title="${message(code: 'snippet.comment.label', default: 'Comment')}" />
-                        
                             <g:sortableColumn property="snippet" title="${message(code: 'snippet.snippet.label', default: 'Snippet')}" />
                         
                         </tr>
@@ -43,8 +41,6 @@
                             <td>${fieldValue(bean: snippetInstance, field: "name")}</td>
                         
                             <td>${fieldValue(bean: snippetInstance, field: "language")}</td>
-                        
-                            <td>${fieldValue(bean: snippetInstance, field: "comment")}</td>
                         
                             <td>${fieldValue(bean: snippetInstance, field: "snippet")}</td>
                         

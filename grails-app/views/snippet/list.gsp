@@ -24,6 +24,8 @@
                         
                             <g:sortableColumn property="id" title="${message(code: 'snippet.id.label', default: 'Id')}" />
                         
+                            <g:sortableColumn property="description" title="${message(code: 'snippet.description.label', default: 'Description')}" />
+                        
                             <g:sortableColumn property="name" title="${message(code: 'snippet.name.label', default: 'Name')}" />
                         
                             <g:sortableColumn property="language" title="${message(code: 'snippet.language.label', default: 'Language')}" />
@@ -37,6 +39,8 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                             <td><g:link action="show" id="${snippetInstance.id}">${fieldValue(bean: snippetInstance, field: "id")}</g:link></td>
+                        
+                            <td>${fieldValue(bean: snippetInstance, field: "description")}</td>
                         
                             <td>${fieldValue(bean: snippetInstance, field: "name")}</td>
                         

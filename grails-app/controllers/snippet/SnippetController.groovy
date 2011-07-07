@@ -3,7 +3,9 @@ package snippet
 class SnippetController {
 
 	def scaffold = Snippet
-	
+	// def command = """git ..."""
+	// def proc = 
+
     def search = {
     	//render Snippet.search(params.q, params)
     	if (params.q){

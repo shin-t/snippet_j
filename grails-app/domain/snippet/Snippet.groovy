@@ -4,12 +4,17 @@ class Snippet {
 	static searchable = true
 	String name
 	String language
-	String comment
 	String snippet
+
+	static hasMany = [comments:Comment]
+	
+	List comments() {
+		return comments.collect{it.comment}
+	}
+
     static constraints = {
     	name(blank:false)
     	language(blank:false)
-    	comment()
     	snippet(blank:false)
     }
 }

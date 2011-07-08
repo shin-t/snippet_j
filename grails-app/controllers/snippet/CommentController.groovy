@@ -2,7 +2,18 @@ package snippet
 
 class CommentController {
 
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
     def scaffold = Comment
+
+    def beforeInterceptor = [action:this.&auth, except:["index", "list", "show"]]
+    
+    def auth() {
+        if(!session.user){
+            redirect(controller:"user", action:"login")
+            return false
+        }
+    }
 
     def index = {
         redirect(action: "list", params: params)
@@ -15,12 +26,21 @@ class CommentController {
 
     def create = {
         def commentInstance = new Comment()
+        
         commentInstance.properties = params
         return [commentInstance: commentInstance]
     }
 
     def save = {
         def commentInstance = new Comment(params)
+
+        commentInstance.author = session.user
+
+        if(session.user.role=="author"&&!(session.user.login==commentInstance.author.login)){
+        	redirect(action:list)
+        	return
+        }
+
         if (commentInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.id])}"
             redirect(action: "show", id: commentInstance.id)
@@ -43,6 +63,12 @@ class CommentController {
 
     def edit = {
         def commentInstance = Comment.get(params.id)
+        
+        if(session.user.role=="author"&&!(session.user.login==commentInstance.author.login)){
+        	redirect(action:list)
+        	return
+        }
+        
         if (!commentInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
             redirect(action: "list")
@@ -54,6 +80,12 @@ class CommentController {
 
     def update = {
         def commentInstance = Comment.get(params.id)
+        
+        if(session.user.role=="author"&&!(session.user.login==params.author.login)){
+        	redirect(action:list)
+        	return
+        }
+                
         if (commentInstance) {
             if (params.version) {
                 def version = params.version.toLong()
@@ -71,6 +103,31 @@ class CommentController {
             }
             else {
                 render(view: "edit", model: [commentInstance: commentInstance])
+            }
+        }
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
+            redirect(action: "list")
+        }
+    }
+
+    def delete = {
+        def commentInstance = Comment.get(params.id)
+        
+        if(session.user.role=="author"&&!(session.user.login==commentInstance.author.login)){
+        	redirect(action:list)
+        	return
+        }
+        
+        if (commentInstance) {
+            try {
+                commentInstance.delete(flush: true)
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
+                redirect(action: "list")
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
+                redirect(action: "show", id: params.id)
             }
         }
         else {

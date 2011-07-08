@@ -55,6 +55,15 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="role"><g:message code="user.role.label" default="Role" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'role', 'errors')}">
+                                    <g:select name="role" from="${userInstance.constraints.role.inList}" value="${userInstance?.role}" valueMessagePrefix="user.role"  />
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>

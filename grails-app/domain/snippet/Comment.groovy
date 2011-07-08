@@ -5,12 +5,15 @@ class Comment {
 	static belongsTo = [snippet:Snippet]
 
 	User author
-	
-	Date date
+
 	String comment
 	
+	Date dateCreated
+	Date lastUpdated
+	
 	static constraints = {
-		date(blank:false)
 		comment(blank:false)
+	    dateCreated()
+	    lastUpdated()
 	}
 }

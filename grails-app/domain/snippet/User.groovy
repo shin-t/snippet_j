@@ -7,6 +7,7 @@ class User {
     String login
     String password
     String name
+    String role = "author"
 
     String toString(){name}
 
@@ -14,5 +15,6 @@ class User {
         login(unique:true)
         password(password:true)
         name()
+        role(inList:["author", "admin"])
     }
 }

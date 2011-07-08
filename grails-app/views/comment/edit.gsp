@@ -33,15 +33,6 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="date"><g:message code="comment.date.label" default="Date" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: commentInstance, field: 'date', 'errors')}">
-                                    <g:datePicker name="date" precision="day" value="${commentInstance?.date}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
                                   <label for="comment"><g:message code="comment.comment.label" default="Comment" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: commentInstance, field: 'comment', 'errors')}">

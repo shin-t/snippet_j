@@ -51,6 +51,13 @@
                         </tr>
                     
                         <tr class="prop">
+                            <td valign="top" class="name"><g:message code="user.role.label" default="Role" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "role")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="user.comment.label" default="Comment" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">

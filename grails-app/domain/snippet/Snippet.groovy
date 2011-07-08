@@ -11,6 +11,9 @@ class Snippet {
 	String description
 	String name
 	String snippet
+	
+	Date dateCreated
+	Date lastUpdated
 
 	List comments() {
 		return comments.collect{it.comment}
@@ -20,5 +23,7 @@ class Snippet {
     	description(blank:false)
     	name(blank:false)
     	snippet(blank:false)
+	    dateCreated()
+	    lastUpdated()
     }
 }

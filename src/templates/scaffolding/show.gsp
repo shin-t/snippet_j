@@ -11,7 +11,7 @@
         <div class="nav">
             <span class="menuButton"><a class="home" href="\${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+            <g:if test="\${session.user}"><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></g:if>
         </div>
         <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
@@ -21,7 +21,7 @@
             <div class="dialog">
                 <table>
                     <tbody>
-                    <%  excludedProps = Event.allEvents.toList() << 'version'
+                    <%  excludedProps = Event.allEvents.toList() << 'version' << 'id'
                         allowedNames = domainClass.persistentProperties*.name << 'id' << 'dateCreated' << 'lastUpdated'
                         props = domainClass.properties.findAll { allowedNames.contains(it.name) && !excludedProps.contains(it.name) }
                         Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
@@ -52,6 +52,7 @@
                     </tbody>
                 </table>
             </div>
+            <g:if test="\${${propertyName}?.author?.id==session?.user?.id||session?.user?.role=='admin'}">
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="\${${propertyName}?.id}" />
@@ -59,6 +60,7 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="\${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('\${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
+            </g:if>
         </div>
     </body>
 </html>

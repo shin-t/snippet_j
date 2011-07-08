@@ -10,7 +10,7 @@
     <body>
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+            <g:if test="${session.user}"><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></g:if>
         </div>
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -24,9 +24,11 @@
                         
                             <g:sortableColumn property="id" title="${message(code: 'comment.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="date" title="${message(code: 'comment.date.label', default: 'Date')}" />
-                        
                             <g:sortableColumn property="comment" title="${message(code: 'comment.comment.label', default: 'Comment')}" />
+                        
+                            <g:sortableColumn property="dateCreated" title="${message(code: 'comment.dateCreated.label', default: 'Date Created')}" />
+                        
+                            <g:sortableColumn property="lastUpdated" title="${message(code: 'comment.lastUpdated.label', default: 'Last Updated')}" />
                         
                             <th><g:message code="comment.author.label" default="Author" /></th>
                         
@@ -40,9 +42,11 @@
                         
                             <td><g:link action="show" id="${commentInstance.id}">${fieldValue(bean: commentInstance, field: "id")}</g:link></td>
                         
-                            <td><g:formatDate date="${commentInstance.date}" /></td>
-                        
                             <td>${fieldValue(bean: commentInstance, field: "comment")}</td>
+                        
+                            <td><g:formatDate date="${commentInstance.dateCreated}" /></td>
+                        
+                            <td><g:formatDate date="${commentInstance.lastUpdated}" /></td>
                         
                             <td>${fieldValue(bean: commentInstance, field: "author")}</td>
                         

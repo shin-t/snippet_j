@@ -55,15 +55,6 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="author"><g:message code="snippet.author.label" default="Author" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'author', 'errors')}">
-                                    <g:select name="author.id" from="${snippet.User.list()}" optionKey="id" value="${snippetInstance?.author?.id}"  />
-                                </td>
-                            </tr>
-                        
                         </tbody>
                     </table>
                 </div>

@@ -10,7 +10,7 @@
     <body>
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+            <g:if test="${session.user}"><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></g:if>
         </div>
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -30,7 +30,9 @@
                         
                             <g:sortableColumn property="snippet" title="${message(code: 'snippet.snippet.label', default: 'Snippet')}" />
                         
-                            <th><g:message code="snippet.author.label" default="Author" /></th>
+                            <g:sortableColumn property="dateCreated" title="${message(code: 'snippet.dateCreated.label', default: 'Date Created')}" />
+                        
+                            <g:sortableColumn property="lastUpdated" title="${message(code: 'snippet.lastUpdated.label', default: 'Last Updated')}" />
                         
                         </tr>
                     </thead>
@@ -46,7 +48,9 @@
                         
                             <td>${fieldValue(bean: snippetInstance, field: "snippet")}</td>
                         
-                            <td>${fieldValue(bean: snippetInstance, field: "author")}</td>
+                            <td><g:formatDate date="${snippetInstance.dateCreated}" /></td>
+                        
+                            <td><g:formatDate date="${snippetInstance.lastUpdated}" /></td>
                         
                         </tr>
                     </g:each>

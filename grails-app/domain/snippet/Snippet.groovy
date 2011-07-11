@@ -26,4 +26,8 @@ class Snippet {
 	    dateCreated()
 	    lastUpdated()
     }
+
+    static mapping = {
+        snippet type:'text'
+    }
 }

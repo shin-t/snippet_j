@@ -2,9 +2,7 @@ package snippet
 
 class Comment {
 
-	static belongsTo = [snippet:Snippet]
-
-	User author
+	static belongsTo = [snippet:Snippet, author:User]
 
 	String comment
 	

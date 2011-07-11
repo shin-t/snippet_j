@@ -80,7 +80,6 @@
                     </tbody>
                 </table>
             </div>
-            <g:if test="${snippetInstance?.author?.id==session?.user?.id||session?.user?.role=='admin'}">
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${snippetInstance?.id}" />
@@ -88,7 +87,6 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
-            </g:if>
         </div>
     </body>
 </html>

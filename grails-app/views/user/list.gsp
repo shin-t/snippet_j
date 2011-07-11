@@ -10,7 +10,7 @@
     <body>
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <g:if test="${session.user}"><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></g:if>
+            <sec:ifLoggedIn><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></sec:ifLoggedIn>
         </div>
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -24,13 +24,15 @@
                         
                             <g:sortableColumn property="id" title="${message(code: 'user.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="login" title="${message(code: 'user.login.label', default: 'Login')}" />
+                            <g:sortableColumn property="username" title="${message(code: 'user.username.label', default: 'Username')}" />
                         
                             <g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
                         
-                            <g:sortableColumn property="name" title="${message(code: 'user.name.label', default: 'Name')}" />
+                            <g:sortableColumn property="accountExpired" title="${message(code: 'user.accountExpired.label', default: 'Account Expired')}" />
                         
-                            <g:sortableColumn property="role" title="${message(code: 'user.role.label', default: 'Role')}" />
+                            <g:sortableColumn property="accountLocked" title="${message(code: 'user.accountLocked.label', default: 'Account Locked')}" />
+                        
+                            <g:sortableColumn property="enabled" title="${message(code: 'user.enabled.label', default: 'Enabled')}" />
                         
                         </tr>
                     </thead>
@@ -40,13 +42,15 @@
                         
                             <td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: userInstance, field: "login")}</td>
+                            <td>${fieldValue(bean: userInstance, field: "username")}</td>
                         
                             <td>${fieldValue(bean: userInstance, field: "password")}</td>
                         
-                            <td>${fieldValue(bean: userInstance, field: "name")}</td>
+                            <td><g:formatBoolean boolean="${userInstance.accountExpired}" /></td>
                         
-                            <td>${fieldValue(bean: userInstance, field: "role")}</td>
+                            <td><g:formatBoolean boolean="${userInstance.accountLocked}" /></td>
+                        
+                            <td><g:formatBoolean boolean="${userInstance.enabled}" /></td>
                         
                         </tr>
                     </g:each>

@@ -33,10 +33,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="login"><g:message code="user.login.label" default="Login" /></label>
+                                  <label for="username"><g:message code="user.username.label" default="Username" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'login', 'errors')}">
-                                    <g:textField name="login" value="${userInstance?.login}" />
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'username', 'errors')}">
+                                    <g:textField name="username" value="${userInstance?.username}" />
                                 </td>
                             </tr>
                         
@@ -45,36 +45,36 @@
                                   <label for="password"><g:message code="user.password.label" default="Password" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'password', 'errors')}">
-                                    <g:passwordField name="password" value="${userInstance?.password}" />
+                                    <g:textField name="password" value="${userInstance?.password}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="name"><g:message code="user.name.label" default="Name" /></label>
+                                  <label for="accountExpired"><g:message code="user.accountExpired.label" default="Account Expired" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${userInstance?.name}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="role"><g:message code="user.role.label" default="Role" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'role', 'errors')}">
-                                    <g:select name="role" from="${userInstance.constraints.role.inList}" value="${userInstance?.role}" valueMessagePrefix="user.role"  />
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'accountExpired', 'errors')}">
+                                    <g:checkBox name="accountExpired" value="${userInstance?.accountExpired}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="comment"><g:message code="user.comment.label" default="Comment" /></label>
+                                  <label for="accountLocked"><g:message code="user.accountLocked.label" default="Account Locked" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'comment', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'accountLocked', 'errors')}">
+                                    <g:checkBox name="accountLocked" value="${userInstance?.accountLocked}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="comments"><g:message code="user.comments.label" default="Comments" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'comments', 'errors')}">
                                     
 <ul>
-<g:each in="${userInstance?.comment?}" var="c">
+<g:each in="${userInstance?.comments?}" var="c">
     <li><g:link controller="comment" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
 </g:each>
 </ul>
@@ -85,12 +85,30 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="snippet"><g:message code="user.snippet.label" default="Snippet" /></label>
+                                  <label for="enabled"><g:message code="user.enabled.label" default="Enabled" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'snippet', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'enabled', 'errors')}">
+                                    <g:checkBox name="enabled" value="${userInstance?.enabled}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="passwordExpired"><g:message code="user.passwordExpired.label" default="Password Expired" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'passwordExpired', 'errors')}">
+                                    <g:checkBox name="passwordExpired" value="${userInstance?.passwordExpired}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="snippets"><g:message code="user.snippets.label" default="Snippets" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'snippets', 'errors')}">
                                     
 <ul>
-<g:each in="${userInstance?.snippet?}" var="s">
+<g:each in="${userInstance?.snippets?}" var="s">
     <li><g:link controller="snippet" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
 </g:each>
 </ul>

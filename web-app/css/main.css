@@ -16,6 +16,7 @@ body {
     color: #333;
     font: 11px verdana, arial, helvetica, sans-serif;
 }
+
 #grailsLogo {
 	padding:20px;
 }
@@ -49,12 +50,15 @@ input, select, textarea {
     margin: 2px 0;
     padding: 2px 4px;
 }
+input[type="text"]{
+    width:40em;
+}
 select {
    padding: 2px 2px 2px 0;
 }
 textarea {
-	width: 250px;
-	height: 150px;
+	width: 80em;
+	height: 40em;
 	vertical-align: top;
 }
 
@@ -233,12 +237,12 @@ th.desc a {
 }
 .prop .name {
     text-align: left;
-    width: 15%;
+    /*width: 15%;*/
     white-space: nowrap;
 }
 .prop .value {
     text-align: left;
-    width: 85%;
+    /*width: 85%;*/
 }
 
 /* ACTION BUTTONS */
@@ -277,16 +281,22 @@ th.desc a {
     padding-left: 28px;
 }
 
-/* */
+/* tmp */
 a.header-main:link, a.header-main:visited {
 	font-size: 3em;
 	font-weight: bold;
 }
 
 #search {
-	float: right;
 	margin: 2em 1em;
 }
 #loginHeader {
 	float: right;
 }
+
+input#snippet{
+    width: 80em;
+    height: 20em;
+    vertical-align: top;
+}
+

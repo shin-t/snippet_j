@@ -30,10 +30,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="login"><g:message code="user.login.label" default="Login" /></label>
+                                    <label for="username"><g:message code="user.username.label" default="Username" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'login', 'errors')}">
-                                    <g:textField name="login" value="${userInstance?.login}" />
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'username', 'errors')}">
+                                        <g:textField name="username" value="${userInstance?.username}" />
                                 </td>
                             </tr>
                         
@@ -42,25 +42,7 @@
                                     <label for="password"><g:message code="user.password.label" default="Password" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'password', 'errors')}">
-                                    <g:passwordField name="password" value="${userInstance?.password}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="name"><g:message code="user.name.label" default="Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${userInstance?.name}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="role"><g:message code="user.role.label" default="Role" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'role', 'errors')}">
-                                    <g:select name="role" from="${userInstance.constraints.role.inList}" value="${userInstance?.role}" valueMessagePrefix="user.role"  />
+                                        <g:textField name="password" value="${userInstance?.password}" />
                                 </td>
                             </tr>
                         

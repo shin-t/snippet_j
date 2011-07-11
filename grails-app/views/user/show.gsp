@@ -11,7 +11,7 @@
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+            <g:if test="${session.user}"><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></g:if>
         </div>
         <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
@@ -23,16 +23,9 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.id.label" default="Id" /></td>
+                            <td valign="top" class="name"><g:message code="user.username.label" default="Username" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.login.label" default="Login" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "login")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "username")}</td>
                             
                         </tr>
                     
@@ -44,25 +37,25 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.name.label" default="Name" /></td>
+                            <td valign="top" class="name"><g:message code="user.accountExpired.label" default="Account Expired" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "name")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.role.label" default="Role" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "role")}</td>
+                            <td valign="top" class="value"><g:formatBoolean boolean="${userInstance?.accountExpired}" /></td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.comment.label" default="Comment" /></td>
+                            <td valign="top" class="name"><g:message code="user.accountLocked.label" default="Account Locked" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${userInstance?.accountLocked}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="user.comments.label" default="Comments" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
-                                <g:each in="${userInstance.comment}" var="c">
+                                <g:each in="${userInstance.comments}" var="c">
                                     <li><g:link controller="comment" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
@@ -71,11 +64,25 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.snippet.label" default="Snippet" /></td>
+                            <td valign="top" class="name"><g:message code="user.enabled.label" default="Enabled" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${userInstance?.enabled}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="user.passwordExpired.label" default="Password Expired" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${userInstance?.passwordExpired}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="user.snippets.label" default="Snippets" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
-                                <g:each in="${userInstance.snippet}" var="s">
+                                <g:each in="${userInstance.snippets}" var="s">
                                     <li><g:link controller="snippet" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>

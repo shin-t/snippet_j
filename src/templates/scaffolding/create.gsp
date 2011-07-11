@@ -27,7 +27,7 @@
                 <div class="dialog">
                     <table>
                         <tbody>
-                        <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated' << 'author'
+                        <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated' 
                             persistentPropNames = domainClass.persistentProperties*.name
                             props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) }
                             Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
@@ -45,7 +45,7 @@
                                     <label for="${p.name}"><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></label>
                                 </td>
                                 <td valign="top" class="value \${hasErrors(bean: ${propertyName}, field: '${p.name}', 'errors')}">
-                                    ${renderEditor(p)}
+                                        ${renderEditor(p)}
                                 </td>
                             </tr>
                         <%  }   }   } %>

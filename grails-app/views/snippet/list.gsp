@@ -36,21 +36,29 @@
                             <li>
                             <div>
                             <p>
+                            id:
                             <g:link action="show" id="${snippetInstance.id}">${fieldValue(bean: snippetInstance, field: "id")}</g:link>
                             </p>
                             <p>
+                            description:
                             ${fieldValue(bean: snippetInstance, field: "description")}
                             </p>
                             <p>
+                            name:
                             ${fieldValue(bean: snippetInstance, field: "name")}
                             </p>
                             <p>
-                            ${fieldValue(bean: snippetInstance, field: "snippet")}
+                            snippet:
                             </p>
                             <p>
+                            <pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre>
+                            </p>
+                            <p>
+                            created:
                             <g:formatDate date="${snippetInstance.dateCreated}" />
                             </p>
                             <p>
+                            updated:
                             <g:formatDate date="${snippetInstance.lastUpdated}" />
                             </p>
                             </div>

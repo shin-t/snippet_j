@@ -29,7 +29,9 @@ class UserController {
         def userInstance = new User(params)
         //encode
         userInstance.password = springSecurityService.encodePassword(params.password)
+        userInstance.enabled = true
         if (userInstance.save(flush: true)) {
+            UserRole.create userInstance, Role.findByAuthority('ROLE_USER'), true
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])}"
             redirect(action: "show", id: userInstance.id)
         }

@@ -300,3 +300,9 @@ input#snippet{
     vertical-align: top;
 }
 
+p {
+    font-size: 12pt;
+}
+pre code {
+    font-size: 10pt;
+}

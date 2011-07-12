@@ -39,7 +39,7 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="snippet.snippet.label" default="Snippet" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: snippetInstance, field: "snippet")}</td>
+                            <td valign="top" class="value"><pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre></td>
                             
                         </tr>
                     
@@ -77,9 +77,31 @@
                             
                         </tr>
                     
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="snippet.subsnippets.label" default="Snippets" /></td>
+                            
+                            <td valign="top" style="text-align: left;" class="value">
+                                <ul>
+                                <g:each in="${snippetInstance.subsnippets}" var="c">
+                                    <li>
+                                    <p>
+                                        snippet:<br>
+                                        <g:link controller="snippet" action="show" id="${c.id}">${c?.subsnippet.encodeAsHTML().replaceAll('\n','<br/>')}</g:link>
+                                    </p>
+                                    <p>
+                                        patch:<br>
+                                        <g:link controller="snippet" action="show" id="${c.id}">${c?.patch.encodeAsHTML().replaceAll('\n','<br/>')}</g:link>
+                                    </p>
+                                    </li>
+                                </g:each>
+                                </ul>
+                            </td>
+                            
+                        </tr>
                     </tbody>
                 </table>
             </div>
+            <g:if test="${snippetInstance.author==currentUser}">
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${snippetInstance?.id}" />
@@ -87,6 +109,7 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
+            </g:if>
         </div>
     </body>
 </html>

@@ -51,16 +51,7 @@
                                     <label for="snippet"><g:message code="snippet.snippet.label" default="Snippet" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}">
-                                        <g:textField name="snippet" value="${snippetInstance?.snippet}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="author"><g:message code="snippet.author.label" default="Author" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'author', 'errors')}">
-                                        <g:select name="author.id" from="${snippet.User.list()}" optionKey="id" value="${snippetInstance?.author?.id}"  />
+                                        <g:textArea name="snippet" value="${snippetInstance?.snippet}" />
                                 </td>
                             </tr>
                         

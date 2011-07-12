@@ -23,8 +23,8 @@ class BootStrap {
 
         UserRole.create testUser, userRole, true
 
-        assert User.count() == 2
-        assert Role.count() == 2
-        assert UserRole.count() == 2
+        //assert User.count() == 2
+        //assert Role.count() == 2
+        //assert UserRole.count() == 2
     }
 }

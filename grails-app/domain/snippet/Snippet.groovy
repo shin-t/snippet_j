@@ -6,7 +6,7 @@ class Snippet {
 
     static belongsTo = [author:User]
 
-	static hasMany = [comments:Comment]
+	static hasMany = [subsnippets:SubSnippet, comments:Comment]
 
 	String description
 	String name
@@ -18,6 +18,10 @@ class Snippet {
 	List comments() {
 		return comments.collect{it.comment}
 	}
+
+    List subsnippets() {
+        return subsnippets.collect{it.subsnippet}
+    }
 
     static constraints = {
     	description(blank:false)

@@ -11,12 +11,7 @@ class DiffService {
 
         if(!v_plus) return 2
 
-        if(v_minus.x < v_plus.x){
-            return 1
-        }
-        else{
-            return 2
-        }
+        return (v_minus.x < v_plus.x)?1:2
     }
 
     def getEndPoint(strl1,strl2) {

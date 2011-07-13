@@ -8,7 +8,6 @@ class Snippet {
 
 	static hasMany = [subsnippets:SubSnippet, comments:Comment]
 
-	String description
 	String name
 	String snippet
 	
@@ -24,7 +23,6 @@ class Snippet {
     }
 
     static constraints = {
-    	description(blank:false)
     	name(blank:false)
     	snippet(blank:false)
 	    dateCreated()

@@ -11,26 +11,46 @@
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <g:if test="${session.user}"><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></g:if>
+            <sec:ifLoggedIn><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></sec:ifLoggedIn>
         </div>
         <div class="body">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div class="dialog">
-                <g:render template="/layouts/snippet" model="${[snippetInstance: snippetInstance]}"/>
-                <g:render template="/layouts/history" model="${[snippetInstance: snippetInstance]}"/>
+            <g:render template="/layouts/snippet" model="${[snippetInstance: snippetInstance, patch: patch]}"/>
+            <sec:ifLoggedIn>
+            <div class="buttons">
+                <g:form>
+                    <g:hiddenField name="id" value="${snippetInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <g:if test="${snippetInstance.author == currentUser}">
+                        <span class="button">
+                            <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+                        </span>
+                    </g:if>
+                </g:form>
             </div>
-            <g:if test="${snippetInstance.author==currentUser}">
-                <div class="buttons">
-                    <g:form>
-                        <g:hiddenField name="id" value="${snippetInstance?.id}" />
-                        <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                        <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                    </g:form>
+            </sec:ifLoggedIn>
+            <g:render template="/layouts/history" model="${[snippetInstance: snippetInstance]}"/>
+            <div>
+                <g:each in="${snippetInstance.comments}" status="i" var="commentInstance">
+                    <g:render template="/layouts/comment" model="${[commentInstance: commentInstance]}"/>
+                </g:each>
+            </div>
+            <sec:ifLoggedIn>
+            <g:form controller="comment" action="save">
+                <div class="comment">
+                    <div class="head"><label for="comment"><g:message code="comment.comment.label" default="Comment" /></label></div>
+                    <div class="body ${hasErrors(bean: commentInstance, field: 'comment', 'errors')}">
+                        <g:hiddenField name="snippet.id" value="${snippetInstance.id}"  />
+                        <g:textArea name="comment" value="${commentInstance?.comment}" />
+                    </div>
                 </div>
-            </g:if>
+                <div class="buttons">
+                    <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                </div>
+            </g:form>
+            </sec:ifLoggedIn>
         </div>
     </body>
 </html>

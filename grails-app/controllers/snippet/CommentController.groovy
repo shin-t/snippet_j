@@ -6,6 +6,8 @@ class CommentController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def springSecurityService
+
     def index = {
         redirect(action: "list", params: params)
     }
@@ -25,9 +27,10 @@ class CommentController {
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def save = {
         def commentInstance = new Comment(params)
+        commentInstance.author = springSecurityService.getCurrentUser()
         if (commentInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.id])}"
-            redirect(action: "show", id: commentInstance.id)
+            redirect(controller: 'snippet', action: "show", id: commentInstance.snippet.id)
         }
         else {
             render(view: "create", model: [commentInstance: commentInstance])

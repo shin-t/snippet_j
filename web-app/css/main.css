@@ -5,66 +5,53 @@ html * {
 
 /* GENERAL */
 
+#header {
+    padding: 2em;
+}
+#header div {
+    text-align: right;
+}
+#header h1 {
+    color: #48802c;
+    font-weight: normal;
+    font-size: 32pt;
+    text-align: center;
+}
+
 .spinner {
     padding: 5px;
     position: absolute;
     right: 0;
 }
+
 body {
     background: #E7D8BD;
     color: #333;
     font: 11px verdana, arial, helvetica, sans-serif;
 }
-a:link, a:visited, a:hover {
+a {
     color: #666;
     font-weight: bold;
     text-decoration: none;
 }
-h1 {
-    color: #48802c;
-    font-weight: normal;
-    font-size: 16px;
-    margin: .8em 0 .3em 0;
+a:hover {
+    text-decoration: underline;
 }
-#header {
-	padding: 2em 1em 2em 1em;
-	margin-bottom: 1em;
-}
+
 input, select, textarea {
-    background-color: #fcfcfc;
-    border: 1px solid #ccc;
+    border: 0;
     font: 11px verdana, arial, helvetica, sans-serif;
-    margin: 2px 0;
-    padding: 2px 4px;
-}
-select {
-   padding: 2px 2px 2px 0;
 }
 textarea {
-	width: 80em;
-	height: 20em;
 	vertical-align: top;
 }
 input:focus, select:focus, textarea:focus {
-    border: 1px solid #b2d1ff;
-}
-.body {
-    margin: 20pt;
+    border: 0;
+    background-color: #b2d1ff;
 }
 a.header-main:link, a.header-main:visited {
 	font-size: 3em;
 	font-weight: bold;
-}
-#search {
-	margin: 2em 1em;
-}
-#loginHeader {
-	float: right;
-}
-input#snippet{
-    width: 80em;
-    height: 20em;
-    vertical-align: top;
 }
 
 /* NAVIGATION MENU */
@@ -83,17 +70,6 @@ input#snippet{
 .menuButton a {
     color: #333;
     padding: 4px 6px;
-}
-.menuButton a.home {
-    color: #333;
-    padding-left: 25px;
-}
-.menuButton a.list {
-    color: #333;
-    padding-left: 25px;
-}
-.menuButton a.create {
-    color: #333;
     padding-left: 25px;
 }
 
@@ -120,69 +96,15 @@ div.errors li {
     line-height: 16px;
     padding-left: 30px;
 }
-td.errors select {
+.errors select, .errors input, .errors textarea {
     border: 1px solid red;
 }
-td.errors input {
-    border: 1px solid red;
-}
-td.errors textarea {
-    border: 1px solid red;
-}
-
-/* TABLES */
-
-table {
-    border: 1px solid #ccc;
-    width: 100%
-}
-tr {
-    border: 0;
-}
-td, th {
-    font: 11px verdana, arial, helvetica, sans-serif;
-    line-height: 12px;
-    padding: 5px 6px;
-    text-align: left;
-    vertical-align: top;
-}
-th {
-    color: #666;
-    font-size: 11px;
-    font-weight: bold;
-    line-height: 17px;
-    padding: 2px 6px;
-}
-th a:link, th a:visited, th a:hover {
-    color: #333;
-    display: block;
-    font-size: 10px;
-    text-decoration: none;
-    width: 100%;
-}
-.asc a, .desc a {
-    background-position: right;
-    background-repeat: no-repeat;
-}
-.asc a {
-}
-.desc a {
-}
-.odd {
-    background: #E7E5BD;
-}
-.even {
-    background: #E3BABE;
-}
-
-/* LIST */
-
-
 
 /* PAGINATION */
 
 .paginateButtons {
     border: 1px solid #ccc;
+    text-align: center;
     border-top: 0;
     color: #666;
     font-size: 10px;
@@ -203,9 +125,6 @@ th a:link, th a:visited, th a:hover {
 
 /* DIALOG */
 
-.dialog table {
-    padding: 5px 0;
-}
 .prop .name {
     text-align: left;
     white-space: nowrap;
@@ -214,23 +133,40 @@ th a:link, th a:visited, th a:hover {
     text-align: left;
     background: #E7E5BD;
 }
-.codelist {
+.codelist, .history, .comment, .dialog {
+    background-color: #E7E5BD;
     margin: 20pt;
     border: solid 5pt #64738B;
     /* CSS3 */
     box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
     border-radius: 5pt / 5pt;
 }
-.codelist .head {
+.head {
     background: #546681;
 }
-.codelist .head a:hover {
+.head a:hover {
     color: #eee;
     text-decoration: underline;
 }
-.codelist .head a{
+.head a{
     color: #aaa;
     font-size: 16pt;
+}
+.head input{
+    font-size: 16pt;
+    width:100%;
+    height:100%;
+    background-color: #A1AEC0;
+}
+.comment .body textarea{
+    background-color: #E7E5BD;
+    width: 100%;
+    height: 5em;
+}
+.codelist .body textarea{
+    background-color: #E7E5BD;
+    width: 100%;
+    height: 20em;
 }
 .code {
     font-size: 10pt;
@@ -246,19 +182,13 @@ th a:link, th a:visited, th a:hover {
 /* ACTION BUTTONS */
 
 .buttons {
-    font-size: 10px;
-    margin-top: 5px;
-    overflow: hidden;
-    padding: 0;
+    text-align: center;
 }
 .buttons input {
     border: 0;
+    font-size: 9pt;
     color: #333;
-    cursor: pointer;
-    font-size: 10px;
-    font-weight: bold;
     margin-left: 3px;
-    overflow: visible;
     padding: 2px 6px;
 }
 

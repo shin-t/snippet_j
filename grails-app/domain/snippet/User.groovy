@@ -9,14 +9,6 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 
-    List comments() {
-        return comments.collect{it.comment}
-    }
-
-    List snippets() {
-        return snippets.collect{it.snippet}
-    }
-
     static hasMany = [comments:Comment, snippets:Snippet]
 
 	static constraints = {

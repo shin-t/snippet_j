@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
         <g:javascript library="application" />
         <g:javascript library="jquery" />
-		<jqui:resources />
+        <jqui:resources />
         <g:layoutHead />
     </head>
     <body>

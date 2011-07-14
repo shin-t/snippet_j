@@ -25,38 +25,14 @@
             </g:hasErrors>
             <g:form action="save" >
                 <div class="dialog">
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
                                     <label for="comment"><g:message code="comment.comment.label" default="Comment" /></label>
-                                </td>
                                 <td valign="top" class="value ${hasErrors(bean: commentInstance, field: 'comment', 'errors')}">
                                         <g:textField name="comment" value="${commentInstance?.comment}" />
                                 </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="author"><g:message code="comment.author.label" default="Author" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: commentInstance, field: 'author', 'errors')}">
-                                        <g:select name="author.id" from="${snippet.User.list()}" optionKey="id" value="${commentInstance?.author?.id}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
                                     <label for="snippet"><g:message code="comment.snippet.label" default="Snippet" /></label>
-                                </td>
                                 <td valign="top" class="value ${hasErrors(bean: commentInstance, field: 'snippet', 'errors')}">
                                         <g:select name="snippet.id" from="${snippet.Snippet.list()}" optionKey="id" value="${commentInstance?.snippet?.id}"  />
                                 </td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
                 </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>

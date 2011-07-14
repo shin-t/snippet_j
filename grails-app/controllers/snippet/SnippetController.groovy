@@ -7,9 +7,7 @@ class SnippetController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def springSecurityService
-
     def searchableService
-
     def diffService
 
     def index = {
@@ -18,7 +16,17 @@ class SnippetController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [snippetInstanceList: Snippet.list(params), snippetInstanceTotal: Snippet.count()]
+        params.sort = params.sort?:'lastUpdated'
+        params.order = params.order?:'desc'
+        if(params.q){
+            def searchResult = searchableService.search(params.q, escape: true)
+            flash.q = params.q
+            flash.message = "${params.q}"
+            [snippetInstanceList: searchResult.results, snippetInstanceTotal: searchResult.total]
+        }
+        else{
+            [snippetInstanceList: Snippet.list(params), snippetInstanceTotal: Snippet.count()]
+        }
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
@@ -32,7 +40,6 @@ class SnippetController {
     def save = {
         def snippetInstance = new Snippet(params)
         snippetInstance.author=springSecurityService.getCurrentUser()
-        println "getCurrentUser(): ${springSecurityService.getCurrentUser()}"
         if (snippetInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
             redirect(action: "show", id: snippetInstance.id)
@@ -49,14 +56,14 @@ class SnippetController {
             redirect(action: "list")
         }
         else {
-            [snippetInstance: snippetInstance,currentUser: springSecurityService.getCurrentUser()]
+            [snippetInstance: snippetInstance,currentUser: springSecurityService.getCurrentUser(), patch: params.patch]
         }
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def edit = {
         def snippetInstance = Snippet.get(params.id)
-        if (!snippetInstance||(springSecurityService.getCurrentUser()!=snippetInstance.author)) {
+        if (!snippetInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
             redirect(action: "list")
         }
@@ -67,32 +74,26 @@ class SnippetController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
-        def snippetInstance = Snippet.get(params.id)
-        if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.author)) {
+        def originalInstance = Snippet.get(params.id)
+        def snippetInstance = new Snippet()
+        snippetInstance.name = originalInstance.name
+        snippetInstance.author = springSecurityService.getCurrentUser()
+        snippetInstance.snippet = params.snippet
+        if (originalInstance) {
             if (params.version) {
                 def version = params.version.toLong()
-                println params.version
-                println snippetInstance.version
-                if (snippetInstance.version > version) {
-                    
-                    snippetInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'snippet.label', default: 'Snippet')] as Object[], "Another user has updated this Snippet while you were editing")
+                if (originalInstance.version > version) {
+                    originalInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'snippet.label', default: 'Snippet')] as Object[], "Another user has updated this Snippet while you were editing")
                     render(view: "edit", model: [snippetInstance: snippetInstance])
                     return
                 }
             }
-            //
-            def subsnippetInstance = new SubSnippet()
-            subsnippetInstance.snippet = Snippet.get(params.id)
-            subsnippetInstance.subsnippet = Snippet.get(params.id).snippet
-            def orig_sn=subsnippetInstance.subsnippet.readLines()
-            def new_sn=params.snippet.readLines()
-            println "orig_sn:\n${orig_sn}"
-            println "new_sn:\n${new_sn}"
-            subsnippetInstance.patch = diffService.getDiffString(orig_sn,new_sn)
-            println "--\n${subsnippetInstance.patch}\n--"
-            subsnippetInstance.save(flush:true)
-            //
-            snippetInstance.properties = params
+            snippetInstance.save(flush:true)
+            snippetInstance.patch = new Patch()
+            snippetInstance.patch.original = originalInstance
+            snippetInstance.patch.snippet = snippetInstance
+            snippetInstance.patch.patch = diffService.getDiffString(originalInstance.snippet.readLines(), snippetInstance.snippet.readLines())
+            snippetInstance.patch.save(flush:true)
             if (!snippetInstance.hasErrors() && snippetInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
                 redirect(action: "show", id: snippetInstance.id)
@@ -128,14 +129,6 @@ class SnippetController {
     }
 
     def search = {
-        if(params.q){
-            def searchResult = searchableService.search(params.q)
-            flash.q = params.q
-            flash.message = "${params.q}"
-            [snippetInstanceList: searchResult.results, snippetInstanceTotal: searchResult.total]
-        }
-        else{
-            redirect(action: "list")
-        }
+        if(params.q){redirect(action: "list", params: params)}else{redirect(action: "list")}
     } 
 }

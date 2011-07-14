@@ -13,7 +13,6 @@
             <sec:ifLoggedIn><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></sec:ifLoggedIn>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -23,7 +22,7 @@
                 </g:each>
             </div>
         </div>
-        <div>
+        <div class="paginateButtons">
                 <g:paginate total="${snippetInstanceTotal}" />
         </div>
     </body>

@@ -15,7 +15,6 @@
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -28,54 +27,10 @@
                 <g:hiddenField name="id" value="${snippetInstance?.id}" />
                 <g:hiddenField name="version" value="${snippetInstance?.version}" />
                 <div class="dialog">
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="name"><g:message code="snippet.name.label" default="Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${snippetInstance?.name}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="snippet"><g:message code="snippet.snippet.label" default="Snippet" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}">
-                                    <g:textArea name="snippet" value="${snippetInstance?.snippet}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="author"><g:message code="snippet.author.label" default="Author" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'author', 'errors')}">
-                                    <g:select name="author.id" from="${snippet.User.list()}" optionKey="id" value="${snippetInstance?.author?.id}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="comments"><g:message code="snippet.comments.label" default="Comments" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'comments', 'errors')}">
-                                    
-<ul>
-<g:each in="${snippetInstance?.comments?}" var="c">
-    <li><g:link controller="comment" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="comment" action="create" params="['snippet.id': snippetInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'comment.label', default: 'Comment')])}</g:link>
-
-                                </td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
+                    <div class="codelist">
+                        <div class="head"><label for="snippet"><g:message code="snippet.snippet.label" default="Snippet" /></label></div>
+                        <g:render template="/layouts/editor" model="${[snippetInstance: snippetInstance]}"/>
+                    </div>
                 </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>

@@ -1,6 +1,8 @@
 package snippet
 
 import grails.plugins.springsecurity.Secured
+import grails.converters.*
+
 
 class SnippetController {
 
@@ -10,6 +12,13 @@ class SnippetController {
     def springSecurityService
     def searchableService
     def diffService
+
+    def getJson = {
+        if(params.q){
+            def searchResult = searchableService.search(params.q, escape: true)
+            render searchResult.results as JSON
+        }
+    }
 
     def index = {
         redirect(action: "list", params: params)

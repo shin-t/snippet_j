@@ -14,49 +14,28 @@
             <g:if test="${session.user}"><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></g:if>
         </div>
         <div class="body">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                <table>
-                    <tbody>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.username.label" default="Username" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "username")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.comments.label" default="Comments" /></td>
-                            
-                            <td valign="top" style="text-align: left;" class="value">
+                            <div valign="top" class="name"><g:message code="user.username.label" default="Username" /></div>
+                            <div valign="top" class="value">${fieldValue(bean: userInstance, field: "username")}</div>
+                            <div valign="top" class="name"><g:message code="user.comments.label" default="Comments" /></div>
+                            <div valign="top" style="text-align: left;" class="value">
                                 <ul>
                                 <g:each in="${userInstance.comments}" var="c">
                                     <li><g:link controller="comment" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
-                            </td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.snippets.label" default="Snippets" /></td>
-                            
-                            <td valign="top" style="text-align: left;" class="value">
+                            </div>
+                            <div valign="top" class="name"><g:message code="user.snippets.label" default="Snippets" /></div>
+                            <div valign="top" style="text-align: left;" class="value">
                                 <ul>
                                 <g:each in="${userInstance.snippets}" var="s">
                                     <li><g:link controller="snippet" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
-                            </td>
-                            
-                        </tr>
-                    
-                    </tbody>
-                </table>
+                            </div>
             </div>
             <div class="buttons">
                 <g:form>

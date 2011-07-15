@@ -24,30 +24,22 @@
             </g:hasErrors>
             <g:form action="save" >
                 <div class="dialog">
-                    <div class="head"><h2><g:message code="default.create.label" args="[entityName]" /></h2></div>
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
+                            <div class="prop">
+                                <div valign="top" class="name">
                                     <label for="username"><g:message code="user.username.label" default="Username" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'username', 'errors')}">
+                                </div>
+                                <div valign="top" class="value ${hasErrors(bean: userInstance, field: 'username', 'errors')}">
                                         <g:textField name="username" value="${userInstance?.username}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
+                                </div>
+                            </div>
+                            <div class="prop">
+                                <div valign="top" class="name">
                                     <label for="password"><g:message code="user.password.label" default="Password" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'password', 'errors')}">
+                                </div>
+                                <div valign="top" class="value ${hasErrors(bean: userInstance, field: 'password', 'errors')}">
                                         <g:passwordField name="password" value="${userInstance?.password}" />
-                                </td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
+                                </div>
+                            </div>
                 </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>

@@ -26,12 +26,10 @@
             <g:form method="post" >
                 <g:hiddenField name="id" value="${snippetInstance?.id}" />
                 <g:hiddenField name="version" value="${snippetInstance?.version}" />
-                <div class="dialog">
                     <div class="codelist">
                         <div class="head"><label for="snippet"><g:message code="snippet.snippet.label" default="Snippet" /></label></div>
                         <g:render template="/layouts/editor" model="${[snippetInstance: snippetInstance]}"/>
                     </div>
-                </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>

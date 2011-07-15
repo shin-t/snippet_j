@@ -6,6 +6,7 @@ class SnippetController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def scaffold = true
     def springSecurityService
     def searchableService
     def diffService

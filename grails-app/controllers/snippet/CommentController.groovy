@@ -6,6 +6,7 @@ class CommentController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def scaffold = true
     def springSecurityService
 
     def index = {

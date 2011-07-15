@@ -15,7 +15,6 @@
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="\${flash.message}">
             <div class="message">\${flash.message}</div>
             </g:if>
@@ -28,8 +27,6 @@
                 <g:hiddenField name="id" value="\${${propertyName}?.id}" />
                 <g:hiddenField name="version" value="\${${propertyName}?.version}" />
                 <div class="dialog">
-                    <table>
-                        <tbody>
                         <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated'
                             persistentPropNames = domainClass.persistentProperties*.name
                             props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) }
@@ -42,17 +39,15 @@
                                     display = (cp?.display ?: true)
                                 }
                                 if (display) { %>
-                            <tr class="prop">
-                                <td valign="top" class="name">
+                            <div class="prop">
+                                <div valign="top" class="name">
                                   <label for="${p.name}"><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></label>
-                                </td>
-                                <td valign="top" class="value \${hasErrors(bean: ${propertyName}, field: '${p.name}', 'errors')}">
+                                </div>
+                                <div valign="top" class="value \${hasErrors(bean: ${propertyName}, field: '${p.name}', 'errors')}">
                                     ${renderEditor(p)}
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                         <%  }   } %>
-                        </tbody>
-                    </table>
                 </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="\${message(code: 'default.button.update.label', default: 'Update')}" /></span>

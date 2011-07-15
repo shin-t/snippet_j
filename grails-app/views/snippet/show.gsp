@@ -31,12 +31,6 @@
                 </g:form>
             </div>
             </sec:ifLoggedIn>
-            <g:render template="/layouts/history" model="${[snippetInstance: snippetInstance]}"/>
-            <div>
-                <g:each in="${snippetInstance.comments}" status="i" var="commentInstance">
-                    <g:render template="/layouts/comment" model="${[commentInstance: commentInstance]}"/>
-                </g:each>
-            </div>
             <sec:ifLoggedIn>
             <g:form controller="comment" action="save">
                 <div class="comment">
@@ -51,6 +45,12 @@
                 </div>
             </g:form>
             </sec:ifLoggedIn>
+            <div>
+                <g:each in="${snippetInstance.comments}" status="i" var="commentInstance">
+                    <g:render template="/layouts/comment" model="${[commentInstance: commentInstance]}"/>
+                </g:each>
+            </div>
+            <g:render template="/layouts/history" model="${[snippetInstance: snippetInstance]}"/>
         </div>
     </body>
 </html>

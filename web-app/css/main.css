@@ -27,7 +27,7 @@ html * {
 body {
     background: #E7D8BD;
     color: #333;
-    font: 11px verdana, arial, helvetica, sans-serif;
+    font: 10pt verdana, arial, helvetica, sans-serif;
 }
 a {
     color: #666;
@@ -133,7 +133,7 @@ div.errors li {
     text-align: left;
     background: #E7E5BD;
 }
-.codelist, .history, .comment, .dialog {
+.codelist, .dialog {
     background-color: #E7E5BD;
     margin: 20pt;
     border: solid 5pt #64738B;
@@ -141,15 +141,36 @@ div.errors li {
     box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
     border-radius: 5pt / 5pt;
 }
+.history {
+    background-color: #E7E5BD;
+    margin: 20pt;
+    border: solid 5pt #BD767D;
+    width: auto;
+    overflow: hidden;
+    /* CSS3 */
+    box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
+    border-radius: 5pt / 5pt;
+}
+.history .head {
+    background-color: #E3ADB2;
+}
+.comment {
+    background-color: #E7E5BD;
+    margin: 20pt 80pt;
+    border: solid 5pt #64738B;
+    /* CSS3 */
+    box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
+    border-radius: 5pt / 5pt;
+}
 .head {
-    background: #546681;
+    background: #97A8C0;
 }
 .head a:hover {
     color: #eee;
     text-decoration: underline;
 }
 .head a{
-    color: #aaa;
+    color: #555;
     font-size: 16pt;
 }
 .head input{

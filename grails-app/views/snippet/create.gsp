@@ -23,12 +23,10 @@
             </div>
             </g:hasErrors>
             <g:form action="save" >
-                <div class="dialog">
                     <div class="codelist">
                         <div class="head"><g:textField name="name" value="${snippetInstance?.name}" /></div>
                         <g:render template="/layouts/editor" model="${[snippetInstance: snippetInstance]}"/>
                     </div>
-                </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>

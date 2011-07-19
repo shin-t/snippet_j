@@ -3,6 +3,7 @@ package snippet
 import grails.test.*
 
 class SnippetTests extends GrailsUnitTestCase {
+
     protected void setUp() {
         super.setUp()
     }
@@ -12,6 +13,5 @@ class SnippetTests extends GrailsUnitTestCase {
     }
 
     void testSomething() {
-
     }
 }

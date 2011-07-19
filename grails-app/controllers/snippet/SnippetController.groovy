@@ -3,7 +3,6 @@ package snippet
 import grails.plugins.springsecurity.Secured
 import grails.converters.*
 
-
 class SnippetController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -14,10 +13,7 @@ class SnippetController {
     def diffService
 
     def getJson = {
-        if(params.q){
-            def searchResult = searchableService.search(params.q, escape: true)
-            render searchResult.results as JSON
-        }
+        if(params.q){render searchableService.search(params.q, escape: true).results as JSON}else{render Snippet.list(params) as JSON}
     }
 
     def index = {

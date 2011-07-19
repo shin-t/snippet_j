@@ -4,7 +4,7 @@
         <title><g:layoutTitle default="Grails" /></title>
         <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
         <g:javascript library="application" />
-        <g:javascript library="jquery" />
+        <g:javascript library="jquery" plugin="jquery"/>
         <jqui:resources />
         <g:layoutHead />
     </head>

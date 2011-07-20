@@ -6,9 +6,6 @@
         <div>
             ${snippetInstance.author?.username}
         </div>
-        <div class="value ${hasErrors(bean: snippetInstance, field: 'lastUpdated', 'errors')}">
-            <g:message code="snippet.lastUpdated.label" default="last updated" />:<g:formatDate date="${snippetInstance.lastUpdated}" />
-        </div>
     </div>
     <div class="body">
         <div class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}">

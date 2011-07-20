@@ -36,12 +36,13 @@ class SnippetTests extends GroovyTestCase {
         assert Role.count() == 2
         assert UserRole.count() == 2
 
-        def snippet = new Snippet(author:testUser2,name:"Test",snippet:"main()\n{\n\treturn 0;\n}\n")
+        def snippet = new Snippet(author:User.get(2),name:"Test",snippet:"main()\n{\n\treturn 0;\n}\n")
         snippet.save(flush: true)
         assert Snippet.count() == 1
 
         def sc = new SnippetController()
         sc.params.id=1
-        println sc.show()
+        sc.params.snippet="#include <stdio.h>\nmain()\n{\n}\n"
+        sc.update()
     }
 }

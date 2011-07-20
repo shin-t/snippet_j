@@ -22,8 +22,6 @@ class SnippetController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        params.sort = params.sort?:'lastUpdated'
-        params.order = params.order?:'desc'
         if(params.q){
             def searchResult = searchableService.search(params.q, escape: true)
             flash.q = params.q
@@ -80,11 +78,9 @@ class SnippetController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
+        println "="*80
+        println "update"
         def originalInstance = Snippet.get(params.id)
-        def snippetInstance = new Snippet()
-        snippetInstance.name = originalInstance.name
-        snippetInstance.author = springSecurityService.getCurrentUser()
-        snippetInstance.snippet = params.snippet
         if (originalInstance) {
             if (params.version) {
                 def version = params.version.toLong()
@@ -94,22 +90,26 @@ class SnippetController {
                     return
                 }
             }
-            snippetInstance.patch = new Patch()
-            snippetInstance.patch.original = originalInstance
-            snippetInstance.patch.patch = diffService.getDiffString(originalInstance.snippet.readLines(), snippetInstance.snippet.readLines())
-            snippetInstance.patch.snippet = originalInstance
-            snippetInstance.patch.save(flush:true)
+            
+            def snippetInstance = new Snippet()
+            snippetInstance.name = originalInstance.name
+            snippetInstance.author = springSecurityService.getCurrentUser()
+            snippetInstance.snippet = params.snippet
             snippetInstance.save(flush:true)
             println "="*80
             println snippetInstance.dump()
+            
+            def patchInstance = new Patch(patch:diffService.getDiffString(originalInstance.snippet.readLines(), snippetInstance.snippet.readLines()))
+            patchInstance.original = originalInstance
+            patchInstance.snippet = snippetInstance
+            patchInstance.save()
             println "="*80
-            println snippetInstance.patch.dump()
+            println patchInstance.dump()
+
+            println "="*80
+            println originalInstance.dump()
+
             if (!snippetInstance.hasErrors() && snippetInstance.save(flush: true)) {
-                snippetInstance.patch.snippet = Snippet.get(snippetInstance.id)
-                snippetInstance.patch.save(flush:true)
-                println "="*80
-                println snippetInstance.patch.dump()
-                snippetInstance.save(flush:true)
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
                 redirect(action: "show", id: snippetInstance.id)
             }
@@ -125,9 +125,12 @@ class SnippetController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def delete = {
+        println "="*80
+        println "delete"
         def snippetInstance = Snippet.get(params.id)
         println "="*80
         println snippetInstance.dump()
+
         if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.author)) {
             try {
                 snippetInstance.delete(flush: true)
@@ -149,3 +152,4 @@ class SnippetController {
         if(params.q){redirect(action: "list", params: params)}else{redirect(action: "list")}
     } 
 }
+

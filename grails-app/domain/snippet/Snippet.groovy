@@ -4,35 +4,33 @@ class Snippet {
 
 	static searchable = true
     static belongsTo = [author:User]
-	static hasMany = [children: Patch, comments:Comment]
+	static hasMany = [children:Patch, comments:Comment]
+    static mappedBy = [children:"original"]
 
 	String name
 	String snippet
-
-	Date dateCreated
-	Date lastUpdated
-
-    Patch patch
 
     List getHistory() {
         def list = []
         def i = this
         while(i){
             list.push(i)
-            i = i.patch?.original
+            i = Patch.findBySnippet(i)?.original
         }
         return list
+    }
+
+    Patch patch() {
+        Patch.findBySnippet(this)
     }
 
     static constraints = {
     	name(blank:false)
     	snippet(blank:false)
-        patch(nullable:true)
-	    dateCreated()
-	    lastUpdated()
     }
 
     static mapping = {
         snippet type:'text'
     }
 }
+

@@ -12,17 +12,8 @@ $(document).ready(function(){
     <div class="body">
     <ul>
     <g:each in="${snippetInstance.getHistory()}" status="i" var="snippet">
-        <li><g:link action="show" id="${snippet.id}" params="${[patch:true]}">${snippet.lastUpdated}</g:link></li>
+        <li><g:link action="show" id="${snippet.id}" params="${[patch:true]}">${snippet.id}</g:link></li>
     </g:each>
     </ul>
-    </div>
-    <script>
-    <!--
-    $(document).ready(function(){
-        $("#datepicker").datepicker({dateFormat: 'yy/mm/dd'});
-    })
-    -->
-    </script>
-    <input type="text" id="datepicker">
     </div>
 </div>

@@ -4,15 +4,6 @@ class DiffService {
 
     static transactional = false
 
-    def getV_Status(v_minus, v_plus){
-        if((!v_minus)&&(!v_plus)) return 0
-
-        if(!v_minus) return 1
-
-        if(!v_plus) return 2
-
-        return (v_minus.x < v_plus.x)?1:2
-    }
     def getEndPoint(strl1,strl2) {
         def v = []
         def offset = strl2.size()+1
@@ -22,7 +13,20 @@ class DiffService {
             for(def k=-kmin;k<=kmax;k+=2){
                 def index=offset+k
                 def x,y,parent
-                switch(getV_Status(v[index-1],v[index+1])){
+                def vs
+                def vm,vp
+                vm=v[index-1]
+                vp=v[index+1]
+                if((!vm)&&(!vp)){
+                    vs=0
+                }else if(!vm){
+                    vs=1
+                }else if(!vp){
+                    vs=2
+                }else{
+                    vs=(vm.x < vp.x)?1:2
+                }
+                switch(vs){
                     case 0:
                         x=y=0
                         parent=[x:0,y:0,parent:null]
@@ -56,12 +60,12 @@ class DiffService {
             def dy=point.y-parent.y
             def same_len=(dx<dy)?dx:dy
             for(def i =0; i < same_len; i++){
-                diff_string="  ${strl1[point.x-i-1]}\n"+diff_string
+                diff_string=" ${strl1[point.x-i-1]}\n"+diff_string
             }
             if(dy<dx){
-                diff_string="- ${strl1[parent.x]}\n"+diff_string
+                diff_string="-${strl1[parent.x]}\n"+diff_string
             }else if(dx<dy){
-                diff_string="+ ${strl2[parent.y]}\n"+diff_string
+                diff_string="+${strl2[parent.y]}\n"+diff_string
             }
             point=parent
         }

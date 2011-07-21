@@ -22,12 +22,19 @@
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${snippetInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <g:if test="${snippetInstance.author == currentUser}">
+                        <span class="button">
+                            <g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
+                        </span>
                         <span class="button">
                             <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
                         </span>
                     </g:if>
+                    <g:else>
+                        <span class="button">
+                            <g:actionSubmit class="fork" action="fork" value="Fork"/>
+                        </span>
+                    </g:else>
                 </g:form>
             </div>
             </sec:ifLoggedIn>
@@ -51,6 +58,18 @@
                 </g:each>
             </div>
             <g:render template="/layouts/history" model="${[snippetInstance: snippetInstance]}"/>
+            <g:if test="${snippetInstance.forkParent()}">
+                <div class="history">
+                    <div class="head">
+                        fork
+                    </div>
+                    <div class="body">
+                        <g:each in="${snippetInstance.forkParent()}" var="parent">
+                            <g:link action="show" id="${parent.id}">${parent.id}</g:link>
+                        </g:each>
+                    </div>
+                </div>
+            </g:if>
         </div>
     </body>
 </html>

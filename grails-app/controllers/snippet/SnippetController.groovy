@@ -20,6 +20,28 @@ class SnippetController {
         if(params.q){redirect(action: "list", params: params)}else{redirect(action: "list")}
     }
     
+    def fork = {
+        def parent = Snippet.get(params.id)
+        if(parent&&(parent.author!=springSecurityService.getCurrentUser())){
+            println parent.dump()
+
+            def child = new Snippet()
+            child.name = parent.name
+            child.author = springSecurityService.getCurrentUser()
+            child.snippet = parent.snippet
+            child.save(flush:true)
+            println child.dump()
+
+            def snippetFork = new SnippetFork(child:child, parent:parent).save(flush:true)
+            println snippetFork.dump()
+
+            redirect(action: "show", id: child.id)
+        }
+        else{
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
+            redirect(action: "list")
+        }
+    }
 
     def index = {
         redirect(action: "list", params: params)
@@ -61,11 +83,17 @@ class SnippetController {
 
     def show = {
         def snippetInstance = Snippet.get(params.id)
+
         if (!snippetInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
             redirect(action: "list")
         }
         else {
+
+            println "--"
+            SnippetFork.list().each{println it.dump()}
+            println snippetInstance.forkParent()
+
             [snippetInstance: snippetInstance,currentUser: springSecurityService.getCurrentUser(), patch: params.patch]
         }
     }
@@ -78,7 +106,7 @@ class SnippetController {
             redirect(action: "list")
         }
         else {
-            return [snippetInstance: snippetInstance]
+            [snippetInstance: snippetInstance]
         }
     }
 
@@ -87,7 +115,7 @@ class SnippetController {
 
         def originalInstance = Snippet.get(params.id)
 
-        if (originalInstance) {
+        if (originalInstance&&(originalInstance.author==springSecurityService.getCurrentUser())) {
             if (params.version) {
                 def version = params.version.toLong()
                 if (originalInstance.version > version) {

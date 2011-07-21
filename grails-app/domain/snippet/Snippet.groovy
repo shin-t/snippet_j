@@ -22,10 +22,14 @@ class Snippet {
         Patch.findBySnippet(this)
     }
 
+    List forkParent() {
+        SnippetFork.executeQuery('from snippet.SnippetFork as sf where sf.child.id = ?',[this.id])
+    }
+
 	static searchable = true
     static belongsTo = [author:User]
-	static hasMany = [children:Patch, comments:Comment]
-    static mappedBy = [children:"original"]
+	static hasMany = [children:Patch, comments:Comment, fork:SnippetFork]
+    static mappedBy = [children:"original", fork:"parent"]
 
     static constraints = {
     	name(blank:false)

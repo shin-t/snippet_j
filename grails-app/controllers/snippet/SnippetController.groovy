@@ -16,6 +16,11 @@ class SnippetController {
         if(params.q){render searchableService.search(params.q, escape: true).results as JSON}else{render Snippet.list(params) as JSON}
     }
 
+    def search = {
+        if(params.q){redirect(action: "list", params: params)}else{redirect(action: "list")}
+    }
+    
+
     def index = {
         redirect(action: "list", params: params)
     }
@@ -29,7 +34,8 @@ class SnippetController {
             [snippetInstanceList: searchResult.results, snippetInstanceTotal: searchResult.total]
         }
         else{
-            [snippetInstanceList: Snippet.list(params), snippetInstanceTotal: Snippet.count()]
+            def snippetList = Snippet.executeQuery('from snippet.Snippet as s where s.children is empty')
+            [snippetInstanceList: snippetList, snippetInstanceTotal: snippetList.size()]
         }
     }
 
@@ -138,12 +144,5 @@ class SnippetController {
         }
     }
 
-    def search = {
-        if(params.q){redirect(action: "list", params: params)}else{redirect(action: "list")}
-    }
-    
-    def fork = {
-        
-    }
 }
 

@@ -2,9 +2,9 @@ package snippet
 
 class Patch {
 
-    static belongsTo = [snippet:Snippet, original:Snippet]
-    
     String patch
+
+    static belongsTo = [snippet:Snippet, original:Snippet]
 
     static constraints = {
         patch(blank:false)

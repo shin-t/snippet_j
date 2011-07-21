@@ -2,11 +2,6 @@ package snippet
 
 class Snippet {
 
-	static searchable = true
-    static belongsTo = [author:User]
-	static hasMany = [children:Patch, comments:Comment]
-    static mappedBy = [children:"original"]
-
 	String name
 	String snippet
 
@@ -26,6 +21,11 @@ class Snippet {
     Patch patch() {
         Patch.findBySnippet(this)
     }
+
+	static searchable = true
+    static belongsTo = [author:User]
+	static hasMany = [children:Patch, comments:Comment]
+    static mappedBy = [children:"original"]
 
     static constraints = {
     	name(blank:false)

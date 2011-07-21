@@ -39,14 +39,13 @@ a:hover {
 }
 
 input, select, textarea {
-    border: 0;
+    border: 1px solid #ccc;
     font: 11px verdana, arial, helvetica, sans-serif;
 }
 textarea {
 	vertical-align: top;
 }
 input:focus, select:focus, textarea:focus {
-    border: 0;
     background-color: #b2d1ff;
 }
 a.header-main:link, a.header-main:visited {
@@ -164,6 +163,9 @@ div.errors li {
 }
 .head {
     background: #97A8C0;
+}
+.head, .body {
+    padding: 5pt;
 }
 .head a:hover {
     color: #eee;

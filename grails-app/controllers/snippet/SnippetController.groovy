@@ -78,9 +78,9 @@ class SnippetController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
-        println "="*80
-        println "update"
+
         def originalInstance = Snippet.get(params.id)
+
         if (originalInstance) {
             if (params.version) {
                 def version = params.version.toLong()
@@ -96,18 +96,11 @@ class SnippetController {
             snippetInstance.author = springSecurityService.getCurrentUser()
             snippetInstance.snippet = params.snippet
             snippetInstance.save(flush:true)
-            println "="*80
-            println snippetInstance.dump()
             
             def patchInstance = new Patch(patch:diffService.getDiffString(originalInstance.snippet.readLines(), snippetInstance.snippet.readLines()))
             patchInstance.original = originalInstance
             patchInstance.snippet = snippetInstance
             patchInstance.save()
-            println "="*80
-            println patchInstance.dump()
-
-            println "="*80
-            println originalInstance.dump()
 
             if (!snippetInstance.hasErrors() && snippetInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
@@ -125,11 +118,8 @@ class SnippetController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def delete = {
-        println "="*80
-        println "delete"
+
         def snippetInstance = Snippet.get(params.id)
-        println "="*80
-        println snippetInstance.dump()
 
         if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.author)) {
             try {
@@ -142,14 +132,18 @@ class SnippetController {
                 redirect(action: "show", id: params.id)
             }
         }
-        else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
-            redirect(action: "list")
+        else{
+            flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
+            redirect(action: "show", id: params.id)
         }
     }
 
     def search = {
         if(params.q){redirect(action: "list", params: params)}else{redirect(action: "list")}
-    } 
+    }
+    
+    def fork = {
+        
+    }
 }
 

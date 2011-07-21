@@ -10,6 +10,9 @@ class Snippet {
 	String name
 	String snippet
 
+    Date dateCreated
+    Date lastUpdated
+
     List getHistory() {
         def list = []
         def i = this

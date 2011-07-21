@@ -29,13 +29,15 @@
                                 </ul>
                             </div>
                             <div valign="top" class="name"><g:message code="user.snippets.label" default="Snippets" /></div>
+                            <g:if test="${userInstance.snippetList()}">
                             <div valign="top" style="text-align: left;" class="value">
                                 <ul>
-                                <g:each in="${userInstance.snippets}" var="s">
+                                <g:each in="${userInstance.snippetList()}" var="s">
                                     <li><g:link controller="snippet" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
                             </div>
+                            </g:if>
             </div>
             <div class="buttons">
                 <g:form>

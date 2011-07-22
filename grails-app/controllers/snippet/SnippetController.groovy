@@ -12,6 +12,20 @@ class SnippetController {
     def searchableService
     def diffService
 
+    def gistsAPI = {
+        if(params.raw_url){
+            def url = new URL(params.raw_url)
+            render url.text
+        }
+        else{
+            def addr = "https://api.github.com"
+            def qs = []
+            qs << "/gists"
+            def url = new URL(addr+qs.join(""))
+            render(contentType:"application/json", text:"${url.text}")
+        }
+    }
+
     def getJson = {
         if(params.q){render searchableService.search(params.q, escape: true).results as JSON}else{render Snippet.list(params) as JSON}
     }

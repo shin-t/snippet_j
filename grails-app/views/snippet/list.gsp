@@ -16,27 +16,74 @@
             <!-- test API -->
             <script type="text/javascript">
                 (function(){
-                    $.getJSON('/snippet/snippet/gistsAPI',function(json){
-                        console.log(json[0]);
-                        console.log(json.length);
-                        for(var i=0;i<json.length;i++){
-                            var contents = ''
-                            for(var j in json[i].files){
-                                console.log(json[i].files[j]);
-                                contents+='<p class="filename">filename:&nbsp;<a href="'+json[i].files[j].raw_url+'">'+json[i].files[j].filename+'</a></p>';
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for(var i = 0; i < hashes.length; i++){
+                        hash = hashes[i].split('=');
+                        vars.push(hash[0]);
+                        vars[hash[0]] = hash[1];
+                    }
+                    console.log(vars);
+                    if(vars.id){
+                            console.log(vars.id);
+                            var url ='https://api.github.com/gists/'+vars.id+'?callback=?'
+                            console.log(url);
+                            $.getJSON(url,function(json){
+                                console.log(json);
+                                $("#gists").append(
+                                    '<div class="dialog">'+
+                                        '<a href="'+json.data.html_url+'">'+
+                                            '<div class="head">'+
+                                                '<p>description:&nbsp;'+json.data.description+'</p>'+
+                                                '<p>user login:&nbsp;'+json.data.user.login+
+                                                '&nbsp;<img width="16" height="16" alt="Gravatar" class="gravatar" src="'+json.data.user.avatar_url+'"/></p>'+
+                                                '<p>created at:&nbsp;'+json.data.created_at+'</p>'+
+                                            '</div>'+
+                                        '</a>'+
+                                        '<div class="body"></div>'+
+                                    '</div>'
+                                );
+                                for(var i in json.data.files){
+                                    var content = $("<div/>",{"class":"file"});
+                                    content.append($("<p/>",{text:"filename: "+json.data.files[i].filename}));
+                                    content.append($("<p/>").append($("<pre/>").append($("<code/>",{text:json.data.files[i].content}))));
+                                    $("#gists .dialog .body").append(content);
+                                }
+                                $("#gists").append('<div class="history"><div class="head">history</div><div class="body"></div>');
+                                for(var i=0;i<json.data.history.length;i++){
+                                    $("#gists .history .body").append($("<p/>",{text:"committed at: "+json.data.history[i].committed_at+", version: "+json.data.history[i].version}));
+                                }
+                                $("#gists").append('<div class="forks"><div class="head">forks</div><div class="body"></div>');
+                                for(var i=0;i<json.data.forks.length;i++){
+                                    console.log(json.data.forks[i]);
+                                    $("#gists .forks .body").append(
+                                        '<p><a href="/snippet/snippet/?id='+json.data.forks[i].id+'">'+json.data.forks[i].id+'</a></p>'+
+                                        '<ul><li>user login:&nbsp;'+json.data.user.login+'&nbsp;<img width="16" height="16" alt="Gravatar" class="gravatar" src="'+json.data.user.avatar_url+'"/></li>'+
+                                        '<li>created at:&nbsp;'+json.data.created_at+'</li></ul>'
+                                    );
+                                }
+                            });
+                    }else{
+                        //$.getJSON('/snippet/snippet/gistsAPI',function(json){
+                        $.getJSON('https://api.github.com/gists?callback=?',function(json){
+                            console.log(json);
+                            console.log(json.data.length);
+                            for(var i=0;i<json.data.length;i++){
+                                $("#gists").append(
+                                    '<div class="dialog">'+
+                                        '<a href="/snippet/?id='+json.data[i].id+'">'+
+                                            '<div class="head">'+
+                                                '<p>description:&nbsp;'+json.data[i].description+'</p>'+
+                                                '<p>user login:&nbsp;'+json.data[i].user.login+
+                                                '&nbsp;<img width="16" height="16" alt="Gravatar" class="gravatar" src="'+json.data[i].user.avatar_url+'"/></p>'+
+                                                '<p>created at:&nbsp;'+json.data[i].created_at+'</p>'+
+                                            '</div>'+
+                                        '</a>'+
+                                    '</div>'
+                                );
                             }
-                            $("#gists").append(
-                                '<div class="dialog">'+
-                                    '<div class="head">'+
-                                        '<p>description:&nbsp;'+json[i].description+'</p>'+
-                                        '<p>user login:&nbsp;'+json[i].user.login+'</p>'+
-                                        '<p>created at:&nbsp;'+json[i].created_at+'</p>'+
-                                    '</div>'+
-                                    '<div class="body">'+contents+'</div>'+
-                                '</div>'
-                            );
-                        }
-                    });
+                        });
+                    }
                 })();
             </script>
             <div id="gists"></div>

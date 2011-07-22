@@ -140,7 +140,10 @@ div.errors li {
     box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
     border-radius: 5pt / 5pt;
 }
-.history {
+.dialog .head:hover {
+    background-color: #E3ADB2;
+}
+.history, .forks {
     background-color: #E7E5BD;
     margin: 20pt;
     border: solid 5pt #BD767D;
@@ -150,7 +153,7 @@ div.errors li {
     box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
     border-radius: 5pt / 5pt;
 }
-.history .head {
+.history .head, .forks .head {
     background-color: #E3ADB2;
 }
 .comment {

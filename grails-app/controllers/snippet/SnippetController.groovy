@@ -2,10 +2,14 @@ package snippet
 
 import grails.plugins.springsecurity.Secured
 import grails.converters.*
+import groovyx.net.http.HTTPBuilder
+import static groovyx.net.http.Method.*
+import static groovyx.net.http.ContentType.*
 
 class SnippetController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static oauthService
 
     def scaffold = true
     def springSecurityService
@@ -13,17 +17,37 @@ class SnippetController {
     def diffService
 
     def gistsAPI = {
-        if(params.raw_url){
-            def url = new URL(params.raw_url)
-            render url.text
+        def http = new HTTPBuilder("https://api.github.com")
+        def res
+        println "="*80
+        println session
+
+        def headers = [:]
+        if(loggedIn){
+            def user = springSecurityService.getCurrentUser()
+            def token = Github.executeQuery("from snippet.Github as gh where gh.user = ?",user)
+            println token
+            headers = ["Authorization":"token ${token[0].access_token}"]
         }
-        else{
-            def addr = "https://api.github.com"
-            def qs = []
-            qs << "/gists"
-            def url = new URL(addr+qs.join(""))
-            render(contentType:"application/json", text:"${url.text}")
+        println headers
+
+        try {
+             res = http.get(path: '/gists',
+                headers: headers,
+                requestContentType: JSON) {resp, json ->
+                    println "response"
+                    println resp.dump()
+                    println resp.statusLine
+                    println resp.contentType
+                    println resp.success
+                    println "--"
+                    return json
+                }
         }
+        catch(Exception e) {
+            println e
+        }
+        render(contentType:"application/json", text:res)
     }
 
     def getJson = {
@@ -185,6 +209,4 @@ class SnippetController {
             redirect(action: "show", id: params.id)
         }
     }
-
 }
-

@@ -11,6 +11,8 @@ class User {
 
     static hasMany = [comments:Comment, snippets:Snippet]
 
+    static belongsTo = [oauth:Github]
+
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false

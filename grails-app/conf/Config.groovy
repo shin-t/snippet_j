@@ -70,10 +70,10 @@ environments {
 log4j = {
     // Example of changing the log pattern for the default console
     // appender:
-    //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
+    appenders {
+        console name:'stdout', layout:pattern(conversionPattern: '[%5p] %c{2} %d{hh:mm:ss} (%F:%M:%L) %m%n')
+        file name:'file', file:'debug.log'
+    }
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
            'org.codehaus.groovy.grails.web.pages', //  GSP
@@ -88,10 +88,21 @@ log4j = {
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'
+
+    debug 'file': 'grails.app.controller'
+    debug 'file': 'grails.app.service'
+    debug 'file': 'grails.app.task'
 }
 
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'snippet.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'snippet.UserRole'
 grails.plugins.springsecurity.authority.className = 'snippet.Role'
+
+// OAuth
+oauth.github.domain = 'https://api.github.com'
+oauth.github.authorize_url = 'https://github.com/login/oauth/authorize'
+oauth.github.access_token_url = 'https://github.com/login/oauth/access_token'
+// oauth.github.client_id = 
+// oauth.github.client_secret = 
 

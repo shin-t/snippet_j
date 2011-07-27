@@ -40,7 +40,7 @@ a:hover {
 
 input, select, textarea {
     border: 1px solid #ccc;
-    font: 11px verdana, arial, helvetica, sans-serif;
+    font: 10px verdana, arial, helvetica, sans-serif;
 }
 textarea {
 	vertical-align: top;
@@ -49,7 +49,6 @@ input:focus, select:focus, textarea:focus {
     background-color: #b2d1ff;
 }
 a.header-main:link, a.header-main:visited {
-	font-size: 3em;
 	font-weight: bold;
 }
 
@@ -140,9 +139,6 @@ div.errors li {
     box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
     border-radius: 5pt / 5pt;
 }
-.dialog .head:hover {
-    background-color: #E3ADB2;
-}
 .history, .forks {
     background-color: #E7E5BD;
     margin: 20pt;
@@ -176,12 +172,8 @@ div.errors li {
 }
 .head a{
     color: #555;
-    font-size: 16pt;
 }
 .head input{
-    font-size: 16pt;
-    width:100%;
-    height:100%;
     background-color: #A1AEC0;
 }
 .comment .body textarea{

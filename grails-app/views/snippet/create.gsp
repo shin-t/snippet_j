@@ -1,5 +1,4 @@
 
-
 <%@ page import="snippet.Snippet" %>
 <html>
     <head>
@@ -24,8 +23,8 @@
             </g:hasErrors>
             <g:form action="save" >
                     <div class="codelist">
-                        <div class="head"><g:textField name="name" value="${snippetInstance?.name}" /></div>
-                        <g:render template="/layouts/editor" model="${[snippetInstance: snippetInstance]}"/>
+                        <div class="head"><g:textField name="gist_id" value="${snippetInstance?.gist_id}" /></div>
+                        <div class="body"><g:textField name="tags" value="${snippetInstance?.tags}" /></div>
                     </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>

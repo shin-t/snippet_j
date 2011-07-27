@@ -16,69 +16,75 @@ class SnippetController {
     def searchableService
     def diffService
 
-    def gistsAPI = {
-        def http = new HTTPBuilder("https://api.github.com")
-        def res
-        println "="*80
-        println session
+    def getRaw = {
+        log.debug params
 
         def headers = [:]
         if(loggedIn){
             def user = springSecurityService.getCurrentUser()
             def token = Github.executeQuery("from snippet.Github as gh where gh.user = ?",user)
-            println token
+            log.debug token
             headers = ["Authorization":"token ${token[0].access_token}"]
+            log.debug headers
         }
-        println headers
 
-        try {
-             res = http.get(path: '/gists',
-                headers: headers,
-                requestContentType: JSON) {resp, json ->
-                    println "response"
-                    println resp.dump()
-                    println resp.statusLine
-                    println resp.contentType
-                    println resp.success
-                    println "--"
-                    return json
+        def text = ""
+        if(params.raw_url && (params.raw_url ==~ /https:\/\/gist\.github\.com\/raw\/.*/)){
+            def http = new HTTPBuilder(params.raw_url)
+            try {
+                text = http.get(headers: headers) {r, t ->
+                    r.headers.each{
+                        log.debug "${it.name} : ${it.value}"
+                    }
+                    log.debug r
+                    log.debug r.statusLine
+                    log.debug r.contentType
+                    log.debug r.success
+                    return t.text
                 }
+            }
+            catch(Exception e) {
+                log.error e
+            }
+            log.debug text
         }
-        catch(Exception e) {
-            println e
-        }
-        render(contentType:"application/json", text:res)
+        render text
     }
 
-    def getJson = {
-        if(params.q){render searchableService.search(params.q, escape: true).results as JSON}else{render Snippet.list(params) as JSON}
-    }
+    def gistsAPI = {
+        log.debug params
 
-    def search = {
-        if(params.q){redirect(action: "list", params: params)}else{redirect(action: "list")}
-    }
-    
-    def fork = {
-        def parent = Snippet.get(params.id)
-        if(parent&&(parent.author!=springSecurityService.getCurrentUser())){
-            println parent.dump()
+        def config = grailsApplication.config.oauth.github
+        def http = new HTTPBuilder(config.domain)
+        def json = []
 
-            def child = new Snippet()
-            child.name = parent.name
-            child.author = springSecurityService.getCurrentUser()
-            child.snippet = parent.snippet
-            child.save(flush:true)
-            println child.dump()
-
-            def snippetFork = new SnippetFork(child:child, parent:parent).save(flush:true)
-            println snippetFork.dump()
-
-            redirect(action: "show", id: child.id)
+        if(loggedIn){
+            def user = springSecurityService.getCurrentUser()
+            def token = Github.executeQuery("from snippet.Github as gh where gh.user = ?",user)
+            log.debug token
+            def headers = ["Authorization":"token ${token[0].access_token}"]
+            log.debug headers
+            try {
+                json = http.get(path: params.path, headers: headers, requestContentType: JSON) {r, j ->
+                    r.headers.each{
+                        log.debug "${it.name} : ${it.value}"
+                    }
+                    log.debug r
+                    log.debug r.statusLine
+                    log.debug r.contentType
+                    log.debug r.success
+                    return j
+                }
+            }
+            catch(Exception e) {
+                log.error e
+            }
+            log.debug json
+            log.debug json[0]
+            log.debug json[0].id
         }
-        else{
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
-            redirect(action: "list")
-        }
+
+        render(contentType: "application/json", text: json)
     }
 
     def index = {
@@ -94,23 +100,26 @@ class SnippetController {
             [snippetInstanceList: searchResult.results, snippetInstanceTotal: searchResult.total]
         }
         else{
-            def snippetList = Snippet.executeQuery('from snippet.Snippet as s where s.children is empty')
-            [snippetInstanceList: snippetList, snippetInstanceTotal: snippetList.size()]
+            [snippetInstanceList: Snippet.list(params), snippetInstanceTotal: Snippet.count()]
         }
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def create = {
         def snippetInstance = new Snippet()
+        log.debug params
         snippetInstance.properties = params
-        return [snippetInstance: snippetInstance]
+        log.debug snippetInstance.dump()
+        [snippetInstance: snippetInstance]
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def save = {
         def snippetInstance = new Snippet(params)
         snippetInstance.author=springSecurityService.getCurrentUser()
+        log.debug snippetInstance
         if (snippetInstance.save(flush: true)) {
+            log.debug snippetInstance
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
             redirect(action: "show", id: snippetInstance.id)
         }
@@ -127,18 +136,14 @@ class SnippetController {
             redirect(action: "list")
         }
         else {
-
-            println "--"
-            SnippetFork.list().each{println it.dump()}
-            println snippetInstance.forkParent()
-
-            [snippetInstance: snippetInstance,currentUser: springSecurityService.getCurrentUser(), patch: params.patch]
+            [snippetInstance: snippetInstance,currentUser: springSecurityService.getCurrentUser()]
         }
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def edit = {
         def snippetInstance = Snippet.get(params.id)
+
         if (!snippetInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
             redirect(action: "list")
@@ -150,30 +155,18 @@ class SnippetController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
+        def snippetInstance = Snippet.get(params.id)
 
-        def originalInstance = Snippet.get(params.id)
-
-        if (originalInstance&&(originalInstance.author==springSecurityService.getCurrentUser())) {
+        if (snippetInstance&&(snippetInstance.author==springSecurityService.getCurrentUser())) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (originalInstance.version > version) {
-                    originalInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'snippet.label', default: 'Snippet')] as Object[], "Another user has updated this Snippet while you were editing")
+                if (snippetInstance.version > version) {
+                    snippetInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'snippet.label', default: 'Snippet')] as Object[], "Another user has updated this Snippet while you were editing")
                     render(view: "edit", model: [snippetInstance: snippetInstance])
                     return
                 }
             }
-            
-            def snippetInstance = new Snippet()
-            snippetInstance.name = originalInstance.name
-            snippetInstance.author = springSecurityService.getCurrentUser()
-            snippetInstance.snippet = params.snippet
-            snippetInstance.save(flush:true)
-            
-            def patchInstance = new Patch(patch:diffService.getDiffString(originalInstance.snippet.readLines(), snippetInstance.snippet.readLines()))
-            patchInstance.original = originalInstance
-            patchInstance.snippet = snippetInstance
-            patchInstance.save()
-
+            snippetInstance.properties = params
             if (!snippetInstance.hasErrors() && snippetInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
                 redirect(action: "show", id: snippetInstance.id)
@@ -190,7 +183,6 @@ class SnippetController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def delete = {
-
         def snippetInstance = Snippet.get(params.id)
 
         if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.author)) {
@@ -205,8 +197,8 @@ class SnippetController {
             }
         }
         else{
-            flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
-            redirect(action: "show", id: params.id)
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
+            redirect(action: "list")
         }
     }
 }

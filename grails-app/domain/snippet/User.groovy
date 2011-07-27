@@ -9,9 +9,7 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 
-    static hasMany = [comments:Comment, snippets:Snippet]
-
-    static belongsTo = [oauth:Github]
+    static hasMany = [snippets:Snippet]
 
 	static constraints = {
 		username blank: false, unique: true
@@ -21,10 +19,6 @@ class User {
 	static mapping = {
 		password column: '`password`'
 	}
-
-    List snippetList() {
-        Snippet.executeQuery('from snippet.Snippet as s where s.author=:author and s.children is empty',[author:this])
-    }
 
 	Set<Role> getAuthorities() {
 		UserRole.findAllByUser(this).collect { it.role } as Set

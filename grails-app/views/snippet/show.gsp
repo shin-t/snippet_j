@@ -17,7 +17,28 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:render template="/layouts/snippet" model="${[snippetInstance: snippetInstance, patch: patch]}"/>
+            <script type="text/javascript">
+                (function(){
+                        $.getJSON('/snippet/snippet/gistsAPI?'+encodeURI('path=/gists${id}'),function(json){
+                            console.log(json);
+                            for(var i=0;i<json.length;i++){
+                                $("#gists").append(
+                                    '<div class="dialog">'+
+                                        '<a href="/snippet/snippet/show/id='+json.id+'">'+
+                                            '<div class="head">'+
+                                                '<p>description:&nbsp;'+json.description+'</p>'+
+                                                '<p>user login:&nbsp;'+json.user.login+
+                                                '&nbsp;<img width="16" height="16" alt="Gravatar" class="gravatar" src="'+json.user.avatar_url+'"/></p>'+
+                                                '<p>created at:&nbsp;'+json.created_at+'</p>'+
+                                            '</div>'+
+                                        '</a>'+
+                                    '</div>'
+                                );
+                            }
+                        });
+                })();
+            </script>
+            <g:render template="/layouts/snippet" model="${[snippetInstance: snippetInstance]}"/>
             <sec:ifLoggedIn>
             <div class="buttons">
                 <g:form>
@@ -38,38 +59,6 @@
                 </g:form>
             </div>
             </sec:ifLoggedIn>
-            <sec:ifLoggedIn>
-            <g:form controller="comment" action="save">
-                <div class="comment">
-                    <div class="head"><label for="comment"><g:message code="comment.comment.label" default="Comment" /></label></div>
-                    <div class="body ${hasErrors(bean: commentInstance, field: 'comment', 'errors')}">
-                        <g:hiddenField name="snippet.id" value="${snippetInstance.id}"  />
-                        <g:textArea name="comment" value="${commentInstance?.comment}" />
-                    </div>
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
-                </div>
-            </g:form>
-            </sec:ifLoggedIn>
-            <div>
-                <g:each in="${snippetInstance.comments}" status="i" var="commentInstance">
-                    <g:render template="/layouts/comment" model="${[commentInstance: commentInstance]}"/>
-                </g:each>
-            </div>
-            <g:render template="/layouts/history" model="${[snippetInstance: snippetInstance]}"/>
-            <g:if test="${snippetInstance.forkParent()}">
-                <div class="history">
-                    <div class="head">
-                        fork
-                    </div>
-                    <div class="body">
-                        <g:each in="${snippetInstance.forkParent()}" var="parent">
-                            <g:link action="show" id="${parent.id}">${parent.id}</g:link>
-                        </g:each>
-                    </div>
-                </div>
-            </g:if>
         </div>
     </body>
 </html>

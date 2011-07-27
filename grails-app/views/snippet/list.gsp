@@ -15,19 +15,27 @@
         <div class="body">
             <script type="text/javascript">
                 (function(){
-                        $.getJSON('/snippet/snippet/gistsAPI',function(json){
+                        $.getJSON('/snippet/snippet/gistsAPI?'+encodeURI('path=/gists'),function(json){
                             console.log(json);
                             for(var i=0;i<json.length;i++){
                                 $("#gists").append(
                                     '<div class="dialog">'+
-                                        '<a href="/snippet/?id='+json[i].id+'">'+
-                                            '<div class="head">'+
+                                        '<div class="head">'+
+                                            '<div><a href="/snippet/snippet/show/id='+json[i].id+'">'+
                                                 '<p>description:&nbsp;'+json[i].description+'</p>'+
-                                                '<p>user login:&nbsp;'+json[i].user.login+
-                                                '&nbsp;<img width="16" height="16" alt="Gravatar" class="gravatar" src="'+json[i].user.avatar_url+'"/></p>'+
+                                                '<p>'+
+                                                    'user login:&nbsp;'+json[i].user.login+
+                                                    '&nbsp;<img width="16" height="16" alt="Gravatar" class="gravatar" src="'+json[i].user.avatar_url+'"/>'+
+                                                '</p>'+
                                                 '<p>created at:&nbsp;'+json[i].created_at+'</p>'+
+                                                '<p>updated_at:&nbsp;'+json[i].updated_at+'</p>'+
+                                            '</a></div>'+
+                                                '<form method="post" action="/snippet/snippet/save">'+
+                                                '<input type="hidden" id="gist_id" value="'+json[i].id+'" name="gist_id">'+
+                                                '<span><input type="text" id="tags" value="" name="tags"></span>'+
+                                                '<span><input type="submit" id="create" value="Create" class="save" name="create"></span>'+
+                                                '</form>'+
                                             '</div>'+
-                                        '</a>'+
                                     '</div>'
                                 );
                             }

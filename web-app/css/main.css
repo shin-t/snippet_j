@@ -40,16 +40,13 @@ a:hover {
 
 input, select, textarea {
     border: 1px solid #ccc;
-    font: 10px verdana, arial, helvetica, sans-serif;
+    font: 12px verdana, arial, helvetica, sans-serif;
 }
 textarea {
 	vertical-align: top;
 }
 input:focus, select:focus, textarea:focus {
     background-color: #b2d1ff;
-}
-a.header-main:link, a.header-main:visited {
-	font-weight: bold;
 }
 
 /* NAVIGATION MENU */
@@ -118,83 +115,7 @@ div.errors li {
     padding: 2px 6px;
 }
 .paginateButtons span {
-    padding: 2px 3px;
-}
-
-/* DIALOG */
-
-.prop .name {
-    text-align: left;
-    white-space: nowrap;
-}
-.prop .value {
-    text-align: left;
-    background: #E7E5BD;
-}
-.codelist, .dialog {
-    background-color: #E7E5BD;
-    margin: 20pt;
-    border: solid 5pt #64738B;
-    /* CSS3 */
-    box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
-    border-radius: 5pt / 5pt;
-}
-.history, .forks {
-    background-color: #E7E5BD;
-    margin: 20pt;
-    border: solid 5pt #BD767D;
-    width: auto;
-    overflow: hidden;
-    /* CSS3 */
-    box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
-    border-radius: 5pt / 5pt;
-}
-.history .head, .forks .head {
-    background-color: #E3ADB2;
-}
-.comment {
-    background-color: #E7E5BD;
-    margin: 20pt 80pt;
-    border: solid 5pt #64738B;
-    /* CSS3 */
-    box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
-    border-radius: 5pt / 5pt;
-}
-.head {
-    background: #97A8C0;
-}
-.head, .body {
-    padding: 5pt;
-}
-.head a:hover {
-    color: #eee;
-    text-decoration: underline;
-}
-.head a{
-    color: #555;
-}
-.head input{
-    background-color: #A1AEC0;
-}
-.comment .body textarea{
-    background-color: #E7E5BD;
-    width: 100%;
-    height: 5em;
-}
-.codelist .body textarea{
-    background-color: #E7E5BD;
-    width: 100%;
-    height: 20em;
-}
-.code {
-    font-size: 10pt;
-}
-
-.minus_line {
-    background: #E3BABE;
-}
-.plus_line {
-    background: #A1AEC0;
+    padding: 2pt;
 }
 
 /* ACTION BUTTONS */
@@ -203,10 +124,35 @@ div.errors li {
     text-align: center;
 }
 .buttons input {
-    border: 0;
-    font-size: 9pt;
+    border: 1pt solid #ccc;
+    font-size: 10pt;
     color: #333;
-    margin-left: 3px;
-    padding: 2px 6px;
+    margin-left: 2pt;
 }
 
+/* DIALOG */
+
+.dialog {
+    background-color: #E7E5BD;
+    margin: 20pt;
+    border: solid 5pt #64738B;
+    /* CSS3 */
+    box-shadow: 5pt 5pt 5pt 5pt rgba(0,0,0,0.4);
+    border-radius: 3pt / 3pt;
+}
+.head {
+    background: #97A8C0;
+}
+.head, .body {
+    padding: 5pt;
+}
+.head a{
+    color: #555;
+}
+.head a:hover {
+    color: #eee;
+    text-decoration: underline;
+}
+.head input{
+    background-color: #A1AEC0;
+}

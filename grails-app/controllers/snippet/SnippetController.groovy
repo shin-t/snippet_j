@@ -9,12 +9,12 @@ import static groovyx.net.http.ContentType.*
 class SnippetController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-    static oauthService
 
     def scaffold = true
     def springSecurityService
     def searchableService
     def diffService
+    def githubService
 
     def getRaw = {
         log.debug params
@@ -51,42 +51,6 @@ class SnippetController {
         render text
     }
 
-    def gistsAPI = {
-        log.debug params
-
-        def config = grailsApplication.config.oauth.github
-        def http = new HTTPBuilder(config.domain)
-        def json = []
-
-        if(loggedIn){
-            def user = springSecurityService.getCurrentUser()
-            def token = Github.executeQuery("from snippet.Github as gh where gh.user = ?",user)
-            log.debug token
-            def headers = ["Authorization":"token ${token[0].access_token}"]
-            log.debug headers
-            try {
-                json = http.get(path: params.path, headers: headers, requestContentType: JSON) {r, j ->
-                    r.headers.each{
-                        log.debug "${it.name} : ${it.value}"
-                    }
-                    log.debug r
-                    log.debug r.statusLine
-                    log.debug r.contentType
-                    log.debug r.success
-                    return j
-                }
-            }
-            catch(Exception e) {
-                log.error e
-            }
-            log.debug json
-            log.debug json[0]
-            log.debug json[0].id
-        }
-
-        render(contentType: "application/json", text: json)
-    }
-
     def index = {
         redirect(action: "list", params: params)
     }
@@ -95,6 +59,7 @@ class SnippetController {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         if(params.q){
             def searchResult = searchableService.search(params.q, escape: true)
+            log.debug searchResult
             flash.q = params.q
             flash.message = "${params.q}"
             [snippetInstanceList: searchResult.results, snippetInstanceTotal: searchResult.total]
@@ -116,14 +81,47 @@ class SnippetController {
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def save = {
         def snippetInstance = new Snippet(params)
-        snippetInstance.author=springSecurityService.getCurrentUser()
-        log.debug snippetInstance
-        if (snippetInstance.save(flush: true)) {
-            log.debug snippetInstance
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
-            redirect(action: "show", id: snippetInstance.id)
+        snippetInstance.author = springSecurityService.getCurrentUser()
+        snippetInstance.validate()
+        log.debug "-- ${snippetInstance.exists()}"
+
+        log.debug params
+        log.debug "snippet: ${snippetInstance}"
+        log.debug snippetInstance.hasErrors()
+        if(!snippetInstance.hasErrors() && params.gist_id){
+            def results = Snippet.executeQuery(
+                'from snippet.Snippet as s where s.author = :author and s.gist_id = :gist_id',
+                [author: springSecurityService.getCurrentUser(), gist_id: params.gist_id])
+
+            if(results){
+                redirect(action: "edit", id: results[0].id)
+            }
+            else{
+                def json = githubService.api(path: "/gists/${params.gist_id}")
+                log.debug "json : ${json}"
+                String txt = json
+                log.debug "text : ${txt}"
+                log.debug "text : ${JSON.parse(txt)}"
+                if(!json){
+                    flash.message = "Not Found : /gists/${params.gist_id}"
+                    render(view: "create", model: [snippetInstance: snippetInstance])
+                }
+                else{
+                    if(snippetInstance.save(flush: true)){
+                        log.debug snippetInstance
+                        flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
+                        redirect(action: "show", id: snippetInstance.id)
+                    }
+                    else {
+                        render(view: "create", model: [snippetInstance: snippetInstance])
+                    }
+                }
+            }
         }
-        else {
+        else{
+            log.debug snippetInstance.errors
+            flash.errors = "${snippetInstance.errors}"
+            log.debug snippetInstance.dump()
             render(view: "create", model: [snippetInstance: snippetInstance])
         }
     }
@@ -166,7 +164,7 @@ class SnippetController {
                     return
                 }
             }
-            snippetInstance.properties = params
+            snippetInstance.tags = params.tags
             if (!snippetInstance.hasErrors() && snippetInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
                 redirect(action: "show", id: snippetInstance.id)

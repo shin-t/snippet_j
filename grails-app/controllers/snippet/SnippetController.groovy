@@ -65,7 +65,9 @@ class SnippetController {
         log.debug params
 
         if(params.q?.trim()){
-            snippetInstanceList = searchableService.search(params.q, escape: true).results
+            def result = searchableService.search(params.q, escape: true)
+            snippetInstanceList = result.results
+            snippetInstanceTotal = result.total
             flash.q = params.q
             flash.message = "${params.q}"
         }

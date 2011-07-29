@@ -1,6 +1,7 @@
 import snippet.Role
 import snippet.User
 import snippet.UserRole
+import snippet.Snippet
 
 class BootStrap {
     
@@ -19,5 +20,11 @@ class BootStrap {
         assert UserRole.count() == 1
         assert Role.count() == 2
         assert User.count() == 1
+
+        new Snippet(gist_id: '1113318', html_url: 'https://gist.github.com/1113318', author: User.get(1)).save(flush: true)
+        new Snippet(gist_id: '1113261', html_url: 'https://gist.github.com/1113318', author: User.get(1)).save(flush: true)
+        new Snippet(gist_id: '1113237', html_url: 'https://gist.github.com/1113318', author: User.get(1)).save(flush: true)
+
+        assert Snippet.count() == 3
     }
 }

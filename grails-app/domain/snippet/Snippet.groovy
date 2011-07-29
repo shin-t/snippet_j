@@ -1,11 +1,11 @@
 package snippet
 
-class Snippet {
+import org.grails.taggable.*
 
-    def githubService
+class Snippet implements Taggable {
 
     String gist_id
-    String tags
+    String html_url
     Date dateCreated
     Date lastUpdated
 
@@ -13,7 +13,7 @@ class Snippet {
     static belongsTo = [author:User]
     static constraints = {
         gist_id(blank:false)
-        tags(blank:true)
+        html_url(url:true)
     }
 }
 

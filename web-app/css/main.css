@@ -24,6 +24,13 @@ html * {
     right: 0;
 }
 
+.gravatar {
+    width: 16px;
+    height: 16px;
+    border: solid 1px #ccc;
+    padding: 2px;
+}
+
 body {
     background: #E7D8BD;
     color: #333;
@@ -133,7 +140,7 @@ div.errors li {
 /* DIALOG */
 
 .dialog {
-    background-color: #E7E5BD;
+    background-color: #E7E4B0;
     margin: 20pt;
     border: solid 5pt #64738B;
     /* CSS3 */
@@ -153,6 +160,16 @@ div.errors li {
     color: #eee;
     text-decoration: underline;
 }
-.head input{
+.dialog .head input {
     background-color: #A1AEC0;
+}
+.dialog .body input {
+    background-color: #E7E5BD;
+}
+.dialog input:focus {
+    background-color: #b2d1ff;
+}
+.dialog .body .files div {
+    height: 5em;
+    overflow: hidden;
 }

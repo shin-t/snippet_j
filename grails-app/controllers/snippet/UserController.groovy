@@ -20,15 +20,16 @@ class UserController {
         [userInstanceList: User.list(params), userInstanceTotal: User.count()]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def create = {
         def userInstance = new User()
         userInstance.properties = params
         return [userInstance: userInstance]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def save = {
         def userInstance = new User(params)
-        //encode
         userInstance.password = springSecurityService.encodePassword(params.password)
         userInstance.enabled = true
         if (userInstance.save(flush: true)) {
@@ -41,6 +42,7 @@ class UserController {
         }
     }
 
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def show = {
         def userInstance = User.get(params.id)
         if (!userInstance) {
@@ -52,7 +54,7 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_ADMIN'])
     def edit = {
         def userInstance = User.get(params.id)
         if (!userInstance) {
@@ -64,7 +66,7 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_ADMIN'])
     def update = {
         def userInstance = User.get(params.id)
         if (userInstance) {
@@ -77,13 +79,11 @@ class UserController {
                     return
                 }
             }
-            // encode
             if(userInstance.password != params.password) {
                 params.password = springSecurityService.encodePassword(params.password)
             }
             userInstance.properties = params
             if (!userInstance.hasErrors() && userInstance.save(flush: true)) {
-                // auth
                 if (springSecurityService.loggedIn && springSecurityService.principal.username == userInstance.username) {
                     springSecurityService.reauthenticate userInstance.username
                 }
@@ -100,7 +100,7 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_ADMIN'])
     def delete = {
         def userInstance = User.get(params.id)
         if (userInstance) {
@@ -119,5 +119,4 @@ class UserController {
             redirect(action: "list")
         }
     }
-    
 }

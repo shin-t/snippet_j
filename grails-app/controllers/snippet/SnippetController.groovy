@@ -13,7 +13,6 @@ class SnippetController {
     def scaffold = true
     def springSecurityService
     def searchableService
-    def diffService
     def githubService
 
     def getRaw = {
@@ -56,16 +55,33 @@ class SnippetController {
     }
 
     def list = {
+        def snippetInstanceList
+
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        if(params.q){
-            def searchResult = searchableService.search(params.q, escape: true)
-            log.debug searchResult
+        log.debug params
+
+        if(params.q?.trim()){
+            snippetInstanceList = searchableService.search(params.q, escape: true).results
             flash.q = params.q
             flash.message = "${params.q}"
-            [snippetInstanceList: searchResult.results, snippetInstanceTotal: searchResult.total]
+        }
+        else if(params.user){
+            snippetInstanceList = Snippet.executeQuery('from snippet.Snippet as s where s.author.username = ?',[params.user])
         }
         else{
-            [snippetInstanceList: Snippet.list(params), snippetInstanceTotal: Snippet.count()]
+            snippetInstanceList = Snippet.list(params)
+        }
+
+        log.debug request.getHeader("accept")
+        log.debug request.format
+        withFormat {
+            html {
+                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceList.count(), currentUser: springSecurityService.getCurrentUser()]
+            }
+            json {
+                // *.json
+                render snippetInstanceList as JSON
+            }
         }
     }
 
@@ -75,24 +91,19 @@ class SnippetController {
         log.debug params
         snippetInstance.properties = params
         log.debug snippetInstance.dump()
-        [snippetInstance: snippetInstance]
+        [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()]
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def save = {
-        def snippetInstance = new Snippet(params)
-        snippetInstance.author = springSecurityService.getCurrentUser()
-        snippetInstance.validate()
-        log.debug "-- ${snippetInstance.exists()}"
+        def snippetInstance = new Snippet()
 
         log.debug params
         log.debug "snippet: ${snippetInstance}"
-        log.debug snippetInstance.hasErrors()
-        if(!snippetInstance.hasErrors() && params.gist_id){
+        if(params.gist_id){
             def results = Snippet.executeQuery(
-                'from snippet.Snippet as s where s.author = :author and s.gist_id = :gist_id',
-                [author: springSecurityService.getCurrentUser(), gist_id: params.gist_id])
-
+                    'from snippet.Snippet as s where s.author = :author and s.gist_id = :gist_id',
+                    [author: springSecurityService.getCurrentUser(), gist_id: params.gist_id])
             if(results){
                 redirect(action: "edit", id: results[0].id)
             }
@@ -107,8 +118,13 @@ class SnippetController {
                     render(view: "create", model: [snippetInstance: snippetInstance])
                 }
                 else{
+                    snippetInstance.author = springSecurityService.getCurrentUser()
+                    snippetInstance.gist_id = json.id
+                    snippetInstance.html_url = json.html_url
+                    snippetInstance.setTags()
                     if(snippetInstance.save(flush: true)){
-                        log.debug snippetInstance
+                        log.debug snippetInstance.dump()
+                        snippetInstance.parseTags(params.tags)
                         flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
                         redirect(action: "show", id: snippetInstance.id)
                     }
@@ -142,12 +158,12 @@ class SnippetController {
     def edit = {
         def snippetInstance = Snippet.get(params.id)
 
-        if (!snippetInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
-            redirect(action: "list")
+        if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.author)) {
+            [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()]
         }
         else {
-            [snippetInstance: snippetInstance]
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
+            redirect(action: "list")
         }
     }
 
@@ -164,8 +180,13 @@ class SnippetController {
                     return
                 }
             }
-            snippetInstance.tags = params.tags
             if (!snippetInstance.hasErrors() && snippetInstance.save(flush: true)) {
+                log.debug params.tags
+                log.debug snippetInstance.tags
+                snippetInstance.setTags()
+                log.debug snippetInstance.tags
+                snippetInstance.parseTags(params.tags)
+                log.debug snippetInstance.tags
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
                 redirect(action: "show", id: snippetInstance.id)
             }

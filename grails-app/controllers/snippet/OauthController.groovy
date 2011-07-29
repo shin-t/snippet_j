@@ -34,13 +34,12 @@ class OauthController {
                 assert resp.statusLine.statusCode == 200
                 return content.access_token
             }
+            log.debug access_token
 
             def http = new HTTPBuilder(config.domain)
             def json = http.get(path: '/user', headers: ["Authorization":"token ${access_token}"], requestContentType: JSON)
             {r, j ->
                 log.debug j
-                log.debug j.id
-                log.debug j.login
                 return j
             }
 
@@ -63,7 +62,7 @@ class OauthController {
             def http2 = new HTTPBuilder(grailsApplication.config.grails.serverURL+SpringSecurityUtils.securityConfig.apf.filterProcessesUrl)
             def location = http2.post(body: [j_password: token.access_token, j_username: user.username], requestContentType: URLENC)
             { resp ->
-                    log.debug(resp.statusLine)
+                    log.debug resp.statusLine
                     for(h in resp.getHeaders())
                     {
                         log.debug "${h.name}: ${h.value}"

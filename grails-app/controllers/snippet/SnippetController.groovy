@@ -56,8 +56,12 @@ class SnippetController {
 
     def list = {
         def snippetInstanceList
+        def snippetInstanceTotal
 
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+        flash.id = params.id
         log.debug params
 
         if(params.q?.trim()){
@@ -66,20 +70,29 @@ class SnippetController {
             flash.message = "${params.q}"
         }
         else if(params.user){
-            snippetInstanceList = Snippet.executeQuery('from snippet.Snippet as s where s.author.username = ?',[params.user])
+            def query = 'from snippet.Snippet as s where s.author.username = ?'
+            snippetInstanceList = Snippet.executeQuery(query,[params.user],params)
+            snippetInstanceTotal = Snippet.executeQuery(query,[params.user]).size()
         }
         else{
             snippetInstanceList = Snippet.list(params)
+            snippetInstanceTotal = Snippet.count()
         }
 
         log.debug request.getHeader("accept")
         log.debug request.format
+        log.debug snippetInstanceList
+        log.debug snippetInstanceTotal
         withFormat {
             html {
-                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceList.count(), currentUser: springSecurityService.getCurrentUser()]
+                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, currentUser: springSecurityService.getCurrentUser()]
             }
             json {
                 // *.json
+                def meta = params
+                meta.total = snippetInstanceTotal
+                log.debug (snippetInstanceList as JSON).toString()
+                log.debug (params as JSON).toString()
                 render snippetInstanceList as JSON
             }
         }

@@ -105,9 +105,7 @@ div.errors li {
 /* PAGINATION */
 
 .paginateButtons {
-    border: 1px solid #ccc;
     text-align: center;
-    border-top: 0;
     color: #666;
     font-size: 10px;
     overflow: hidden;

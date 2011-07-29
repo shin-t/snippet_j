@@ -8,6 +8,7 @@ class UrlMappings {
 		}
 
 		"/"(controller:"snippet", action:"list")
+        "/login/*"(controller:"oauth", action:"auth")
 		"500"(view:'/error')
 	}
 }

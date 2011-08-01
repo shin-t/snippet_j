@@ -1,7 +1,7 @@
 <div class="dialog">
     <div class="head">
         <div class="value ${hasErrors(bean: snippetInstance, field: 'gist_id', 'errors')}">
-            <g:link action="show" id="${snippetInstance.id}">${snippetInstance.id}</g:link>
+            <g:link action="show" id="${snippetInstance.id}">${snippetInstance.gist_id}</g:link>
         </div>
         <div class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}">
             <g:if test="${currentUser == snippetInstance.author}">

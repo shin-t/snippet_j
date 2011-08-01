@@ -68,7 +68,6 @@ class GithubService {
     // Create
     // POST /gists
     def createGist(){
-        api(method: POST)
     }
 
     // Edit

@@ -12,7 +12,6 @@ class SnippetController {
 
     def scaffold = true
     def springSecurityService
-    def searchableService
     def githubService
 
     def getRaw = {
@@ -65,10 +64,11 @@ class SnippetController {
         log.debug params
 
         if(params.q?.trim()){
-            def result = searchableService.search(params.q, escape: true)
-            snippetInstanceList = result.results
-            snippetInstanceTotal = result.total
-            log.debug snippetInstanceList
+            def result = Snippet.findAllByTag(params.q)
+            log.debug "result:\n${result}"
+            snippetInstanceList = result
+            snippetInstanceTotal = result.size()
+            log.debug "search results:\n${snippetInstanceList}"
             flash.q = params.q
             flash.message = "${params.q}"
         }

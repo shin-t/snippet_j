@@ -24,14 +24,28 @@
                 <g:renderErrors bean="${snippetInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
-                    <div class="dialog">
-                        <div class="head">id:&nbsp;<g:textField name="gist_id" value="${snippetInstance?.gist_id}" /></div>
-                        <div class="body">tags:&nbsp;<g:textField name="tags" value="${snippetInstance?.tags?.join(",")}" /></div>
-                    </div>
+            <g:form action="save">
+                <div class="dialog">
+                    <div class="head">id:&nbsp;<g:textField name="gist_id" value="${snippetInstance?.gist_id}" /></div>
+                    <div class="body">tags:&nbsp;<g:textField name="tags" value="${snippetInstance?.tags?.join(",")}" /></div>
+                </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
+            </g:form>
+            <g:form action="save">
+            <div class="dialog">
+                <div class="head"><g:textField name="description" value="" /></div>
+                <div class="body">
+                    <g:checkBox name="public" value="${true}" />
+                    <g:textField name="tags" value="" />
+                    <g:textField name="filename" value="" />
+                    <g:textArea name="content" value="" />
+                </div>
+                <div class="buttons">
+                    <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                </div>
+            </div>
             </g:form>
         </div>
     </body>

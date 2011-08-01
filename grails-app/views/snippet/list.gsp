@@ -17,7 +17,6 @@
             </sec:ifLoggedIn>
         </div>
         <div class="body">
-            <div id="gists"></div>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>

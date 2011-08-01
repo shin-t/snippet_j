@@ -68,6 +68,7 @@ class SnippetController {
             def result = searchableService.search(params.q, escape: true)
             snippetInstanceList = result.results
             snippetInstanceTotal = result.total
+            log.debug snippetInstanceList
             flash.q = params.q
             flash.message = "${params.q}"
         }
@@ -90,7 +91,6 @@ class SnippetController {
                 [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, currentUser: springSecurityService.getCurrentUser()]
             }
             json {
-                // *.json
                 def meta = params
                 meta.total = snippetInstanceTotal
                 log.debug (snippetInstanceList as JSON).toString()
@@ -103,10 +103,12 @@ class SnippetController {
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def create = {
         def snippetInstance = new Snippet()
+        def currentUser = springSecurityService.getCurrentUser()
         log.debug params
         snippetInstance.properties = params
         log.debug snippetInstance.dump()
-        [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()]
+        log.debug currentUser.dump()
+        [snippetInstance: snippetInstance, currentUser: currentUser]
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
@@ -115,45 +117,53 @@ class SnippetController {
 
         log.debug params
         log.debug "snippet: ${snippetInstance}"
-        if(params.gist_id){
+        def json = []
+        if(params.filename){
+            def body = '{"description":"'+params.description.encodeAsJavaScript()+
+                '","public":'+params.public.encodeAsJavaScript()+
+                ',"files":{"'+params.filename.encodeAsJavaScript()+
+                '":{"content":"'+params.content.encodeAsJavaScript()+
+                '"}}}'
+            json = githubService.api(path: "/gists", method: POST, body: body)
+            log.debug json
+        }
+        else if(params.gist_id){
             def results = Snippet.executeQuery(
                     'from snippet.Snippet as s where s.author = :author and s.gist_id = :gist_id',
                     [author: springSecurityService.getCurrentUser(), gist_id: params.gist_id])
             if(results){
                 redirect(action: "edit", id: results[0].id)
             }
-            else{
-                def json = githubService.api(path: "/gists/${params.gist_id}")
-                log.debug "json : ${json}"
-                String txt = json
-                log.debug "text : ${txt}"
-                log.debug "text : ${JSON.parse(txt)}"
-                if(!json){
-                    flash.message = "Not Found : /gists/${params.gist_id}"
-                    render(view: "create", model: [snippetInstance: snippetInstance])
-                }
-                else{
-                    snippetInstance.author = springSecurityService.getCurrentUser()
-                    snippetInstance.gist_id = json.id
-                    snippetInstance.html_url = json.html_url
-                    snippetInstance.setTags()
-                    if(snippetInstance.save(flush: true)){
-                        log.debug snippetInstance.dump()
-                        snippetInstance.parseTags(params.tags)
-                        flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
-                        redirect(action: "show", id: snippetInstance.id)
-                    }
-                    else {
-                        render(view: "create", model: [snippetInstance: snippetInstance])
-                    }
-                }
-            }
+            json = githubService.api(path: "/gists/${params.gist_id}", method:GET)
+            log.debug "json : ${json}"
+            String txt = json
+            log.debug "text : ${txt}"
+            log.debug "text : ${JSON.parse(txt)}"
         }
         else{
             log.debug snippetInstance.errors
             flash.errors = "${snippetInstance.errors}"
             log.debug snippetInstance.dump()
-            render(view: "create", model: [snippetInstance: snippetInstance])
+            return render(view: "create", model: [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()])
+        }
+        if(!json){
+            flash.message = "Not Found : /gists/${params.gist_id}"
+            render(view: "create", model: [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()])
+        }
+        else{
+            snippetInstance.author = springSecurityService.getCurrentUser()
+            snippetInstance.gist_id = json.id
+            snippetInstance.html_url = json.html_url
+            snippetInstance.setTags()
+            if(snippetInstance.save(flush: true)){
+                log.debug snippetInstance.dump()
+                snippetInstance.parseTags(params.tags)
+                flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
+                redirect(action: "show", id: snippetInstance.id)
+            }
+            else {
+                render(view: "create", model: [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()])
+            }
         }
     }
 
@@ -165,7 +175,7 @@ class SnippetController {
             redirect(action: "list")
         }
         else {
-            [snippetInstance: snippetInstance,currentUser: springSecurityService.getCurrentUser()]
+            [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()]
         }
     }
 
@@ -197,9 +207,7 @@ class SnippetController {
             }
             if (!snippetInstance.hasErrors() && snippetInstance.save(flush: true)) {
                 log.debug params.tags
-                log.debug snippetInstance.tags
                 snippetInstance.setTags()
-                log.debug snippetInstance.tags
                 snippetInstance.parseTags(params.tags)
                 log.debug snippetInstance.tags
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"

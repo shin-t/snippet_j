@@ -15,7 +15,7 @@ class OauthController {
 
     def auth = {
         def config = grailsApplication.config.oauth.github
-        redirect(url: "${config.authorize_url}?client_id=${config.client_id}")
+        redirect(url: "${config.authorize_url}?client_id=${config.client_id}&scope=gist")
     }
 
     def callback = {
@@ -26,7 +26,7 @@ class OauthController {
                     body: [
                         client_id: config.client_id,
                         client_secret: config.client_secret,
-                        code: params.code
+                        code: params.code,
                     ],
                     requestContentType: URLENC ) { resp ->
                 def content = [:]

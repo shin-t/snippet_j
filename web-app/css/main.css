@@ -142,11 +142,24 @@ div.errors li {
     margin: 20pt;
     border: solid 5pt #64738B;
     /* CSS3 */
-    box-shadow: 5pt 5pt 5pt 5pt rgba(0,0,0,0.4);
+    box-shadow: 2.5pt 2.5pt 2.5pt 2.5pt rgba(0,0,0,0.25);
     border-radius: 3pt / 3pt;
 }
-.head {
+.comment {
+    background-color: #E7E4B0;
+    margin: 20pt;
+    border: solid 5pt #BD767D;
+    /* CSS3 */
+    box-shadow: 2.5pt 2.5pt 2.5pt 2.5pt rgba(0,0,0,0.25);
+    border-radius: 3pt / 3pt;
+}
+.dialog .head {
     background: #97A8C0;
+    border-bottom: solid 1pt #64738B;
+}
+.comment .head {
+    background: #E3ADB2;
+    border-bottom: solid 1pt #BD767D;
 }
 .head, .body {
     padding: 5pt;
@@ -170,4 +183,8 @@ div.errors li {
 .dialog .body .files div {
     height: 5em;
     overflow: hidden;
+}
+
+.snippet {
+    background-color: #A1AEC0;
 }

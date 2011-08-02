@@ -21,9 +21,9 @@ class BootStrap {
         assert Role.count() == 2
         assert User.count() == 1
 
-        new Snippet(gist_id: '1113318', html_url: 'https://gist.github.com/1113318', author: User.get(1)).save(flush: true)
-        new Snippet(gist_id: '1113261', html_url: 'https://gist.github.com/1113318', author: User.get(1)).save(flush: true)
-        new Snippet(gist_id: '1113237', html_url: 'https://gist.github.com/1113318', author: User.get(1)).save(flush: true)
+        new Snippet(description: "A", snippet: "sample", author: User.get(1)).save(flush: true)
+        new Snippet(description: "B", snippet: "test", author: User.get(1)).save(flush: true)
+        new Snippet(description: "C", snippet: "abc", author: User.get(1)).save(flush: true)
 
         assert Snippet.count() == 3
     }

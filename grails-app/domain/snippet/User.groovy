@@ -8,7 +8,7 @@ class User {
     boolean accountLocked
     boolean passwordExpired
 
-    static hasMany = [snippets:Snippet]
+    static hasMany = [snippets:Snippet,comments:Comment,stars:Star]
     static constraints = {
         username blank: false, unique: true
         password blank: false

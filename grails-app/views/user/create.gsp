@@ -40,9 +40,9 @@
                                         <g:passwordField name="password" value="${userInstance?.password}" />
                                 </div>
                             </div>
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    <div class="buttons">
+                        <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    </div>
                 </div>
             </g:form>
         </div>

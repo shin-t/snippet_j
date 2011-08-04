@@ -20,4 +20,8 @@ class Comment implements Comparable{
     int compareTo(obj) {
         lastUpdated.compareTo(obj.lastUpdated)
     }
+
+    String toString() {
+        "${comment} by ${author.username} ${lastUpdated}"
+    }
 }

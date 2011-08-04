@@ -27,30 +27,22 @@
                 <g:hiddenField name="id" value="${snippetInstance?.id}" />
                 <g:hiddenField name="version" value="${snippetInstance?.version}" />
                 <div class="dialog">
-                            <div class="prop">
-                                <div valign="top" class="name">
-                                  <label for="description"><g:message code="snippet.description.label" default="Description" /></label>
-                                </div>
-                                <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'description', 'errors')}">
-                                    <g:textField name="description" value="${snippetInstance?.description}" />
-                                </div>
-                            </div>
-                            <div class="prop">
-                                <div valign="top" class="name">
-                                  <label for="snippet"><g:message code="snippet.snippet.label" default="Snippet" /></label>
-                                </div>
-                                <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}">
-                                    <g:textArea name="snippet" cols="40" rows="5" value="${snippetInstance?.snippet}" />
-                                </div>
-                            </div>
-                            <div class="prop">
-                                <div valign="top" class="name">
-                                  <label for="tags"><g:message code="snippet.tags.label" default="Tags" /></label>
-                                </div>
-                                <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
-                                    <g:textField name="tags" value="${snippetInstance?.tags?.join(',')}" />
-                                </div>
-                            </div>
+                    <div class="head">
+                        <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'description', 'errors')}">
+                            <label for="description"><g:message code="snippet.description.label" default="Description" /></label>
+                            <g:textField name="description" value="${snippetInstance?.description}" />
+                        </div>
+                        <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
+                            <label for="tags"><g:message code="snippet.tags.label" default="Tags" /></label>
+                            <g:textField name="tags" value="${snippetInstance?.tags?.join(',')}" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="body">
+                        <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}">
+                            <g:textArea name="snippet" cols="40" rows="5" value="${snippetInstance?.snippet}" />
+                        </div>
+                    </div>
                 </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>

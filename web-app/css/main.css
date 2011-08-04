@@ -46,7 +46,7 @@ a:hover {
 }
 
 input, select, textarea {
-    border: 1px solid #ccc;
+    border: 1px solid #777;
     font: 12px verdana, arial, helvetica, sans-serif;
 }
 textarea {
@@ -125,9 +125,7 @@ div.errors li {
 
 /* ACTION BUTTONS */
 
-.buttons {
-    text-align: center;
-}
+.buttons {}
 .buttons input {
     border: 1pt solid #ccc;
     font-size: 10pt;
@@ -153,6 +151,14 @@ div.errors li {
     box-shadow: 2.5pt 2.5pt 2.5pt 2.5pt rgba(0,0,0,0.25);
     border-radius: 3pt / 3pt;
 }
+.comment input, .comment textarea{
+    background-color: #E7E4B0;
+    display: block;
+}
+textarea {
+    width: 100%;
+    height: 80pt;
+}
 .dialog .head {
     background: #97A8C0;
     border-bottom: solid 1pt #64738B;
@@ -161,7 +167,17 @@ div.errors li {
     background: #E3ADB2;
     border-bottom: solid 1pt #BD767D;
 }
-.head, .body {
+.head div.value{
+    float: left;
+    padding-right: 20pt;
+}
+.head div.date{
+    float: right;
+}
+div.clear {
+    clear: both;
+}
+.head {
     padding: 5pt;
 }
 .head a{
@@ -174,10 +190,13 @@ div.errors li {
 .dialog .head input {
     background-color: #A1AEC0;
 }
-.dialog .body input {
+.dialog .body input, .dialog .body textarea {
     background-color: #E7E5BD;
 }
-.dialog input:focus {
+.dialog input:focus, .dialog textarea:focus {
+    background-color: #b2d1ff;
+}
+.comment input:focus, .comment textarea:focus {
     background-color: #b2d1ff;
 }
 .dialog .body .files div {
@@ -185,6 +204,3 @@ div.errors li {
     overflow: hidden;
 }
 
-.snippet {
-    background-color: #A1AEC0;
-}

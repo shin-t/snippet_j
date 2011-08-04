@@ -25,5 +25,9 @@ class Snippet implements Taggable {
         snippet type:'text'
         sort lastUpdated:"desc"
     }
+
+    String toString() {
+        "${description} by ${author.username} ${lastUpdated}"
+    }
 }
 

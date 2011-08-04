@@ -20,18 +20,18 @@ class UserController {
         [userInstanceList: User.list(params), userInstanceTotal: User.count()]
     }
 
-    @Secured(['ROLE_ADMIN'])
     def create = {
         def userInstance = new User()
         userInstance.properties = params
         return [userInstance: userInstance]
     }
 
-    @Secured(['ROLE_ADMIN'])
     def save = {
+        log.debug params
         def userInstance = new User(params)
         userInstance.password = springSecurityService.encodePassword(params.password)
         userInstance.enabled = true
+        log.debug userInstance.dump()
         if (userInstance.save(flush: true)) {
             UserRole.create userInstance, Role.findByAuthority('ROLE_USER'), true
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])}"
@@ -42,7 +42,6 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def show = {
         def userInstance = User.get(params.id)
         if (!userInstance) {
@@ -54,22 +53,22 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def edit = {
         def userInstance = User.get(params.id)
-        if (!userInstance) {
+        if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
+            return [userInstance: userInstance]
+        }
+        else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
             redirect(action: "list")
         }
-        else {
-            return [userInstance: userInstance]
-        }
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
         def userInstance = User.get(params.id)
-        if (userInstance) {
+        if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
             if (params.version) {
                 def version = params.version.toLong()
                 if (userInstance.version > version) {
@@ -100,10 +99,10 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def delete = {
         def userInstance = User.get(params.id)
-        if (userInstance) {
+        if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
             try {
                 userInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"

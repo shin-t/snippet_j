@@ -20,13 +20,17 @@
                 <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
                     <div class="dialog">
                         <div class="head">
-                            <g:link action="show" id="${snippetInstance.id}">
-                                <span>${fieldValue(bean: snippetInstance, field: "id")}</span>:<span>${fieldValue(bean: snippetInstance, field: "description")}</span>
-                            </g:link>
+                            <div class="value">
+                                <g:link action="show" id="${snippetInstance.id}">
+                                    ${fieldValue(bean: snippetInstance, field: "description")}
+                                </g:link>
+                            </div>
+                            <div class="clear"></div>
+                            <div valign="top" class="value">by&nbsp;<g:link controller="user" action="show" id="${snippetInstance?.author?.id}">${snippetInstance?.author?.username.encodeAsHTML()}</g:link></div>
+                            <div class="date"><g:formatDate date="${snippetInstance.lastUpdated}" /></div>
+                            <div class="clear"></div>
                         </div>
                         <div class="snippet"><pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre></div>
-                        <div>${snippetInstance.author.username}</div>
-                        <div><g:formatDate date="${snippetInstance.lastUpdated}" /></div>
                     </div>
                 </g:each>
             </div>

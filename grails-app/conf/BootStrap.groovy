@@ -14,17 +14,29 @@ class BootStrap {
         String password = springSecurityService.encodePassword('password')
         def testUser = new User(username: 'admin', enabled: true, password: password)
         testUser.save(flush: true)
+        
+        String password2 = springSecurityService.encodePassword('password')
+        def testUser2 = new User(username: 'user', enabled: true, password: password2)
+        testUser2.save(flush: true)
 
         UserRole.create testUser, adminRole, true
+        UserRole.create testUser2, userRole, true
 
-        assert UserRole.count() == 1
+        assert UserRole.count() == 2
         assert Role.count() == 2
-        assert User.count() == 1
+        assert User.count() == 2
 
-        new Snippet(description: "A", snippet: "sample", author: User.get(1)).save(flush: true)
-        new Snippet(description: "B", snippet: "test", author: User.get(1)).save(flush: true)
-        new Snippet(description: "C", snippet: "abc", author: User.get(1)).save(flush: true)
+        def s1 = new Snippet(description: "A", snippet: "sample", author: User.get(1)).save(flush: true)
+        s1.parseTags("ABC,DEF,GH")
+        def s2 = new Snippet(description: "ABC", snippet: "s\namp\nle", author: User.get(2)).save(flush: true)
+        s2.parseTags("abc,def")
+        def s3 = new Snippet(description: "B", snippet: "test", author: User.get(1)).save(flush: true)
+        s3.parseTags("def,GH")
+        def s4 = new Snippet(description: "C", snippet: "abc", author: User.get(1)).save(flush: true)
+        s4.parseTags("test")
+        def s5 = new Snippet(description: "Test", snippet: "t\nest", author: User.get(2)).save(flush: true)
+        s5.parseTags("test,sample")
 
-        assert Snippet.count() == 3
+        assert Snippet.count() == 5
     }
 }

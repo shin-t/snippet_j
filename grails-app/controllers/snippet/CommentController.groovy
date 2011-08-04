@@ -9,24 +9,6 @@ class CommentController {
     def springSecurityService
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def index = {
-        redirect(action: "list", params: params)
-    }
-
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [commentInstanceList: Comment.list(params), commentInstanceTotal: Comment.count()]
-    }
-
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def create = {
-        def commentInstance = new Comment()
-        commentInstance.properties = params
-        return [commentInstance: commentInstance]
-    }
-
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def save = {
         def commentInstance = new Comment(params)
         log.debug params
@@ -38,7 +20,7 @@ class CommentController {
         }
         else {
             log.debug commentInstance.dump()
-            render(view: "create", model: [commentInstance: commentInstance])
+            redirect(controller: "snippet", action: "show", id: commentInstance.snippet.id)
         }
     }
 
@@ -55,21 +37,10 @@ class CommentController {
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def edit = {
-        def commentInstance = Comment.get(params.id)
-        if (!commentInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            return [commentInstance: commentInstance]
-        }
-    }
-
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
         def commentInstance = Comment.get(params.id)
-        if (commentInstance) {
+        def snippet_id = commentInstance.snippet.id
+        if (commentInstance&&(commentInstance.author==springSecurityService.getCurrentUser())) {
             if (params.version) {
                 def version = params.version.toLong()
                 if (commentInstance.version > version) {
@@ -82,7 +53,7 @@ class CommentController {
             commentInstance.properties = params
             if (!commentInstance.hasErrors() && commentInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.id])}"
-                redirect(action: "show", id: commentInstance.id)
+                redirect(controller: "snippet", action: "show", id: snippet_id)
             }
             else {
                 render(view: "edit", model: [commentInstance: commentInstance])
@@ -90,18 +61,19 @@ class CommentController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-            redirect(action: "list")
+            redirect(controller: "snippet", action: "list", id: snippet_id)
         }
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def delete = {
         def commentInstance = Comment.get(params.id)
-        if (commentInstance) {
+        def snippet_id = commentInstance.snippet.id
+        if (commentInstance&&(commentInstance.author==springSecurityService.getCurrentUser())) {
             try {
                 commentInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-                redirect(action: "list")
+                redirect(controller: "snippet", action: "show", id: snippet_id)
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
@@ -110,8 +82,7 @@ class CommentController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-            redirect(action: "list")
+            redirect(uri:"/")
         }
     }
-    
 }

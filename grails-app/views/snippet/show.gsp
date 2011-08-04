@@ -20,30 +20,29 @@
             <div class="dialog">
                 <div class="head">
                     <div valign="top" class="value">${fieldValue(bean: snippetInstance, field: "description")}</div>
+                    <div class="clear"></div>
+                    <div valign="top" class="value">by&nbsp;<g:link controller="user" action="show" id="${snippetInstance?.author?.id}">${snippetInstance?.author?.username.encodeAsHTML()}</g:link></div>
+                    <div valign="top" class="value"><g:message code="snippet.tags.label" default="Tags" />&nbsp;${fieldValue(bean: snippetInstance, field: "tags")}</div>
+                    <div valign="top" class="value"><g:message code="snippet.stars.label" default="Stars" />&nbsp;${snippetInstance.stars.size()}</div>
+                    <g:form controller="star" action="save" >
+                        <div class="buttons">
+                            <g:hiddenField name="snippet.id" value="${snippetInstance?.id}" />
+                            <span class="button"><g:submitButton name="create" class="save" value="star" /></span>
+                        </div>
+                    </g:form>
+                    <div valign="top" class="date"><g:formatDate date="${snippetInstance?.lastUpdated}" /></div>
+                    <div class="clear"></div>
                 </div>
-                <div valign="top" class="name"><g:message code="snippet.snippet.label" default="Snippet" /></div>
-                <div valign="top" class="value snippet"><pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre></div>
-                <div valign="top" class="name"><g:message code="snippet.author.label" default="Author" /></div>
-                <div valign="top" class="value"><g:link controller="user" action="show" id="${snippetInstance?.author?.id}">${snippetInstance?.author?.username.encodeAsHTML()}</g:link></div>
-                <div valign="top" class="name"><g:message code="snippet.tags.label" default="Tags" /></div>
-                <div valign="top" class="value">${fieldValue(bean: snippetInstance, field: "tags")}</div>
-                <div valign="top" class="name"><g:message code="snippet.stars.label" default="Stars" /></div>
-                <div valign="top" class="value">${snippetInstance.stars.size()}</div>
-                <div valign="top" class="name"><g:message code="snippet.lastUpdated.label" default="Last Updated" /></div>
-                <div valign="top" class="value"><g:formatDate date="${snippetInstance?.lastUpdated}" /></div>
-            </div>
-            <g:form controller="star" action="save" >
+                <div class="body">
+                    <div valign="top" class="value snippet"><pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre></div>
+                </div>
                 <div class="buttons">
-                    <g:hiddenField name="snippet.id" value="${snippetInstance?.id}" />
-                    <span class="button"><g:submitButton name="create" class="save" value="star" /></span>
+                    <g:form>
+                        <g:hiddenField name="id" value="${snippetInstance?.id}" />
+                        <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                        <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    </g:form>
                 </div>
-            </g:form>
-            <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="${snippetInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </g:form>
             </div>
             <g:render template="/layouts/comment" model="[snippetInstance:snippetInstance]"/>
             <g:render template="/layouts/comments" model="[snippetInstance:snippetInstance]"/>

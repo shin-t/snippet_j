@@ -23,6 +23,7 @@ class StarController {
         return [starInstance: starInstance]
     }
 
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def save = {
         def starInstance = new Star(params)
         def result = Star.executeQuery('from snippet.Star as s where s.author = :author and s.snippet = :snippet',
@@ -63,6 +64,7 @@ class StarController {
         }
     }
 
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def edit = {
         def starInstance = Star.get(params.id)
         if (!starInstance) {
@@ -74,6 +76,7 @@ class StarController {
         }
     }
 
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
         def starInstance = Star.get(params.id)
         if (starInstance) {
@@ -101,6 +104,7 @@ class StarController {
         }
     }
 
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def delete = {
         def starInstance = Star.get(params.id)
         def id = starInstance.snippet.id

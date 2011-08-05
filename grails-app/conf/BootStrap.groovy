@@ -27,15 +27,10 @@ class BootStrap {
         assert User.count() == 2
 
         def s1 = new Snippet(description: "A", snippet: "sample", author: User.get(1)).save(flush: true)
-        s1.parseTags("ABC,DEF,GH")
         def s2 = new Snippet(description: "ABC", snippet: "s\namp\nle", author: User.get(2)).save(flush: true)
-        s2.parseTags("abc,def")
         def s3 = new Snippet(description: "B", snippet: "test", author: User.get(1)).save(flush: true)
-        s3.parseTags("def,GH")
         def s4 = new Snippet(description: "C", snippet: "abc", author: User.get(1)).save(flush: true)
-        s4.parseTags("test")
         def s5 = new Snippet(description: "Test", snippet: "t\nest", author: User.get(2)).save(flush: true)
-        s5.parseTags("test,sample")
 
         assert Snippet.count() == 5
     }

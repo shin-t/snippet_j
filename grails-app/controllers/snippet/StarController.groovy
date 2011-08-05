@@ -1,12 +1,8 @@
 package snippet
 
-import grails.plugins.springsecurity.Secured
-
 class StarController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-
-    def springSecurityService
 
     def index = {
         redirect(action: "list", params: params)
@@ -23,33 +19,14 @@ class StarController {
         return [starInstance: starInstance]
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def save = {
         def starInstance = new Star(params)
-        def result = Star.executeQuery('from snippet.Star as s where s.author = :author and s.snippet = :snippet',
-            [author: springSecurityService.getCurrentUser(), snippet: Snippet.get(params.snippet.id)])
-        log.debug result
-        if (result){
-            starInstance = result[0]
-            try {
-                starInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'star.label', default: 'Star'), params.id])}"
-                redirect(controller: "snippet", action: "show", id: params.snippet.id)
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'star.label', default: 'Star'), params.id])}"
-                redirect(controller: "snippet", action: "show", id: params.snippet.id)
-            }
+        if (starInstance.save(flush: true)) {
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'star.label', default: 'Star'), starInstance.id])}"
+            redirect(action: "show", id: starInstance.id)
         }
-        else{
-            starInstance.author = springSecurityService.getCurrentUser()
-            if (starInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.created.message', args: [message(code: 'star.label', default: 'Star'), starInstance.id])}"
-                redirect(controller: "snippet", action: "show", id: starInstance.snippet.id)
-            }
-            else {
-                render(view: "create", model: [starInstance: starInstance])
-            }
+        else {
+            render(view: "create", model: [starInstance: starInstance])
         }
     }
 
@@ -64,7 +41,6 @@ class StarController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def edit = {
         def starInstance = Star.get(params.id)
         if (!starInstance) {
@@ -76,7 +52,6 @@ class StarController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
         def starInstance = Star.get(params.id)
         if (starInstance) {
@@ -104,15 +79,13 @@ class StarController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def delete = {
         def starInstance = Star.get(params.id)
-        def id = starInstance.snippet.id
         if (starInstance) {
             try {
                 starInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'star.label', default: 'Star'), params.id])}"
-                redirect(controller: "snippet", action: "show", id: id)
+                redirect(action: "list")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'star.label', default: 'Star'), params.id])}"

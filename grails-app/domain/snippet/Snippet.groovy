@@ -1,17 +1,9 @@
 package snippet
 
-import org.grails.taggable.*
+class Snippet {
 
-class Snippet implements Taggable {
-
-    String description
-    String snippet
-    Date dateCreated
-    Date lastUpdated
-    SortedSet comments
-
-    static belongsTo = [author:User]
-    static hasMany = [comments:Comment,stars:Star]
+    static belongsTo = [author: User]
+    static hasMany = [comments: Comment, tags: SnippetTags, stars: Star]
     
     static constraints = {
         description blank:false
@@ -21,10 +13,17 @@ class Snippet implements Taggable {
         lastUpdated()
         dateCreated()
     }
+
     static mapping = {
         snippet type:'text'
-        sort lastUpdated:"desc"
+        sort lastUpdated:'desc'
     }
+
+    String description
+    String snippet
+    Date dateCreated
+    Date lastUpdated
+    SortedSet comments
 
     String toString() {
         "${description} by ${author.username} ${lastUpdated}"

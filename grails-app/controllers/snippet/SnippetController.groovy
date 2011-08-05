@@ -14,6 +14,42 @@ class SnippetController {
     def springSecurityService
     def githubService
 
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def parse_tags = {
+        def user_id, instance
+        user_id = springSecurityService.getCurrentUser().id
+        if(params.id) instance = SnippetTags.get(user_id.toLong(), params.id.toLong())
+        if(instance){
+            instance.setTags([])
+            instance.save(flush: true)
+            if(params.tags){
+                instance.parseTags(params.tags)
+            }
+            else{
+                instance.delete(flush: true)
+            }
+        }
+        else {
+            if(params.tags)instance = SnippetTags.create(User.get(user_id), Snippet.get(params.id), params.tags, true)
+            log.debug instance.dump()
+        }
+        render ([snippet_tags: instance?instance.tags:[]] as JSON)
+    }
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def add_star = {
+        def user_id, instance
+        user_id = springSecurityService.getCurrentUser().id
+        if(params.id) instance = Star.get(user_id.toLong(), params.id.toLong())
+        if(instance){
+            instance.delete(flush: true)
+        }
+        else {
+            instance = Star.create(User.get(user_id), Snippet.get(params.id), true)
+        }
+        render ([star: instance?true:false] as JSON)
+    }
+
     def index = {
         redirect(action: "list", params: params)
     }
@@ -96,7 +132,14 @@ class SnippetController {
             redirect(action: "list")
         }
         else {
-            [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()]
+            def tags,stars
+            if(springSecurityService.isLoggedIn()){
+                tags = SnippetTags.get(springSecurityService.getCurrentUser().id, snippetInstance.id)
+                log.debug "find: ${tags}"
+                stars = Snippet.executeQuery('from Star as s where s.snippet.id = :snippet_id',[snippet_id: snippetInstance.id])
+                log.debug "find: ${stars}"
+            }
+            [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser(), snippetTags: tags, stars: stars]
         }
     }
 

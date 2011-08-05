@@ -1,5 +1,4 @@
 
-
 <%@ page import="snippet.Snippet" %>
 <html>
     <head>
@@ -32,10 +31,6 @@
                             <label for="description"><g:message code="snippet.description.label" default="Description" /></label>
                             <g:textField name="description" value="${snippetInstance?.description}" />
                         </div>
-                        <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
-                            <label for="tags"><g:message code="snippet.tags.label" default="Tags" /></label>
-                            <g:textField name="tags" value="${snippetInstance?.tags?.join(',')}" />
-                        </div>
                         <div class="clear"></div>
                     </div>
                     <div class="body">
@@ -43,10 +38,10 @@
                             <g:textArea name="snippet" cols="40" rows="5" value="${snippetInstance?.snippet}" />
                         </div>
                     </div>
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <div class="buttons">
+                        <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
+                        <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    </div>
                 </div>
             </g:form>
         </div>

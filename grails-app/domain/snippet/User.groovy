@@ -1,14 +1,9 @@
 package snippet
 
 class User {
-    String username
-    String password
-    boolean enabled
-    boolean accountExpired
-    boolean accountLocked
-    boolean passwordExpired
 
-    static hasMany = [snippets:Snippet,comments:Comment,stars:Star]
+    static hasMany = [snippets:Snippet,comments:Comment, tags: SnippetTags,stars:Star]
+
     static constraints = {
         username blank: false, unique: true
         password blank: false, password: true
@@ -17,9 +12,17 @@ class User {
         accountLocked display: false
         passwordExpired display: false
     }
+    
     static mapping = {
         password column: '`password`'
     }
+
+    String username
+    String password
+    boolean enabled
+    boolean accountExpired
+    boolean accountLocked
+    boolean passwordExpired
 
     Set<Role> getAuthorities() {
         UserRole.findAllByUser(this).collect { it.role } as Set

@@ -104,9 +104,10 @@ class UserController {
         def userInstance = User.get(params.id)
         if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
             try {
+                UserRole.removeAll(userInstance)
                 userInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-                redirect(action: "list")
+                redirect(controller: "logout")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
@@ -115,7 +116,7 @@ class UserController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-            redirect(action: "list")
+            redirect(controller: "snippet", action: "list")
         }
     }
 }

@@ -22,14 +22,8 @@
                     <div valign="top" class="value">${fieldValue(bean: snippetInstance, field: "description")}</div>
                     <div class="clear"></div>
                     <div valign="top" class="value">by&nbsp;<g:link controller="user" action="show" id="${snippetInstance?.author?.id}">${snippetInstance?.author?.username.encodeAsHTML()}</g:link></div>
-                    <div valign="top" class="value"><g:message code="snippet.tags.label" default="Tags" />&nbsp;${fieldValue(bean: snippetInstance, field: "tags")}</div>
-                    <div valign="top" class="value"><g:message code="snippet.stars.label" default="Stars" />&nbsp;${snippetInstance.stars.size()}</div>
-                    <g:form controller="star" action="save" >
-                        <div class="buttons">
-                            <g:hiddenField name="snippet.id" value="${snippetInstance?.id}" />
-                            <span class="button"><g:submitButton name="create" class="save" value="star" /></span>
-                        </div>
-                    </g:form>
+                    <g:render template="/layouts/tags" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/>
+                    <g:render template="/layouts/star" model="[snippetInstance:snippetInstance,stars:stars]"/>
                     <div valign="top" class="date"><g:formatDate date="${snippetInstance?.lastUpdated}" /></div>
                     <div class="clear"></div>
                 </div>

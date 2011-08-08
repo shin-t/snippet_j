@@ -29,10 +29,6 @@
                             <label for="description"><g:message code="snippet.description.label" default="Description" /></label>
                             <g:textField name="description" value="${snippetInstance?.description}" />
                         </div>
-                        <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
-                            <label for="tags"><g:message code="snippet.tags.label" default="Tags" /></label>
-                            <g:textField name="tags" value="${snippetInstance?.tags?.join(',')}" />
-                        </div>
                         <div class="clear"></div>
                     </div>
                     <div class="body">

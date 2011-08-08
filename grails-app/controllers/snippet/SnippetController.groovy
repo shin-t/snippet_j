@@ -15,6 +15,15 @@ class SnippetController {
     def githubService
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def update_comment = {
+        println chain(controller: 'comment', action: 'update', params: [id: params.comment_id, comment: params.comment])
+        render (params as JSON)
+    }
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def delete_comment = {
+        render (params as JSON)
+    }
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def parse_tags = {
         def user_id, instance
         user_id = springSecurityService.getCurrentUser().id
@@ -31,23 +40,25 @@ class SnippetController {
         }
         else {
             if(params.tags)instance = SnippetTags.create(User.get(user_id), Snippet.get(params.id), params.tags, true)
-            log.debug instance.dump()
         }
         render ([snippet_tags: instance?instance.tags:[]] as JSON)
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def add_star = {
-        def user_id, instance
+        def user_id, instance, exists
         user_id = springSecurityService.getCurrentUser().id
         if(params.id) instance = Star.get(user_id.toLong(), params.id.toLong())
         if(instance){
             instance.delete(flush: true)
+            exists = false
         }
         else {
             instance = Star.create(User.get(user_id), Snippet.get(params.id), true)
+            exists = true
         }
-        render ([star: instance?true:false] as JSON)
+        def results = Star.executeQuery('from snippet.Star as s where s.snippet.id = ?',[params.id.toLong()])
+        render ([star: exists, total: results.size()] as JSON)
     }
 
     def index = {
@@ -57,6 +68,7 @@ class SnippetController {
     def list = {
         def snippetInstanceList
         def snippetInstanceTotal
+        def query
 
         params.max = Math.min(params.max ? params.int('max') : 10, 30)
         params.sort = params.sort?:'dateCreated'
@@ -65,18 +77,35 @@ class SnippetController {
         log.debug params
 
         if(params.q?.trim()){
-            def result = Snippet.findAllByTag(params.q)
-            log.debug "result:\n${result}"
-            snippetInstanceList = result
-            snippetInstanceTotal = result.size()
-            log.debug "search results:\n${snippetInstanceList}"
+            query = """
+                from Snippet sp
+                where sp.description like :q
+                or sp.snippet like :q
+            """
+            snippetInstanceList = Snippet.executeQuery(query,[q:"%${params.q}%"],params)
+            snippetInstanceTotal = Snippet.executeQuery(query,[q:"%${params.q}%"]).size()
             flash.q = params.q
             flash.message = "${params.q}"
         }
         else if(params.user){
-            def query = 'from snippet.Snippet as s where s.author.username = ?'
+            query = 'from snippet.Snippet as s where s.author.username = ?'
             snippetInstanceList = Snippet.executeQuery(query,[params.user],params)
             snippetInstanceTotal = Snippet.executeQuery(query,[params.user]).size()
+            flash.q = params.q
+            flash.message = "${params.q}"
+        }
+        else if(params.tags?.split(' ')&&springSecurityService.isLoggedIn()){
+            query = """
+                select sp
+                from Snippet sp, SnippetTags st, TagLink tl 
+                where sp.id = st.snippet.id
+                and st.id = tl.tagRef 
+                and tl.type = 'snippetTags'
+                and st.user.id = :id
+                and tl.tag.name in (:tags)
+                """
+            snippetInstanceList = SnippetTags.executeQuery(query,[id:springSecurityService.getCurrentUser().id,tags:params.tags.split(' ')],params)
+            snippetInstanceTotal = SnippetTags.executeQuery(query,[id:springSecurityService.getCurrentUser().id,tags:params.tags.split(' ')],params).size()
         }
         else{
             snippetInstanceList = Snippet.list(params)
@@ -132,14 +161,15 @@ class SnippetController {
             redirect(action: "list")
         }
         else {
-            def tags,stars
+            def tags,stars,star
             if(springSecurityService.isLoggedIn()){
                 tags = SnippetTags.get(springSecurityService.getCurrentUser().id, snippetInstance.id)
                 log.debug "find: ${tags}"
                 stars = Snippet.executeQuery('from Star as s where s.snippet.id = :snippet_id',[snippet_id: snippetInstance.id])
                 log.debug "find: ${stars}"
+                if(Star.get(springSecurityService.getCurrentUser().id, snippetInstance.id))star=true else star =false
             }
-            [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser(), snippetTags: tags, stars: stars]
+            [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser(), snippetTags: tags, stars: stars, star:star]
         }
     }
 

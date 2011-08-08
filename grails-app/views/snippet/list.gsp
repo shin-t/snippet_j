@@ -27,6 +27,12 @@
                             </div>
                             <div class="clear"></div>
                             <div valign="top" class="value">by&nbsp;<g:link controller="user" action="show" id="${snippetInstance?.author?.id}">${snippetInstance?.author?.username.encodeAsHTML()}</g:link></div>
+                            <sec:ifLoggedIn>
+                            <div class="clear"></div>
+                            <div class="value">
+                                <span>Tags:&nbsp;${snippetInstance.tags()?.join(',')}</span>
+                            </div>
+                            </sec:ifLoggedIn>
                             <div class="date"><g:formatDate date="${snippetInstance.lastUpdated}" /></div>
                             <div class="clear"></div>
                         </div>

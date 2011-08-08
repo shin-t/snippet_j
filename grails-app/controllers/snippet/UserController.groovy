@@ -49,7 +49,15 @@ class UserController {
             redirect(action: "list")
         }
         else {
-            [userInstance: userInstance]
+            def query = """
+                select tl.tag.name, count(tl.tag.name) 
+                from SnippetTags st, TagLink tl 
+                where st.id = tl.tagRef 
+                and tl.type = 'snippetTags'
+                and st.user.id = :id
+                group by tl.tag.name"""
+            def results = SnippetTags.executeQuery(query,[id:userInstance.id]);
+            [userInstance: userInstance,tags: results]
         }
     }
 

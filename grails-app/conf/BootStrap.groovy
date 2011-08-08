@@ -1,7 +1,4 @@
-import snippet.Role
-import snippet.User
-import snippet.UserRole
-import snippet.Snippet
+import snippet.*
 
 class BootStrap {
     
@@ -26,12 +23,37 @@ class BootStrap {
         assert Role.count() == 2
         assert User.count() == 2
 
-        def s1 = new Snippet(description: "A", snippet: "sample", author: User.get(1)).save(flush: true)
-        def s2 = new Snippet(description: "ABC", snippet: "s\namp\nle", author: User.get(2)).save(flush: true)
-        def s3 = new Snippet(description: "B", snippet: "test", author: User.get(1)).save(flush: true)
-        def s4 = new Snippet(description: "C", snippet: "abc", author: User.get(1)).save(flush: true)
-        def s5 = new Snippet(description: "Test", snippet: "t\nest", author: User.get(2)).save(flush: true)
+        def snippets = []
+
+        snippets << new Snippet(description: "A", snippet: "sample", author: User.get(1)).save(flush: true)
+        snippets << new Snippet(description: "ABC", snippet: "s\namp\nle", author: User.get(2)).save(flush: true)
+        snippets << new Snippet(description: "B", snippet: "test", author: User.get(1)).save(flush: true)
+        snippets << new Snippet(description: "C", snippet: "abc", author: User.get(1)).save(flush: true)
+        snippets << new Snippet(description: "Test", snippet: "t\nest", author: User.get(2)).save(flush: true)
 
         assert Snippet.count() == 5
+
+        def snippetTags = []
+
+        snippetTags << SnippetTags.create(testUser2,snippets[1],"test,abc",true)
+        snippetTags << SnippetTags.create(testUser2,snippets[3],"test,sample,abc",true)
+        snippetTags << SnippetTags.create(testUser2,snippets[4],"test,def",true)
+        snippetTags << SnippetTags.create(testUser,snippets[0],"admin,sample,abc",true)
+        snippetTags << SnippetTags.create(testUser,snippets[2],"admin,sample",true)
+        snippetTags << SnippetTags.create(testUser,snippets[3],"admin",true)
+
+        assert SnippetTags.count() == 6
+
+        def comments = []
+
+        comments << new Comment(snippet: snippets[4],author:testUser,comment:"admin\nae\ntest\na").save(flush: true)
+        comments << new Comment(snippet: snippets[4],author:testUser2,comment:"ab\ncde\n12345").save(flush: true)
+
+        assert Comment.count() == 2
+
+        Star.create(testUser,snippets[4],true)
+
+        assert Star.count() == 1
+
     }
 }

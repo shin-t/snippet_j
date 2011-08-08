@@ -25,8 +25,20 @@ class Snippet {
     Date lastUpdated
     SortedSet comments
 
+    
     String toString() {
         "${description} by ${author.username} ${lastUpdated}"
+    }
+
+    def springSecurityService
+    def tags() {
+        def tags = []
+        def user = springSecurityService.getCurrentUser()
+        if(user){
+            def r = SnippetTags.get(user.id,this.id)
+            if(r)tags = r.tags
+        }
+        return tags
     }
 }
 

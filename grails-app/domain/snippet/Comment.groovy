@@ -8,8 +8,6 @@ class Comment implements Comparable{
         comment blank:false, widget:'textarea'
         author display:false
         snippet display:false
-        lastUpdated()
-        dateCreate()
     }
 
     static mapping = {

@@ -1,6 +1,7 @@
 package snippet
 
 import grails.plugins.springsecurity.Secured
+import grails.converters.*
 
 class CommentController {
 
@@ -38,51 +39,51 @@ class CommentController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
+        println "update: ${params}"
         def commentInstance = Comment.get(params.id)
-        def snippet_id = commentInstance.snippet.id
         if (commentInstance&&(commentInstance.author==springSecurityService.getCurrentUser())) {
+            def snippet_id = commentInstance.snippet.id
             if (params.version) {
                 def version = params.version.toLong()
                 if (commentInstance.version > version) {
-                    
                     commentInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'comment.label', default: 'Comment')] as Object[], "Another user has updated this Comment while you were editing")
-                    render(view: "edit", model: [commentInstance: commentInstance])
-                    return
+                    render ([message: "Another user has updated this Comment while you were editing"] as JSON)
                 }
             }
             commentInstance.properties = params
             if (!commentInstance.hasErrors() && commentInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.id])}"
-                redirect(controller: "snippet", action: "show", id: snippet_id)
+                render (commentInstance as JSON)
             }
             else {
-                render(view: "edit", model: [commentInstance: commentInstance])
+                render ([message: "error"] as JSON)
             }
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-            redirect(controller: "snippet", action: "list", id: snippet_id)
+            render ([message: flash.message] as JSON)
         }
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def delete = {
         def commentInstance = Comment.get(params.id)
-        def snippet_id = commentInstance.snippet.id
         if (commentInstance&&(commentInstance.author==springSecurityService.getCurrentUser())) {
+            def snippet_id = commentInstance.snippet.id
             try {
                 commentInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-                redirect(controller: "snippet", action: "show", id: snippet_id)
+                response.status = 204
+                render ""
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-                redirect(action: "show", id: params.id)
+                render ([message: flash.message] as JSON)
             }
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-            redirect(uri:"/")
+            render ([message: flash.message] as JSON)
         }
     }
 }

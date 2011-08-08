@@ -1,9 +1,9 @@
 <form id="add_star" name="add_star" action="/snippet/snippet/add_star" method="POST">
     <div class="buttons">
-        <span>${(stars)?stars.size():0}&nbsp;stars</span>
+        <span class="stars">${(stars)?stars.size():0}&nbsp;stars</span>
         <g:hiddenField name="id" value="${snippetInstance?.id}" />
         <span class="button">
-            <g:submitButton name="addStar" value="star" />
+            <g:submitButton name="addStar" value="${star?'unstar':'star'}" />
         </span>
     </div>
 </form>
@@ -19,6 +19,9 @@
                 success: function(json){
                     console.log(json);
                     console.log(json.star);
+                    console.log(json.total)
+                    $("#add\_star .buttons .stars").text(json.total+" stars")
+                    $("#addStar").val(json.star?"unstar":"star")
                 }
             });
             return false;

@@ -30,6 +30,7 @@
                 <div class="body">
                     <div valign="top" class="value snippet"><pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre></div>
                 </div>
+                <g:if test="${snippetInstance.author==currentUser}">
                 <div class="buttons">
                     <g:form>
                         <g:hiddenField name="id" value="${snippetInstance?.id}" />
@@ -37,9 +38,10 @@
                         <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                     </g:form>
                 </div>
+                </g:if>
             </div>
+            <g:render template="/layouts/comments" model="[snippetInstance:snippetInstance,currentUser:currentUser]"/>
             <g:render template="/layouts/comment" model="[snippetInstance:snippetInstance]"/>
-            <g:render template="/layouts/comments" model="[snippetInstance:snippetInstance]"/>
         </div>
     </body>
 </html>

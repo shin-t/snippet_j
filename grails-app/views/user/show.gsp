@@ -35,6 +35,12 @@
                             <div><g:link controller="comment" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></div>
                         </g:each>
                     </div>
+                    <div valign="top" class="name"><g:message code="user.tags.label" default="Tags" /></div>
+                    <div valign="top" style="text-align: left;" class="value">
+                        <g:each in="${tags}" var="c">
+                            <div>${c[0].encodeAsHTML()}(${c[1].encodeAsHTML()})</div>
+                        </g:each>
+                    </div>
                 </div>
                 <div class="buttons">
                     <g:form>

@@ -69,12 +69,20 @@ class SnippetController {
         def snippetInstanceList
         def snippetInstanceTotal
         def query
+        def user
+        def tags
 
         params.max = Math.min(params.max ? params.int('max') : 10, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
-        flash.id = params.id
-        log.debug params
+
+        if(params.user){
+            user=User.findByUsername(params.user)
+            if(!user){
+                flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.user])}"
+                return redirect(uri: "/")
+            }
+        }
 
         if(params.q?.trim()){
             query = """
@@ -84,41 +92,53 @@ class SnippetController {
             """
             snippetInstanceList = Snippet.executeQuery(query,[q:"%${params.q}%"],params)
             snippetInstanceTotal = Snippet.executeQuery(query,[q:"%${params.q}%"]).size()
-            flash.q = params.q
-            flash.message = "${params.q}"
         }
-        else if(params.user){
-            query = 'from snippet.Snippet as s where s.author.username = ?'
-            snippetInstanceList = Snippet.executeQuery(query,[params.user],params)
-            snippetInstanceTotal = Snippet.executeQuery(query,[params.user]).size()
-            flash.q = params.q
-            flash.message = "${params.q}"
+        else if(user&&params.tags?.split(' ')){
+            query = """
+                select sp
+                from Snippet sp, SnippetTags st, TagLink tl 
+                where sp.id = st.snippet.id
+                and st.user = :user
+                and st.id = tl.tagRef 
+                and tl.type = 'snippetTags'
+                and tl.tag.name in (:tags)
+                order by sp.dateCreated desc
+            """
+            snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' '),user:user],params)
+            snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' '),user:user]).size()
+            tags = user.tagCloud()
         }
-        else if(params.tags?.split(' ')&&springSecurityService.isLoggedIn()){
+        else if(user){
+            query = """
+                from Snippet sp 
+                where sp.author = :user
+                order by sp.dateCreated desc
+            """
+            snippetInstanceList = SnippetTags.executeQuery(query,[user:user],params)
+            snippetInstanceTotal = SnippetTags.executeQuery(query,[user:user]).size()
+            tags = user.tagCloud()
+        }
+        else if(params.tags?.split(' ')){
             query = """
                 select sp
                 from Snippet sp, SnippetTags st, TagLink tl 
                 where sp.id = st.snippet.id
                 and st.id = tl.tagRef 
                 and tl.type = 'snippetTags'
-                and st.user.id = :id
                 and tl.tag.name in (:tags)
-                """
-            snippetInstanceList = SnippetTags.executeQuery(query,[id:springSecurityService.getCurrentUser().id,tags:params.tags.split(' ')],params)
-            snippetInstanceTotal = SnippetTags.executeQuery(query,[id:springSecurityService.getCurrentUser().id,tags:params.tags.split(' ')],params).size()
+                order by sp.dateCreated desc
+            """
+            snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')],params)
+            snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')]).size()
         }
         else{
             snippetInstanceList = Snippet.list(params)
             snippetInstanceTotal = Snippet.count()
         }
 
-        log.debug request.getHeader("accept")
-        log.debug request.format
-        log.debug snippetInstanceList
-        log.debug snippetInstanceTotal
         withFormat {
             html {
-                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, currentUser: springSecurityService.getCurrentUser()]
+                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, currentUser: springSecurityService.getCurrentUser(), user: user, tags: tags]
             }
             json {
                 def meta = params
@@ -146,7 +166,7 @@ class SnippetController {
         snippetInstance.setTags()
         if(snippetInstance.save(flush: true)){
             if (params.tags) snippetInstance.parseTags(params.tags)
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.description])}"
             redirect(action: "show", id: snippetInstance.id)
         }
         else {
@@ -205,7 +225,6 @@ class SnippetController {
                 redirect(action: "show", id: snippetInstance.id)
             }
             else {
-                snippetInstance.parseTags(params.tags)
                 render(view: "edit", model: [snippetInstance: snippetInstance])
             }
         }

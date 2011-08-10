@@ -1,104 +1,127 @@
 html * {
     margin: 0;
     padding: 0;
+    font: 10pt verdana, arial, helvetica, sans-serif;
+    overflow: hidden;
 }
 
 /* GENERAL */
 
 #header {
-    padding: 2em;
+    border: #546681 solid 1pt;
+    background: #546681;
+    border-radius: 20pt / 20pt;
+    background: -moz-linear-gradient(#A1AEC0, #546681);
+    background: -webkit-gradient(linear, left top, left bottom, from(#A1AEC0), to(#546681)); 
+    width: 200pt;
+    margin: 40pt auto;
 }
-#header div {
-    text-align: right;
+#header a {
+    color: #eee;
+    text-decoration: none;
 }
-#header h1 {
-    color: #48802c;
-    font-weight: normal;
-    font-size: 32pt;
-    text-align: center;
+#header a:hover {
+    color: #ccc;
 }
-
 .spinner {
     padding: 5px;
     position: absolute;
     right: 0;
 }
-
-.gravatar {
-    width: 16px;
-    height: 16px;
-    border: solid 1px #ccc;
-    padding: 2px;
+.float_left{
+    float: left;
 }
-
+.float_right{
+    float: right;
+}
+.clear {
+    clear: both;
+}
+h1 {
+    text-align: center;
+    font-size: 32pt;
+}
+h2, h2 * {
+    font-size: 16pt;
+}
+h3, h3 * {
+    font-size: 12pt;
+}
 body {
-    background: #E7D8BD;
-    color: #333;
-    font: 10pt verdana, arial, helvetica, sans-serif;
+    background: #D2BA91;
+    overflow: auto;
 }
-a {
-    color: #666;
-    font-weight: bold;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-
-input, select, textarea {
+input[type="text"], input[type="password"], textarea {
     border: 1px solid #777;
-    font: 12px verdana, arial, helvetica, sans-serif;
+    background-color: #f2f2f2;
+    font: 14px verdana, arial, helvetica, sans-serif;
 }
 textarea {
-	vertical-align: top;
+    overflow: auto;
 }
-input:focus, select:focus, textarea:focus {
-    background-color: #b2d1ff;
+.snippet .body textarea {
+    width: 778pt;
+    height: 200pt;
+    vertical-align: top;
+}
+.comment form {
+    padding: 10pt;
+}
+.comment .body textarea, .comment form textarea {
+    width: 378pt;
+    height: 200pt;
+    vertical-align: top;
 }
 
+a, a:link {
+    color: #546681;
+}
+ul, li {
+    margin-left: 10pt;
+}
 /* NAVIGATION MENU */
 
 .nav {
+    border-bottom: 1pt #E7D8BD solid;
     background: #C4A97A;
-    border: 1px solid #ccc;
-    border-style: solid none solid none;
-    margin-top: 5px;
-    padding: 7px 12px;
+    padding: 2pt 8pt;
+}
+.nav * {
+    font-size: 12pt;
+}
+.nav div {
+    margin: 0 2pt;
 }
 .menuButton {
-    font-size: 10px;
-    padding: 0 5px;
+    padding: 0 2pt;
 }
 .menuButton a {
     color: #333;
-    padding: 4px 6px;
-    padding-left: 25px;
+    padding: 2pt 3pt;
+    padding-left: 12pt;
 }
 
 /* MESSAGES AND ERRORS */
-
 .message {
     border: 1px solid #b2d1ff;
+    border-radius: 10pt / 10pt;
     color: #006dba;
-    margin: 10px 0 5px 0;
-    padding: 5px 5px 5px 30px
+    background-color: #fff;
+    padding: 5pt;
+    margin: 20pt;
+    width: 200pt;
+    overflow: hidden;
 }
 div.errors {
-    background: #fff3f3;
     border: 1px solid red;
     color: #cc0000;
-    margin: 10px 0 5px 0;
-    padding: 5px 0 5px 0;
+    border-radius: 10pt / 10pt;
+    background-color: #fff;
 }
 div.errors ul {
     list-style: none;
-    padding: 0;
 }
-div.errors li {
-    line-height: 16px;
-    padding-left: 30px;
-}
-.errors select, .errors input, .errors textarea {
+select.errors, input.errors, textarea.errors {
     border: 1px solid red;
 }
 
@@ -125,82 +148,68 @@ div.errors li {
 
 /* ACTION BUTTONS */
 
-.buttons {}
-.buttons input {
-    border: 1pt solid #ccc;
-    font-size: 10pt;
-    color: #333;
-    margin-left: 2pt;
+.buttons {
+    margin: 4pt;
 }
 
-/* DIALOG */
+/*  */
 
-.dialog {
-    background-color: #E7E4B0;
-    margin: 20pt;
-    border: solid 5pt #64738B;
-    /* CSS3 */
-    box-shadow: 2.5pt 2.5pt 2.5pt 2.5pt rgba(0,0,0,0.25);
-    border-radius: 3pt / 3pt;
+.user, .snippet, .comment{
+    box-shadow: 2pt 2pt 2pt 2pt rgba(0,0,0,0.2);
+    border-radius: 10pt / 10pt;
+    padding: 10pt;
+    background-color: #fff;
+}
+.user {
+    margin: 20pt auto;
+    width: 600pt;
+    border: solid 3pt #546681;
+}
+.snippet {
+    margin: 20pt auto;
+    width: 800pt;
+    border: solid 3pt #D2CF91;
 }
 .comment {
+    margin: 10pt auto;
+    width: 400pt;
+    border: solid 3pt #CB8D93;
+}
+.snippet .header input[type="text"] {
+    font-size: 16pt; 
+}
+.header, .body {
+    padding: 10pt;
+}
+.user .header {
+    border-bottom: solid 1pt #546681;
+    border-right: solid 1pt #546681;
+    background-color: #97A8C0;
+}
+.snippet .header {
+    border-bottom: solid 1pt #C4C07A;
+    border-right: solid 1pt #C4C07A;
     background-color: #E7E4B0;
-    margin: 20pt;
-    border: solid 5pt #BD767D;
-    /* CSS3 */
-    box-shadow: 2.5pt 2.5pt 2.5pt 2.5pt rgba(0,0,0,0.25);
-    border-radius: 3pt / 3pt;
 }
-.comment input, .comment textarea{
-    background-color: #E7E4B0;
-    display: block;
+.snippet .footer {
+    border-top: solid 1pt #C4C07A;
+    margin-top: 20pt;
 }
-textarea {
-    width: 100%;
-    height: 80pt;
-}
-.dialog .head {
-    background: #97A8C0;
-    border-bottom: solid 1pt #64738B;
-}
-.comment .head {
-    background: #E3ADB2;
+.comment .header {
     border-bottom: solid 1pt #BD767D;
+    border-right: solid 1pt #BD767D;
+    background-color: #E3ADB2;
 }
-.head div.value{
-    float: left;
-    padding-right: 20pt;
+.body {
+    overflow: auto;
 }
-.head div.date{
-    float: right;
-}
-div.clear {
-    clear: both;
-}
-.head {
-    padding: 5pt;
-}
-.head a{
-    color: #555;
-}
-.head a:hover {
-    color: #eee;
-    text-decoration: underline;
-}
-.dialog .head input {
-    background-color: #A1AEC0;
-}
-.dialog .body input, .dialog .body textarea {
-    background-color: #E7E5BD;
-}
-.dialog input:focus, .dialog textarea:focus {
-    background-color: #b2d1ff;
-}
-.comment input:focus, .comment textarea:focus {
-    background-color: #b2d1ff;
-}
-.dialog .body .files div {
-    height: 5em;
+.list .body {
     overflow: hidden;
 }
-
+.tags {
+    padding: 10pt;
+}
+.tag {
+    color: #333;
+    font-size: 11pt;
+}

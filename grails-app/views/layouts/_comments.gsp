@@ -1,13 +1,18 @@
 <div class="list">
     <g:each in="${snippetInstance.comments}" status="i" var="commentInstance">
         <div class="comment" id="comment_${commentInstance.id}">
-            <div class="head">
-                <span>
+            <div class="header">
+                <div class="float_left">
+                    <g:link controller="user" action="show" id="${commentInstance.author.id}">
+                        ${commentInstance.author.username.encodeAsHTML()}
+                    </g:link>
+                </div>
+                <div class="float_right">
                     <g:link controller="comment" action="show" id="${commentInstance.id}">
                         <g:formatDate date="${commentInstance.dateCreated}" />
                     </g:link>
-                </span>
-                <span>by&nbsp;${commentInstance.author.username}</span>
+                </div>
+                <div class="clear"></div>
             </div>
             <div class="body">${commentInstance.comment.encodeAsHTML().replace('\n','<br>')}</div>
             <g:if test="${commentInstance.author==currentUser}">
@@ -82,19 +87,21 @@
                 var f = $(e.target).parent().get(0);
                 var q = $(f).serialize();
                 var obj = $(f).parent().get(0);
-                $.ajax({
-                    type: "POST",
-                    url: "/snippet/comment/delete",
-                    data: q,
-                    success: function(json){
-                        console.log(json);
-                        if(json){
+                if(confirm('Are you sure?')){
+                    $.ajax({
+                        type: "POST",
+                        url: "/snippet/comment/delete",
+                        data: q,
+                        success: function(json){
+                            console.log(json);
+                            if(json){
+                            }
+                            else{
+                                $(obj).remove();
+                            }
                         }
-                        else{
-                            $(obj).remove();
-                        }
-                    }
-                });
+                    });
+                }
                 return false;
             });
         })();

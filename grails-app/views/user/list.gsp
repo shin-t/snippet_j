@@ -1,4 +1,3 @@
-
 <%@ page import="snippet.User" %>
 <html>
     <head>
@@ -19,20 +18,12 @@
             <div class="list">
                     <g:each in="${userInstanceList}" status="i" var="userInstance">
                         <div class="dialog">
-                        
-                            
                                 <div class="head"><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "id")}</g:link></div>
-                            
                                 <div>${fieldValue(bean: userInstance, field: "username")}</div>
-                            
                                 <div>${fieldValue(bean: userInstance, field: "password")}</div>
-                            
                                 <div><g:formatBoolean boolean="${userInstance.accountExpired}" /></div>
-                            
                                 <div><g:formatBoolean boolean="${userInstance.accountLocked}" /></div>
-                            
                                 <div><g:formatBoolean boolean="${userInstance.enabled}" /></div>
-                            
                         </div>
                     </g:each>
             </div>

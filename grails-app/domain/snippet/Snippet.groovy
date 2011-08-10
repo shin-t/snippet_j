@@ -1,6 +1,6 @@
 package snippet
 
-class Snippet {
+class Snippet implements Comparable {
 
     static belongsTo = [author: User]
     static hasMany = [comments: Comment, tags: SnippetTags, stars: Star]
@@ -10,8 +10,6 @@ class Snippet {
         snippet blank:false, widget:'textarea'
         author display:false
         comments display:false
-        lastUpdated()
-        dateCreated()
     }
 
     static mapping = {
@@ -25,9 +23,12 @@ class Snippet {
     Date lastUpdated
     SortedSet comments
 
+    int compareTo(obj) {
+        lastUpdated.compareTo(obj.lastUpdated)
+    }
     
     String toString() {
-        "${description} by ${author.username} ${lastUpdated}"
+        "${description} by ${author.username}, ${lastUpdated}"
     }
 
     def springSecurityService

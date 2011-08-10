@@ -8,27 +8,17 @@
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <g:if test="${session.user}"><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></g:if>
-        </div>
         <div class="body">
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-            <div class="dialog">
-                <div class="head">
-                    <div valign="top" class="value">${fieldValue(bean: snippetInstance, field: "description")}</div>
-                    <div class="clear"></div>
-                    <div valign="top" class="value">by&nbsp;<g:link controller="user" action="show" id="${snippetInstance?.author?.id}">${snippetInstance?.author?.username.encodeAsHTML()}</g:link></div>
-                    <g:render template="/layouts/tags" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/>
-                    <g:render template="/layouts/star" model="[snippetInstance:snippetInstance,stars:stars]"/>
-                    <div valign="top" class="date"><g:formatDate date="${snippetInstance?.lastUpdated}" /></div>
+            <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
+            <div class="snippet">
+                <div class="header">
+                    <h2>${fieldValue(bean: snippetInstance, field: "description")}</h2>
+                    <div class="float_left">by&nbsp;<g:link controller="user" action="show" id="${snippetInstance?.author?.id}">${snippetInstance?.author?.username.encodeAsHTML()}</g:link></div>
+                    <div class="float_right"><g:formatDate date="${snippetInstance?.dateCreated}" /></div>
                     <div class="clear"></div>
                 </div>
                 <div class="body">
-                    <div valign="top" class="value snippet"><pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre></div>
+                    <pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre>
                 </div>
                 <g:if test="${snippetInstance.author==currentUser}">
                 <div class="buttons">
@@ -39,6 +29,13 @@
                     </g:form>
                 </div>
                 </g:if>
+                <sec:ifLoggedIn>
+                    <div class="footer">
+                    <div class="float_left"><g:render template="/layouts/tags" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/></div>
+                    <div class="float_left"><g:render template="/layouts/star" model="[snippetInstance:snippetInstance,stars:stars]"/></div>
+                    <div class="clear"></div>
+                    </div>
+                </sec:ifLoggedIn>
             </div>
             <g:render template="/layouts/comments" model="[snippetInstance:snippetInstance,currentUser:currentUser]"/>
             <g:render template="/layouts/comment" model="[snippetInstance:snippetInstance]"/>

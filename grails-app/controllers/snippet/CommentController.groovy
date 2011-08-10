@@ -12,34 +12,18 @@ class CommentController {
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def save = {
         def commentInstance = new Comment(params)
-        log.debug params
         commentInstance.author = springSecurityService.getCurrentUser()
-        log.debug commentInstance.dump()
         if (commentInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.id])}"
             redirect(controller: "snippet", action: "show", id: commentInstance.snippet.id)
         }
         else {
-            log.debug commentInstance.dump()
             redirect(controller: "snippet", action: "show", id: commentInstance.snippet.id)
         }
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def show = {
-        def commentInstance = Comment.get(params.id)
-        if (!commentInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            [commentInstance: commentInstance]
-        }
-    }
-
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def update = {
-        println "update: ${params}"
         def commentInstance = Comment.get(params.id)
         if (commentInstance&&(commentInstance.author==springSecurityService.getCurrentUser())) {
             def snippet_id = commentInstance.snippet.id

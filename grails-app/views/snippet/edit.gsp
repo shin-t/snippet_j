@@ -8,35 +8,20 @@
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
+            <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
             <g:hasErrors bean="${snippetInstance}">
-            <div class="errors">
-                <g:renderErrors bean="${snippetInstance}" as="list" />
-            </div>
+                <div class="errors"><g:renderErrors bean="${snippetInstance}" as="list" /></div>
             </g:hasErrors>
             <g:form method="post" >
                 <g:hiddenField name="id" value="${snippetInstance?.id}" />
                 <g:hiddenField name="version" value="${snippetInstance?.version}" />
-                <div class="dialog">
-                    <div class="head">
-                        <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'description', 'errors')}">
-                            <label for="description"><g:message code="snippet.description.label" default="Description" /></label>
-                            <g:textField name="description" value="${snippetInstance?.description}" />
-                        </div>
-                        <div class="clear"></div>
+                <div class="snippet">
+                    <div class="header">
+                        <g:textField class="value ${hasErrors(bean: snippetInstance, field: 'description', 'errors')}" name="description" value="${snippetInstance?.description}" />
                     </div>
                     <div class="body">
-                        <div valign="top" class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}">
-                            <g:textArea name="snippet" cols="40" rows="5" value="${snippetInstance?.snippet}" />
-                        </div>
+                        <g:textArea class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}" name="snippet" value="${snippetInstance?.snippet}" />
                     </div>
                     <div class="buttons">
                         <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>

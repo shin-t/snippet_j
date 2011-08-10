@@ -23,41 +23,42 @@ class UserController {
     def create = {
         def userInstance = new User()
         userInstance.properties = params
+        userInstance.password = ""
         return [userInstance: userInstance]
     }
 
     def save = {
         log.debug params
         def userInstance = new User(params)
-        userInstance.password = springSecurityService.encodePassword(params.password)
+        userInstance.password = params.password?springSecurityService.encodePassword(params.password):""
         userInstance.enabled = true
-        log.debug userInstance.dump()
         if (userInstance.save(flush: true)) {
             UserRole.create userInstance, Role.findByAuthority('ROLE_USER'), true
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])}"
             redirect(action: "show", id: userInstance.id)
         }
         else {
+            userInstance.password = params.password
             render(view: "create", model: [userInstance: userInstance])
         }
     }
 
     def show = {
-        def userInstance = User.get(params.id)
+        def userInstance
+        if((!params.id)&&springSecurityService.isLoggedIn()){
+            userInstance = springSecurityService.getCurrentUser()
+            redirect(controller: "snippet", action: "list", params: [user: userInstance.username])
+        }
+        else{
+            userInstance = User.get(params.id)
+        }
         if (!userInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
             redirect(action: "list")
         }
         else {
-            def query = """
-                select tl.tag.name, count(tl.tag.name) 
-                from SnippetTags st, TagLink tl 
-                where st.id = tl.tagRef 
-                and tl.type = 'snippetTags'
-                and st.user.id = :id
-                group by tl.tag.name"""
-            def results = SnippetTags.executeQuery(query,[id:userInstance.id]);
-            [userInstance: userInstance,tags: results]
+            redirect(controller: "snippet", action: "list", params: [user: userInstance.username])
+            //[userInstance: userInstance,tags: userInstance.tagCloud(),currentUser:springSecurityService.getCurrentUser()]
         }
     }
 
@@ -65,6 +66,7 @@ class UserController {
     def edit = {
         def userInstance = User.get(params.id)
         if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
+            userInstance.password = ""
             return [userInstance: userInstance]
         }
         else {

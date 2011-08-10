@@ -19,10 +19,10 @@ class Comment implements Comparable{
     Date lastUpdated
 
     int compareTo(obj) {
-        lastUpdated.compareTo(obj.lastUpdated)
+        dateCreated.compareTo(obj.dateCreated)
     }
 
     String toString() {
-        "${comment} by ${author.username} ${lastUpdated}"
+        "snippet: ${snippet.description},user: ${author.username},date: ${dateCreated}"
     }
 }

@@ -23,6 +23,8 @@ class User {
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
+    SortedSet snippets
+    SortedSet comments
 
     Set<Role> getAuthorities() {
         UserRole.findAllByUser(this).collect { it.role } as Set
@@ -30,5 +32,16 @@ class User {
 
     String toString() {
         username
+    }
+
+    def tagCloud() {
+        def query = """
+            select tl.tag.name, count(tl.tag.name) 
+            from SnippetTags st, TagLink tl 
+            where st.id = tl.tagRef
+            and st.user = :user
+            and tl.type = 'snippetTags'
+            group by tl.tag.name"""
+        SnippetTags.executeQuery(query,[user:this]);
     }
 }

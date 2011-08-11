@@ -8,7 +8,7 @@
                     </g:link>
                 </div>
                 <div class="float_right">
-                    <g:link controller="comment" action="show" id="${commentInstance.id}">
+                    <g:link controller="snippet" action="show" id="${snippetInstance.id}" fragment="comment_${commentInstance.id}">
                         <g:formatDate date="${commentInstance.dateCreated}" />
                     </g:link>
                 </div>

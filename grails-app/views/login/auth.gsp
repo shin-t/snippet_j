@@ -48,23 +48,23 @@
 			<g:if test='${flash.message}'>
 			<div class='login_message'>${flash.message}</div>
 			</g:if>
-			<div class='fheader'>Please Login..</div>
+			<div class='fheader'>ログイン</div>
 			<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
 				<p>
-					<label for='username'>Login ID</label>
+					<label for='username'>ユーザー名</label>
 					<input type='text' class='text_' name='j_username' id='username' />
 				</p>
 				<p>
-					<label for='password'>Password</label>
+					<label for='password'>パスワード</label>
 					<input type='password' class='text_' name='j_password' id='password' />
 				</p>
 				<p>
-					<label for='remember_me'>Remember me</label>
+					<label for='remember_me'>ログイン状態を保持</label>
 					<input type='checkbox' class='chk' name='${rememberMeParameter}' id='remember_me'
 					<g:if test='${hasCookie}'>checked='checked'</g:if> />
 				</p>
 				<p>
-					<input type='submit' value='Login' />
+					<input type='submit' value='ログイン' />
 				</p>
 			</form>
 		</div>

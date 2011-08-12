@@ -12,8 +12,6 @@ class SnippetTags implements Taggable {
     }
 
     static SnippetTags get(long userId, long snippetId) {
-        println userId
-        println snippetId
         find 'from SnippetTags where user.id = :userId and snippet.id = :snippetId',
             [userId: userId, snippetId: snippetId]
     }

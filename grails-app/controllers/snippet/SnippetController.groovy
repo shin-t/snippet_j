@@ -15,24 +15,14 @@ class SnippetController {
     def githubService
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def update_comment = {
-        println chain(controller: 'comment', action: 'update', params: [id: params.comment_id, comment: params.comment])
-        render (params as JSON)
-    }
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def delete_comment = {
-        render (params as JSON)
-    }
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def parse_tags = {
         def user_id, instance
         user_id = springSecurityService.getCurrentUser().id
         if(params.id) instance = SnippetTags.get(user_id.toLong(), params.id.toLong())
         if(instance){
-            instance.setTags([])
-            instance.save(flush: true)
             if(params.tags){
-                instance.parseTags(params.tags)
+                instance.setTags([])
+                if(!instance.tags)instance.parseTags(params.tags)
             }
             else{
                 instance.delete(flush: true)
@@ -45,80 +35,34 @@ class SnippetController {
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def add_star = {
+    def star = {
         def user_id, instance, exists
         user_id = springSecurityService.getCurrentUser().id
         if(params.id) instance = Star.get(user_id.toLong(), params.id.toLong())
-        if(instance){
-            instance.delete(flush: true)
-            exists = false
-        }
-        else {
-            instance = Star.create(User.get(user_id), Snippet.get(params.id), true)
-            exists = true
+        switch(request.method){
+            case "GET":
+                exists=instance?true:false
+                break
+            case "POST":
+                if(instance){
+                    instance.delete(flush: true)
+                    exists = false
+                }
+                else{
+                    instance = Star.create(User.get(user_id), Snippet.get(params.id), true)
+                    exists = true
+                }
+                break
         }
         def results = Star.executeQuery('from snippet.Star as s where s.snippet.id = ?',[params.id.toLong()])
-        render ([star: exists, total: results.size()] as JSON)
+        render ([exists: exists, total: results.size()] as JSON)
     }
 
-    def index = {
-        redirect(action: "list", params: params)
-    }
-
-    def list = {
+    def tags = {
         def snippetInstanceList
         def snippetInstanceTotal
         def query
-        def user
-        def tags
-
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
-        params.sort = params.sort?:'dateCreated'
-        params.order = params.order?:'desc'
-
-        if(params.user){
-            user=User.findByUsername(params.user)
-            if(!user){
-                flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.user])}"
-                return redirect(uri: "/")
-            }
-        }
-
-        if(params.q?.trim()){
-            query = """
-                from Snippet sp
-                where sp.description like :q
-                or sp.snippet like :q
-            """
-            snippetInstanceList = Snippet.executeQuery(query,[q:"%${params.q}%"],params)
-            snippetInstanceTotal = Snippet.executeQuery(query,[q:"%${params.q}%"]).size()
-        }
-        else if(user&&params.tags?.split(' ')){
-            query = """
-                select sp
-                from Snippet sp, SnippetTags st, TagLink tl 
-                where sp.id = st.snippet.id
-                and st.user = :user
-                and st.id = tl.tagRef 
-                and tl.type = 'snippetTags'
-                and tl.tag.name in (:tags)
-                order by sp.dateCreated desc
-            """
-            snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' '),user:user],params)
-            snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' '),user:user]).size()
-            tags = user.tagCloud()
-        }
-        else if(user){
-            query = """
-                from Snippet sp 
-                where sp.author = :user
-                order by sp.dateCreated desc
-            """
-            snippetInstanceList = SnippetTags.executeQuery(query,[user:user],params)
-            snippetInstanceTotal = SnippetTags.executeQuery(query,[user:user]).size()
-            tags = user.tagCloud()
-        }
-        else if(params.tags?.split(' ')){
+        if(params.tags?.split(' ')){
             query = """
                 select sp
                 from Snippet sp, SnippetTags st, TagLink tl 
@@ -131,6 +75,31 @@ class SnippetController {
             snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')],params)
             snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')]).size()
         }
+        render(view: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal])
+    }
+
+    def index = {
+        redirect(action: "list", params: params)
+    }
+
+    def list = {
+        def snippetInstanceList
+        def snippetInstanceTotal
+        def query
+
+        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+
+        if(params.q?.trim()){
+            query = """
+                from Snippet sp
+                where sp.name like :q
+                or sp.snippet like :q
+            """
+            snippetInstanceList = Snippet.executeQuery(query,[q:"%${params.q}%"],params)
+            snippetInstanceTotal = Snippet.executeQuery(query,[q:"%${params.q}%"]).size()
+        }
         else{
             snippetInstanceList = Snippet.list(params)
             snippetInstanceTotal = Snippet.count()
@@ -138,13 +107,11 @@ class SnippetController {
 
         withFormat {
             html {
-                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, currentUser: springSecurityService.getCurrentUser(), user: user, tags: tags]
+                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
             }
             json {
                 def meta = params
                 meta.total = snippetInstanceTotal
-                log.debug (snippetInstanceList as JSON).toString()
-                log.debug (params as JSON).toString()
                 render snippetInstanceList as JSON
             }
         }
@@ -166,7 +133,7 @@ class SnippetController {
         snippetInstance.setTags()
         if(snippetInstance.save(flush: true)){
             if (params.tags) snippetInstance.parseTags(params.tags)
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.description])}"
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
             redirect(action: "show", id: snippetInstance.id)
         }
         else {
@@ -184,9 +151,7 @@ class SnippetController {
             def tags,stars,star
             if(springSecurityService.isLoggedIn()){
                 tags = SnippetTags.get(springSecurityService.getCurrentUser().id, snippetInstance.id)
-                log.debug "find: ${tags}"
                 stars = Snippet.executeQuery('from Star as s where s.snippet.id = :snippet_id',[snippet_id: snippetInstance.id])
-                log.debug "find: ${stars}"
                 if(Star.get(springSecurityService.getCurrentUser().id, snippetInstance.id))star=true else star =false
             }
             [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser(), snippetTags: tags, stars: stars, star:star]

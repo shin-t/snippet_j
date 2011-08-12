@@ -18,13 +18,13 @@
             </div>
             </g:hasErrors>
             <g:form action="save" >
-                <div class="user">
+                <div class="user content">
                     <div class="prop">
-                        <label for="username"><g:message code="user.username.label" default="Username" /></label>
+                        <label for="username"><g:message code="user.username.label" default="ユーザー名" /></label>
                         <div><g:textField class="value ${hasErrors(bean: userInstance, field: 'username', 'errors')}" name="username" value="${userInstance?.username}" /></div>
                     </div>
                     <div class="prop">
-                        <label for="password"><g:message code="user.password.label" default="Password" /></label>
+                        <label for="password"><g:message code="user.password.label" default="パスワード" /></label>
                         <div><g:passwordField class="value ${hasErrors(bean: userInstance, field: 'password', 'errors')}" name="password" value="${userInstance?.password}" /></div>
                     </div>
                     <div class="buttons">

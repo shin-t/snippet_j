@@ -14,7 +14,6 @@ class CommentController {
         def commentInstance = new Comment(params)
         commentInstance.author = springSecurityService.getCurrentUser()
         if (commentInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.id])}"
             redirect(controller: "snippet", action: "show", id: commentInstance.snippet.id)
         }
         else {
@@ -36,16 +35,16 @@ class CommentController {
             }
             commentInstance.properties = params
             if (!commentInstance.hasErrors() && commentInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.id])}"
                 render (commentInstance as JSON)
             }
             else {
-                render ([message: "error"] as JSON)
+                response.status = 400
+                render ""
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-            render ([message: flash.message] as JSON)
+            response.status = 404
+            render ""
         }
     }
 
@@ -56,18 +55,16 @@ class CommentController {
             def snippet_id = commentInstance.snippet.id
             try {
                 commentInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
                 response.status = 204
                 render ""
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-                render ([message: flash.message] as JSON)
+                render ([message: ""] as JSON)
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'comment.label', default: 'Comment'), params.id])}"
-            render ([message: flash.message] as JSON)
+            response.status = 404
+            render ""
         }
     }
 }

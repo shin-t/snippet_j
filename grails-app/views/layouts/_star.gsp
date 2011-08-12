@@ -1,31 +1,20 @@
-<form id="add_star" name="add_star" action="/snippet/snippet/add_star" method="POST">
-    <div class="buttons">
-        <span class="stars">${(stars)?stars.size():0}&nbsp;stars</span>
-        <g:hiddenField name="id" value="${snippetInstance?.id}" />
-        <span class="button">
-            <g:submitButton name="addStar" value="${star?'unstar':'star'}" />
-        </span>
-    </div>
-</form>
-<g:javascript>
-    (function(){
-         $("#add\_star").submit(function(){
-             var q = $(this).serialize();
-             console.log(q);
-             $.ajax({
-                type: "POST",
-                url: "/snippet/snippet/add_star",
-                data: q,
-                success: function(json){
-                    console.log(json);
-                    console.log(json.star);
-                    console.log(json.total)
-                    $("#add\_star .buttons .stars").text(json.total+" stars")
-                    $("#addStar").val(json.star?"unstar":"star")
-                }
+<div class="star">
+    <form id="form_star_${snippetInstance.id}" action="/snippet/snippet/star" method="POST">
+        <g:hiddenField name="id" value="${snippetInstance.id}"/>
+        <span class="stars"></span>
+        <span class="button"><g:submitButton name="star"/></span>
+    </form>
+    <g:javascript>
+        (function(){
+            var f=function(json){
+                $("#form\_star\_${snippetInstance.id} .stars").text(json.total+" stars");
+                $("#form\_star\_${snippetInstance.id} #star").val(json.exists?"Unstar":"Star");
+            }
+            $.ajax({type:"GET",url:"/snippet/snippet/star",data:$("#form\_star\_${snippetInstance.id}").serialize(),success:f});
+            $("#form\_star\_${snippetInstance.id}").submit(function(){
+                $.ajax({type:"POST",url:"/snippet/snippet/star",data:$(this).serialize(),success:f});
+                return false;
             });
-            return false;
-        });
-    })();
-</g:javascript>
-
+        })();
+    </g:javascript>
+</div>

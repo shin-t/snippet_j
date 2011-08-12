@@ -6,7 +6,7 @@ class Snippet implements Comparable {
     static hasMany = [comments: Comment, tags: SnippetTags, stars: Star]
     
     static constraints = {
-        description blank:false
+        name blank:false
         snippet blank:false, widget:'textarea'
         author display:false
         comments display:false
@@ -17,7 +17,7 @@ class Snippet implements Comparable {
         sort lastUpdated:'desc'
     }
 
-    String description
+    String name
     String snippet
     Date dateCreated
     Date lastUpdated

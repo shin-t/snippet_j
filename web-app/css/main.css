@@ -7,46 +7,32 @@ html * {
 
 /* GENERAL */
 
-#header {
-    border: #546681 solid 1pt;
-    background: #546681;
-    border-radius: 20pt / 20pt;
-    background: -moz-linear-gradient(#A1AEC0, #546681);
-    background: -webkit-gradient(linear, left top, left bottom, from(#A1AEC0), to(#546681)); 
-    width: 200pt;
-    margin: 40pt auto;
-}
-#header a {
-    color: #eee;
-    text-decoration: none;
-}
-#header a:hover {
-    color: #ccc;
-}
 .spinner {
     padding: 5px;
     position: absolute;
     right: 0;
 }
-.float_left{
-    float: left;
+.header, .body, .list{
+    padding: 5pt;
 }
-.float_right{
+.body {
+    margin: 0 20pt;
+}
+.sidebar {
+    width: 200pt;
     float: right;
+    padding: 5pt;
 }
-.clear {
-    clear: both;
+.content {
+    background-color: #fff;
+    box-shadow: 2pt 2pt 2pt 2pt rgba(0,0,0,0.2);
+    border-radius: 10pt / 10pt;
+    padding: 5pt;
+    margin: 0 5pt 10pt;
 }
-h1 {
-    text-align: center;
-    font-size: 32pt;
-}
-h2, h2 * {
-    font-size: 16pt;
-}
-h3, h3 * {
-    font-size: 12pt;
-}
+h1, h1 * {font-size: 32pt;}
+h2, h2 * {font-size: 16pt;}
+h3, h3 * {font-size: 12pt;}
 body {
     background: #D2BA91;
     overflow: auto;
@@ -59,46 +45,35 @@ input[type="text"], input[type="password"], textarea {
 textarea {
     overflow: auto;
 }
-.snippet .body textarea {
-    width: 778pt;
-    height: 200pt;
-    vertical-align: top;
-}
-.comment form {
-    padding: 10pt;
-}
-.comment .body textarea, .comment form textarea {
-    width: 378pt;
-    height: 200pt;
-    vertical-align: top;
-}
-
 a, a:link {
     color: #546681;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
 }
 ul, li {
     margin-left: 10pt;
 }
+
+/* FLOAT */
+
+.float_left{float: left;}
+.float_right{float: right;}
+.clear {clear: both;}
+
 /* NAVIGATION MENU */
 
 .nav {
     border-bottom: 1pt #E7D8BD solid;
     background: #C4A97A;
-    padding: 2pt 8pt;
+    padding: 5pt;
 }
-.nav * {
-    font-size: 12pt;
-}
-.nav div {
-    margin: 0 2pt;
+.nav .float_right div {
+    text-align: right;
 }
 .menuButton {
-    padding: 0 2pt;
-}
-.menuButton a {
-    color: #333;
-    padding: 2pt 3pt;
-    padding-left: 12pt;
+    padding: 0 5pt;
 }
 
 /* MESSAGES AND ERRORS */
@@ -152,39 +127,41 @@ select.errors, input.errors, textarea.errors {
     margin: 4pt;
 }
 
-/*  */
+/* TAGS */
 
-.user, .snippet, .comment{
-    box-shadow: 2pt 2pt 2pt 2pt rgba(0,0,0,0.2);
-    border-radius: 10pt / 10pt;
-    padding: 10pt;
+.sidebar .tags {
     background-color: #fff;
+    border: 3pt solid #546681;
+    border-radius: 10pt / 10pt;
+    box-shadow: 2pt 2pt 2pt 2pt rgba(0,0,0,0.2);
+    padding: 5pt;
 }
-.user {
-    margin: 20pt auto;
-    width: 600pt;
-    border: solid 3pt #546681;
+.sidebar .tags .header {
+    border-color: #546681;
+    border-bottom: solid 1pt;
+    border-right: solid 1pt;
+    background-color: #A1AEC0;
 }
+.sidebar .tags .body {
+    margin: 0;
+    padding: 5pt;
+}
+
+.tags {
+    padding: 10pt;
+}
+.tag {
+    color: #333;
+    font-size: 11pt;
+}
+
+/* SNIPPET */
+
 .snippet {
-    margin: 20pt auto;
-    width: 800pt;
     border: solid 3pt #D2CF91;
-}
-.comment {
-    margin: 10pt auto;
-    width: 400pt;
-    border: solid 3pt #CB8D93;
 }
 .snippet .header input[type="text"] {
     font-size: 16pt; 
-}
-.header, .body {
-    padding: 10pt;
-}
-.user .header {
-    border-bottom: solid 1pt #546681;
-    border-right: solid 1pt #546681;
-    background-color: #97A8C0;
 }
 .snippet .header {
     border-bottom: solid 1pt #C4C07A;
@@ -193,23 +170,47 @@ select.errors, input.errors, textarea.errors {
 }
 .snippet .footer {
     border-top: solid 1pt #C4C07A;
-    margin-top: 20pt;
+    margin-top: 5pt;
+}
+.snippet .body textarea {
+    width: 100%;
+    height: 200pt;
+    vertical-align: top;
+}
+
+/* USER */
+
+.user {
+    margin: 10pt auto;
+    width: 600pt;
+    border: solid 3pt #546681;
+}
+.user .header {
+    border-bottom: solid 1pt #546681;
+    border-right: solid 1pt #546681;
+    background-color: #97A8C0;
+}
+
+/* COMMENT */
+
+.comment {
+    border: solid 3pt #CB8D93;
 }
 .comment .header {
     border-bottom: solid 1pt #BD767D;
     border-right: solid 1pt #BD767D;
     background-color: #E3ADB2;
 }
-.body {
-    overflow: auto;
+.comment .body textarea {
+    width: 100%;
+    height: 200pt;
+    vertical-align: top;
 }
-.list .body {
-    overflow: hidden;
+.comment form {
+    padding: 5pt;
 }
-.tags {
-    padding: 10pt;
-}
-.tag {
-    color: #333;
-    font-size: 11pt;
+.comment form textarea {
+    width: 100%;
+    height: 200pt;
+    vertical-align: top;
 }

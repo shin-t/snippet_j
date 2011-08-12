@@ -25,11 +25,11 @@ class BootStrap {
 
         def snippets = []
 
-        snippets << new Snippet(description: "A", snippet: "sample", author: User.get(1)).save(flush: true)
-        snippets << new Snippet(description: "ABC", snippet: "s\namp\nle", author: User.get(2)).save(flush: true)
-        snippets << new Snippet(description: "B", snippet: "test", author: User.get(1)).save(flush: true)
-        snippets << new Snippet(description: "C", snippet: "abc", author: User.get(1)).save(flush: true)
-        snippets << new Snippet(description: "Test", snippet: "t\nest", author: User.get(2)).save(flush: true)
+        snippets << new Snippet(name: "A", snippet: "sample", author: User.get(1)).save(flush: true)
+        snippets << new Snippet(name: "ABC", snippet: "s\namp\nle", author: User.get(2)).save(flush: true)
+        snippets << new Snippet(name: "B", snippet: "test", author: User.get(1)).save(flush: true)
+        snippets << new Snippet(name: "C", snippet: "abc", author: User.get(1)).save(flush: true)
+        snippets << new Snippet(name: "Test", snippet: "t\nest", author: User.get(2)).save(flush: true)
 
         assert Snippet.count() == 5
 
@@ -51,9 +51,13 @@ class BootStrap {
 
         assert Comment.count() == 2
 
+        Star.create(testUser,snippets[2],true)
         Star.create(testUser,snippets[4],true)
+        Star.create(testUser2,snippets[1],true)
+        Star.create(testUser2,snippets[3],true)
+        Star.create(testUser2,snippets[4],true)
 
-        assert Star.count() == 1
+        assert Star.count() == 5
 
     }
 }

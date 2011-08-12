@@ -13,14 +13,17 @@
             <g:hasErrors bean="${snippetInstance}">
                 <div class="errors"><g:renderErrors bean="${snippetInstance}" as="list" /></div>
             </g:hasErrors>
+            <div class="sidebar"></div>
             <g:form method="post" >
                 <g:hiddenField name="id" value="${snippetInstance?.id}" />
                 <g:hiddenField name="version" value="${snippetInstance?.version}" />
-                <div class="snippet">
+                <div class="snippet content">
                     <div class="header">
-                        <g:textField class="value ${hasErrors(bean: snippetInstance, field: 'description', 'errors')}" name="description" value="${snippetInstance?.description}" />
+                        <h2><label for="name"><g:message code="snippet.name.label" default="名前" /></label></h2>
+                        <g:textField class="value ${hasErrors(bean: snippetInstance, field: 'name', 'errors')}" name="name" value="${snippetInstance?.name}" />
                     </div>
                     <div class="body">
+                        <label for="snippet"><g:message code="snippet.snippet.label" default="スニペット" /></label>
                         <g:textArea class="value ${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}" name="snippet" value="${snippetInstance?.snippet}" />
                     </div>
                     <div class="buttons">

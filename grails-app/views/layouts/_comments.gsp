@@ -1,9 +1,9 @@
 <div class="list">
     <g:each in="${snippetInstance.comments}" status="i" var="commentInstance">
-        <div class="comment" id="comment_${commentInstance.id}">
+        <div class="comment content" id="comment_${commentInstance.id}">
             <div class="header">
                 <div class="float_left">
-                    <g:link controller="user" action="show" id="${commentInstance.author.id}">
+                    <g:link controller="user" action="show" params="[username:commentInstance.author.username]">
                         ${commentInstance.author.username.encodeAsHTML()}
                     </g:link>
                 </div>
@@ -18,14 +18,13 @@
             <g:if test="${commentInstance.author==currentUser}">
             <form class="edit_comment">
                 <g:hiddenField name="id" value="${commentInstance.id}" />
-                <g:actionSubmit action="edit_comment" value="Edit" />
-                <g:actionSubmit action="delete_comment" value="Delete" />
+                <g:actionSubmit action="edit_comment" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
+                <g:actionSubmit action="delete_comment" value="${message(code: 'default.button.delete.label', default: 'Delete')}" />
             </form>
             <form class="update_comment">
                 <g:hiddenField name="id" value="${commentInstance.id}" />
                 <g:textArea name="comment" value="${commentInstance.comment}" />
-                <g:actionSubmit action="update_comment" value="Update" />
-                <g:actionSubmit action="cancel_comment" value="Cancel" />
+                <g:actionSubmit action="update_comment" value="${message(code: 'default.button.update.label', default: 'Update')}" />
             </form>
             </g:if>
         </div>
@@ -41,19 +40,7 @@
                 $(pp).find(".update\_comment").show();
                 return false;
             });
-            $("[name=\_action\_cancel\_comment]").click(function(e){
-                var p = $(e.target).parent().get(0);
-                var pp = $(p).parent().get(0);
-                $(p).hide();
-                console.log(p);
-                console.log(pp);
-                console.log($(pp).find(".body"));
-                $(pp).find(".body").show();
-                $(pp).find(".edit\_comment").show();
-                return false;
-            });
             $("[name=\_action\_update\_comment]").click(function(e){
-                console.log("update!");
                 var f = $(e.target).parent().get(0);
                 var q = $(f).serialize();
                 var obj = $(f).parent().get(0);
@@ -83,22 +70,16 @@
                 return false;
             });
             $("[name=\_action\_delete\_comment]").click(function(e){
-                console.log("delete!");
                 var f = $(e.target).parent().get(0);
                 var q = $(f).serialize();
                 var obj = $(f).parent().get(0);
-                if(confirm('Are you sure?')){
+                if(confirm('削除しますか？')){
                     $.ajax({
                         type: "POST",
                         url: "/snippet/comment/delete",
                         data: q,
                         success: function(json){
-                            console.log(json);
-                            if(json){
-                            }
-                            else{
-                                $(obj).remove();
-                            }
+                            $(obj).remove();
                         }
                     });
                 }

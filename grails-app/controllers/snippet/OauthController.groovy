@@ -34,15 +34,12 @@ class OauthController {
                 assert resp.statusLine.statusCode == 200
                 return content.access_token
             }
-            log.debug access_token
-
             def http = new HTTPBuilder(config.domain)
             def json = http.get(path: '/user', headers: ["Authorization":"token ${access_token}"], requestContentType: JSON)
             {r, j ->
                 log.debug j
                 return j
             }
-
             def token = Github.findByAccess_token(access_token)
             def user
             if(token){
@@ -58,7 +55,6 @@ class OauthController {
                     }
                 }
             }
-
             def http2 = new HTTPBuilder(grailsApplication.config.grails.serverURL+SpringSecurityUtils.securityConfig.apf.filterProcessesUrl)
             def location = http2.post(body: [j_password: token.access_token, j_username: user.username], requestContentType: URLENC)
             { resp ->

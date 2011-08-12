@@ -6,18 +6,10 @@ class UserController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def scaffold = true
     def springSecurityService
 
-    @Secured(['ROLE_ADMIN'])
     def index = {
-        redirect(action: "list", params: params)
-    }
-
-    @Secured(['ROLE_ADMIN'])
-    def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [userInstanceList: User.list(params), userInstanceTotal: User.count()]
+        redirect(action: "snippets", params: params)
     }
 
     def create = {
@@ -43,22 +35,138 @@ class UserController {
         }
     }
 
-    def show = {
+    def snippets = {
         def userInstance
-        if((!params.id)&&springSecurityService.isLoggedIn()){
-            userInstance = springSecurityService.getCurrentUser()
-            redirect(controller: "snippet", action: "list", params: [user: userInstance.username])
+        def snippetInstanceList, snippetInstanceTotal = 0
+        def query
+        
+        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+        params.username = params.username?:params.id
+
+        if(params.username){
+            userInstance=User.findByUsername(params.username)
+        }
+        else if(springSecurityService.isLoggedIn()){
+            userInstance=springSecurityService.getCurrentUser()
+            params.username=userInstance.username
+        }
+        if(userInstance){
+            query = """
+                from Snippet sp 
+                where sp.author = :user
+                order by sp.dateCreated desc
+                """
+            snippetInstanceList = SnippetTags.executeQuery(query,[user:userInstance],params)
+            snippetInstanceTotal = SnippetTags.executeQuery(query,[user:userInstance]).size()
+            [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()]
         }
         else{
-            userInstance = User.get(params.id)
+            render(status: 404, text: " ")
         }
-        if (!userInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-            redirect(action: "list")
+    }
+
+    def starred = {
+        def userInstance
+        def snippetInstanceList, snippetInstanceTotal = 0
+        def query
+
+        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+
+        if(params.username){
+            userInstance=User.findByUsername(params.username)
         }
-        else {
-            redirect(controller: "snippet", action: "list", params: [user: userInstance.username])
-            //[userInstance: userInstance,tags: userInstance.tagCloud(),currentUser:springSecurityService.getCurrentUser()]
+        else if(springSecurityService.isLoggedIn()){
+            userInstance=springSecurityService.getCurrentUser()
+            params.username=userInstance.username
+        }
+        if(userInstance){
+            query = """
+                select sp
+                from Snippet sp, Star st
+                where sp.id = st.snippet.id
+                and st.user = :user
+                order by sp.dateCreated desc
+                """
+                snippetInstanceList = SnippetTags.executeQuery(query,[user:userInstance],params)
+                snippetInstanceTotal = SnippetTags.executeQuery(query,[user:userInstance]).size()
+            render(view: "snippets", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()])
+        }
+        else{
+            render(status: 404, text: " ")
+        }
+    }
+
+    def tags = {
+        def userInstance
+        def snippetInstanceList, snippetInstanceTotal = 0
+        def query
+
+        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+
+        if(params.username){
+            userInstance=User.findByUsername(params.username)
+        }
+        else if(springSecurityService.isLoggedIn()){
+            userInstance=springSecurityService.getCurrentUser()
+            params.username=userInstance.username
+        }
+        if(userInstance){
+            if(params.tags?.split(' ')){
+                query = """
+                    select sp
+                    from Snippet sp, SnippetTags st, TagLink tl
+                    where sp.id = st.snippet.id
+                    and st.id = tl.tagRef
+                    and tl.type = 'snippetTags'
+                    and tl.tag.name in (:tags)
+                    and st.user = :user
+                    order by sp.dateCreated desc
+                    """
+                snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' '),user:userInstance],params)
+                snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' '),user:userInstance]).size()
+            }
+            else{
+                query = """
+                    select sp
+                    from Snippet sp, SnippetTags st
+                    where sp.id = st.snippet.id
+                    and st.user = :user
+                    order by sp.dateCreated desc
+                    """
+                snippetInstanceList = SnippetTags.executeQuery(query,[user:userInstance],params)
+                snippetInstanceTotal = SnippetTags.executeQuery(query,[user:userInstance]).size()
+            }
+            [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()]
+        }
+        else{
+            render(status: 404, text: " ")
+        }
+    }
+
+    def show = {
+        def userInstance
+
+        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+
+        if(params.username){
+            userInstance=User.findByUsername(params.username)
+        }
+        else if(springSecurityService.isLoggedIn()){
+            userInstance=springSecurityService.getCurrentUser()
+        }
+        if(userInstance){
+            [currentUser: springSecurityService.getCurrentUser(), user:userInstance, tags: userInstance.tagCloud()]
+        }
+        else{
+            render(status: 404, text: " ")
         }
     }
 

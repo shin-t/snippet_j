@@ -1,6 +1,7 @@
 package snippet
 
 import grails.plugins.springsecurity.Secured
+import grails.converters.*
 
 class UserController {
 
@@ -98,6 +99,14 @@ class UserController {
         else{
             render(status: 404, text: " ")
         }
+    }
+
+    def tag = {
+        def tag = []
+        if(springSecurityService.isLoggedIn()){
+            tag = springSecurityService.getCurrentUser().tagCloud()
+        }
+        render (tag as JSON)
     }
 
     def tags = {

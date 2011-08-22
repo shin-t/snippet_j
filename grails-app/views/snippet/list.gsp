@@ -12,7 +12,7 @@
             <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
             <g:if test="${params.q}">
                 <div class="message">キーワード「${params.q.encodeAsHTML()}」の検索結果 ${snippetInstanceTotal} 件</div>
-                <div class="message">タグ: <g:link controller="snippet" action="list" params="[tags:params.q]">${params.q.encodeAsHTML()}</g:link></div>
+                <div class="message">タグ: <g:link controller="snippet" action="tags" params="[tags:params.q]">${params.q.encodeAsHTML()}</g:link></div>
             </g:if>
             <g:elseif test="${params.user}">
                 <div class="message">${params.user.encodeAsHTML()} /<g:if test="${params.tags}"> ${params.tags.encodeAsHTML()}</g:if> (${snippetInstanceTotal})</div>

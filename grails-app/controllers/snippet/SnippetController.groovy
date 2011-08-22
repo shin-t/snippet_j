@@ -75,6 +75,8 @@ class SnippetController {
             snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')],params)
             snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')]).size()
         }
+        println params
+        println snippetInstanceList
         render(view: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal])
     }
 

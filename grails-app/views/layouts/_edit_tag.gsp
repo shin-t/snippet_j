@@ -37,6 +37,21 @@
                         $("#edit\_tags\_${snippetInstance.id} span.tags").append(" ");
                         $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json.snippet_tags[i]),text:json.snippet_tags[i]}).appendTo("#edit\_tags\_${snippetInstance.id} span.tags");
                     }
+                    var tag_list = $(".tags .body #searchableForm").next();
+                    if(tag_list.length){
+                        $.ajax({
+                            type: "GET",
+                            url: "/snippet/user/tag",
+                            success: function(json){
+                                $(tag_list).empty();
+                                for(var i=0;i<json.length;i++){
+                                    $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json[i][0]),text:json[i][0]}).appendTo(tag_list);
+                                    $(tag_list).append("("+json[i][1]+")");
+                                    $(tag_list).append(" ");
+                                }
+                            }
+                        });
+                    }
                 }
             });
             return false;

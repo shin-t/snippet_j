@@ -28,7 +28,7 @@ class Snippet implements Comparable {
     }
     
     String toString() {
-        "${description} by ${author.username}, ${lastUpdated}"
+        "${name} by ${author.username}, ${lastUpdated}"
     }
 
     def springSecurityService

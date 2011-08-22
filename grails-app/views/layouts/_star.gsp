@@ -7,8 +7,8 @@
     <g:javascript>
         (function(){
             var f=function(json){
-                $("#form\_star\_${snippetInstance.id} .stars").text(json.total+" stars");
-                $("#form\_star\_${snippetInstance.id} #star").val(json.exists?"Unstar":"Star");
+                $("#form\_star\_${snippetInstance.id} .stars").text("スター "+json.total);
+                $("#form\_star\_${snippetInstance.id} #star").val(json.exists?"スターを外す":"スターを付ける");
             }
             $.ajax({type:"GET",url:"/snippet/snippet/star",data:$("#form\_star\_${snippetInstance.id}").serialize(),success:f});
             $("#form\_star\_${snippetInstance.id}").submit(function(){

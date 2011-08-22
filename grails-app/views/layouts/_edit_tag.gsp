@@ -1,6 +1,6 @@
 <div class="edit_tag">
     <form id="edit_tags_${snippetInstance.id}">
-        <span><g:message code="snippet.tags.label" default="Tags" /></span>
+        <span><g:message code="snippet.tags.label" default="タグ" /></span>
         <span class="tags">
             <g:each status="i" in="${snippetInstance.tags()}" var="tag">
                 <g:if test="${i!=0}"> </g:if>

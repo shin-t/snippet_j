@@ -33,9 +33,8 @@
                     </g:if>
                     <sec:ifLoggedIn>
                         <div class="footer">
-                        <div class="float_left"><g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/></div>
-                        <div class="float_left"><g:render template="/layouts/star" model="[snippetInstance:snippetInstance,stars:stars]"/></div>
-                        <div class="clear"></div>
+                            <div><g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/></div>
+                            <div><g:render template="/layouts/star" model="[snippetInstance:snippetInstance,stars:stars]"/></div>
                         </div>
                     </sec:ifLoggedIn>
                 </div>

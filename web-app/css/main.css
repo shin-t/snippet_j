@@ -55,6 +55,9 @@ a:hover {
 ul, li {
     margin-left: 10pt;
 }
+.edit_tag, .star{
+    margin: 2pt;
+}
 
 /* FLOAT */
 

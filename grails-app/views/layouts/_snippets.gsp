@@ -14,9 +14,8 @@
             <div class="body">${fieldValue(bean: snippetInstance, field: "snippet")}</div>
             <g:if test="${params.username==currentUser?.username}">
             <div class="footer">
-                <div class="float_left"><g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance]"/></div>
-                <div class="float_left"><g:render template="/layouts/star" model="[snippetInstance:snippetInstance]"/></div>
-                <div class="clear"></div>
+                <div><g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance]"/></div>
+                <div><g:render template="/layouts/star" model="[snippetInstance:snippetInstance]"/></div>
             </div>
             </g:if>
         </div>

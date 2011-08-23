@@ -17,7 +17,7 @@ class SnippetController {
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def parse_tags = {
         def user_id, instance
-        user_id = springSecurityService.getCurrentUser().id
+        user_id = springSecurityService.getCurrentUser()?.id
         if(params.id) instance = SnippetTags.get(user_id.toLong(), params.id.toLong())
         if(instance){
             if(params.tags){
@@ -60,7 +60,7 @@ class SnippetController {
 
     def tags = {
         def snippetInstanceList
-        def snippetInstanceTotal
+        def snippetInstanceTotal=0
         def query
         if(params.tags?.split(' ')){
             query = """

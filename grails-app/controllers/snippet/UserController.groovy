@@ -175,7 +175,7 @@ class UserController {
             [currentUser: springSecurityService.getCurrentUser(), user:userInstance, tags: userInstance.tagCloud()]
         }
         else{
-            render(status: 404, text: " ")
+            redirect(controller:"login",view:"auth")
         }
     }
 

@@ -64,7 +64,7 @@ class UserController {
             [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()]
         }
         else{
-            render(status: 404, text: " ")
+            redirect(controller:"login",view:"auth")
         }
     }
 
@@ -97,7 +97,7 @@ class UserController {
             render(view: "snippets", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()])
         }
         else{
-            render(status: 404, text: " ")
+            redirect(controller:"login",view:"auth")
         }
     }
 
@@ -154,7 +154,7 @@ class UserController {
             [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()]
         }
         else{
-            render(status: 404, text: " ")
+            redirect(controller:"login",view:"auth")
         }
     }
 

@@ -47,8 +47,8 @@ class BootStrap {
 
         def comments = []
 
-        comments << new Comment(snippet: snippets[4],author:testUser,comment:"admin\nae\ntest\na").save(flush: true)
-        comments << new Comment(snippet: snippets[4],author:testUser2,comment:"ab\ncde\n12345").save(flush: true)
+        comments << new Comment(snippet: snippets[4],author:testUser,comment:"coq").save(flush: true)
+        comments << new Comment(snippet: snippets[4],author:testUser2,comment:"syllogism").save(flush: true)
 
         assert Comment.count() == 2
 

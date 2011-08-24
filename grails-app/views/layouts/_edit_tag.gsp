@@ -3,7 +3,7 @@
         <span><g:message code="snippet.tags.label" default="タグ" /></span>
         <span class="tags">
             <g:each status="i" in="${snippetInstance.tags()}" var="tag">
-                <g:if test="${i!=0}"> </g:if>
+                <g:if test="${i!=0}">  </g:if>
                 <g:link action="tags" params="[tags:tag]" class="tag">${tag.encodeAsHTML()}</g:link>
             </g:each>
         </span>
@@ -34,7 +34,7 @@
                     $("#edit\_tags\_${snippetInstance.id} span.tags").empty();
                     $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json.snippet_tags[0]),text:json.snippet_tags[0]}).appendTo("#edit\_tags\_${snippetInstance.id} span.tags");
                     for(var i=1;i<json.snippet_tags.length;i++){
-                        $("#edit\_tags\_${snippetInstance.id} span.tags").append(" ");
+                        $("#edit\_tags\_${snippetInstance.id} span.tags").append("  ");
                         $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json.snippet_tags[i]),text:json.snippet_tags[i]}).appendTo("#edit\_tags\_${snippetInstance.id} span.tags");
                     }
                     var tag_list = $(".tags .body #searchableForm").next();
@@ -47,7 +47,7 @@
                                 for(var i=0;i<json.length;i++){
                                     $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json[i][0]),text:json[i][0]}).appendTo(tag_list);
                                     $(tag_list).append("("+json[i][1]+")");
-                                    $(tag_list).append(" ");
+                                    $(tag_list).append("  ");
                                 }
                             }
                         });

@@ -102,6 +102,9 @@ div.errors ul {
 select.errors, input.errors, textarea.errors {
     border: 1px solid red;
 }
+.error {
+    color: #c00;
+}
 
 /* PAGINATION */
 

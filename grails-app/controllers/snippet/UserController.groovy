@@ -184,11 +184,11 @@ class UserController {
         def userInstance = User.get(params.id)
         if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
             userInstance.password = ""
-            return [userInstance: userInstance]
+            [userInstance: userInstance]
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-            redirect(action: "list")
+            redirect(controller: "snippet", action: "list")
         }
     }
 
@@ -205,7 +205,7 @@ class UserController {
                     return
                 }
             }
-            if(userInstance.password != params.password) {
+            if(params.password) {
                 params.password = springSecurityService.encodePassword(params.password)
             }
             userInstance.properties = params
@@ -222,7 +222,7 @@ class UserController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-            redirect(action: "list")
+            redirect(controller: "snippet", action: "list")
         }
     }
 

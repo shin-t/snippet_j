@@ -104,6 +104,7 @@ class LoginController {
 				msg = SpringSecurityUtils.securityConfig.errors.login.locked
 			}
 			else {
+                SpringSecurityUtils.securityConfig.errors.login.fail = message(code:"springSecurity.errors.login.fail")
 				msg = SpringSecurityUtils.securityConfig.errors.login.fail
 			}
 		}

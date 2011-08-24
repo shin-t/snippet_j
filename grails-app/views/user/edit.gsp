@@ -12,22 +12,27 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${userInstance}">
-            <div class="errors">
-                <g:renderErrors bean="${userInstance}" as="list" />
-            </div>
-            </g:hasErrors>
             <g:form method="post">
                 <g:hiddenField name="id" value="${userInstance?.id}" />
                 <g:hiddenField name="version" value="${userInstance?.version}" />
-                <div class="user">
+                <div class="user content">
                     <div class="prop">
                         <label for="username"><g:message code="user.username.label" default="Username" /></label>
-                        <div><g:textField class="value ${hasErrors(bean: userInstance, field: 'username', 'errors')}" name="username" value="${userInstance?.username}" /></div>
+                        <div>
+                            <g:textField class="value ${hasErrors(bean: userInstance, field: 'username', 'errors')}" name="username" value="${userInstance?.username}" />
+                            <g:hasErrors bean="${userInstance}" field="username">
+                                <g:eachError bean="${userInstance}" field="username"><span class="error"><g:message error="${it}" /></span></g:eachError>
+                            </g:hasErrors>
+                        </div>
                     </div>
                     <div class="prop">
                         <label for="password"><g:message code="user.password.label" default="Password" /></label>
-                        <div><g:passwordField class="value ${hasErrors(bean: userInstance, field: 'password', 'errors')}" name="password" /></div>
+                        <div>
+                            <g:passwordField class="value ${hasErrors(bean: userInstance, field: 'password', 'errors')}" name="password" />
+                            <g:hasErrors bean="${userInstance}" field="password">
+                                <g:eachError bean="${userInstance}" field="password"><span class="error"><g:message error="${it}" /></span></g:eachError>
+                            </g:hasErrors>
+                        </div>
                     </div>
                     <div class="buttons">
                         <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>

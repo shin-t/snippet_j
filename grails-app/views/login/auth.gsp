@@ -61,7 +61,7 @@
 				<p>
 					<label for='remember_me'>ログイン状態を保持</label>
 					<input type='checkbox' class='chk' name='${rememberMeParameter}' id='remember_me'
-					<g:if test='${hasCookie}'>checked='checked'</g:if> />
+					<g:if test='${hasCookie}'>checked='checked'</g:if>
 				</p>
 				<p>
 					<input type='submit' value='ログイン' />

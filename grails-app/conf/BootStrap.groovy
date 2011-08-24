@@ -36,12 +36,12 @@ class BootStrap {
 
         def snippetTags = []
 
-        snippetTags << SnippetTags.create(testUser2,snippets[1],"test,abc",true)
-        snippetTags << SnippetTags.create(testUser2,snippets[3],"test,sample,abc",true)
-        snippetTags << SnippetTags.create(testUser2,snippets[4],"test,def",true)
-        snippetTags << SnippetTags.create(testUser,snippets[0],"admin,sample,abc",true)
-        snippetTags << SnippetTags.create(testUser,snippets[2],"admin,sample",true)
-        snippetTags << SnippetTags.create(testUser,snippets[3],"admin",true)
+        snippetTags << SnippetTags.create(testUser2,snippets[1],"sample,user,erlang,qsort",true)
+        snippetTags << SnippetTags.create(testUser2,snippets[3],"sample,admin,haskell,total",true)
+        snippetTags << SnippetTags.create(testUser2,snippets[4],"sample,user,coq,tri",true)
+        snippetTags << SnippetTags.create(testUser,snippets[0],"sample,admin,prolog,sum",true)
+        snippetTags << SnippetTags.create(testUser,snippets[2],"sample,admin,prolog,diff lists,append",true)
+        snippetTags << SnippetTags.create(testUser,snippets[3],"sample,admin,haskell,total",true)
 
         assert SnippetTags.count() == 6
 

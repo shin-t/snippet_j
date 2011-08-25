@@ -4,7 +4,7 @@
     </div>
     <div class="body">
         <g:form url='[controller: "user", action: "tags"]' id="searchableForm" name="searchableForm" method="get">
-            <g:hiddenField name="user" value="${userInstance.username}"/>
+            <g:hiddenField name="username" value="${userInstance.username}"/>
             <button>検索</button><g:textField name="tags" value="${params.tags}"/>
         </g:form>
         <div>

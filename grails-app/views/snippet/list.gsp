@@ -9,6 +9,20 @@
     </head>
     <body>
         <div class="body">
+            <div class="sidebar">
+                <div class="tags">
+                    <div class="header">
+                        <h2>最近のタグ</h2>
+                    </div>
+                    <div class="body">
+                        <div>
+                            <g:each in="${tags}" var="c">
+                                <g:link action="tags" params="[tags:c[0]]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})
+                            </g:each>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
             <g:if test="${params.q}">
                 <div class="message">キーワード「${params.q.encodeAsHTML()}」の検索結果 ${snippetInstanceTotal} 件</div>
@@ -20,7 +34,6 @@
             <g:elseif test="${params.tags}">
                 <div class="message">タグ「${params.tags.encodeAsHTML()}」の検索結果 ${snippetInstanceTotal} 件</div>
             </g:elseif>
-            <div class="sidebar"></div>
             <div class="list">
                 <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
                     <div class="snippet content">

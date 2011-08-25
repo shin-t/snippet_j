@@ -22,6 +22,30 @@
                         </div>
                     </div>
                 </div>
+                <div class="tag_ranking tags">
+                    <div class="header">
+                        <h2>タグランキング</h2>
+                    </div>
+                    <div class="body">
+                        <div>
+                            <g:each in="${tag_ranking}" var="c">
+                                <g:link action="tags" params="[tags:c[0]]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})<br>
+                            </g:each>
+                        </div>
+                    </div>
+                </div>
+                <div class="snippet_ranking tags">
+                    <div class="header">
+                        <h2>スニペットランキング</h2>
+                    </div>
+                    <div class="body">
+                        <div>
+                            <g:each in="${snippet_ranking}" var="c">
+                                <g:link action="show" params="[id:c[0]]">${c[1].encodeAsHTML()}</g:link>(${c[2].encodeAsHTML()})<br>
+                            </g:each>
+                        </div>
+                    </div>
+                </div>
             </div>
             <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
             <g:if test="${params.q}">

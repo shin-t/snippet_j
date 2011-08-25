@@ -141,6 +141,7 @@ select.errors, input.errors, textarea.errors {
     border-radius: 10pt / 10pt;
     box-shadow: 2pt 2pt 2pt 2pt rgba(0,0,0,0.2);
     padding: 5pt;
+    margin-bottom: 10pt;
 }
 .sidebar .tags .header {
     border-color: #546681;

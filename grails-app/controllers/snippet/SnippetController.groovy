@@ -14,6 +14,7 @@ class SnippetController {
     def springSecurityService
     def githubService
     def tagsService
+    def starService
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def parse_tags = {
@@ -85,19 +86,7 @@ class SnippetController {
         }
         println params
         println snippetInstanceList
-        render(view: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tagsService.recent_tags()])
-    }
-
-    def starred = {
-        def query = """
-            select sp
-            from Snippet sp
-            where sp.lastUpdated >= :date
-            order by size(sp.stars) desc, sp.lastUpdated desc
-        """
-        def date = new Date() - 7
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
-        render (Snippet.executeQuery(query,[date:date],params) as JSON)
+        render(view: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tagsService.recent_tags(), tag_ranking: tagsService.tag_ranking(), snippet_ranking: starService.starred()])
     }
 
     def index = {
@@ -109,7 +98,8 @@ class SnippetController {
         def snippetInstanceTotal
         def query
         def tags = tagsService.recent_tags()
-        println tags
+        def tag_ranking = tagsService.tag_ranking()
+        def snippet_ranking = starService.starred()
 
         params.max = Math.min(params.max ? params.int('max') : 10, 30)
         params.sort = params.sort?:'dateCreated'
@@ -131,7 +121,7 @@ class SnippetController {
 
         withFormat {
             html {
-                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tags]
+                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tags, tag_ranking: tag_ranking, snippet_ranking: snippet_ranking]
             }
             json {
                 def meta = params

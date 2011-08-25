@@ -126,7 +126,7 @@ class UserController {
             params.username=userInstance.username
         }
         if(userInstance){
-            if(params.tags?.split(' ')){
+            if(params.tags&&params.tags.split(' ')!=[]){
                 query = """
                     select sp
                     from Snippet sp, SnippetTags st, TagLink tl

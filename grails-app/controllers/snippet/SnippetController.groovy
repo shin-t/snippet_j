@@ -17,21 +17,28 @@ class SnippetController {
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def parse_tags = {
         def user_id, instance
+        def tags = []
         user_id = springSecurityService.getCurrentUser()?.id
         if(params.id) instance = SnippetTags.get(user_id.toLong(), params.id.toLong())
         if(instance){
             if(params.tags){
                 instance.setTags([])
-                if(!instance.tags)instance.parseTags(params.tags)
+                if(!instance.tags){
+                    instance.parseTags(params.tags)
+                    tags = instance.tags
+                }
             }
             else{
                 instance.delete(flush: true)
             }
         }
         else {
-            if(params.tags)instance = SnippetTags.create(User.get(user_id), Snippet.get(params.id), params.tags, true)
+            if(params.tags){
+                instance = SnippetTags.create(User.get(user_id), Snippet.get(params.id), params.tags, true)
+                tags = instance.tags
+            }
         }
-        render ([snippet_tags: instance?instance.tags:[]] as JSON)
+        render ([snippet_tags: tags] as JSON)
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
@@ -62,9 +69,9 @@ class SnippetController {
         def snippetInstanceList
         def snippetInstanceTotal=0
         def query
-        if(params.tags?.split(' ')){
+        if(params.tags&&params.tags.split(' ')!=[]){
             query = """
-                select sp
+                select distinct sp
                 from Snippet sp, SnippetTags st, TagLink tl 
                 where sp.id = st.snippet.id
                 and st.id = tl.tagRef 

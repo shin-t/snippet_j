@@ -1,11 +1,11 @@
 <div class="tags">
     <div class="header">
-        <h2>タグ</h2>
+        <h2><g:message code="snippet.tags.label" default="Tags" /></h2>
     </div>
     <div class="body">
         <g:form url='[controller: "user", action: "tags"]' id="searchableForm" name="searchableForm" method="get">
             <g:hiddenField name="username" value="${userInstance?.username}"/>
-            <button>検索</button><g:textField name="tags" value="${params.tags}"/>
+            <button><g:message code="default.search.label" default="Search" /></button><g:textField name="tags" value="${params.tags}"/>
         </g:form>
         <div>
             <g:each in="${tags}" var="c">

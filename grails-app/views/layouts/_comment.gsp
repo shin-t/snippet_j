@@ -4,7 +4,7 @@
             <div class="header">
                 <div class="name">
                     <label for="comment">
-                        <g:message code="comment.comment.label" default="コメント" />
+                        <g:message code="comment.comment.label" default="Comment" />
                     </label>
                 </div>
             </div>

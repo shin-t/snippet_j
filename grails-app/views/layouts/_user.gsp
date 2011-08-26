@@ -3,9 +3,9 @@
         <h2>${fieldValue(bean: userInstance, field: "username")}</>
     </div>
     <div class="body">
-        <p><g:link action="snippets" params="[username:params.username]">スニペット</g:link></p>
-        <p><g:link action="starred" params="[username:params.username]">スター</g:link></p>
-        <p><g:link action="tags" params="[username:params.username]">タグ</g:link></p>
+        <p><g:link action="snippets" params="[username:params.username]"><g:message code="snippet.label" default="Snippet" /></g:link></p>
+        <p><g:link action="starred" params="[username:params.username]"><g:message code="star.label" default="Star" /></g:link></p>
+        <p><g:link action="tags" params="[username:params.username]"><g:message code="snippet.tags.label" default="Tags" /></g:link></p>
     </div>
     <g:if test="${userInstance==currentUser}">
     <div class="buttons">

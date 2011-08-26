@@ -12,7 +12,7 @@
             <div class="sidebar">
                 <div class="tags">
                     <div class="header">
-                        <h2>最近のタグ</h2>
+                        <h2><g:message code="recent.tag.label" default="Recent Tag" /></h2>
                     </div>
                     <div class="body">
                         <div>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="tag_ranking tags">
                     <div class="header">
-                        <h2>タグランキング</h2>
+                        <h2><g:message code="ranking.tag.label" default="Tag Ranking" /></h2>
                     </div>
                     <div class="body">
                         <div>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="snippet_ranking tags">
                     <div class="header">
-                        <h2>スニペットランキング</h2>
+                        <h2><g:message code="ranking.snippet.label" default="Snippet Ranking" /></h2>
                     </div>
                     <div class="body">
                         <div>
@@ -47,33 +47,41 @@
                     </div>
                 </div>
             </div>
-            <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
+            <g:if test="${flash.message}">
+                <div class="message">${flash.message}</div>
+            </g:if>
             <g:if test="${params.q}">
-                <div class="message">キーワード「${params.q.encodeAsHTML()}」の検索結果 ${snippetInstanceTotal} 件</div>
-                <div class="message">タグ: <g:link controller="snippet" action="tags" params="[tags:params.q]">${params.q.encodeAsHTML()}</g:link></div>
+                <div class="message">
+                    <g:message code="search.keyword.message" args="${[params.q.encodeAsHTML(),snippetInstanceTotal]}" />
+                </div>
+                <div class="message">
+                    <g:message code="snippet.tags.label" />: <g:link controller="snippet" action="tags" params="[tags:params.q]">${params.q.encodeAsHTML()}</g:link>
+                </div>
             </g:if>
             <g:elseif test="${params.user}">
                 <div class="message">${params.user.encodeAsHTML()} /<g:if test="${params.tags}"> ${params.tags.encodeAsHTML()}</g:if> (${snippetInstanceTotal})</div>
             </g:elseif>
             <g:elseif test="${params.tags}">
-                <div class="message">タグ「${params.tags.encodeAsHTML()}」の検索結果 ${snippetInstanceTotal} 件</div>
+                <div class="message">
+                    <g:message code="search.tag.message" args="${[params.tags.encodeAsHTML(),snippetInstanceTotal]}" />
+                </div>
             </g:elseif>
             <div class="list">
                 <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
                     <div class="snippet content">
                         <div class="header">
                             <h2>
-                                <g:link action="show" id="${snippetInstance.id}">
-                                    ${fieldValue(bean: snippetInstance, field: "name")}
-                                </g:link>
+                                <g:link action="show" id="${snippetInstance.id}">${fieldValue(bean: snippetInstance, field: "name")}</g:link>
                             </h2>
-                            <div class="float_left"><g:link controller="user" action="show" params="[username:snippetInstance?.author?.username]">${snippetInstance?.author?.username.encodeAsHTML()}</g:link></div>
-                            <div class="float_right"><g:formatDate date="${snippetInstance.dateCreated}" /></div>
+                            <div class="float_left">
+                                <g:link controller="user" action="show" params="[username:snippetInstance?.author?.username]">${snippetInstance?.author?.username.encodeAsHTML()}</g:link>
+                            </div>
+                            <div class="float_right">
+                                <g:formatDate date="${snippetInstance.dateCreated}" />
+                            </div>
                             <div class="clear"></div>
                         </div>
-                        <div class="body">
-                            ${snippetInstance.snippet.encodeAsHTML()}
-                        </div>
+                        <div class="body">${snippetInstance.snippet.encodeAsHTML()}</div>
                     </div>
                 </g:each>
             </div>

@@ -1,6 +1,6 @@
 <head>
 <meta name='layout' content='main' />
-<title>Login</title>
+<title><g:message code="springSecurity.login.title" default="Login" /></title>
 <style type='text/css' media='screen'>
 #login {
 	margin:15px 0px; padding:0px;
@@ -48,23 +48,23 @@
 			<g:if test='${flash.message}'>
 			<div class='login_message'>${flash.message}</div>
 			</g:if>
-			<div class='fheader'>ログイン</div>
+			<div class='fheader'><g:message code="springSecurity.login.header" default="Please Login.." /></div>
 			<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
 				<p>
-					<label for='username'>ユーザー名</label>
+					<label for='username'><g:message code="springSecurity.login.username.label" default="Login ID" /></label>
 					<input type='text' class='text_' name='j_username' id='username' />
 				</p>
 				<p>
-					<label for='password'>パスワード</label>
+					<label for='password'><g:message code="springSecurity.login.password.label" default="Password" /></label>
 					<input type='password' class='text_' name='j_password' id='password' />
 				</p>
 				<p>
-					<label for='remember_me'>ログイン状態を保持</label>
+					<label for='remember_me'><g:message code="springSecurity.login.remember.me.label" default="Remember me" /></label>
 					<input type='checkbox' class='chk' name='${rememberMeParameter}' id='remember_me'
 					<g:if test='${hasCookie}'>checked='checked'</g:if>
 				</p>
 				<p>
-					<input type='submit' value='ログイン' />
+					<input type='submit' value='${message(code: "springSecurity.login.button", default: "Login")}' />
 				</p>
 			</form>
 		</div>

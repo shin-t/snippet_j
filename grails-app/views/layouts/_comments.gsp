@@ -73,7 +73,7 @@
                 var f = $(e.target).parent().get(0);
                 var q = $(f).serialize();
                 var obj = $(f).parent().get(0);
-                if(confirm('削除しますか？')){
+                if(confirm("")){
                     $.ajax({
                         type: "POST",
                         url: "/snippet/comment/delete",

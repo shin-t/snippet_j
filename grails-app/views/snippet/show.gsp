@@ -50,6 +50,9 @@
                     <sec:ifLoggedIn>
                         <div class="footer">
                             <div>
+                                <g:render template="/layouts/vote" model="[snippetInstance:snippetInstance]"/>
+                            </div>
+                            <div>
                                 <g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/>
                             </div>
                             <div>

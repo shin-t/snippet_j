@@ -58,6 +58,16 @@ ul, li {
 .edit_tag, .star{
     margin: 2pt;
 }
+.vote .votes {
+    padding: 2pt;
+    color: #777;
+    font-size: 24pt;
+    text-align: right;
+}
+.vote {
+    width: 3em;
+    text-align: center;
+}
 
 /* FLOAT */
 

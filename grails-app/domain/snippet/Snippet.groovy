@@ -3,7 +3,7 @@ package snippet
 class Snippet implements Comparable {
 
     static belongsTo = [author: User]
-    static hasMany = [comments: Comment, tags: SnippetTags, stars: Star]
+    static hasMany = [comments: Comment, tags: SnippetTags, stars: Star, votes: Vote]
     
     static constraints = {
         name blank:false

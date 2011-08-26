@@ -2,7 +2,7 @@ package snippet
 
 class User {
 
-    static hasMany = [snippets:Snippet,comments:Comment, tags: SnippetTags,stars:Star]
+    static hasMany = [snippets:Snippet,comments:Comment,tags:SnippetTags,stars:Star,votes:Vote]
 
     static constraints = {
         username blank: false, unique: true

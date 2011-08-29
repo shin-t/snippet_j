@@ -15,11 +15,9 @@
                         <h2><g:message code="recent.tag.label" default="Recent Tag" /></h2>
                     </div>
                     <div class="body">
-                        <div>
-                            <g:each in="${tags}" var="c">
-                                <g:link action="tags" params="[tags:c[0]]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})
-                            </g:each>
-                        </div>
+                        <g:each in="${tags}" var="c">
+                            <div class="tag"><g:link action="tags" params="[tags:c[0]]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})</div>
+                        </g:each>
                     </div>
                 </div>
                 <div class="tag_ranking tags">
@@ -27,11 +25,9 @@
                         <h2><g:message code="ranking.tag.label" default="Tag Ranking" /></h2>
                     </div>
                     <div class="body">
-                        <div>
-                            <g:each in="${tag_ranking}" var="c">
-                                <g:link action="tags" params="[tags:c[0]]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})<br>
-                            </g:each>
-                        </div>
+                        <g:each in="${tag_ranking}" var="c">
+                            <div class="tag"><g:link action="tags" params="[tags:c[0]]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})</div>
+                        </g:each>
                     </div>
                 </div>
                 <div class="snippet_ranking tags">
@@ -39,11 +35,9 @@
                         <h2><g:message code="ranking.snippet.label" default="Snippet Ranking" /></h2>
                     </div>
                     <div class="body">
-                        <div>
-                            <g:each in="${snippet_ranking}" var="c">
-                                <g:link action="show" params="[id:c[0]]">${c[1].encodeAsHTML()}</g:link>(${c[2].encodeAsHTML()})<br>
-                            </g:each>
-                        </div>
+                        <g:each in="${snippet_ranking}" var="c">
+                            <div class="tag"><g:link action="show" params="[id:c[0]]">${c[1].encodeAsHTML()}</g:link>(${c[2].encodeAsHTML()})</div>
+                        </g:each>
                     </div>
                 </div>
             </div>
@@ -66,25 +60,7 @@
                     <g:message code="search.tag.message" args="${[params.tags.encodeAsHTML(),snippetInstanceTotal]}" />
                 </div>
             </g:elseif>
-            <div class="list">
-                <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
-                    <div class="snippet content">
-                        <div class="header">
-                            <h2>
-                                <g:link action="show" id="${snippetInstance.id}">${fieldValue(bean: snippetInstance, field: "name")}</g:link>
-                            </h2>
-                            <div class="float_left">
-                                <g:link controller="user" action="show" params="[username:snippetInstance?.author?.username]">${snippetInstance?.author?.username.encodeAsHTML()}</g:link>
-                            </div>
-                            <div class="float_right">
-                                <g:formatDate date="${snippetInstance.dateCreated}" />
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="body">${snippetInstance.snippet.encodeAsHTML()}</div>
-                    </div>
-                </g:each>
-            </div>
+            <g:render template="/layouts/snippets" model="[snippetInstanceList:snippetInstanceList]" />
             <div class="paginateButtons">
                 <g:paginate total="${snippetInstanceTotal}" params="[tags:params.tags,user:params.user,q:params.q]" />
             </div>

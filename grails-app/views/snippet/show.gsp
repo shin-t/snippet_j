@@ -30,9 +30,7 @@
                         </div>
                     </div>
                     <div class="body">
-                        <pre>
-                            <code>${fieldValue(bean: snippetInstance, field: "snippet")}</code>
-                        </pre>
+                        <pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre>
                     </div>
                     <g:if test="${snippetInstance.author==currentUser}">
                     <div class="buttons">
@@ -47,19 +45,17 @@
                         </g:form>
                     </div>
                     </g:if>
-                    <sec:ifLoggedIn>
-                        <div class="footer">
-                            <div>
-                                <g:render template="/layouts/vote" model="[snippetInstance:snippetInstance]"/>
-                            </div>
-                            <div>
-                                <g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/>
-                            </div>
-                            <div>
-                                <g:render template="/layouts/star" model="[snippetInstance:snippetInstance,stars:stars]"/>
-                            </div>
+                    <div class="footer">
+                        <div>
+                            <g:render template="/layouts/vote" model="[snippetInstance:snippetInstance]"/>
                         </div>
-                    </sec:ifLoggedIn>
+                        <div>
+                            <g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/>
+                        </div>
+                        <div>
+                            <g:render template="/layouts/star" model="[snippetInstance:snippetInstance,stars:stars]"/>
+                        </div>
+                    </div>
                 </div>
                 <g:render template="/layouts/comments" model="[snippetInstance:snippetInstance,currentUser:currentUser]"/>
                 <g:render template="/layouts/comment" model="[snippetInstance:snippetInstance]"/>

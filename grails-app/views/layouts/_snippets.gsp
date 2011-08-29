@@ -11,13 +11,10 @@
                 <div class="float_right"><g:formatDate date="${snippetInstance.dateCreated}" /></div>
                 <div class="clear"></div>
             </div>
-            <div class="body">${fieldValue(bean: snippetInstance, field: "snippet")}</div>
-            <g:if test="${params.username==currentUser?.username}">
-            <div class="footer">
-                <div><g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance]"/></div>
-                <div><g:render template="/layouts/star" model="[snippetInstance:snippetInstance]"/></div>
-            </div>
-            </g:if>
+            <div class="body"></div>
+            <div><g:render template="/layouts/vote" model="[snippetInstance:snippetInstance]"/></div>
+            <div><g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance]"/></div>
+            <div><g:render template="/layouts/star" model="[snippetInstance:snippetInstance]"/></div>
         </div>
     </g:each>
 </div>

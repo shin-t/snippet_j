@@ -43,28 +43,41 @@ class SnippetController {
         render ([snippet_tags: tags] as JSON)
     }
 
+    def stars_counts = {
+        if(params.id){
+            try{
+                def results = Star.executeQuery('select count(s) from snippet.Star as s where s.snippet.id = ?',[params.id.toLong()])
+                render ([total:results[0]] as JSON)
+            }
+            catch(NumberFormatException e){
+                render (status:400,text:"NumberFormatException")
+            }
+        }
+        else{
+            render(status:404,text:"")
+        }
+    }
+    
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def star = {
-        def user_id, instance, exists
-        user_id = springSecurityService.getCurrentUser().id
-        if(params.id) instance = Star.get(user_id.toLong(), params.id.toLong())
+        def instance, status, user
+        user = springSecurityService.getCurrentUser()
+        if(params.id) instance = Star.get(user.id.toLong(), params.id.toLong())
         switch(request.method){
             case "GET":
-                exists=instance?true:false
+                status=instance?204:404
                 break
             case "POST":
                 if(instance){
                     instance.delete(flush: true)
-                    exists = false
                 }
                 else{
-                    instance = Star.create(User.get(user_id), Snippet.get(params.id), true)
-                    exists = true
+                    instance = Star.create(user, Snippet.get(params.id), true)
                 }
+                status=204
                 break
         }
-        def results = Star.executeQuery('from snippet.Star as s where s.snippet.id = ?',[params.id.toLong()])
-        render ([exists: exists, total: results.size()] as JSON)
+        render (status:status,text:"")
     }
 
     def tags = {
@@ -84,8 +97,6 @@ class SnippetController {
             snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')],params)
             snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')]).size()
         }
-        println params
-        println snippetInstanceList
         render(view: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tagsService.recent_tags(), tag_ranking: tagsService.tag_ranking(), snippet_ranking: starService.starred()])
     }
 

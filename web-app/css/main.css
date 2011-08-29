@@ -69,6 +69,19 @@ ul, li {
     text-align: center;
     margin: 0 10pt;
 }
+.stars {
+    color: #777;
+    font-size: 16pt;
+    margin: 2pt;
+    padding: 2pt;
+    text-align: right;
+    border: #546681 solid 2pt;
+    border-radius: 5pt / 5pt;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    vertical-align: middle;
+}
 
 /* FLOAT */
 

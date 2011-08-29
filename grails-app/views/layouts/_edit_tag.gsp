@@ -2,10 +2,7 @@
     <form id="edit_tags_${snippetInstance.id}">
         <span><g:message code="snippet.tags.label" default="Tags" /></span>
         <span class="tags">
-            <g:each status="i" in="${snippetInstance.tags()}" var="tag">
-                <g:if test="${i!=0}">  </g:if>
-                <g:link action="tags" params="[tags:tag]" class="tag">${tag.encodeAsHTML()}</g:link>
-            </g:each>
+            <g:each status="i" in="${snippetInstance.tags()}" var="tag"><g:link action="tags" params="[tags:tag]" class="tag">${tag.encodeAsHTML()}</g:link></g:each>
         </span>
         <input type="button" id="editTags_${snippetInstance.id}" name="editTags_${snippetInstance.id}" value="${message(code: 'default.button.edit.label', default: 'Edit')}">
     </form>
@@ -34,7 +31,6 @@
                     $("#edit\_tags\_${snippetInstance.id} span.tags").empty();
                     $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json.snippet_tags[0]),text:json.snippet_tags[0]}).appendTo("#edit\_tags\_${snippetInstance.id} span.tags");
                     for(var i=1;i<json.snippet_tags.length;i++){
-                        $("#edit\_tags\_${snippetInstance.id} span.tags").append("  ");
                         $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json.snippet_tags[i]),text:json.snippet_tags[i]}).appendTo("#edit\_tags\_${snippetInstance.id} span.tags");
                     }
                     var tag_list = $(".tags .body #searchableForm").next();
@@ -45,9 +41,10 @@
                             success: function(json){
                                 $(tag_list).empty();
                                 for(var i=0;i<json.length;i++){
-                                    $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json[i][0]),text:json[i][0]}).appendTo(tag_list);
-                                    $(tag_list).append("("+json[i][1]+")");
-                                    $(tag_list).append("  ");
+                                    $("<div/>",{"class":"tag"})
+                                        .append($("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json[i][0]),text:json[i][0]}))
+                                        .append("("+json[i][1]+")")
+                                        .appendTo(tag_list);
                                 }
                             }
                         });

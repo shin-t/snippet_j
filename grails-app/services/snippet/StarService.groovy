@@ -13,7 +13,6 @@ class StarService {
             order by size(sp.stars) desc
         """
         def results = Snippet.executeQuery(query,[],[max:10])
-        println results
         results
     }
 }

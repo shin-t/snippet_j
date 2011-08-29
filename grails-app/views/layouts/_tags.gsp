@@ -9,7 +9,7 @@
         </g:form>
         <div>
             <g:each in="${tags}" var="c">
-                <g:link controller="user" action="tags" params="[tags:c[0],username:userInstance?.username]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})
+                <div class="tag"><g:link controller="user" action="tags" params="[tags:c[0],username:userInstance?.username]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})</div>
             </g:each>
         </div>
     </div>

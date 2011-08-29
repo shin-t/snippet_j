@@ -13,6 +13,17 @@ class UserController {
         redirect(action: "snippets", params: params)
     }
 
+    def list = {
+        def query = """
+            select u.username, sum(v.vote)
+            from User as u, Vote as v, Snippet as s
+            where u = s.author
+            and s = v.snippet
+            group by u.username
+        """
+        [users:User.executeQuery(query,[],params),total:User.executeQuery(query,[])]
+    }
+
     def create = {
         def userInstance = new User()
         userInstance.properties = params

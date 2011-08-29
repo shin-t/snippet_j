@@ -26,7 +26,7 @@ class SnippetController {
             if(params.tags){
                 instance.setTags([])
                 if(!instance.tags){
-                    instance.parseTags(params.tags)
+                    instance.parseTags(params.tags," ")
                     tags = instance.tags
                 }
             }
@@ -96,8 +96,24 @@ class SnippetController {
             """
             snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')],params)
             snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')]).size()
+            render(view: "list", model: [
+                snippetInstanceList: snippetInstanceList,
+                snippetInstanceTotal: snippetInstanceTotal,
+                tags: tagsService.recent_tags(),
+                tag_ranking:
+                tagsService.tag_ranking(),
+                snippet_ranking: starService.starred()])
         }
-        render(view: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tagsService.recent_tags(), tag_ranking: tagsService.tag_ranking(), snippet_ranking: starService.starred()])
+        else{
+            query = """
+                select tl.tag.name, count(tl)
+                from TagLink as tl
+                where tl.type = 'snippetTags'
+                group by tl.tag.name
+                order by count(tl) desc, tl.tag.name asc
+            """
+            [tags:SnippetTags.executeQuery(query,[],params),total:SnippetTags.executeQuery(query,[])]
+        }
     }
 
     def index = {

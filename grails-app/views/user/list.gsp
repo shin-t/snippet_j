@@ -7,28 +7,23 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <sec:ifLoggedIn><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></sec:ifLoggedIn>
-        </div>
         <div class="body">
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div class="list">
-                    <g:each in="${userInstanceList}" status="i" var="userInstance">
-                        <div class="dialog">
-                                <div class="head"><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "id")}</g:link></div>
-                                <div>${fieldValue(bean: userInstance, field: "username")}</div>
-                                <div>${fieldValue(bean: userInstance, field: "password")}</div>
-                                <div><g:formatBoolean boolean="${userInstance.accountExpired}" /></div>
-                                <div><g:formatBoolean boolean="${userInstance.accountLocked}" /></div>
-                                <div><g:formatBoolean boolean="${userInstance.enabled}" /></div>
-                        </div>
+            <div class="user content">
+                <div class="header">
+                    <h2><g:message code="default.list.label" args="${[message(code:'user.label')]}" default="Users" /></h2>
+                </div>
+                <div class="body">
+                    <g:each in="${users}" status="i" var="u">
+                        <div><g:link action="show" params="[username:u[0]]">${u[0].encodeAsHTML()}</g:link>(${u[1].encodeAsHTML()})</div>
                     </g:each>
+                    <div class="clear"></div>
+                </div>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${userInstanceTotal}" />
+                <g:paginate total="${total}" />
             </div>
         </div>
     </body>

@@ -1,6 +1,6 @@
 <div class="star">
     <form id="form_star_${snippetInstance.id}">
-        <div class="stars"></div>
+        <span class="stars"></span>
         <g:hiddenField name="id" value="${snippetInstance.id}"/>
         <span class="button"><g:submitButton name="star"/></span>
     </form>

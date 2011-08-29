@@ -10,6 +10,10 @@
     <body>
         <div class="body">
             <div class="sidebar">
+                <div class="lists tags">
+                    <p><g:link controller="user" action="list"><g:message code="default.list.label" args="${[message(code:'user.label')]}" default="Users" /></g:link></p>
+                    <p><g:link action="tags"><g:message code="default.list.label" args="${[message(code:'snippet.tags.label')]}" default="Tags" /></g:link></p>
+                </div>
                 <div class="tags">
                     <div class="header">
                         <h2><g:message code="recent.tag.label" default="Recent Tag" /></h2>

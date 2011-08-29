@@ -19,7 +19,7 @@ class SnippetTags implements Taggable {
     static SnippetTags create(User user, Snippet snippet, String tags, boolean flush = false) {
         def instance = new SnippetTags(user: user, snippet: snippet).save(flush: true)
         if(instance) {
-            instance.parseTags(tags)
+            instance.parseTags(tags," ")
         }
         return instance
     }

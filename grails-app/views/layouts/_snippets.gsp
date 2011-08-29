@@ -12,9 +12,10 @@
                 <div class="clear"></div>
             </div>
             <div class="body"></div>
-            <div><g:render template="/layouts/vote" model="[snippetInstance:snippetInstance]"/></div>
+            <div class="float_left"><g:render template="/layouts/vote" model="[snippetInstance:snippetInstance]"/></div>
             <div><g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance]"/></div>
             <div><g:render template="/layouts/star" model="[snippetInstance:snippetInstance]"/></div>
+            <div class="clear"></div>
         </div>
     </g:each>
 </div>

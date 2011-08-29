@@ -67,6 +67,7 @@ ul, li {
 .vote {
     width: 3em;
     text-align: center;
+    margin: 0 10pt;
 }
 
 /* FLOAT */
@@ -168,7 +169,8 @@ select.errors, input.errors, textarea.errors {
     padding: 10pt;
 }
 div.tag {
-    margin: 2.5pt 0 0 2.5pt;
+    padding: 2.5pt 0;
+    width: 100pt;
 }
 a.tag, a:link.tag {
     color: #000;
@@ -177,7 +179,8 @@ a.tag, a:link.tag {
     border-color: #546681;
     border-style: solid;
     border-width: 0 1pt 1pt 0;
-    padding: 2.5pt;
+    padding: 2pt 8pt;
+    margin: 0 2pt;
 }
 a:hover.tag {
     color: #fff;

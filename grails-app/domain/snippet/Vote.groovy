@@ -22,7 +22,7 @@ class Vote {
     }
 
     static boolean remove(User user, Snippet snippet, boolean flush = false) {
-        Vote instance = Vote.findByAuthorAndSnippet(user, snippet)
+        Vote instance = Vote.findByUserAndSnippet(user, snippet)
         instance ? instance.delete(flush: flush) : false
     }
     

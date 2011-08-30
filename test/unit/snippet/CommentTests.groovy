@@ -11,6 +11,13 @@ class CommentTests extends GrailsUnitTestCase {
         super.tearDown()
     }
 
+    void "test to string"(){
+        mockDomain(User,[new User(username:"user",password:"password")])
+        mockDomain(Snippet,[new Snippet(name:"snippet",snippet:"snippet",author:User.get(1))])
+        mockDomain(Comment,[new Comment(comment:"comment",snippet:Snippet.get(1),author:User.get(1))])
+        assertTrue Comment.get(1).toString() instanceof String
+    }
+
     void testValidation() {
         mockForConstraintsTests(Comment)
 

@@ -20,7 +20,7 @@ class Star implements Serializable {
     }
 
     static boolean remove(User user, Snippet snippet, boolean flush = false) {
-        Star instance = Star.findByAuthorAndSnippet(user, snippet)
+        Star instance = Star.findByUserAndSnippet(user, snippet)
         instance ? instance.delete(flush: flush) : false
     }
 }

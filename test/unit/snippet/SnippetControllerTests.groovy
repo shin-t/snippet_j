@@ -16,7 +16,7 @@ class SnippetControllerTests extends ControllerUnitTestCase {
         controller.index()
         println controller.redirectArgs["action"]
         controller.springSecurityService = new SpringSecurityService()
-        controller.parse_tags()
-        println controller.response.contentAsString
+        //controller.show()
+        //println controller.response.contentAsString
     }
 }

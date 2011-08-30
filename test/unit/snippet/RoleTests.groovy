@@ -5,6 +5,7 @@ import grails.test.*
 class RoleTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
+        mockForConstraintsTests(Role,[new Role(authority:'ROLE_ADMIN')])
     }
 
     protected void tearDown() {
@@ -12,8 +13,6 @@ class RoleTests extends GrailsUnitTestCase {
     }
 
     void testValidation() {
-        mockForConstraintsTests(Role,[new Role(authority:'ROLE_ADMIN')])
-
         def role = new Role()
 
         role.authority = null

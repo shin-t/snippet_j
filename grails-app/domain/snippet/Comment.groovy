@@ -1,6 +1,6 @@
 package snippet
 
-class Comment implements Comparable{
+class Comment implements Comparable {
 
     static belongsTo = [author:User,snippet:Snippet]
 

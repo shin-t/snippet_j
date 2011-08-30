@@ -66,12 +66,12 @@ class UserController {
         }
         if(userInstance){
             query = """
-                from Snippet sp 
-                where sp.author = :user
-                order by sp.dateCreated desc
+                from Snippet s
+                where s.author = ?
+                order by s.dateCreated desc
                 """
-            snippetInstanceList = SnippetTags.executeQuery(query,[user:userInstance],params)
-            snippetInstanceTotal = SnippetTags.executeQuery(query,[user:userInstance]).size()
+            snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)
+            snippetInstanceTotal = Snippet.executeQuery(query,[userInstance]).size()
             [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()]
         }
         else{
@@ -97,14 +97,14 @@ class UserController {
         }
         if(userInstance){
             query = """
-                select sp
-                from Snippet sp, Star st
-                where sp.id = st.snippet.id
-                and st.user = :user
-                order by sp.dateCreated desc
+                select sn
+                from Snippet sn, Star st
+                where sn = st.snippet
+                and st.user = ?
+                order by sn.dateCreated desc
                 """
-                snippetInstanceList = SnippetTags.executeQuery(query,[user:userInstance],params)
-                snippetInstanceTotal = SnippetTags.executeQuery(query,[user:userInstance]).size()
+                snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)
+                snippetInstanceTotal = Snippet.executeQuery(query,[userInstance]).size()
             render(view: "snippets", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()])
         }
         else{
@@ -118,55 +118,6 @@ class UserController {
             tag = springSecurityService.getCurrentUser().tagCloud()
         }
         render (tag as JSON)
-    }
-
-    def tags = {
-        def userInstance
-        def snippetInstanceList, snippetInstanceTotal = 0
-        def query
-
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
-        params.sort = params.sort?:'dateCreated'
-        params.order = params.order?:'desc'
-
-        if(params.username){
-            userInstance=User.findByUsername(params.username)
-        }
-        else if(springSecurityService.isLoggedIn()){
-            userInstance=springSecurityService.getCurrentUser()
-            params.username=userInstance.username
-        }
-        if(userInstance){
-            if(params.tags&&params.tags.split(' ')!=[]){
-                query = """
-                    select sp
-                    from Snippet sp, SnippetTags st, TagLink tl
-                    where sp.id = st.snippet.id
-                    and st.id = tl.tagRef
-                    and tl.type = 'snippetTags'
-                    and tl.tag.name in (:tags)
-                    and st.user = :user
-                    order by sp.dateCreated desc
-                    """
-                snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' '),user:userInstance],params)
-                snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' '),user:userInstance]).size()
-            }
-            else{
-                query = """
-                    select sp
-                    from Snippet sp, SnippetTags st
-                    where sp.id = st.snippet.id
-                    and st.user = :user
-                    order by sp.dateCreated desc
-                    """
-                snippetInstanceList = SnippetTags.executeQuery(query,[user:userInstance],params)
-                snippetInstanceTotal = SnippetTags.executeQuery(query,[user:userInstance]).size()
-            }
-            [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()]
-        }
-        else{
-            redirect(controller:"login",view:"auth")
-        }
     }
 
     def show = {

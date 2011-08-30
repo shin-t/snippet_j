@@ -20,27 +20,16 @@ class SnippetController {
     def parse_tags = {
         def user_id, instance
         def tags = []
-        user_id = springSecurityService.getCurrentUser()?.id
-        if(params.id) instance = SnippetTags.get(user_id.toLong(), params.id.toLong())
-        if(instance){
-            if(params.tags){
-                instance.setTags([])
-                if(!instance.tags){
-                    instance.parseTags(params.tags," ")
-                    tags = instance.tags
-                }
-            }
-            else{
-                instance.delete(flush: true)
-            }
-        }
-        else {
-            if(params.tags){
-                instance = SnippetTags.create(User.get(user_id), Snippet.get(params.id), params.tags, true)
+        user_id = springSecurityService.getCurrentUser().id
+        if(params.id) instance = Snippet.get(params.id)
+        if(instance&&instance.author.id==user_id){
+            instance.setTags([])
+            if(!instance.tags&&params.tags){
+                instance.parseTags(params.tags," ")
                 tags = instance.tags
             }
         }
-        render ([snippet_tags: tags] as JSON)
+        render (tags as JSON)
     }
 
     def stars_counts = {
@@ -80,22 +69,21 @@ class SnippetController {
         render (status:status,text:"")
     }
 
-    def tags = {
+    def tag = {
         def snippetInstanceList
         def snippetInstanceTotal=0
         def query
-        if(params.tags&&params.tags.split(' ')!=[]){
+        if(params.tag){
             query = """
-                select distinct sp
-                from Snippet sp, SnippetTags st, TagLink tl 
-                where sp.id = st.snippet.id
-                and st.id = tl.tagRef 
-                and tl.type = 'snippetTags'
-                and tl.tag.name in (:tags)
-                order by sp.dateCreated desc
+                select distinct s
+                from Snippet s, TagLink tl
+                where s.id = tl.tagRef 
+                and tl.type = 'snippet'
+                and tl.tag.name like :tag
+                order by s.dateCreated desc
             """
-            snippetInstanceList = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')],params)
-            snippetInstanceTotal = SnippetTags.executeQuery(query,[tags:params.tags.split(' ')]).size()
+            snippetInstanceList = Snippet.executeQuery(query,[tag:"%${params.tag}%"],params)
+            snippetInstanceTotal = Snippet.executeQuery(query,[tag:"%${params.tag}%"]).size()
             render(view: "list", model: [
                 snippetInstanceList: snippetInstanceList,
                 snippetInstanceTotal: snippetInstanceTotal,
@@ -108,11 +96,11 @@ class SnippetController {
             query = """
                 select tl.tag.name, count(tl)
                 from TagLink as tl
-                where tl.type = 'snippetTags'
+                where tl.type = 'snippet'
                 group by tl.tag.name
                 order by count(tl) desc, tl.tag.name asc
             """
-            [tags:SnippetTags.executeQuery(query,[],params),total:SnippetTags.executeQuery(query,[])]
+            [tags:Snippet.executeQuery(query,[],params),total:Snippet.executeQuery(query,[])]
         }
     }
 

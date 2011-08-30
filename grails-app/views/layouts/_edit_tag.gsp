@@ -2,13 +2,13 @@
     <form id="edit_tags_${snippetInstance.id}">
         <span><g:message code="snippet.tags.label" default="Tags" /></span>
         <span class="tags">
-            <g:each status="i" in="${snippetInstance.tags()}" var="tag"><g:link action="tags" params="[tags:tag]" class="tag">${tag.encodeAsHTML()}</g:link></g:each>
+            <g:each status="i" in="${snippetInstance.tags}" var="t"><g:link action="tag" params="[tag:t]" class="tag">${t.encodeAsHTML()}</g:link></g:each>
         </span>
         <input type="button" id="editTags_${snippetInstance.id}" name="editTags_${snippetInstance.id}" value="${message(code: 'default.button.edit.label', default: 'Edit')}">
     </form>
     <form id="parse_tags_${snippetInstance.id}" action="/snippet/snippet/parse_tags" method="POST">
         <g:hiddenField name="id" value="${snippetInstance.id}" />
-        <g:textField name="tags" value="${snippetInstance.tags()?.join(',')}" />
+        <g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" />
         <g:submitButton name="parseTags" value="${message(code: 'default.button.update.label', default: 'Update')}" />
     </form>
     <g:javascript>
@@ -29,9 +29,8 @@
                     $(obj).hide();
                     $("#edit\_tags\_${snippetInstance.id}").show();
                     $("#edit\_tags\_${snippetInstance.id} span.tags").empty();
-                    $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json.snippet_tags[0]),text:json.snippet_tags[0]}).appendTo("#edit\_tags\_${snippetInstance.id} span.tags");
-                    for(var i=1;i<json.snippet_tags.length;i++){
-                        $("<a/>",{"class":"tag","href":"/snippet/?tags="+encodeURI(json.snippet_tags[i]),text:json.snippet_tags[i]}).appendTo("#edit\_tags\_${snippetInstance.id} span.tags");
+                    for(var i=0;i<json.length;i++){
+                        $("<a/>",{"class":"tag","href":"/snippet/?tag="+encodeURI(json[i]),text:json[i]}).appendTo("#edit\_tags\_${snippetInstance.id} span.tags");
                     }
                     var tag_list = $(".tags .body #searchableForm").next();
                     if(tag_list.length){

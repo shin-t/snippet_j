@@ -37,25 +37,14 @@
                         <g:message code="default.create.label" args="${[message(code: 'snippet.label', default: 'Snippet')]}" default="Create" />
                     </g:link>
                 </span>
-            </sec:ifLoggedIn>
-            <sec:ifLoggedIn>
                 <span class="menuButton">
                     <g:link controller="user" action="snippets">
                         <g:message code="default.list.label" args="${[message(code: 'snippet.label', default: 'Snippet')]}" default="My Snippets" />
                     </g:link>
                 </span>
-            </sec:ifLoggedIn>
-            <sec:ifLoggedIn>
                 <span class="menuButton">
                     <g:link controller="user" action="starred">
                         <g:message code="default.list.label" args="${[message(code: 'star.label', default: 'Star')]}" default="Starred Snippets" />
-                    </g:link>
-                </span>
-            </sec:ifLoggedIn>
-            <sec:ifLoggedIn>
-                <span class="menuButton">
-                    <g:link controller="user" action="tags">
-                        <g:message code="default.list.label" args="${[message(code: 'snippet.tags.label', default: 'Tags')]}" default="Tags" />
                     </g:link>
                 </span>
             </sec:ifLoggedIn>

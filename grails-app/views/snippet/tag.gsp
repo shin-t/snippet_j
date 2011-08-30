@@ -14,20 +14,9 @@
             <g:if test="${flash.message}">
                 <div class="message">${flash.message}</div>
             </g:if>
-            <g:if test="${params.q}">
+            <g:elseif test="${params.tag}">
                 <div class="message">
-                    <g:message code="search.keyword.message" args="${[params.q.encodeAsHTML(),snippetInstanceTotal]}" />
-                </div>
-                <div class="message">
-                    <g:message code="snippet.tags.label" />: <g:link controller="snippet" action="tags" params="[tags:params.q]">${params.q.encodeAsHTML()}</g:link>
-                </div>
-            </g:if>
-            <g:elseif test="${params.user}">
-                <div class="message">${params.user.encodeAsHTML()} /<g:if test="${params.tags}"> ${params.tags.encodeAsHTML()}</g:if> (${snippetInstanceTotal})</div>
-            </g:elseif>
-            <g:elseif test="${params.tags}">
-                <div class="message">
-                    <g:message code="search.tag.message" args="${[params.tags.encodeAsHTML(),snippetInstanceTotal]}" />
+                    <g:message code="search.tag.message" args="${[params.tag.encodeAsHTML(),snippetInstanceTotal]}" />
                 </div>
             </g:elseif>
             <div class="tags_list content user">
@@ -36,13 +25,13 @@
                 </div>
                 <div class="body">
                     <g:each in="${tags}" var="c">
-                        <div class="tag float_left"><g:link action="tags" params="[tags:c[0]]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})</div>
+                        <div class="tag float_left"><g:link action="tag" params="[tag:c[0]]" class="tag">${c[0].encodeAsHTML()}</g:link>(${c[1].encodeAsHTML()})</div>
                     </g:each>
                     <div class="clear"></div>
                 </div>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${total}" params="[tags:params.tags,user:params.user,q:params.q]" />
+                <g:paginate total="${total}" params="[tag:params.tag]" />
             </div>
         </div>
     </body>

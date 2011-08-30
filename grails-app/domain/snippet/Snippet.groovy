@@ -1,9 +1,11 @@
 package snippet
 
-class Snippet implements Comparable {
+import org.grails.taggable.*
+
+class Snippet implements Taggable, Comparable {
 
     static belongsTo = [author: User]
-    static hasMany = [comments: Comment, tags: SnippetTags, stars: Star, votes: Vote]
+    static hasMany = [comments: Comment, stars: Star, votes: Vote]
     
     static constraints = {
         name blank:false
@@ -31,15 +33,5 @@ class Snippet implements Comparable {
         "${name} by ${author.username}, ${lastUpdated}"
     }
 
-    def springSecurityService
-    def tags() {
-        def tags = []
-        def user = springSecurityService.getCurrentUser()
-        if(user){
-            def r = SnippetTags.get(user.id,this.id)
-            if(r)tags = r.tags
-        }
-        return tags
-    }
 }
 

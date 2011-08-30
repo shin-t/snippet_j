@@ -7,6 +7,7 @@
                         ${fieldValue(bean: snippetInstance, field: "name")}
                     </g:link>
                 </h2>
+                <h3>${fieldValue(bean: snippetInstance, field: "description")}</h3>
                 <div class="float_left"><g:link controller="user" action="show" params="[username:snippetInstance?.author?.username]">${snippetInstance?.author?.username.encodeAsHTML()}</g:link></div>
                 <div class="float_right"><g:formatDate date="${snippetInstance.dateCreated}" /></div>
                 <div class="clear"></div>

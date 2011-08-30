@@ -18,6 +18,7 @@
                 <div class="snippet content">
                     <div class="header">
                         <h2>${fieldValue(bean: snippetInstance, field: "name")}</h2>
+                        <h3>${fieldValue(bean: snippetInstance, field: "description")}</h3>
                         <div class="float_left">
                             <g:link controller="user" action="show" params="[username:snippetInstance?.author?.username]">${snippetInstance?.author?.username.encodeAsHTML()}</g:link>
                         </div>

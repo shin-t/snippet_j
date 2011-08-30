@@ -9,6 +9,7 @@ class Snippet implements Taggable, Comparable {
     
     static constraints = {
         name blank:false
+        description nullable:true
         snippet blank:false, widget:'textarea'
         author display:false
         comments display:false
@@ -20,6 +21,7 @@ class Snippet implements Taggable, Comparable {
     }
 
     String name
+    String description
     String snippet
     Date dateCreated
     Date lastUpdated

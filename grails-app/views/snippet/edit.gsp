@@ -30,6 +30,12 @@
                             </label>
                         </h2>
                         <g:textField class="value ${hasErrors(bean: snippetInstance, field: 'name', 'errors')}" name="name" value="${snippetInstance?.name}" />
+                        <h3>
+                            <label for="description">
+                                <g:message code="snippet.description.label" default="Description" />
+                            </label>
+                        </h3>
+                        <g:textField class="${hasErrors(bean: snippetInstance, field: 'description', 'errors')}" name="description" value="${snippetInstance?.description}" />
                     </div>
                     <div class="body">
                         <label for="snippet">

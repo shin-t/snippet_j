@@ -16,20 +16,19 @@ class SnippetController {
     def tagsService
     def starService
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def parse_tags = {
-        def user_id, instance
-        def tags = []
-        user_id = springSecurityService.getCurrentUser().id
-        if(params.id) instance = Snippet.get(params.id)
-        if(instance&&instance.author.id==user_id){
-            instance.setTags([])
-            if(!instance.tags&&params.tags){
-                instance.parseTags(params.tags," ")
-                tags = instance.tags
+        def snippetInstance
+        if(params.id){
+            snippetInstance = Snippet.get(params.id)
+            if(snippetInstance && snippetInstance.author.id == springSecurityService.getCurrentUser().id){
+                snippetInstance.setTags([])
+                if(!snippetInstance.tags&&params.tags){
+                    snippetInstance.parseTags(params.tags," ")
+                    render (snippetInstance.tags as JSON)
+                }
             }
         }
-        render (tags as JSON)
     }
 
     def stars_counts = {

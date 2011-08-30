@@ -25,12 +25,36 @@ class BootStrap {
 
         def snippets = []
 
-        snippets << new Snippet(name:"sum.pl",snippet:"sum([],0).\nsum([N|R],S) :-\n  sum(R,S1),\n  S is N + S1.",author:User.get(1)).save(flush:true)
-        snippets << new Snippet(name: "qsort.erl", snippet: "-module(quicksort).\n-export([qsort/1]).\n\nqsort([]) -> [];\nqsort([Pivot|Rest]) ->\n  qsort([ X || X <- Rest, X < Pivot]) ++ [Pivot] ++ qsort([ Y || Y <- Rest, Y >= Pivot]).", author:User.get(2)).save(flush:true)
-        snippets << new Snippet(name: "append_dl.pl", snippet:"append_dl([Xs, Ys], [Ys, Zs], [Xs, Zs]).",author:User.get(1)).save(flush:true)
-        snippets << new Snippet(name: "total.hs", snippet: "total :: [Int]\ntotal [] = 0\ntotal (x:xs) = x + total xs", author: User.get(1)).save(flush: true)
-        snippets << new Snippet(name: "tri.v", snippet: "Variables P Q R : Prop.\nLemma tri : (P -> Q) -> (Q -> R) -> (P -> R).\nProof.\n  intros; apply H0; apply H; exact H1.\nQed.", author: User.get(2)).save(flush: true)
-
+        snippets << new Snippet(
+            name:"sum.pl",
+            description:"sum",
+            snippet:"sum([],0).\nsum([N|R],S) :-\n  sum(R,S1),\n  S is N + S1.",
+            author:User.get(1)
+            ).save(flush:true)
+        snippets << new Snippet(
+            name: "qsort.erl", 
+            description:"quicksort",
+            snippet: "-module(quicksort).\n-export([qsort/1]).\n\nqsort([]) -> [];\nqsort([Pivot|Rest]) ->\n  qsort([ X || X <- Rest, X < Pivot]) ++ [Pivot] ++ qsort([ Y || Y <- Rest, Y >= Pivot]).",
+            author:User.get(2)
+            ).save(flush:true)
+        snippets << new Snippet(
+            name: "append_dl.pl",
+            description:"append diff lists",
+            snippet:"append_dl([Xs, Ys], [Ys, Zs], [Xs, Zs]).",
+            author:User.get(1)
+            ).save(flush:true)
+        snippets << new Snippet(
+            name: "total.hs",
+            description:"total",
+            snippet: "total :: [Int]\ntotal [] = 0\ntotal (x:xs) = x + total xs",
+            author: User.get(1)
+            ).save(flush: true)
+        snippets << new Snippet(
+            name: "tri.v",
+            description:"tri lemma",
+            snippet: "Variables P Q R : Prop.\nLemma tri : (P -> Q) -> (Q -> R) -> (P -> R).\nProof.\n  intros; apply H0; apply H; exact H1.\nQed.",
+            author: User.get(2)
+            ).save(flush: true)
 
         assert Snippet.count() == 5
 

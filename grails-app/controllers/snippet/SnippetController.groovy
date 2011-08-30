@@ -177,13 +177,12 @@ class SnippetController {
             redirect(action: "list")
         }
         else {
-            def tags,stars,star
+            def stars,star
             if(springSecurityService.isLoggedIn()){
-                tags = SnippetTags.get(springSecurityService.getCurrentUser().id, snippetInstance.id)
                 stars = Snippet.executeQuery('from Star as s where s.snippet.id = :snippet_id',[snippet_id: snippetInstance.id])
                 if(Star.get(springSecurityService.getCurrentUser().id, snippetInstance.id))star=true else star =false
             }
-            [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser(), snippetTags: tags, stars: stars, star:star]
+            [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser(), snippetTags: snippetInstance.tags, stars: stars, star:star]
         }
     }
 

@@ -19,8 +19,6 @@
                 <g:renderErrors bean="${snippetInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <div class="sidebar">
-            </div>
             <g:form action="save" >
                 <div class="snippet content">
                     <div class="header">

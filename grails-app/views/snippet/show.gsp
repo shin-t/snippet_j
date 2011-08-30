@@ -14,8 +14,6 @@
             <g:if test="${flash.message}">
                 <div class="message">${flash.message}</div>
             </g:if>
-            <div class="sidebar">
-            </div>
             <div class="main">
                 <div class="snippet content">
                     <div class="header">

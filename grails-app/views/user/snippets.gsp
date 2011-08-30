@@ -19,7 +19,6 @@
                     <div class="message">${params.username.encodeAsHTML()} /<g:if test="${params.tags}"> ${params.tags.encodeAsHTML()}</g:if> (${snippetInstanceTotal})</div>
                 </g:elseif>
             </h2>
-            <div class="sidebar"></div>
             <g:render template="/layouts/snippets"/>
             <div class="paginateButtons">
                 <g:paginate total="${snippetInstanceTotal}" params="[tags:params.tags,user:params.user,q:params.q]" />

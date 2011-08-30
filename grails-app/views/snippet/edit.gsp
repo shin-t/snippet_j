@@ -19,8 +19,6 @@
                     <g:renderErrors bean="${snippetInstance}" as="list" />
                 </div>
             </g:hasErrors>
-            <div class="sidebar">
-            </div>
             <g:form method="post" >
                 <g:hiddenField name="id" value="${snippetInstance?.id}" />
                 <g:hiddenField name="version" value="${snippetInstance?.version}" />

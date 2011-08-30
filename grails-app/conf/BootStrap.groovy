@@ -17,9 +17,10 @@ class BootStrap {
         testUser2.save(flush: true)
 
         UserRole.create testUser, adminRole, true
+        UserRole.create testUser, userRole, true
         UserRole.create testUser2, userRole, true
 
-        assert UserRole.count() == 2
+        assert UserRole.count() == 3
         assert Role.count() == 2
         assert User.count() == 2
 

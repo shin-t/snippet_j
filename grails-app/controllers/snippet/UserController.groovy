@@ -141,7 +141,7 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def edit = {
         def userInstance = User.get(params.id)
         if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
@@ -154,7 +154,7 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def update = {
         def userInstance = User.get(params.id)
         if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
@@ -188,7 +188,7 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def delete = {
         def userInstance = User.get(params.id)
         if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {

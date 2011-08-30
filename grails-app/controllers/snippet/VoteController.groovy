@@ -10,7 +10,7 @@ class VoteController {
 
     def springSecurityService
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def vote = {
         def user_id = springSecurityService.getCurrentUser().id
         def status
@@ -34,7 +34,7 @@ class VoteController {
         render(status:status,text:"")
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def up_vote = {
         def user_id = springSecurityService.getCurrentUser().id
         def status
@@ -54,7 +54,7 @@ class VoteController {
         }
         render(status:status,text:"")
     }
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def down_vote = {
         def user_id = springSecurityService.getCurrentUser().id
         def status

@@ -46,7 +46,7 @@ class SnippetController {
         }
     }
     
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def star = {
         def instance, status, user
         user = springSecurityService.getCurrentUser()
@@ -145,7 +145,7 @@ class SnippetController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def create = {
         def snippetInstance = new Snippet()
         snippetInstance.properties = params
@@ -153,7 +153,7 @@ class SnippetController {
         [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()]
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def save = {
         def snippetInstance = new Snippet()
         snippetInstance.properties = params
@@ -185,7 +185,7 @@ class SnippetController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def edit = {
         def snippetInstance = Snippet.get(params.id)
         if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.author)) {
@@ -197,7 +197,7 @@ class SnippetController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def update = {
         def snippetInstance = Snippet.get(params.id)
         if (snippetInstance&&(snippetInstance.author==springSecurityService.getCurrentUser())) {
@@ -226,7 +226,7 @@ class SnippetController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def delete = {
         def snippetInstance = Snippet.get(params.id)
         if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.author)) {

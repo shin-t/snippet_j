@@ -9,7 +9,7 @@ class CommentController {
     
     def springSecurityService
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def save = {
         def commentInstance = new Comment(params)
         commentInstance.author = springSecurityService.getCurrentUser()
@@ -21,7 +21,7 @@ class CommentController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def update = {
         def commentInstance = Comment.get(params.id)
         if (commentInstance&&(commentInstance.author==springSecurityService.getCurrentUser())) {
@@ -48,7 +48,7 @@ class CommentController {
         }
     }
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def delete = {
         def commentInstance = Comment.get(params.id)
         if (commentInstance&&(commentInstance.author==springSecurityService.getCurrentUser())) {

@@ -30,19 +30,11 @@ class User {
         UserRole.findAllByUser(this).collect { it.role } as Set
     }
 
+    /**
+     * @return String username
+     */
     String toString() {
         username
     }
 
-    def tagCloud() {
-        def query = """
-            select tl.tag.name, count(tl.tag.name) 
-            from Snippet s, TagLink tl 
-            where s.id = tl.tagRef
-            and s.author = ?
-            and tl.type = 'snippet'
-            group by tl.tag.name
-        """
-        Snippet.executeQuery(query,[this]);
-    }
 }

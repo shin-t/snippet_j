@@ -5,3 +5,5 @@ target/
 .DS_Store
 devDB.*
 *.log
+cobertura.ser
+Codenarcreport.html

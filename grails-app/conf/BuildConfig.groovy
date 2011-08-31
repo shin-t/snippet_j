@@ -27,5 +27,33 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         // runtime 'mysql:mysql-connector-java:5.1.13'
+
+        test("org.seleniumhq.selenium:selenium-htmlunit-driver:2.0b3") {
+            exclude 'xml-apis'
+        }
+        test 'org.seleniumhq.selenium:selenium-chrome-driver:2.0b3'
+        test "org.codehaus.geb:geb-spock:0.6.0"
+    }
+    plugins {
+        test ":spock:0.5-groovy-1.7"
+        test ":geb:0.6.0"
     }
 }
+
+codenarc.reports = {
+    // Each report definition is of the form:
+    //    REPORT-NAME(REPORT-TYPE) {
+    //        PROPERTY-NAME = PROPERTY-VALUE
+    //        PROPERTY-NAME = PROPERTY-VALUE
+    //    }
+
+    MyXmlReport('xml') {                    // The report name "MyXmlReport" is user-defined; Report type is 'xml'
+        outputFile = 'target/test-reports/CodeNarc-Report.xml'  // Set the 'outputFile' property of the (XML) Report
+            title = 'CodeNarc Report'             // Set the 'title' property of the (XML) Report
+    }
+    MyHtmlReport('html') {                  // Report type is 'html'
+        outputFile = 'target/test-reports/CodeNarc-Report.html'
+            title = 'CodeNarc Report'
+    }
+}
+

@@ -6,6 +6,9 @@ import groovyx.net.http.HTTPBuilder
 import static groovyx.net.http.Method.*
 import static groovyx.net.http.ContentType.*
 
+import org.springframework.security.core.context.SecurityContextHolder as SCH
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+
 class SnippetController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -15,6 +18,9 @@ class SnippetController {
     def githubService
     def tagsService
     def starService
+    
+    /* SignIn */
+    def authenticationManager
 
     @Secured(['ROLE_USER'])
     def parse_tags = {
@@ -104,6 +110,18 @@ class SnippetController {
     }
 
     def index = {
+        //SCH.context.authentication = new UsernamePasswordAuthenticationToken(User.get(2), springSecurityService.encodePassword('password'))
+        //def authentication = new UsernamePasswordAuthenticationToken('user', springSecurityService.encodePassword('password'))
+
+        /* SignIn
+            def authentication = new UsernamePasswordAuthenticationToken('user', 'password')
+            SCH.context.authentication = authenticationManager.authenticate(authentication)
+
+            println SCH.toString()
+            println SCH.context.authentication.dump()
+            println session
+        */
+
         redirect(action: "list", params: params)
     }
 

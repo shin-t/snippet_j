@@ -72,7 +72,7 @@ class UserController {
                 """
             snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)
             snippetInstanceTotal = Snippet.executeQuery(query,[userInstance]).size()
-            [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()]
+            [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, currentUser: springSecurityService.getCurrentUser()]
         }
         else{
             redirect(controller:"login",view:"auth")
@@ -105,7 +105,7 @@ class UserController {
                 """
                 snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)
                 snippetInstanceTotal = Snippet.executeQuery(query,[userInstance]).size()
-            render(view: "snippets", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, tags: userInstance.tagCloud(), currentUser: springSecurityService.getCurrentUser()])
+            render(view: "snippets", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, currentUser: springSecurityService.getCurrentUser()])
         }
         else{
             redirect(controller:"login",view:"auth")
@@ -134,7 +134,7 @@ class UserController {
             userInstance=springSecurityService.getCurrentUser()
         }
         if(userInstance){
-            [currentUser: springSecurityService.getCurrentUser(), user:userInstance, tags: userInstance.tagCloud()]
+            [currentUser: springSecurityService.getCurrentUser(), user:userInstance]
         }
         else{
             redirect(controller:"login",view:"auth")

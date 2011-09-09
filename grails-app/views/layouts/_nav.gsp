@@ -51,7 +51,7 @@
         </div>
         <div>
             <g:form url='[controller: "snippet", action: "list"]' id="searchableForm" name="searchableForm" method="get">
-                <button><g:message code="default.search.label" default="Search" /></button><g:textField name="q" value="${params.q}"/>
+                <g:textField name="q" value="${params.q}"/><button><g:message code="default.search.label" default="Search" /></button>
             </g:form>
         </div>
     </div>

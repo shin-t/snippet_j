@@ -20,6 +20,9 @@
                         <h2>${fieldValue(bean: snippetInstance, field: "name")}</h2>
                         <h3>${fieldValue(bean: snippetInstance, field: "description")}</h3>
                         <div class="float_left">
+                            <g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/>
+                        </div>
+                        <div class="float_right">
                             <g:link controller="user" action="show" params="[username:snippetInstance?.author?.username]">${snippetInstance?.author?.username.encodeAsHTML()}</g:link>
                         </div>
                         <div class="float_right">
@@ -27,6 +30,10 @@
                         </div>
                         <div class="clear">
                         </div>
+                    </div>
+                    <div class="float_left">
+                        <g:render template="/layouts/vote" model="[snippetInstance:snippetInstance]"/>
+                        <g:render template="/layouts/star" model="[snippetInstance:snippetInstance,stars:stars]"/>
                     </div>
                     <div class="body">
                         <pre><code>${fieldValue(bean: snippetInstance, field: "snippet")}</code></pre>
@@ -44,17 +51,7 @@
                         </g:form>
                     </div>
                     </g:if>
-                    <div class="footer">
-                        <div>
-                            <g:render template="/layouts/vote" model="[snippetInstance:snippetInstance]"/>
-                        </div>
-                        <div>
-                            <g:render template="/layouts/edit_tag" model="[snippetInstance:snippetInstance,snippetTags:snippetTags,star:star]"/>
-                        </div>
-                        <div>
-                            <g:render template="/layouts/star" model="[snippetInstance:snippetInstance,stars:stars]"/>
-                        </div>
-                    </div>
+                    <div class="clear"></div>
                 </div>
                 <g:render template="/layouts/comments" model="[snippetInstance:snippetInstance,currentUser:currentUser]"/>
                 <g:render template="/layouts/comment" model="[snippetInstance:snippetInstance]"/>

@@ -1,22 +1,24 @@
 <div class="edit_tag">
     <form id="edit_tags_${snippetInstance.id}">
-        <span><g:message code="snippet.tags.label" default="Tags" /></span>
         <span class="tags">
             <g:each status="i" in="${snippetInstance.tags}" var="t"><g:link action="tag" params="[tag:t]" class="tag">${t.encodeAsHTML()}</g:link></g:each>
         </span>
-        <input type="button" id="editTags_${snippetInstance.id}" name="editTags_${snippetInstance.id}" value="${message(code: 'default.button.edit.label', default: 'Edit')}">
+        <button id="editTags_${snippetInstance.id}" name="editTags_${snippetInstance.id}">${message(code: 'default.button.edit.label', default: 'Edit')}</button>
     </form>
     <form id="parse_tags_${snippetInstance.id}" action="/snippet/snippet/parse_tags" method="POST">
         <g:hiddenField name="id" value="${snippetInstance.id}" />
         <g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" />
-        <g:submitButton name="parseTags" value="${message(code: 'default.button.update.label', default: 'Update')}" />
+        <button id="parseTags" name="parseTags">${message(code: 'default.button.update.label', default: 'Update')}</button>
     </form>
     <g:javascript>
     (function(){
+        $("#edit\_tags\_${snippetInstance.id} button").button({icons:{primary:"ui-icon-tag"}});
+        $("#parse\_tags\_${snippetInstance.id} button").button({icons:{primary:"ui-icon-tag"}});
         $("#parse\_tags\_${snippetInstance.id}").hide();
         $("#editTags\_${snippetInstance.id}").click(function(e){
             $("#edit\_tags\_${snippetInstance.id}").hide();
             $("#parse\_tags\_${snippetInstance.id}").show();
+            return false;
         });
         $("#parse\_tags\_${snippetInstance.id}").submit(function(){
             var q = $(this).serialize();

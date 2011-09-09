@@ -1,14 +1,14 @@
 <div class="vote">
     <form id="form_vote_${snippetInstance.id}">
         <g:hiddenField name="id" value="${snippetInstance.id}"/>
-        <div><button id="up_vote_${snippetInstance.id}">up</button></div>
+        <div><input type="checkbox" id="up_vote_${snippetInstance.id}"/><label for="up_vote_${snippetInstance.id}">up</label></div>
         <div class="vote_count"></div>
-        <div><button id="down_vote_${snippetInstance.id}">down</button></div>
+        <div><input type="checkbox" id="down_vote_${snippetInstance.id}"/><label for="down_vote_${snippetInstance.id}">down</label></div>
     </form>
     <g:javascript>
         (function(){
-            $("#form\_vote\_${snippetInstance.id} div #up\_vote\_${snippetInstance.id}").button({icons:{primary:"ui-icon-triangle-1-n"},text:false}).css("font-size","9pt");
-            $("#form\_vote\_${snippetInstance.id} div #down\_vote\_${snippetInstance.id}").button({icons:{primary:"ui-icon-triangle-1-s"},text:false}).css("font-size","9pt");
+            $("#form\_vote\_${snippetInstance.id} div #up\_vote\_${snippetInstance.id}").button({icons:{primary:"ui-icon-triangle-1-n"},text:false});
+            $("#form\_vote\_${snippetInstance.id} div #down\_vote\_${snippetInstance.id}").button({icons:{primary:"ui-icon-triangle-1-s"},text:false});
             var f = function(){
                 $.ajax({
                     type:"GET",
@@ -36,7 +36,7 @@
                     data:$("#form\_vote\_${snippetInstance.id}").serialize(),
                     success:f
                 });
-                return false;
+                $("#down\_vote\_${snippetInstance.id}").attr('checked',false).button('refresh');
             });
             $("#down\_vote\_${snippetInstance.id}").click(function(){
                 $.ajax({
@@ -45,7 +45,7 @@
                     data:$("#form\_vote\_${snippetInstance.id}").serialize(),
                     success:f
                 });
-                return false;
+                $("#up\_vote\_${snippetInstance.id}").attr('checked',false).button('refresh');
             });
         })();
     </g:javascript>

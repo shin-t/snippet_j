@@ -64,11 +64,12 @@ class SnippetController {
             case "POST":
                 if(instance){
                     instance.delete(flush: true)
+                    status=404
                 }
                 else{
                     instance = Star.create(user, Snippet.get(params.id), true)
+                    status=204
                 }
-                status=204
                 break
         }
         render (status:status,text:"")

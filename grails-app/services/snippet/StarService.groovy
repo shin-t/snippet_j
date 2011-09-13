@@ -6,11 +6,10 @@ class StarService {
 
     def starred() {
         def query = """
-            select sp.id, sp.name, count(st)
-            from Snippet sp, Star st
-            where sp = st.snippet
-            group by sp.id, sp.name
-            order by size(sp.stars) desc
+            select st.snippet.id, count(st.snippet.id)
+            from Star st
+            group by st.snippet.id
+            order by size(st.snippet.stars) desc
         """
         def results = Snippet.executeQuery(query,[],[max:10])
         results

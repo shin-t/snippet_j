@@ -3,8 +3,8 @@
         <div class="comment content" id="comment_${commentInstance.id}">
             <div class="header">
                 <div class="float_left">
-                    <g:link controller="user" action="show" params="[username:commentInstance.author.username]">
-                        ${commentInstance.author.username.encodeAsHTML()}
+                    <g:link controller="user" action="show" params="[username:commentInstance.user.username]">
+                        ${commentInstance.user.username.encodeAsHTML()}
                     </g:link>
                 </div>
                 <div class="float_right">
@@ -14,8 +14,8 @@
                 </div>
                 <div class="clear"></div>
             </div>
-            <div class="body">${commentInstance.comment.encodeAsHTML().replace('\n','<br>')}</div>
-            <g:if test="${commentInstance.author==currentUser}">
+            <div class="body">${commentInstance.text.encodeAsHTML().replace('\n','<br>')}</div>
+            <g:if test="${commentInstance.user==currentUser}">
             <form class="edit_comment">
                 <g:hiddenField name="id" value="${commentInstance.id}" />
                 <g:actionSubmit action="edit_comment" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
@@ -23,7 +23,7 @@
             </form>
             <form class="update_comment">
                 <g:hiddenField name="id" value="${commentInstance.id}" />
-                <g:textArea name="comment" value="${commentInstance.comment}" />
+                <g:textArea name="text" value="${commentInstance.text}" />
                 <g:actionSubmit action="update_comment" value="${message(code: 'default.button.update.label', default: 'Update')}" />
             </form>
             </g:if>

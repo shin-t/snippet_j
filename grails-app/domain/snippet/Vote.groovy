@@ -1,12 +1,14 @@
 package snippet
+import auth.*
 
-class Vote {
+class Vote implements Serializable {
 
     static belongsTo = [user:User,snippet:Snippet]
-
+    static mapping = {
+        id composite:['user', 'snippet']
+        version false
+    }
     static constraints = {
-        user display: false
-        snippet display: false
     }
 
     int vote

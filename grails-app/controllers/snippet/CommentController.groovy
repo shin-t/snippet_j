@@ -12,7 +12,7 @@ class CommentController {
     @Secured(['ROLE_USER'])
     def save = {
         def commentInstance = new Comment(params)
-        commentInstance.author = springSecurityService.getCurrentUser()
+        commentInstance.user = springSecurityService.getCurrentUser()
         if (commentInstance.save(flush: true)) {
             redirect(controller: "snippet", action: "show", id: commentInstance.snippet.id)
         }
@@ -51,7 +51,7 @@ class CommentController {
     @Secured(['ROLE_USER'])
     def delete = {
         def commentInstance = Comment.get(params.id)
-        if (commentInstance&&(commentInstance.author==springSecurityService.getCurrentUser())) {
+        if (commentInstance&&(commentInstance.user==springSecurityService.getCurrentUser())) {
             def snippet_id = commentInstance.snippet.id
             try {
                 commentInstance.delete(flush: true)

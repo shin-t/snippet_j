@@ -1,28 +1,24 @@
 package snippet
+import auth.*
 
-class Comment implements Comparable {
+class Comment {
 
-    static belongsTo = [author:User,snippet:Snippet]
+    static belongsTo = [user:User,snippet:Snippet]
+    static hasMany =[votes: Vote]
 
     static constraints = {
-        comment blank:false, widget:'textarea'
-        author display:false
-        snippet display:false
+        text blank:false, widget:'textarea'
     }
 
     static mapping = {
-        comment type:'text'
+        text type:'text'
     }
 
-    String comment
+    String text
     Date dateCreated
     Date lastUpdated
 
-    int compareTo(obj) {
-        dateCreated.compareTo(obj.dateCreated)
-    }
-
     String toString() {
-        "snippet: ${snippet.description},user: ${author.username},date: ${dateCreated}"
+        text
     }
 }

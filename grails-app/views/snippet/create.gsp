@@ -23,23 +23,13 @@
                 <div class="snippet content">
                     <div class="header">
                         <h2>
-                            <label for="name">
-                                <g:message code="snippet.name.label" default="Name" />
+                            <label for="title">
+                                <g:message code="snippet.title.label" default="Title" />
                             </label>
                         </h2>
-                        <g:textField class="${hasErrors(bean: snippetInstance, field: 'name', 'errors')}" name="name" value="${snippetInstance?.name}" />
-                        <h3>
-                            <label for="description">
-                                <g:message code="snippet.description.label" default="Description" />
-                            </label>
-                        </h3>
-                        <g:textField class="${hasErrors(bean: snippetInstance, field: 'description', 'errors')}" name="description" value="${snippetInstance?.description}" />
+                        <g:textField class="${hasErrors(bean: snippetInstance, field: 'title', 'errors')}" name="title" value="${snippetInstance?.title}" />
                     </div>
                     <div class="body">
-                        <label for="snippet">
-                            <g:message code="snippet.snippet.label" default="Snippet" />
-                        </label>
-                        <g:textArea class="${hasErrors(bean: snippetInstance, field: 'snippet', 'errors')}" name="snippet" value="${snippetInstance?.snippet}" />
                     </div> 
                     <div class="buttons">
                         <span class="button">

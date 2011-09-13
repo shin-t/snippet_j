@@ -1,4 +1,4 @@
-package snippet
+package auth
 
 class Role {
 

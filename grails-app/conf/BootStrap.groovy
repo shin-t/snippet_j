@@ -1,4 +1,4 @@
-import snippet.*
+import auth.*
 
 class BootStrap {
     

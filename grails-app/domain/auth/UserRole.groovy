@@ -1,4 +1,4 @@
-package snippet
+package auth
 
 import org.apache.commons.lang.builder.HashCodeBuilder
 

@@ -1,12 +1,14 @@
 package snippet
+import auth.*
 
 class Star implements Serializable {
 
     static belongsTo = [user:User,snippet:Snippet]
-
+    static mapping = {
+        id composite:['user', 'snippet']
+        version false
+    }
     static constraints = {
-        user display: false
-        snippet display: false
     }
 
     static Star get(long userId, long snippetId) {
@@ -22,5 +24,9 @@ class Star implements Serializable {
     static boolean remove(User user, Snippet snippet, boolean flush = false) {
         Star instance = Star.findByUserAndSnippet(user, snippet)
         instance ? instance.delete(flush: flush) : false
+    }
+    
+    String toString(){
+        "$user , $snippet"
     }
 }

@@ -1,5 +1,7 @@
 package snippet
 
+import auth.*
+
 import grails.test.*
 
 class SnippetTests extends GrailsUnitTestCase {

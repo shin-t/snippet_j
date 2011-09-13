@@ -1,7 +1,9 @@
-package snippet
+package auth
 
 import grails.plugins.springsecurity.Secured
 import grails.converters.*
+
+import snippet.Snippet
 
 class UserController {
 
@@ -67,7 +69,7 @@ class UserController {
         if(userInstance){
             query = """
                 from Snippet s
-                where s.author = ?
+                where s.user = ?
                 order by s.dateCreated desc
                 """
             snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)

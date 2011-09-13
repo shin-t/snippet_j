@@ -4,12 +4,12 @@
             <div class="header">
                 <h2>
                     <g:link controller="snippet" action="show" id="${snippetInstance.id}">
-                        ${fieldValue(bean: snippetInstance, field: "name")}
+                        ${fieldValue(bean: snippetInstance, field: "title")}
                     </g:link>
                 </h2>
                 <div class="float_right">
-                    <g:link controller="user" action="show" params="[username:snippetInstance?.author?.username]">
-                        ${snippetInstance?.author?.username.encodeAsHTML()}
+                    <g:link controller="user" action="show" params="[username:snippetInstance?.user?.username]">
+                        ${snippetInstance?.user?.username.encodeAsHTML()}
                     </g:link>
                 </div>
                 <div class="float_right">

@@ -1,39 +1,23 @@
 package snippet
-
+import auth.*
 import org.grails.taggable.*
 
-class Snippet implements Taggable, Comparable {
+class Snippet implements Taggable {
 
-    static belongsTo = [author: User]
+    static belongsTo = [user:User]
     static hasMany = [comments: Comment, stars: Star, votes: Vote]
     
     static constraints = {
-        name blank:false
-        description nullable:true
-        snippet blank:false, widget:'textarea'
-        author display:false
-        comments display:false
+        title blank:false
     }
 
-    static mapping = {
-        snippet type:'text'
-        sort lastUpdated:'desc'
-    }
-
-    String name
-    String description
-    String snippet
+    String title
     Date dateCreated
     Date lastUpdated
-    SortedSet comments
 
-    int compareTo(obj) {
-        lastUpdated.compareTo(obj.lastUpdated)
-    }
-    
+    Comment comment
+
     String toString() {
-        "${name} by ${author.username}, ${lastUpdated}"
+        title
     }
-
 }
-

@@ -1,8 +1,6 @@
-package snippet
+package auth
 
 class User {
-
-    static hasMany = [snippets:Snippet,comments:Comment,stars:Star,votes:Vote]
 
     static constraints = {
         username blank: false, unique: true
@@ -23,8 +21,6 @@ class User {
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
-    SortedSet snippets
-    SortedSet comments
 
     Set<Role> getAuthorities() {
         UserRole.findAllByUser(this).collect { it.role } as Set

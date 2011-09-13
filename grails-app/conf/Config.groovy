@@ -95,9 +95,9 @@ log4j = {
 }
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'snippet.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'snippet.UserRole'
-grails.plugins.springsecurity.authority.className = 'snippet.Role'
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'auth.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'auth.UserRole'
+grails.plugins.springsecurity.authority.className = 'auth.Role'
 
 // OAuth
 oauth.github.domain = 'https://api.github.com'

@@ -176,8 +176,10 @@ class SnippetController {
     def save = {
         def snippetInstance = new Snippet()
         snippetInstance.properties = params
-        snippetInstance.author = springSecurityService.getCurrentUser()
+        snippetInstance.user = springSecurityService.getCurrentUser()
         snippetInstance.setTags()
+        println springSecurityService.getCurrentUser().dump()
+        println snippetInstance.dump()
         if(snippetInstance.save(flush: true)){
             if (params.tags) snippetInstance.parseTags(params.tags)
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
@@ -248,7 +250,7 @@ class SnippetController {
     @Secured(['ROLE_USER'])
     def delete = {
         def snippetInstance = Snippet.get(params.id)
-        if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.author)) {
+        if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.user)) {
             try {
                 snippetInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"

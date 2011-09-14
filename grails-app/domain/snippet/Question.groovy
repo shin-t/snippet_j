@@ -1,20 +1,16 @@
 package snippet
 
-class Snippet extends Content {
+class Question extends Content{
 
     static constraints = {
         user display:false
         text blank:false, widget:'textarea'
         file nullable:true, blank:false, widget:'textarea'
+        recepting ()
         dateCreated ()
         lastUpdated ()
-        problem nullable:true, display:false
-        question nullable:true, display:false
-        parent nullable:true, display:false
         children display:false
     }
 
-    Problem problem
-    Question question
-    Snippet parent
+    boolean recepting = true
 }

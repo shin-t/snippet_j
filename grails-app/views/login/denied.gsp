@@ -1,6 +1,7 @@
 <head>
 <meta name='layout' content='main' />
 <title>Denied</title>
+<r:require modules="jquery-ui, common" />
 </head>
 
 <body>

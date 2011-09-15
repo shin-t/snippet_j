@@ -1,10 +1,10 @@
 
-<%@ page import="auth.User" %>
+<%@ page import="snippet.Problem" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
+        <g:set var="entityName" value="${message(code: 'problem.label', default: 'Problem')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
         <r:require modules="jquery-ui, common" />
         <r:script>
@@ -26,28 +26,29 @@
             </g:if>
             <div class="list">
                 
-                <g:each in="${userInstanceList}" status="i" var="userInstance">
+                <g:each in="${problemInstanceList}" status="i" var="problemInstance">
+                <div id="${problemInstance.id}" class="reply_form"></div>
                 <div class="content">
                 
-                    <div class="header">${fieldValue(bean: userInstance, field: "username")}</div>
+                    <div class="header">${fieldValue(bean: problemInstance, field: "user")}</div>
                 
-                    <div>${fieldValue(bean: userInstance, field: "password")}</div>
+                    <div>${fieldValue(bean: problemInstance, field: "text")}</div>
                 
-                    <div><g:formatBoolean boolean="${userInstance.enabled}" /></div>
+                    <div>${fieldValue(bean: problemInstance, field: "file")}</div>
                 
-                    <div><g:formatBoolean boolean="${userInstance.accountExpired}" /></div>
+                    <div><g:formatDate date="${problemInstance.deadline}" /></div>
                 
-                    <div><g:formatBoolean boolean="${userInstance.accountLocked}" /></div>
-                
-                    <div><g:formatBoolean boolean="${userInstance.passwordExpired}" /></div>
-                
-                    <div><g:link action="show" id="${userInstance.id}"><g:formatDate date="${userInstance.lastUpdated}" /></g:link></div>
+                    <div><g:link action="show" id="${problemInstance.id}"><g:formatDate date="${problemInstance.lastUpdated}" /></g:link></div>
+                    <div class="reply_button"><g:remoteLink action="create" update="reply_${problemInstance.id}" onLoaded="clearForm()">Reply</g:remoteLink></div>
                 </div>
                 </g:each>
                 <div class="paginateButtons">
-                    <g:paginate total="${userInstanceTotal}" />
+                    <g:paginate total="${problemInstanceTotal}" />
                 </div>
             </div>
+            <r:script>
+                function clearForm() { $(".reply_form").empty() }
+            </r:script>
         </div>
     </body>
 </html>

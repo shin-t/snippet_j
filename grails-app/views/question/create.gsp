@@ -1,11 +1,11 @@
 
 
-<%@ page import="snippet.Snippet" %>
+<%@ page import="snippet.Question" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
+        <g:set var="entityName" value="${message(code: 'question.label', default: 'Question')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
         <r:require modules="jquery-ui, common" />
         <r:script>
@@ -25,9 +25,9 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${snippetInstance}">
+            <g:hasErrors bean="${questionInstance}">
             <div class="errors">
-                <g:renderErrors bean="${snippetInstance}" as="list" />
+                <g:renderErrors bean="${questionInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
@@ -36,19 +36,28 @@
                     
                         <div class="prop">
                             <div class="name">
-                                <label for="text"><g:message code="snippet.text.label" default="Text" /></label>
+                                <label for="text"><g:message code="question.text.label" default="Text" /></label>
                             </div>
-                            <div class="value ${hasErrors(bean: snippetInstance, field: 'text', 'errors')}">
-                                    <g:textArea name="text" cols="40" rows="5" value="${snippetInstance?.text}" />
+                            <div class="value ${hasErrors(bean: questionInstance, field: 'text', 'errors')}">
+                                    <g:textArea name="text" cols="40" rows="5" value="${questionInstance?.text}" />
                             </div>
                         </div>
                     
                         <div class="prop">
                             <div class="name">
-                                <label for="file"><g:message code="snippet.file.label" default="File" /></label>
+                                <label for="file"><g:message code="question.file.label" default="File" /></label>
                             </div>
-                            <div class="value ${hasErrors(bean: snippetInstance, field: 'file', 'errors')}">
-                                    <g:textArea name="file" cols="40" rows="5" value="${snippetInstance?.file}" />
+                            <div class="value ${hasErrors(bean: questionInstance, field: 'file', 'errors')}">
+                                    <g:textArea name="file" cols="40" rows="5" value="${questionInstance?.file}" />
+                            </div>
+                        </div>
+                    
+                        <div class="prop">
+                            <div class="name">
+                                <label for="recepting"><g:message code="question.recepting.label" default="Recepting" /></label>
+                            </div>
+                            <div class="value ${hasErrors(bean: questionInstance, field: 'recepting', 'errors')}">
+                                    <g:checkBox name="recepting" value="${questionInstance?.recepting}" />
                             </div>
                         </div>
                     

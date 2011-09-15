@@ -1,10 +1,10 @@
 
-<%@ page import="snippet.Snippet" %>
+<%@ page import="snippet.Question" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
+        <g:set var="entityName" value="${message(code: 'question.label', default: 'Question')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
         <r:require modules="jquery-ui, common" />
         <r:script>
@@ -31,7 +31,7 @@
                 <div class="header">
                         
                         
-                        <div class="value"><g:link controller="user" action="show" id="${snippetInstance?.user?.id}">${snippetInstance?.user?.encodeAsHTML()}</g:link></div>
+                        <div class="value"><g:link controller="user" action="show" id="${questionInstance?.user?.id}">${questionInstance?.user?.encodeAsHTML()}</g:link></div>
                         
                         
                     </div>
@@ -39,31 +39,19 @@
                 
                         
                         
-                        <div class="value">${fieldValue(bean: snippetInstance, field: "text")}</div>
+                        <div class="value">${fieldValue(bean: questionInstance, field: "text")}</div>
                         
                         
                 
                         
                         
-                        <div class="value">${fieldValue(bean: snippetInstance, field: "file")}</div>
+                        <div class="value">${fieldValue(bean: questionInstance, field: "file")}</div>
                         
                         
                 
                         
                         
-                        <div class="value"><g:link controller="problem" action="show" id="${snippetInstance?.problem?.id}">${snippetInstance?.problem?.encodeAsHTML()}</g:link></div>
-                        
-                        
-                
-                        
-                        
-                        <div class="value"><g:link controller="question" action="show" id="${snippetInstance?.question?.id}">${snippetInstance?.question?.encodeAsHTML()}</g:link></div>
-                        
-                        
-                
-                        
-                        
-                        <div class="value"><g:link controller="snippet" action="show" id="${snippetInstance?.parent?.id}">${snippetInstance?.parent?.encodeAsHTML()}</g:link></div>
+                        <div class="value"><g:formatBoolean boolean="${questionInstance?.recepting}" /></div>
                         
                         
                 
@@ -71,7 +59,7 @@
                         
                     <div style="text-align: left;" class="value">
                         <ul>
-                        <g:each in="${snippetInstance.children}" var="c">
+                        <g:each in="${questionInstance.children}" var="c">
                             <li><g:link controller="snippet" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
                         </g:each>
                         </ul>
@@ -79,10 +67,10 @@
                         
                         
                 
-                <div><g:link action="show" id="${snippetInstance.id}"><g:formatDate date="${snippetInstance.lastUpdated}" /></g:link></div>
+                <div><g:link action="show" id="${questionInstance.id}"><g:formatDate date="${questionInstance.lastUpdated}" /></g:link></div>
                 <div class="buttons">
                     <g:form>
-                        <g:hiddenField name="id" value="${snippetInstance?.id}" />
+                        <g:hiddenField name="id" value="${questionInstance?.id}" />
                         <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                         <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                     </g:form>

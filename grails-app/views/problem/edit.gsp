@@ -1,11 +1,11 @@
 
 
-<%@ page import="snippet.Snippet" %>
+<%@ page import="snippet.Problem" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
+        <g:set var="entityName" value="${message(code: 'problem.label', default: 'Problem')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
         <r:require modules="jquery-ui, common" />
         <r:script>
@@ -25,32 +25,41 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${snippetInstance}">
+            <g:hasErrors bean="${problemInstance}">
             <div class="errors">
-                <g:renderErrors bean="${snippetInstance}" as="list" />
+                <g:renderErrors bean="${problemInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form method="post" >
-                <g:hiddenField name="id" value="${snippetInstance?.id}" />
-                <g:hiddenField name="version" value="${snippetInstance?.version}" />
+                <g:hiddenField name="id" value="${problemInstance?.id}" />
+                <g:hiddenField name="version" value="${problemInstance?.version}" />
                 <div class="dialog">
                     <div class="header">${entityName}</div>
                     
                         <div class="prop">
                             <div class="name">
-                              <label for="text"><g:message code="snippet.text.label" default="Text" /></label>
+                              <label for="text"><g:message code="problem.text.label" default="Text" /></label>
                             </div>
-                            <div class="value ${hasErrors(bean: snippetInstance, field: 'text', 'errors')}">
-                                <g:textArea name="text" cols="40" rows="5" value="${snippetInstance?.text}" />
+                            <div class="value ${hasErrors(bean: problemInstance, field: 'text', 'errors')}">
+                                <g:textArea name="text" cols="40" rows="5" value="${problemInstance?.text}" />
                             </div>
                         </div>
                     
                         <div class="prop">
                             <div class="name">
-                              <label for="file"><g:message code="snippet.file.label" default="File" /></label>
+                              <label for="file"><g:message code="problem.file.label" default="File" /></label>
                             </div>
-                            <div class="value ${hasErrors(bean: snippetInstance, field: 'file', 'errors')}">
-                                <g:textArea name="file" cols="40" rows="5" value="${snippetInstance?.file}" />
+                            <div class="value ${hasErrors(bean: problemInstance, field: 'file', 'errors')}">
+                                <g:textArea name="file" cols="40" rows="5" value="${problemInstance?.file}" />
+                            </div>
+                        </div>
+                    
+                        <div class="prop">
+                            <div class="name">
+                              <label for="deadline"><g:message code="problem.deadline.label" default="Deadline" /></label>
+                            </div>
+                            <div class="value ${hasErrors(bean: problemInstance, field: 'deadline', 'errors')}">
+                                <g:datePicker name="deadline" precision="day" value="${problemInstance?.deadline}" default="none" noSelection="['': '']" />
                             </div>
                         </div>
                     

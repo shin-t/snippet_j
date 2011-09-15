@@ -12,26 +12,32 @@ html * {
     position: absolute;
     right: 0;
 }
-.header, .body, .list{
+.header, .body {
     padding: 5pt;
 }
 .body {
-    margin: 0 20pt;
+    margin: 0 80pt;
 }
 .sidebar {
     width: 200pt;
     float: right;
     padding: 5pt;
 }
-.content {
+.content, .dialog {
     background-color: #fff;
     box-shadow: 2pt 2pt 2pt 2pt rgba(0,0,0,0.2);
+    border: solid 3pt #D2CF91;
     border-radius: 10pt / 10pt;
-    padding: 5pt;
+    padding: 10pt;
     margin: 0 5pt 10pt;
 }
-h1, h1 * {font-size: 32pt;}
-h2, h2 * {font-size: 16pt;}
+.content .header, .dialog .header {
+    border-bottom: solid 1pt #C4C07A;
+    border-right: solid 1pt #C4C07A;
+    background-color: #E7E4B0;
+}
+h1, h1 * {font-size: 16pt;}
+h2, h2 * {font-size: 14pt;}
 h3, h3 * {font-size: 12pt;}
 body {
     background: #D2BA91;
@@ -52,12 +58,10 @@ a, a:link {
 a:hover {
     text-decoration: underline;
 }
-ul, li {
-    margin-left: 10pt;
-}
 .edit_tag, .star{
     margin: 2pt;
 }
+
 
 /* FLOAT */
 

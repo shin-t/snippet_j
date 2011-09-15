@@ -27,27 +27,28 @@
                 <g:hiddenField name="id" value="\${${propertyName}?.id}" />
                 <g:hiddenField name="version" value="\${${propertyName}?.version}" />
                 <div class="dialog">
-                        <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated'
-                            persistentPropNames = domainClass.persistentProperties*.name
-                            props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) }
-                            Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
-                            display = true
-                            boolean hasHibernate = PluginManagerHolder.pluginManager.hasGrailsPlugin('hibernate')
-                            props.each { p ->
-                                if (hasHibernate) {
-                                    cp = domainClass.constrainedProperties[p.name]
-                                    display = (cp?.display ?: true)
-                                }
-                                if (display) { %>
-                            <div class="prop">
-                                <div valign="top" class="name">
-                                  <label for="${p.name}"><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></label>
-                                </div>
-                                <div valign="top" class="value \${hasErrors(bean: ${propertyName}, field: '${p.name}', 'errors')}">
-                                    ${renderEditor(p)}
-                                </div>
+                    <div class="header">\${entityName}</div>
+                    <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated'
+                        persistentPropNames = domainClass.persistentProperties*.name
+                        props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) }
+                        Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
+                        display = false
+                        boolean hasHibernate = PluginManagerHolder.pluginManager.hasGrailsPlugin('hibernate')
+                        props.eachWithIndex { p, i ->
+                            if (hasHibernate) {
+                                cp = domainClass.constrainedProperties[p.name]
+                                display = (cp?.display ?: false)
+                            }
+                            if (display) { %>
+                        <div class="prop">
+                            <div class="name">
+                              <label for="${p.name}"><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></label>
                             </div>
-                        <%  }   } %>
+                            <div class="value \${hasErrors(bean: ${propertyName}, field: '${p.name}', 'errors')}">
+                                ${renderEditor(p)}
+                            </div>
+                        </div>
+                    <%  }   } %>
                 </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="\${message(code: 'default.button.update.label', default: 'Update')}" /></span>

@@ -13,7 +13,6 @@ class SnippetController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def scaffold = true
     def springSecurityService
     def githubService
     def tagsService
@@ -132,7 +131,7 @@ class SnippetController {
         def query
         def tags = tagsService.recent_tags()
         def tag_ranking = tagsService.tag_ranking()
-        def snippet_ranking = starService.starred()
+        //def snippet_ranking = starService.starred()
 
         params.max = Math.min(params.max ? params.int('max') : 10, 30)
         params.sort = params.sort?:'dateCreated'
@@ -154,7 +153,7 @@ class SnippetController {
 
         withFormat {
             html {
-                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tags, tag_ranking: tag_ranking, snippet_ranking: snippet_ranking]
+                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tags, tag_ranking: tag_ranking]//, snippet_ranking: snippet_ranking]
             }
             json {
                 def meta = params
@@ -209,7 +208,7 @@ class SnippetController {
     @Secured(['ROLE_USER'])
     def edit = {
         def snippetInstance = Snippet.get(params.id)
-        if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.author)) {
+        if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.user)) {
             [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()]
         }
         else {
@@ -221,7 +220,7 @@ class SnippetController {
     @Secured(['ROLE_USER'])
     def update = {
         def snippetInstance = Snippet.get(params.id)
-        if (snippetInstance&&(snippetInstance.author==springSecurityService.getCurrentUser())) {
+        if (snippetInstance&&(snippetInstance.user==springSecurityService.getCurrentUser())) {
             if (params.version) {
                 def version = params.version.toLong()
                 if (snippetInstance.version > version) {

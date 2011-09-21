@@ -2,11 +2,9 @@
 <html>
     <head>
         <title><g:layoutTitle default="Grails"/></title>
-        <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
         <g:javascript library="application" />
-        <g:javascript library="jquery" plugin="jquery" />
-        <jqui:resources theme="ui-lightness" />
         <g:layoutHead />
+        <r:layoutResources />
     </head>
     <body>
         <div id="spinner" class="spinner" style="display:none;">
@@ -14,5 +12,6 @@
         </div>
         <g:render template="/layouts/nav" />
         <g:layoutBody />
+        <r:layoutResources />
     </body>
 </html>

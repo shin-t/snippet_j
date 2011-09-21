@@ -99,6 +99,9 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'auth.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'auth.UserRole'
 grails.plugins.springsecurity.authority.className = 'auth.Role'
 
+// jQuery Plugin
+grails.views.javascript.library="jquery"
+
 // OAuth
 oauth.github.domain = 'https://api.github.com'
 oauth.github.authorize_url = 'https://github.com/login/oauth/authorize'

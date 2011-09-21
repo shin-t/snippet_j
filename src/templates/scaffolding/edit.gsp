@@ -7,6 +7,13 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
+        <r:require modules="jquery-ui, common" />
+        <r:script>
+            \$(function(){
+                \$("input:submit, input:button").button().css("font-size","8pt");
+                \$("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false}).css("font-size","8pt");
+            });
+        </r:script>
     </head>
     <body>
         <div class="nav">

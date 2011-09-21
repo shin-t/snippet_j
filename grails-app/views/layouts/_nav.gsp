@@ -1,10 +1,4 @@
 <div class="nav">
-    <g:javascript>
-        $(function(){
-            $("input:submit, input:button").button().css("font-size","8pt");
-            $("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false}).css("font-size","8pt");
-        });
-    </g:javascript>
     <h1 class="float_left"><g:link uri="/">Snippet</g:link></h1>
     <div class="float_right">
         <div>

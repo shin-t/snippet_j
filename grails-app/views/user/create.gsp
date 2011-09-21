@@ -30,7 +30,7 @@
                 <g:renderErrors bean="${userInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form controller="user" action="save" >
                 <div class="dialog">
                     <div class="header">${entityName}</div>
                     

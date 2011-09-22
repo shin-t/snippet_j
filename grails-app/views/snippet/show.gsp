@@ -51,13 +51,19 @@
                 
                         
                         
-                        <div class="value"><g:link controller="problem" action="show" id="${snippetInstance?.problem?.id}">${snippetInstance?.problem?.encodeAsHTML()}</g:link></div>
+                        <div class="value"><g:formatBoolean boolean="${snippetInstance?.recepting}" /></div>
                         
                         
                 
                         
                         
-                        <div class="value"><g:link controller="question" action="show" id="${snippetInstance?.question?.id}">${snippetInstance?.question?.encodeAsHTML()}</g:link></div>
+                        <div class="value"><g:formatDate date="${snippetInstance?.deadline}" /></div>
+                        
+                        
+                
+                        
+                        
+                        <div class="value"><g:link controller="snippet" action="show" id="${snippetInstance?.root?.id}">${snippetInstance?.root?.encodeAsHTML()}</g:link></div>
                         
                         
                 

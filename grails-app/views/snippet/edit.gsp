@@ -54,6 +54,24 @@
                             </div>
                         </div>
                     
+                        <div class="prop">
+                            <div class="name">
+                              <label for="recepting"><g:message code="snippet.recepting.label" default="Recepting" /></label>
+                            </div>
+                            <div class="value ${hasErrors(bean: snippetInstance, field: 'recepting', 'errors')}">
+                                <g:checkBox name="recepting" value="${snippetInstance?.recepting}" />
+                            </div>
+                        </div>
+                    
+                        <div class="prop">
+                            <div class="name">
+                              <label for="deadline"><g:message code="snippet.deadline.label" default="Deadline" /></label>
+                            </div>
+                            <div class="value ${hasErrors(bean: snippetInstance, field: 'deadline', 'errors')}">
+                                <g:datePicker name="deadline" precision="day" value="${snippetInstance?.deadline}" default="none" noSelection="['': '']" />
+                            </div>
+                        </div>
+                    
                 </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>

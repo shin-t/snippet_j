@@ -1,4 +1,5 @@
 
+
 <%@ page import="snippet.Snippet" %>
 <html>
     <head>
@@ -15,44 +16,45 @@
         </r:script>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
             <div class="sidebar"></div>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-            <div class="list">
-                
-                <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
-                <div id="reply_${snippetInstance.id}" class="reply_form"></div>
-                <div class="content">
-                
-                    <div class="header">${fieldValue(bean: snippetInstance, field: "user")}</div>
-                
-                    <div>${fieldValue(bean: snippetInstance, field: "text")}</div>
-                
-                    <div>${fieldValue(bean: snippetInstance, field: "file")}</div>
-                
-                    <div>${fieldValue(bean: snippetInstance, field: "problem")}</div>
-                
-                    <div>${fieldValue(bean: snippetInstance, field: "question")}</div>
-                
-                    <div>${fieldValue(bean: snippetInstance, field: "parent")}</div>
-                
-                    <div><g:link action="show" id="${snippetInstance.id}"><g:formatDate date="${snippetInstance.lastUpdated}" /></g:link></div>
-                    <div class="reply_button"><g:remoteLink action="reply" id="${snippetInstance.id}" update="reply_${snippetInstance.id}" onLoaded="clearForm()">Reply</g:remoteLink></div>
+            <div class="contents">
+                <g:if test="${flash.message}">
+                <div class="message">${flash.message}</div>
+                </g:if>
+                <g:render template="form" model="[snippetInstance:snippetInstance]" />
+                <div class="list">
+                    <div id="update"></div>
+                    <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
+                    <div id="reply_${snippetInstance.id}" class="reply_form"></div>
+                    <div class="content">
+                    
+                        <div class="header">${fieldValue(bean: snippetInstance, field: "user")}</div>
+                    
+                        <div>${fieldValue(bean: snippetInstance, field: "text")}</div>
+                    
+                        <div>${fieldValue(bean: snippetInstance, field: "file")}</div>
+                    
+                        <div><g:formatBoolean boolean="${snippetInstance.recepting}" /></div>
+                    
+                        <div><g:formatDate date="${snippetInstance.deadline}" /></div>
+                    
+                        <div>${fieldValue(bean: snippetInstance, field: "root")}</div>
+                    
+                        <div>${fieldValue(bean: snippetInstance, field: "parent")}</div>
+                    
+                        <div><g:link action="show" id="${snippetInstance.id}"><g:formatDate date="${snippetInstance.lastUpdated}" /></g:link></div>
+                        <div class="reply_button"><g:remoteLink action="create" id="${snippetInstance.id}" update="reply_${snippetInstance.id}" onLoaded="clearForm()">Reply</g:remoteLink></div>
+                    </div>
+                    </g:each>
+                    <div class="paginateButtons">
+                        <g:paginate total="${snippetInstanceTotal}" />
+                    </div>
                 </div>
-                </g:each>
-                <div class="paginateButtons">
-                    <g:paginate total="${snippetInstanceTotal}" />
-                </div>
+                <r:script>
+                    function clearForm() { $(".reply_form").empty() }
+                </r:script>
             </div>
-            <r:script>
-                function clearForm() { $(".reply_form").empty() }
-            </r:script>
         </div>
     </body>
 </html>

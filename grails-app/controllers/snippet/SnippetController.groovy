@@ -110,57 +110,27 @@ class SnippetController {
     }
 
     def index = {
-        //SCH.context.authentication = new UsernamePasswordAuthenticationToken(User.get(2), springSecurityService.encodePassword('password'))
-        //def authentication = new UsernamePasswordAuthenticationToken('user', springSecurityService.encodePassword('password'))
-
         /* SignIn
+            SCH.context.authentication = new UsernamePasswordAuthenticationToken(User.get(2), springSecurityService.encodePassword('password'))
+            def authentication = new UsernamePasswordAuthenticationToken('user', springSecurityService.encodePassword('password'))
             def authentication = new UsernamePasswordAuthenticationToken('user', 'password')
             SCH.context.authentication = authenticationManager.authenticate(authentication)
-
             println SCH.toString()
             println SCH.context.authentication.dump()
             println session
         */
-
-        redirect(action: "list", params: params)
+        //redirect(action: "list", params: params)
     }
 
     def list = {
         def snippetInstanceList
-        def snippetInstanceTotal
-        def query
-        def tags = tagsService.recent_tags()
-        def tag_ranking = tagsService.tag_ranking()
-        //def snippet_ranking = starService.starred()
 
         params.max = Math.min(params.max ? params.int('max') : 10, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
-
-        if(params.q?.trim()){
-            query = """
-                from Snippet sp
-                where sp.name like :q
-                or sp.snippet like :q
-            """
-            snippetInstanceList = Snippet.executeQuery(query,[q:"%${params.q}%"],params)
-            snippetInstanceTotal = Snippet.executeQuery(query,[q:"%${params.q}%"]).size()
-        }
-        else{
-            snippetInstanceList = Snippet.list(params)
-            snippetInstanceTotal = Snippet.count()
-        }
-
-        withFormat {
-            html {
-                [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tags, tag_ranking: tag_ranking]//, snippet_ranking: snippet_ranking]
-            }
-            json {
-                def meta = params
-                meta.total = snippetInstanceTotal
-                render snippetInstanceList as JSON
-            }
-        }
+        snippetInstanceList = Snippet.list(params)
+        
+        render template:"list",model:[snippetInstanceList: snippetInstanceList]
     }
 
     @Secured(['ROLE_USER'])
@@ -168,24 +138,31 @@ class SnippetController {
         def snippetInstance = new Snippet()
         snippetInstance.properties = params
         if (params.tags) snippetInstance.parseTags(params.tags)
-        [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()]
+        render template:"form",model:[parent_id: params.parent_id, snippetInstance: snippetInstance]
     }
 
     @Secured(['ROLE_USER'])
     def save = {
         def snippetInstance = new Snippet()
         snippetInstance.properties = params
+        snippetInstance.help = params.help?true:false
         snippetInstance.user = springSecurityService.getCurrentUser()
+        if (params.parent_id) {
+            snippetInstance.parent = Snippet.get(params.parent_id)
+            snippetInstance.root = snippetInstance.parent.root?:snippetInstance.parent
+        }
         snippetInstance.setTags()
-        println springSecurityService.getCurrentUser().dump()
-        println snippetInstance.dump()
         if(snippetInstance.save(flush: true)){
             if (params.tags) snippetInstance.parseTags(params.tags)
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
-            redirect(action: "show", id: snippetInstance.id)
+            // flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
+            params.max = Math.min(params.max ? params.int('max') : 10, 30)
+            params.sort = params.sort?:'dateCreated'
+            params.order = params.order?:'desc'
+            render(template: "list",model:[snippetInstanceList:Snippet.list(params)])
         }
         else {
-            render(view: "create", model: [snippetInstance: snippetInstance, currentUser: springSecurityService.getCurrentUser()])
+            // render(snippetInstance.errors.allErrors.collect{ message(error:it) } as JSON)
+            render(template:"form",model:[parent_id: params.parent_id, snippetInstance: snippetInstance],status:400)
         }
     }
 

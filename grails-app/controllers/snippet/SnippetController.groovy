@@ -126,7 +126,7 @@ class SnippetController {
         def snippetInstanceList
         def snippetInstanceTotal
 
-        params.max = Math.min(params.max ? params.int('max') : 2, 30)
+        params.max = Math.min(params.max ? params.int('max') : 4, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
         snippetInstanceList = Snippet.list(params)
@@ -158,10 +158,7 @@ class SnippetController {
         if(snippetInstance.save(flush: true)){
             if (params.tags) snippetInstance.parseTags(params.tags)
             // flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
-            params.max = Math.min(params.max ? params.int('max') : 10, 30)
-            params.sort = params.sort?:'dateCreated'
-            params.order = params.order?:'desc'
-            render(template: "list",model:[snippetInstanceList:Snippet.list(params)])
+            redirect action:"list"
         }
         else {
             // render(snippetInstance.errors.allErrors.collect{ message(error:it) } as JSON)

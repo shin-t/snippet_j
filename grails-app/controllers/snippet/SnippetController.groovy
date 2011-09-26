@@ -131,9 +131,31 @@ class SnippetController {
         params.order = params.order?:'desc'
         snippetInstanceList = Snippet.list(params)
         snippetInstanceTotal = Snippet.count()
-        println snippetInstanceTotal
         
-        render template:"list",model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
+        withFormat {
+            json {
+                render (contentType:'text/json') {
+                    array {
+                        for(i in snippetInstanceList) {
+                            element {
+                                id = i.id
+                                text = i.text
+                                file = i.file
+                                status = i.status
+                                help = i.help
+                                deadline = i.deadline
+                                date_created = prettytime.display(date:i.dateCreated)
+                                last_updated = prettytime.display(date:i.lastUpdated)
+                                username = i.user.username
+                            }
+                        }
+                    }
+                }
+            }
+            html {
+                render template:"list",model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
+            }
+        }
     }
 
     @Secured(['ROLE_USER'])

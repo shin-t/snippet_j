@@ -129,8 +129,12 @@ class SnippetController {
         params.max = Math.min(params.max ? params.int('max') : 4, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
-        snippetInstanceList = Snippet.list(params)
-        snippetInstanceTotal = Snippet.count()
+
+        snippetInstanceList = Snippet.createCriteria().list(params) {
+            eq ("status", 0)
+        }
+        println snippetInstanceList
+        snippetInstanceTotal = snippetInstanceList.totalCount
         
         withFormat {
             json {

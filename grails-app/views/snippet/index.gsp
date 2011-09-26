@@ -11,6 +11,7 @@
                 $("input:submit, input:button").button().css("font-size","8pt");
                 $("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false}).css("font-size","8pt");
             });
+            /*
             $.ajax({
                 contentType:"text/json",
                 url:"/snippet/snippet/list"
@@ -25,6 +26,7 @@
                 }
             }).error(function(data) {
             }).complete(function(data) {});
+            */
         </r:script>
     </head>
     <body>

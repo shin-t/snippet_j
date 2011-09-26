@@ -28,6 +28,7 @@
                     <g:textArea name="file" rows="3" value="${snippetInstance?.file}" />
             </div>
         </div>
+        <g:if test="${snippetInstance?.status == 1}">
         <div class="prop">
             <div class="name">
                 <label for="help"><g:message code="snippet.help.label" default="Help" /></label>
@@ -36,6 +37,8 @@
                     <g:checkBox name="help" value="${snippetInstance?.help}" />
             </div>
         </div>
+        </g:if>
+        <g:elseif test="${snippetInstance?.status == 2}">
         <div class="prop">
             <div class="name">
                 <label for="deadline"><g:message code="snippet.deadline.label" default="Deadline" /></label>
@@ -44,6 +47,7 @@
                     <g:textField name="deadline" value="${snippetInstance?.deadline}" />
             </div>
         </div>
+        </g:elseif>
         <div class="buttons">
             <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
         </div>

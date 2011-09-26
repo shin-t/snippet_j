@@ -3,6 +3,7 @@
     <g:javascript>
         $(function(){
             $("input:submit, input:button").button().css("font-size","8pt");
+            $("input#deadline").datepicker({dateFormat:'yy/mm/dd'});
         });
     </g:javascript>
     <g:hiddenField name="parent_id" value="${parent_id}" />
@@ -40,7 +41,7 @@
                 <label for="deadline"><g:message code="snippet.deadline.label" default="Deadline" /></label>
             </div>
             <div class="value ${hasErrors(bean: snippetInstance, field: 'deadline', 'errors')}">
-                    <g:datePicker name="deadline" precision="day" value="${snippetInstance?.deadline}" default="none" noSelection="['': '']" />
+                    <g:textField name="deadline" value="${snippetInstance?.deadline}" />
             </div>
         </div>
         <div class="buttons">

@@ -124,13 +124,16 @@ class SnippetController {
 
     def list = {
         def snippetInstanceList
+        def snippetInstanceTotal
 
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+        params.max = Math.min(params.max ? params.int('max') : 2, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
         snippetInstanceList = Snippet.list(params)
+        snippetInstanceTotal = Snippet.count()
+        println snippetInstanceTotal
         
-        render template:"list",model:[snippetInstanceList: snippetInstanceList]
+        render template:"list",model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
     }
 
     @Secured(['ROLE_USER'])

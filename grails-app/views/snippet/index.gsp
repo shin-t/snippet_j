@@ -21,9 +21,12 @@
                 <div class="message">${flash.message}</div>
                 </g:if>
                 <div id="form_dialog">
-                <g:include action="create" model="[snippetInstance:snippetInstance]" />
+                <g:include action="create" />
                 </div>
-                <g:include action="list" model="[snippetInstanceList:snippetInstanceList]" />
+                <g:include action="list" />
+                <r:script>
+                    $.autopager({link:'.nextLink',appendTo:'.contents',content:'.list'});
+                </r:script>
             </div>
         </div>
     </body>

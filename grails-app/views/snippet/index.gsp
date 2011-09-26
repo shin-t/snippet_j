@@ -11,6 +11,20 @@
                 $("input:submit, input:button").button().css("font-size","8pt");
                 $("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false}).css("font-size","8pt");
             });
+            $.ajax({
+                contentType:"text/json",
+                url:"/snippet/snippet/list"
+            }).success(function(data) {
+                console.log(data);
+                for(var i in data){
+                    $("<div/>",{"class":"content"})
+                    .append($("<div/>",{"class":"header",text:data[i].username}))
+                    .append($("<div/>",{text:data[i].text}))
+                    .append($("<div/>",{text:data[i].file}))
+                    .appendTo("#list");
+                }
+            }).error(function(data) {
+            }).complete(function(data) {});
         </r:script>
     </head>
     <body>
@@ -23,7 +37,7 @@
                 <div id="form_dialog">
                 <g:include action="create" model="[snippetInstance:snippetInstance]" />
                 </div>
-                <g:include action="list" model="[snippetInstanceList:snippetInstanceList]" />
+                <div id="list"></div>
             </div>
         </div>
     </body>

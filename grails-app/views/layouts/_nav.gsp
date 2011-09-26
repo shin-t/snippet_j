@@ -16,11 +16,6 @@
             ]
             </sec:ifNotLoggedIn>
         </div>
-        <div>
-            <span class="menuButton"><g:link controller="snippet" action="list"><g:message code="snippet.label" default="Snippets" /></g:link></span>
-            <span class="menuButton"><g:link controller="problem" action="list"><g:message code="problem.label" default="Problems" /></g:link></span>
-            <span class="menuButton"><g:link controller="question" action="list"><g:message code="question.label" default="Questions" /></g:link></span>
-        </div>
     </div>
     <div class="clear"></div>
 </div>

@@ -1,4 +1,4 @@
-<div class="list" id="list">
+<div class="list">
     <div id="update"></div>
     <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
     <div id="reply_${snippetInstance.id}" class="reply_form"></div>

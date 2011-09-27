@@ -1,5 +1,5 @@
 <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
-<g:formRemote name="dialog" url="[controller:'snippet',action:'save']" update="[success:'list',failure:'form_dialog']" onSuccess="${remoteFunction(action:'create',update:'form_dialog')}">
+<g:formRemote name="dialog" url="[controller:'snippet',action:'save']" update="[success:'lists',failure:'form_dialog']" onSuccess="${remoteFunction(action:'create',update:'form_dialog')}">
     <g:javascript>
         $(function(){
             $("input:submit, input:button").button().css("font-size","8pt");

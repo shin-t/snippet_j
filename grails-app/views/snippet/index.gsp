@@ -23,7 +23,7 @@
                 <sec:ifLoggedIn>
                 <div id="form_dialog"><g:include action="create" /></div>
                 </sec:ifLoggedIn>
-                <g:include action="list" />
+                <div id="lists"><g:include action="list" /></div>
                 <r:script>$.autopager({link:'.nextLink',appendTo:'.contents',content:'.list'});</r:script>
             </div>
         </div>

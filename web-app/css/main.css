@@ -13,7 +13,9 @@ html * {
     right: 0;
 }
 .header, .body {
+    /*
     padding: 5pt;
+    */
 }
 .body {
     margin: 0 80pt;
@@ -33,8 +35,23 @@ html * {
 }
 .content .header, .dialog .header {
     border-bottom: solid 1pt #C4C07A;
+    /*
     border-right: solid 1pt #C4C07A;
     background-color: #E7E4B0;
+    */
+}
+.last_updated {
+    float: left;
+    padding: 0 5px;
+    border-right: 1px solid #C4C07A;
+}
+.reply_button {
+    float: left;
+    padding: 0 5px;
+    border-right: 1px solid #C4C07A;
+}
+.chunk_button {
+    padding: 0 5px;
 }
 h1, h1 * {font-size: 16pt;}
 h2, h2 * {font-size: 14pt;}

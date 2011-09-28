@@ -34,6 +34,16 @@
                     <g:textArea name="file" value="${snippetInstance?.file}" />
             </div>
         </div>
+        <div class="prop">
+            <div class="name">
+                <label for="tags">
+                    <g:message code="snippet.tags.label" default="Tags" />
+                </label>
+            </div>
+            <div class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
+                    <g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" />
+            </div>
+        </div>
         <g:if test="${snippetInstance?.status == 1}">
         <div class="prop">
             <div class="name">

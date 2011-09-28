@@ -20,12 +20,22 @@
         <div class="value ${hasErrors(bean: snippetInstance, field: 'file', 'errors')}">
                 <g:textArea name="file" value="${snippetInstance?.file}" />
         </div>
-        <div class="buttons">
-            <span class="button">
-                <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-                <input type="button" name="cancel" value="cancel" onClick="$('.reply_form').empty()" />
-            </span>
+    </div>
+    <div class="prop">
+        <div class="name">
+            <label for="tags">
+                <g:message code="snippet.tags.label" default="Tags" />
+            </label>
         </div>
+        <div class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
+                <g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" />
+        </div>
+    </div>
+    <div class="buttons">
+        <span class="button">
+            <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+            <input type="button" name="cancel" value="cancel" onClick="$('.reply_form').empty()" />
+        </span>
     </div>
     <g:javascript>
         $(function(){

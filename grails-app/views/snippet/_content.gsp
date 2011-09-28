@@ -1,7 +1,8 @@
 <div id="snippet_${snippetInstnce?.id}" class="content">
     <div class="header">
-        <div>${fieldValue(bean: snippetInstance, field: "user")}</div>
+        <div style="float:left;">${fieldValue(bean: snippetInstance, field: "user")}</div>
         <sec:ifLoggedIn>
+        <div style="float:right;">
         <form id="form_star_${snippetInstance.id}" style="float:left;">
             <g:hiddenField name="id" value="${snippetInstance.id}"/>
             <div><input type="checkbox" id="star_${snippetInstance.id}" class="star_button" /><label for="star_${snippetInstance.id}">star</label></div>
@@ -83,6 +84,7 @@
                 });
             })();
         </g:javascript>
+        </div>
         </sec:ifLoggedIn>
     </div>
     <div class="text"><pre>${fieldValue(bean: snippetInstance, field: "text")}</pre></div>

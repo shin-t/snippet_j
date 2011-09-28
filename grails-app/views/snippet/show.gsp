@@ -1,4 +1,3 @@
-
 <%@ page import="snippet.Snippet" %>
 <html>
     <head>
@@ -17,7 +16,18 @@
                 <div class="message">${flash.message}</div>
                 </g:if>
                 <div id="lists"><g:render template="list" model="[snippetInstanceList:snippetInstanceList,snippetInstanceTotal:snippetInstanceTotal]" /></div>
-                <r:script>$.autopager({link:'.nextLink',appendTo:'.contents',content:'.list'});</r:script>
+                <r:script>
+                    $.autopager({
+                        link:'.nextLink',
+                        appendTo:'.contents',
+                        content:'.list',
+                        load:function(current, next){
+                            $("input:checkbox.up\_vote\_button").button({icons:{primary:"ui-icon-triangle-1-n"},text:false});
+                            $("input:checkbox.down\_vote\_button").button({icons:{primary:"ui-icon-triangle-1-s"},text:false});
+                            $("input:checkbox.star\_button").button({icons:{primary:"ui-icon-star"},text:false});
+                        }
+                    });
+                </r:script>
             </div>
         </div>
     </body>

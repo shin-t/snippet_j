@@ -1,5 +1,4 @@
 <div class="list">
-    <div id="update"></div>
     <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
         <g:render template="content" model="[snippetInstance:snippetInstance]" />
     </g:each>

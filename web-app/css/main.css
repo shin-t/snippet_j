@@ -61,10 +61,10 @@ html * {
 .dialog .prop {
     margin: 5pt;
 }
-.dialog .prop .name label {
+.prop .name label {
     font-size: 12pt;
 }
-.dialog .prop .value textarea {
+.prop .value textarea {
     width: 99%;
     height: 4em;
 }

@@ -166,7 +166,11 @@ class SnippetController {
         def snippetInstance = new Snippet()
         snippetInstance.properties = params
         if (params.tags) snippetInstance.parseTags(params.tags)
-        render template:"form",model:[parent_id: params.parent_id, snippetInstance: snippetInstance]
+        if (params.parent_id) {
+            render template:"replyform",model:[parent_id: params.parent_id, snippetInstance: snippetInstance]
+        } else {
+            render template:"form",model:[snippetInstance: snippetInstance]
+        }
     }
 
     @Secured(['ROLE_USER'])

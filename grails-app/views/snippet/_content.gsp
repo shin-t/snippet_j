@@ -16,4 +16,5 @@
         <div class="chunk_button"><g:link action="show" id="${snippetInstance.id}" fragment="snippet_${snippetInstance.id}">Chunk</g:link></div>
     </div>
     <div class="clear"></div>
+    <div id="reply_${snippetInstance.id}" class="reply_form"></div>
 </div>

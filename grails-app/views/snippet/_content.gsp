@@ -1,7 +1,9 @@
 <div id="snippet_${snippetInstnce?.id}" class="content">
     <div class="header">${fieldValue(bean: snippetInstance, field: "user")}</div>
     <div class="text"><pre>${fieldValue(bean: snippetInstance, field: "text")}</pre></div>
+    <g:if test="${snippetInstance?.file}">
     <div class="file"><pre><code>${fieldValue(bean: snippetInstance, field: "file")}</code></pre></div>
+    </g:if>
     <g:if test="${snippetInstance?.status == 1}">
     <div><g:formatBoolean boolean="${snippetInstance.help}" true="Help!" false="Solved!" /></div>
     </g:if>

@@ -203,7 +203,10 @@ class SnippetController {
             params.sort = params.sort?:'dateCreated'
             params.order = params.order?:'asc'
             def snippetInstanceList = Snippet.createCriteria().list(params) {
-                eq ("root.id", snippetInstance.root.id?:snippetInstance.id)
+                or {
+                    eq ("root", snippetInstance.root?:snippetInstance)
+                    eq ("id", snippetInstance.root?.id?:snippetInstance.id)
+                }
             }
             def snippetInstanceTotal = snippetInstanceList.totalCount
             def stars,star

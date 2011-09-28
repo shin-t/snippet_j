@@ -10,7 +10,7 @@
         <div id="spinner" class="spinner" style="display:none;">
             <img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
         </div>
-        <g:render template="/layouts/nav" />
+        <g:render template="/layouts/header" />
         <g:layoutBody />
         <r:layoutResources />
     </body>

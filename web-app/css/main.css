@@ -68,7 +68,8 @@ html * {
     width: 99%;
     height: 4em;
 }
-h1, h1 * {font-size: 16pt;}
+h1 { float: left; }
+h1 * { font-size: 24pt; }
 h2, h2 * {font-size: 14pt;}
 h3, h3 * {font-size: 12pt;}
 body {
@@ -103,16 +104,17 @@ a:hover {
 
 /* NAVIGATION MENU */
 
-.nav {
+#header {
     border-bottom: 1pt #E7D8BD solid;
     background: #C4A97A;
-    padding: 5pt;
+    padding: 5pt 80pt;
 }
-.nav .float_right div {
-    text-align: right;
-}
-.menuButton {
+.nav { text-align: right; }
+.nav ul { float: right; }
+.nav ul li.login, .nav ul li.logout { border-left: 1pt #E7D8BD solid; }
+.nav ul li {
     padding: 0 5pt;
+    float:left;
 }
 
 /* MESSAGES AND ERRORS */

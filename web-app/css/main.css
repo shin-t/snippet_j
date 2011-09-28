@@ -13,9 +13,7 @@ html * {
     right: 0;
 }
 .header, .body {
-    /*
     padding: 5pt;
-    */
 }
 .body {
     margin: 0 80pt;
@@ -33,25 +31,42 @@ html * {
     padding: 10pt;
     margin: 0 5pt 10pt;
 }
-.content .header, .dialog .header {
+.content .header {
     border-bottom: solid 1pt #C4C07A;
-    /*
+    margin-bottom: 10pt;
+}
+.dialog .header {
+    border-bottom: solid 1pt #C4C07A;
     border-right: solid 1pt #C4C07A;
     background-color: #E7E4B0;
-    */
+}
+.file {
+    padding: 5pt;
+    margin: 10pt;
+    border: solid 1pt #C4C07A;
 }
 .last_updated {
     float: left;
-    padding: 0 5px;
+    padding: 0 5pt;
     border-right: 1px solid #C4C07A;
 }
 .reply_button {
     float: left;
-    padding: 0 5px;
+    padding: 0 5pt;
     border-right: 1px solid #C4C07A;
 }
 .chunk_button {
-    padding: 0 5px;
+    padding: 0 5pt;
+}
+.dialog .prop {
+    margin: 5pt;
+}
+.dialog .prop .name label {
+    font-size: 12pt;
+}
+.dialog .prop .value textarea {
+    width: 99%;
+    height: 4em;
 }
 h1, h1 * {font-size: 16pt;}
 h2, h2 * {font-size: 14pt;}

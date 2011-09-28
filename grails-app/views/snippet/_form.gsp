@@ -21,7 +21,7 @@
                 </label>
             </div>
             <div class="value ${hasErrors(bean: snippetInstance, field: 'text', 'errors')}">
-                    <g:textArea name="text" rows="3" value="${snippetInstance?.text}" />
+                    <g:textArea name="text" value="${snippetInstance?.text}" />
             </div>
         </div>
         <div class="prop">
@@ -31,7 +31,7 @@
                 </label>
             </div>
             <div class="value ${hasErrors(bean: snippetInstance, field: 'file', 'errors')}">
-                    <g:textArea name="file" rows="3" value="${snippetInstance?.file}" />
+                    <g:textArea name="file" value="${snippetInstance?.file}" />
             </div>
         </div>
         <g:if test="${snippetInstance?.status == 1}">

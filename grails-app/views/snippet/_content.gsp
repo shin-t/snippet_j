@@ -98,11 +98,21 @@
     <g:elseif test="${snippetInstance?.status == 2}">
     <div><g:formatDate date="${snippetInstance.deadline}" /></div>
     </g:elseif>
-    <div class="float_right">
-        <div class="last_updated"><prettytime:display date="${snippetInstance.lastUpdated}" /></div>
-        <div class="reply_button"><g:remoteLink action="create" params="[parent_id:snippetInstance.id]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">Reply</g:remoteLink></div>
-        <div class="chunk_button"><g:link action="show" id="${snippetInstance.id}" fragment="snippet_${snippetInstance.id}">Chunk</g:link></div>
-    </div>
-    <div class="clear"></div>
+    <ul class="footer">
+        <li><prettytime:display date="${snippetInstance.lastUpdated}" /></li>
+        <sec:ifLoggedIn>
+        <li><g:remoteLink action="create" params="[parent_id:snippetInstance.id]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">Reply to This</g:remoteLink></li>
+        </sec:ifLoggedIn>
+        <sec:ifNotLoggedIn>
+        <li><g:link controller="login">Reply to This</g:link></li>
+        </sec:ifNotLoggedIn>
+        <li><g:link action="show" id="${snippetInstance.id}">Chunk(${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
+        <g:if test="${snippetInstance.root}">
+        <li><g:link action="show" id="${snippetInstance.parent.id}" fragment="${snippetInstance.id}">Parent</g:link></li>
+        <g:if test="${snippetInstance.root!=snippetInstance.parent}">
+        <li><g:link action="show" id="${snippetInstance.root.id}">Root</g:link></li>
+        </g:if>
+        </g:if>
+    </ul>
     <div id="reply_${snippetInstance.id}" class="reply_form"></div>
 </div>

@@ -35,6 +35,14 @@ html * {
     border-bottom: solid 1pt #C4C07A;
     margin-bottom: 10pt;
 }
+.content ul.footer { float:right; }
+.content ul.footer li {
+    float: left;
+    border-left: 1pt solid #C4C07A;
+    margin-left: -1pt;
+    padding: 0 5pt;
+}
+.content .reply_form { clear:both; }
 .dialog .header {
     border-bottom: solid 1pt #C4C07A;
     border-right: solid 1pt #C4C07A;
@@ -48,7 +56,6 @@ html * {
 .last_updated {
     float: left;
     padding: 0 5pt;
-    border-right: 1px solid #C4C07A;
 }
 .reply_button {
     float: left;

@@ -1,7 +1,6 @@
 <div id="snippet_${snippetInstnce?.id}" class="content">
     <div class="header">
         <div style="float:left;">${fieldValue(bean: snippetInstance, field: "user")}</div>
-        <sec:ifLoggedIn>
         <div style="float:right;">
         <div style="float:left;">${snippetInstance.tags.join(', ').encodeAsHTML()}</div>
         <form id="form_star_${snippetInstance.id}" style="float:left;">
@@ -86,7 +85,6 @@
             })();
         </g:javascript>
         </div>
-        </sec:ifLoggedIn>
     </div>
     <div class="text"><pre>${fieldValue(bean: snippetInstance, field: "text")}</pre></div>
     <g:if test="${snippetInstance?.file}">

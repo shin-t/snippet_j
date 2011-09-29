@@ -205,20 +205,12 @@ class SnippetController {
         else {
             params.max = Math.min(params.max ? params.int('max') : 10, 30)
             params.sort = params.sort?:'dateCreated'
-            params.order = params.order?:'asc'
+            params.order = params.order?:'desc'
             def snippetInstanceList = Snippet.createCriteria().list(params) {
-                or {
-                    eq ("root", snippetInstance.root?:snippetInstance)
-                    eq ("id", snippetInstance.root?.id?:snippetInstance.id)
-                }
+                eq ("parent", snippetInstance)
             }
             def snippetInstanceTotal = snippetInstanceList.totalCount
-            def stars,star
-            if(springSecurityService.isLoggedIn()){
-                stars = Snippet.executeQuery('from Star as s where s.snippet.id = :snippet_id',[snippet_id: snippetInstance.id])
-                if(Star.get(springSecurityService.getCurrentUser().id, snippetInstance.id))star=true else star =false
-            }
-            [snippetInstanceList: snippetInstanceList,snippetInstanceTotal: snippetInstanceTotal, snippetTags: snippetInstance.tags, stars: stars, star:star]
+            [snippetInstance: snippetInstance, snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
         }
     }
 

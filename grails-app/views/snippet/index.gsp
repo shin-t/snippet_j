@@ -24,9 +24,7 @@
                 <g:if test="${flash.message}">
                 <div class="message">${flash.message}</div>
                 </g:if>
-                <sec:ifLoggedIn>
                 <div id="form_dialog"><g:include action="create" /></div>
-                </sec:ifLoggedIn>
                 <div id="lists"><g:include action="list" /></div>
                 <r:script>
                     $.autopager({

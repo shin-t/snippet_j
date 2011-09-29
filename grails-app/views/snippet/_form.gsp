@@ -70,7 +70,12 @@
         </g:elseif>
         <div class="buttons">
             <span class="button">
+                <sec:ifLoggedIn>
                 <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                </sec:ifLoggedIn>
+                <sec:ifNotLoggedIn>
+                <g:link controller="login">ログイン/ユーザー登録して投稿してください。</g:link>
+                </sec:ifNotLoggedIn>
             </span>
         </div>
     </div>

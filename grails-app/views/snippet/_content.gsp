@@ -85,6 +85,9 @@
             })();
         </g:javascript>
         </div>
+        <g:if test="${snippetInstance.root}">
+        <div style="clear:both;">${fieldValue(bean: snippetInstance.root.user, field: "username")}: ${fieldValue(bean: snippetInstance.root, field: "text")}</div>
+        </g:if>
     </div>
     <div class="text"><pre>${fieldValue(bean: snippetInstance, field: "text")}</pre></div>
     <g:if test="${snippetInstance?.file}">

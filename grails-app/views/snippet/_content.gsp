@@ -3,6 +3,7 @@
         <div style="float:left;">${fieldValue(bean: snippetInstance, field: "user")}</div>
         <sec:ifLoggedIn>
         <div style="float:right;">
+        <div style="float:left;">${snippetInstance.tags.join(', ').encodeAsHTML()}</div>
         <form id="form_star_${snippetInstance.id}" style="float:left;">
             <g:hiddenField name="id" value="${snippetInstance.id}"/>
             <div><input type="checkbox" id="star_${snippetInstance.id}" class="star_button" /><label for="star_${snippetInstance.id}">star</label></div>

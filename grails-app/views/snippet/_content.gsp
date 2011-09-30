@@ -1,17 +1,11 @@
 <div id="snippet_${snippetInstnce?.id}" class="content">
     <div class="header">
-        <div style="float:left;">${fieldValue(bean: snippetInstance, field: "user")}</div>
-        <div style="float:right;">
-        <div style="float:left;">${snippetInstance.tags.join(', ').encodeAsHTML()}</div>
-        <form id="form_star_${snippetInstance.id}" style="float:left;">
+        <div>${fieldValue(bean: snippetInstance, field: "user")}</div>
+        <div>
+        <div>${snippetInstance.tags.join(', ').encodeAsHTML()}</div>
+        <form id="form_star_${snippetInstance.id}">
             <g:hiddenField name="id" value="${snippetInstance.id}"/>
             <div><input type="checkbox" id="star_${snippetInstance.id}" class="star_button" /><label for="star_${snippetInstance.id}">star</label></div>
-        </form>
-        <form id="form_vote_${snippetInstance.id}" style="float:left;">
-            <g:hiddenField name="id" value="${snippetInstance.id}" />
-            <div style="float:left;"><input type="checkbox" id="up_vote_${snippetInstance.id}" class="up_vote_button" /><label for="up_vote_${snippetInstance.id}">up</label></div>
-            <div style="float:left;"><input type="checkbox" id="down_vote_${snippetInstance.id}" class="down_vote_button" /><label for="down_vote_${snippetInstance.id}">down</label></div>
-            <div class="vote_count"></div>
         </form>
         <g:javascript>
             (function(){
@@ -43,44 +37,6 @@
                         }
                     });
                     return false;
-                });
-                var f = function(){
-                    $.ajax({
-                        type:"GET",
-                        url:"/snippet/vote/votes_counts",
-                        data:$("#form\_vote\_${snippetInstance.id}").serialize(),
-                        success:function(json){
-                            $("#form\_vote\_${snippetInstance.id} .vote_count").text(json.counts);
-                        }
-                    });
-                }
-                f();
-                $("#form\_vote\_${snippetInstance.id}").submit(function(){
-                    $.ajax({
-                        type:"POST",
-                        url:"/snippet/vote/vote",
-                        data:$(this).serialize(),
-                        success:f
-                    });
-                    return false;
-                });
-                $("#up\_vote\_${snippetInstance.id}").click(function(){
-                    $.ajax({
-                        type:"POST",
-                        url:"/snippet/vote/up_vote",
-                        data:$("#form\_vote\_${snippetInstance.id}").serialize(),
-                        success:f
-                    });
-                    $("#down\_vote\_${snippetInstance.id}").attr('checked',false).button('refresh');
-                });
-                $("#down\_vote\_${snippetInstance.id}").click(function(){
-                    $.ajax({
-                        type:"POST",
-                        url:"/snippet/vote/down_vote",
-                        data:$("#form\_vote\_${snippetInstance.id}").serialize(),
-                        success:f
-                    });
-                    $("#up\_vote\_${snippetInstance.id}").attr('checked',false).button('refresh');
                 });
             })();
         </g:javascript>

@@ -22,36 +22,6 @@ class SnippetController {
     def authenticationManager
 
     @Secured(['ROLE_USER'])
-    def parse_tags = {
-        def snippetInstance
-        if(params.id){
-            snippetInstance = Snippet.get(params.id)
-            if(snippetInstance && snippetInstance.author.id == springSecurityService.getCurrentUser().id){
-                snippetInstance.setTags([])
-                if(!snippetInstance.tags&&params.tags){
-                    snippetInstance.parseTags(params.tags," ")
-                    render (snippetInstance.tags as JSON)
-                }
-            }
-        }
-    }
-
-    def stars_counts = {
-        if(params.id){
-            try{
-                def results = Star.executeQuery('select count(s) from snippet.Star as s where s.snippet.id = ?',[params.id.toLong()])
-                render ([total:results[0]] as JSON)
-            }
-            catch(NumberFormatException e){
-                render (status:400,text:"NumberFormatException")
-            }
-        }
-        else{
-            render(status:404,text:"")
-        }
-    }
-    
-    @Secured(['ROLE_USER'])
     def star = {
         def instance, status, user
         user = springSecurityService.getCurrentUser()
@@ -71,6 +41,15 @@ class SnippetController {
                 }
                 break
         }
+        if(params.id){
+            try{
+                def results = Star.executeQuery('select count(s) from snippet.Star as s where s.snippet.id = ?',[params.id.toLong()])
+                //render ([total:results[0]] as JSON)
+            }
+            catch(NumberFormatException e){
+                //render (status:400,text:"NumberFormatException")
+            }
+        }
         render (status:status,text:"")
     }
 
@@ -84,29 +63,25 @@ class SnippetController {
                 from Snippet s, TagLink tl
                 where s.id = tl.tagRef 
                 and tl.type = 'snippet'
-                and tl.tag.name like :tag
+                and tl.tag.name :tag
                 order by s.dateCreated desc
             """
-            snippetInstanceList = Snippet.executeQuery(query,[tag:"%${params.tag}%"],params)
-            snippetInstanceTotal = Snippet.executeQuery(query,[tag:"%${params.tag}%"]).size()
-            render(view: "list", model: [
-                snippetInstanceList: snippetInstanceList,
-                snippetInstanceTotal: snippetInstanceTotal,
-                tags: tagsService.recent_tags(),
-                tag_ranking:
-                tagsService.tag_ranking(),
-                snippet_ranking: starService.starred()])
+            snippetInstanceList = Snippet.executeQuery(query,[tag:params.tag],params)
+            snippetInstanceTotal = Snippet.executeQuery(query,[tag:params.tag]).size()
         }
-        else{
-            query = """
-                select tl.tag.name, count(tl)
-                from TagLink as tl
-                where tl.type = 'snippet'
-                group by tl.tag.name
-                order by count(tl) desc, tl.tag.name asc
-            """
-            [tags:Snippet.executeQuery(query,[],params),total:Snippet.executeQuery(query,[])]
-        }
+        render template: 'list', model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
+    }
+
+    def tags = {
+        def query
+        query = """
+            select tl.tag.name, count(tl)
+            from TagLink as tl
+            where tl.type = 'snippet'
+            group by tl.tag.name
+            order by count(tl) desc, tl.tag.name asc
+        """
+        render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
     }
 
     def index = {
@@ -131,7 +106,7 @@ class SnippetController {
         params.order = params.order?:'desc'
 
         snippetInstanceList = Snippet.createCriteria().list(params) {
-            eq ("status", 0)
+            eq ('status', 0)
         }
         snippetInstanceTotal = snippetInstanceList.totalCount
         
@@ -156,7 +131,7 @@ class SnippetController {
                 }
             }
             html {
-                render template:"list",model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
+                render template:'list',model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
             }
         }
     }
@@ -167,9 +142,9 @@ class SnippetController {
         snippetInstance.properties = params
         if (params.tags) snippetInstance.parseTags(params.tags)
         if (params.parent_id) {
-            render template:"replyform",model:[parent_id: params.parent_id, snippetInstance: snippetInstance]
+            render template:'replyform',model:[parent_id: params.parent_id, snippetInstance: snippetInstance]
         } else {
-            render template:"form",model:[snippetInstance: snippetInstance]
+            render template:'form',model:[snippetInstance: snippetInstance]
         }
     }
 
@@ -188,11 +163,11 @@ class SnippetController {
         if(snippetInstance.save(flush: true)){
             if (params.tags) snippetInstance.parseTags(params.tags)
             // flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
-            redirect action:"list"
+            redirect action:'list'
         }
         else {
             // render(snippetInstance.errors.allErrors.collect{ message(error:it) } as JSON)
-            render(template:"form",model:[parent_id: params.parent_id, snippetInstance: snippetInstance],status:400)
+            render(template:'form',model:[parent_id: params.parent_id, snippetInstance: snippetInstance],status:400)
         }
     }
 
@@ -200,14 +175,14 @@ class SnippetController {
         def snippetInstance = Snippet.get(params.id)
         if (!snippetInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
-            redirect(action: "list")
+            redirect(action: 'list')
         }
         else {
             params.max = Math.min(params.max ? params.int('max') : 10, 30)
             params.sort = params.sort?:'dateCreated'
             params.order = params.order?:'desc'
             def snippetInstanceList = Snippet.createCriteria().list(params) {
-                eq ("parent", snippetInstance)
+                eq ('parent', snippetInstance)
             }
             def snippetInstanceTotal = snippetInstanceList.totalCount
             [snippetInstance: snippetInstance, snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
@@ -222,7 +197,7 @@ class SnippetController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
-            redirect(action: "list")
+            redirect(action: 'list')
         }
     }
 

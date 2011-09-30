@@ -1,11 +1,11 @@
 <%@ page import="snippet.Snippet" %>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
-        <r:require modules="jquery-ui, common" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="layout" content="main"/>
+        <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}"/>
+        <title><g:message code="default.list.label" args="[entityName]"/></title>
+        <r:require modules="jquery-ui, common"/>
         <r:script>
             $("input:submit, input:button").button().css("font-size","8pt");
             $("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false}).css("font-size","8pt");
@@ -14,27 +14,18 @@
                 $("input:checkbox.down\_vote\_button").button({icons:{primary:"ui-icon-triangle-1-s"},text:false});
                 $("input:checkbox.star\_button").button({icons:{primary:"ui-icon-star"},text:false});
             }
+            $.autopager({ link:'.nextLink', appendTo:'.contents', content:'.list', load: button_icons });
             button_icons();
         </r:script>
     </head>
     <body>
-        <div class="body">
-            <div class="sidebar"></div>
-            <div class="contents">
-                <g:if test="${flash.message}">
-                <div class="message">${flash.message}</div>
-                </g:if>
-                <div id="form_dialog"><g:include action="create" /></div>
-                <div id="lists"><g:include action="list" /></div>
-                <r:script>
-                    $.autopager({
-                        link:'.nextLink',
-                        appendTo:'.contents',
-                        content:'.list',
-                        load: button_icons
-                    });
-                </r:script>
-            </div>
+        <div id="contents">
+            <g:if test="${flash.message}">
+            <div class="message">${flash.message}</div>
+            </g:if>
+            <g:include action="create"/>
+            <div id="lists"><g:include action="list"/></div>
         </div>
+        <div id="sidebar"><g:include action="tags"/></div>
     </body>
 </html>

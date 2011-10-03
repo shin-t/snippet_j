@@ -1,5 +1,6 @@
 package snippet
 
+import org.grails.taggable.*
 import auth.*
 
 class UserTag implements Serializable {

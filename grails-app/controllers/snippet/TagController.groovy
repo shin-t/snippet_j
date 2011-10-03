@@ -6,12 +6,13 @@ class TagController {
         params.max = Math.min(params.max ? params.int('max') : 10, 30)
         def snippetInstanceList
         def snippetInstanceTotal
+        def tags = []
         if(params.tag){
             params.sort = params.sort?:'dateCreated'
             params.order = params.order?:'desc'
             snippetInstanceList = Snippet.findAllByTag(params.tag, params)
             snippetInstanceTotal = Snippet.countByTag(params.tag)
-            render template: '/snippet/list', model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
+            [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tags]
         }
         else{
             def query
@@ -22,7 +23,7 @@ class TagController {
                 group by tl.tag.name
                 order by count(tl) desc, tl.tag.name asc
             """
-            render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
+            [tags:Snippet.executeQuery(query,[],params)]
         }
     }
 

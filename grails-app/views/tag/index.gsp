@@ -23,8 +23,12 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:include action="create"/>
-            <div id="lists"><g:include action="list"/></div>
+            <g:if test="${snippetInstanceList}">
+            <div id="lists"><g:render template="/snippet/list" model="[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]"/></div>
+            </g:if>
+            <g:if test="${tags}">
+            <div id="content"><g:render template="tags" model="[tags: tags]"/></div>
+            </g:if>
         </div>
         <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>
     </body>

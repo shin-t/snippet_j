@@ -1,6 +1,34 @@
 <div id="snippet_${snippetInstnce?.id}" class="content">
     <div class="header">
         <div>${fieldValue(bean: snippetInstance, field: "user")}</div>
+        <div class="follow_${snippetInstance.user.id}">
+            <a href="#"></a>
+        </div>
+        <g:javascript>
+        (function(){
+            var follow_update = function(data){
+                if(data){
+                    $('.follow_${snippetInstance.user.id}').html($("<a href='#'>unfollow</a>").click(function(){
+                        ${remoteFunction(controller:'user', action:'unfollow', params:[username: snippetInstance.user.username], onSuccess:'follow_update(false)')}
+                        return false;
+                    }));
+                    console.log("update unfollow");
+                }
+                else{
+                    $('.follow_${snippetInstance.user.id}').html($("<a href='#'>follow</a>").click(function(){
+                        ${remoteFunction(controller:'user', action:'follow', params:[username: snippetInstance.user.username], onSuccess:'follow_update(true)')}
+                        return false;
+                    }));
+                    console.log("update follow");
+                }
+            }
+            var follow_check = function(){
+                ${remoteFunction(controller:'user', action:'follow_check', params:[username: snippetInstance.user.username], onSuccess:'follow_update(data[0])')}
+                console.log("check");
+            }
+            follow_check();
+        })();
+        </g:javascript>
         <g:if test="${snippetInstance.root}">
         <div style="clear:both;">${fieldValue(bean: snippetInstance.root.user, field: "username")}: ${fieldValue(bean: snippetInstance.root, field: "text")}</div>
         </g:if>

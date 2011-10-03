@@ -3,13 +3,58 @@ package auth
 import grails.plugins.springsecurity.Secured
 import grails.converters.*
 
-import snippet.Snippet
+import snippet.*
 
 class UserController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def springSecurityService
+
+
+    @Secured(['ROLE_USER'])
+    def follow_check = {
+        if(params.username){
+            def user = User.findByUsername(params.username)
+            def currentUser = springSecurityService.getCurrentUser()
+            def result
+            if(user){
+                result = UserUser.get(currentUser.id, user.id)?true:false
+                render ([result] as JSON)
+            }
+            else render ([message: "Not Found"] as JSON)
+        }
+    }
+
+    @Secured(['ROLE_USER'])
+    def follow = {
+        if(params.username){
+            def user = User.findByUsername(params.username)
+            def currentUser = springSecurityService.getCurrentUser()
+            if(user){
+                UserUser.create(currentUser, user, true)
+                render (status:204, text:"")
+            }
+            else render ([message: "Not Found"] as JSON)
+        }
+    }
+
+    @Secured(['ROLE_USER'])
+    def unfollow = {
+        if(params.username){
+            def user = User.findByUsername(params.username)
+            def currentUser = springSecurityService.getCurrentUser()
+            def instance
+            if(user){
+                instance = UserUser.get(currentUser.id, user.id)
+                if(instance){
+                    instance.delete(flush:true)
+                }
+                render (status:204, text:"")
+            }
+            else render ([message: "Not Found"] as JSON)
+        }
+    }
 
     def index = {
         redirect(action: "snippets", params: params)

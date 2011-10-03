@@ -1,4 +1,5 @@
 package snippet
+
 import auth.*
 
 class Star implements Serializable {

@@ -1,6 +1,6 @@
 <div class="list">
     <g:each in="${snippetInstanceList}" status="i" var="snippetInstance">
-        <g:render template="content" model="[snippetInstance:snippetInstance]" />
+        <g:render template="/snippet/content" model="[snippetInstance:snippetInstance]" />
     </g:each>
     <g:javascript>
         $("input:checkbox.up\_vote\_button").button({icons:{primary:"ui-icon-triangle-1-n"},text:false});

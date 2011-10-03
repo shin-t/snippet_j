@@ -53,37 +53,6 @@ class SnippetController {
         render (status:status,text:"")
     }
 
-    def tag = {
-        def snippetInstanceList
-        def snippetInstanceTotal=0
-        def query
-        if(params.tag){
-            query = """
-                select distinct s
-                from Snippet s, TagLink tl
-                where s.id = tl.tagRef 
-                and tl.type = 'snippet'
-                and tl.tag.name :tag
-                order by s.dateCreated desc
-            """
-            snippetInstanceList = Snippet.executeQuery(query,[tag:params.tag],params)
-            snippetInstanceTotal = Snippet.executeQuery(query,[tag:params.tag]).size()
-        }
-        render template: 'list', model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
-    }
-
-    def tags = {
-        def query
-        query = """
-            select tl.tag.name, count(tl)
-            from TagLink as tl
-            where tl.type = 'snippet'
-            group by tl.tag.name
-            order by count(tl) desc, tl.tag.name asc
-        """
-        render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
-    }
-
     def index = {
         /* SignIn
             SCH.context.authentication = new UsernamePasswordAuthenticationToken(User.get(2), springSecurityService.encodePassword('password'))

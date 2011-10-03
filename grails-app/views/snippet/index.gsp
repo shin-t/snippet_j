@@ -26,6 +26,6 @@
             <g:include action="create"/>
             <div id="lists"><g:include action="list"/></div>
         </div>
-        <div id="sidebar"><g:include controller="tag" action="index"/></div>
+        <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>
     </body>
 </html>

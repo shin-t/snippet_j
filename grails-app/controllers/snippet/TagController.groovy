@@ -26,7 +26,7 @@ class TagController {
         }
     }
 
-    def hot_tags() {
+    def hot_tags = {
         def query = """
             select t.name, count(tl)
             from TagLink tl, Tag t, Snippet s
@@ -38,6 +38,6 @@ class TagController {
             order by count(tl) desc, t.name asc
         """
         def date = new Date() - 7
-        Snippet.executeQuery(query,[date:date],[max:10])
+        render template: 'tags', model: [tags:Snippet.executeQuery(query,[date:date],[max:10])]
     }
 }

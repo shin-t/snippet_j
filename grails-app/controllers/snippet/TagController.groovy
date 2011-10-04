@@ -1,30 +1,87 @@
 package snippet
 
+import grails.plugins.springsecurity.Secured
+import grails.converters.*
+import org.grails.taggable.*
+import auth.*
+
 class TagController {
 
+    def springSecurityService
+
+    @Secured(['ROLE_USER'])
+    def follow_check = {
+        if(params.tag){
+            def tag = Tag.findByName(params.tag)
+            def currentUser = springSecurityService.getCurrentUser()
+            def result
+            if(tag){
+                result = UserTag.get(currentUser.id, tag.name)?true:false
+                render ([result] as JSON)
+            }
+            else render ([message: "Not Found"] as JSON)
+        }
+    }
+
+    @Secured(['ROLE_USER'])
+    def follow = {
+        if(params.tag){
+            def tag = Tag.findByName(params.tag)
+            def currentUser = springSecurityService.getCurrentUser()
+            if(tag){
+                UserTag.create(currentUser, tag, true)
+                render (status:204, text:"")
+            }
+            else render ([message: "Not Found"] as JSON)
+        }
+    }
+
+    @Secured(['ROLE_USER'])
+    def unfollow = {
+        if(params.tag){
+            def tag = Tag.findByName(params.tag)
+            def currentUser = springSecurityService.getCurrentUser()
+            def instance
+            if(user){
+                instance = UserTag.get(currentUser.id, tag.id)
+                if(instance){
+                    instance.delete(flush:true)
+                }
+                render (status:204, text:"")
+            }
+            else render ([message: "Not Found"] as JSON)
+        }
+    }
+
     def index = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+    }
+
+    def list = {
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
         def snippetInstanceList
         def snippetInstanceTotal
         def tags = []
         if(params.tag){
             params.sort = params.sort?:'dateCreated'
             params.order = params.order?:'desc'
-            snippetInstanceList = Snippet.findAllByTag(params.tag, params)
-            snippetInstanceTotal = Snippet.countByTag(params.tag)
-            [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, tags: tags]
+            snippetInstanceList = Snippet.executeQuery("select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ?", [params.tag], params)
+            snippetInstanceTotal = Snippet.executeQuery("select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ?", [params.tag]).size()
+            println snippetInstanceList.dump()
+            println snippetInstanceTotal
+            render template:'/snippet/list', model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal?.username]
         }
-        else{
-            def query
-            query = """
-                select tl.tag.name, count(tl)
-                from TagLink as tl
-                where tl.type = 'snippet'
-                group by tl.tag.name
-                order by count(tl) desc, tl.tag.name asc
-            """
-            [tags:Snippet.executeQuery(query,[],params)]
-        }
+    }
+
+    def tags = {
+        def query
+        query = """
+            select tl.tag.name, count(tl)
+            from TagLink as tl
+            where tl.type = 'snippet'
+            group by tl.tag.name
+            order by count(tl) desc, tl.tag.name asc
+        """
+        render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
     }
 
     def hot_tags = {

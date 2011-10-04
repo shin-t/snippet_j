@@ -1,6 +1,7 @@
 <div id="snippet_${snippetInstance?.id}" class="content">
     <div class="header">
-        <div>${fieldValue(bean: snippetInstance, field: "user")}</div>
+        <div>${fieldValue(bean: snippetInstance.user, field: "username")}</div>
+        <g:if test="${username != snippetInstance.user.username}">
         <div class="follow_${snippetInstance.user.id}">
             <a href="#"></a>
         </div>
@@ -29,6 +30,7 @@
             follow_check();
         })();
         </g:javascript>
+        </g:if>
         <g:if test="${snippetInstance.root}">
         <div style="clear:both;">${fieldValue(bean: snippetInstance.root.user, field: "username")}: ${fieldValue(bean: snippetInstance.root, field: "text")}</div>
         </g:if>
@@ -44,8 +46,8 @@
     <div><g:formatDate date="${snippetInstance.deadline}" /></div>
     </g:elseif>
     <div style="float:left">
-        <g:each in="${snippetInstance.tags}" var="t">
-        <g:link controller="tag" params="[tag: t.encodeAsHTML()]">${t.encodeAsHTML()}</g:link>
+        <g:each in="${tags}" var="tag">
+        <g:link controller="tag" params="[tag: tag]">${tag.encodeAsHTML()}</g:link>
         </g:each>
     </div>
     <ul class="footer">

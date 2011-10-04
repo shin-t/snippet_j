@@ -14,7 +14,7 @@
                 $("input:checkbox.down\_vote\_button").button({icons:{primary:"ui-icon-triangle-1-s"},text:false});
                 $("input:checkbox.star\_button").button({icons:{primary:"ui-icon-star"},text:false});
             }
-            $.autopager({ link:'.nextLink', appendTo:'.contents', content:'.list', load: button_icons });
+            $.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons });
             button_icons();
         </r:script>
     </head>
@@ -24,6 +24,10 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <g:include action="create"/>
+            <div>
+                <g:remoteLink controller="snippet" action="list" update="lists">all</g:remoteLink>
+                <g:remoteLink controller="snippet" action="user" update="lists">user</g:remoteLink>
+            </div>
             <div id="lists"><g:include action="list"/></div>
         </div>
         <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>

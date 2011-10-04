@@ -53,6 +53,24 @@ class SnippetController {
         render (status:status,text:"")
     }
 
+    @Secured(['ROLE_USER'])
+    def user = {
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+        def query = "select s from Snippet s, UserUser u where s.user.id = u.user.id and u.follower.id = ?"
+        def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
+        def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
+        println snippetInstanceList.dump()
+        println snippetInstanceTotal
+        render template: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username]
+    }
+
+    def tags = {
+        def query = ""
+    }
+
+    @Secured(['ROLE_USER'])
     def index = {
         /* SignIn
             SCH.context.authentication = new UsernamePasswordAuthenticationToken(User.get(2), springSecurityService.encodePassword('password'))
@@ -66,11 +84,12 @@ class SnippetController {
         //redirect(action: "list", params: params)
     }
 
+    @Secured(['ROLE_USER'])
     def list = {
         def snippetInstanceList
         def snippetInstanceTotal
 
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
         snippetInstanceList = Snippet.createCriteria().list(params) {
@@ -97,7 +116,7 @@ class SnippetController {
                     }
                 }
             }
-            html { render template:'list',model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal] }
+            html { render template:'list',model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username] }
         }
     }
 

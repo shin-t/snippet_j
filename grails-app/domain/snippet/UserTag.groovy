@@ -14,7 +14,7 @@ class UserTag implements Serializable {
     }
 
     static UserTag get(long followerId, String tagName) {
-        find 'from  UserTag where follower.id=:followerId and tag.name=:tagName',
+        find 'from UserTag where follower.id=:followerId and tag.name=:tagName',
             [followerId: followerId, tagName: tagName]
     }
 

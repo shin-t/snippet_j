@@ -11,7 +11,6 @@ class UserController {
 
     def springSecurityService
 
-
     @Secured(['ROLE_USER'])
     def follow_check = {
         if(params.username){
@@ -31,7 +30,7 @@ class UserController {
         if(params.username){
             def user = User.findByUsername(params.username)
             def currentUser = springSecurityService.getCurrentUser()
-            if(user){
+            if(user && user != currentUser){
                 UserUser.create(currentUser, user, true)
                 render (status:204, text:"")
             }

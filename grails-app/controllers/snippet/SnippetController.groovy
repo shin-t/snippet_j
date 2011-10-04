@@ -73,12 +73,10 @@ class SnippetController {
         params.max = Math.min(params.max ? params.int('max') : 10, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
-
         snippetInstanceList = Snippet.createCriteria().list(params) {
             eq ('status', 0)
         }
         snippetInstanceTotal = snippetInstanceList.totalCount
-        
         withFormat {
             json {
                 render (contentType:'text/json') {
@@ -99,9 +97,7 @@ class SnippetController {
                     }
                 }
             }
-            html {
-                render template:'list',model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
-            }
+            html { render template:'list',model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal] }
         }
     }
 

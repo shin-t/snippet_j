@@ -1,4 +1,4 @@
-<div id="snippet_${snippetInstnce?.id}" class="content">
+<div id="snippet_${snippetInstance?.id}" class="content">
     <div class="header">
         <div>${fieldValue(bean: snippetInstance, field: "user")}</div>
         <div class="follow_${snippetInstance.user.id}">
@@ -44,8 +44,8 @@
     <div><g:formatDate date="${snippetInstance.deadline}" /></div>
     </g:elseif>
     <div style="float:left">
-        <g:each in="${snippetInstance.tags}">
-        <a>${it.encodeAsHTML()}</a>
+        <g:each in="${snippetInstance.tags}" var="t">
+        <g:link controller="tag" params="[tag: t.encodeAsHTML()]">${t.encodeAsHTML()}</g:link>
         </g:each>
     </div>
     <ul class="footer">
@@ -54,7 +54,7 @@
         <li><g:remoteLink action="create" params="[parent_id:snippetInstance.id]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">Reply to This</g:remoteLink></li>
         <li><g:link action="show" id="${snippetInstance.id}">Chunk(${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
         <g:if test="${snippetInstance.root}">
-        <li><g:link action="show" id="${snippetInstance.parent.id}" fragment="${snippetInstance.id}">Parent</g:link></li>
+        <li><g:link action="show" id="${snippetInstance.parent.id}" fragment="snippet_${snippetInstance.id}">Parent</g:link></li>
         <g:if test="${snippetInstance.root!=snippetInstance.parent}">
         <li><g:link action="show" id="${snippetInstance.root.id}">Root</g:link></li>
         </g:if>

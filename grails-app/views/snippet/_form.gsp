@@ -5,6 +5,7 @@
         $("input#deadline").datepicker({dateFormat:'yy/mm/dd'});
     </g:javascript>
     <g:hiddenField name="parent_id" value="${parent_id}" />
+    <g:hiddenField name="status" value="${snippetInstance?.status}" />
     <div class="dialog">
         <g:hasErrors bean="${snippetInstance}">
         <div class="errors"><g:renderErrors bean="${snippetInstance}" as="list" /></div>

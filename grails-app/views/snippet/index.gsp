@@ -23,7 +23,14 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:include action="create"/>
+            <div>
+                <g:remoteLink controller="snippet" action="create" update="form_dialog" params="[status: 0]">snippet</g:remoteLink>
+                <g:remoteLink controller="snippet" action="create" update="form_dialog" params="[status: 1]">question</g:remoteLink>
+                <g:remoteLink controller="snippet" action="create" update="form_dialog" params="[status: 2]">problem</g:remoteLink>
+            </div>
+            <div id="form_dialog">
+                <g:include action="create"/>
+            </div>
             <div>
                 <g:remoteLink controller="snippet" action="list" update="lists" onSuccess="jQuery.autopager('destroy')" onComplete="jQuery.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons })">all</g:remoteLink>
                 <g:remoteLink controller="snippet" action="user" update="lists" onSuccess="jQuery.autopager('destroy')" onComplete="jQuery.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons })">user</g:remoteLink>

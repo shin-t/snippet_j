@@ -25,8 +25,8 @@
             </g:if>
             <g:include action="create"/>
             <div>
-                <g:remoteLink controller="snippet" action="list" update="lists">all</g:remoteLink>
-                <g:remoteLink controller="snippet" action="user" update="lists">user</g:remoteLink>
+                <g:remoteLink controller="snippet" action="list" update="lists" onSuccess="jQuery.autopager('destroy')" onComplete="jQuery.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons })">all</g:remoteLink>
+                <g:remoteLink controller="snippet" action="user" update="lists" onSuccess="jQuery.autopager('destroy')" onComplete="jQuery.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons })">user</g:remoteLink>
             </div>
             <div id="lists"><g:include action="list"/></div>
         </div>

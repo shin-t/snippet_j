@@ -42,8 +42,8 @@ class TagController {
             def tag = Tag.findByName(params.tag)
             def currentUser = springSecurityService.getCurrentUser()
             def instance
-            if(user){
-                instance = UserTag.get(currentUser.id, tag.id)
+            if(tag){
+                instance = UserTag.get(currentUser.id, tag.name)
                 if(instance){
                     instance.delete(flush:true)
                 }

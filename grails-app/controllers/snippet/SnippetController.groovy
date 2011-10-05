@@ -61,13 +61,23 @@ class SnippetController {
         def query = "select s from Snippet s, UserUser u where s.user.id = u.user.id and u.follower.id = ?"
         def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
         def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
-        println snippetInstanceList.dump()
-        println snippetInstanceTotal
         render template: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username]
     }
 
+    @Secured(['ROLE_USER'])
     def tags = {
-        def query = ""
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+        def query = """select distinct(s)
+            from Snippet s, UserTag u, TagLink t
+            where s.id = t.tagRef
+            and t.type = 'snippet'
+            and u.tag.name = t.tag.name
+            and u.follower.id = ?"""
+        def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
+        def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
+        render template: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username]
     }
 
     @Secured(['ROLE_USER'])

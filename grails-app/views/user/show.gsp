@@ -1,4 +1,3 @@
-
 <%@ page import="auth.User" %>
 <html>
     <head>

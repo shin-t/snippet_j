@@ -56,7 +56,6 @@ class UserController {
     }
 
     def index = {
-        redirect(action: "snippets", params: params)
     }
 
     def list = {
@@ -95,34 +94,20 @@ class UserController {
 
     def snippets = {
         def userInstance
-        def snippetInstanceList, snippetInstanceTotal = 0
-        def query
-        
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
-        params.sort = params.sort?:'dateCreated'
-        params.order = params.order?:'desc'
-        params.username = params.username?:params.id
-
+        def snippetInstanceList
+        def snippetInstanceTotal = 0
+        if(!params.username && springSecurityService.isLoggedIn()) params.username = springSecurityService.principal.username
         if(params.username){
-            userInstance=User.findByUsername(params.username)
+            userInstance = User.findByUsername(params.username)
+            if(userInstance){
+                params.max = Math.min(params.max ? params.int('max') : 10, 30)
+                params.sort = params.sort?:'dateCreated'
+                params.order = params.order?:'desc'
+                snippetInstanceList = Snippet.findAllByUser(userInstance, params)
+                snippetInstanceTotal = Snippet.countByUser(userInstance)
+            }
         }
-        else if(springSecurityService.isLoggedIn()){
-            userInstance=springSecurityService.getCurrentUser()
-            params.username=userInstance.username
-        }
-        if(userInstance){
-            query = """
-                from Snippet s
-                where s.user = ?
-                order by s.dateCreated desc
-                """
-            snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)
-            snippetInstanceTotal = Snippet.executeQuery(query,[userInstance]).size()
-            [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, currentUser: springSecurityService.getCurrentUser()]
-        }
-        else{
-            redirect(controller:"login",view:"auth")
-        }
+        render template:"/snippet/list",model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
     }
 
     def starred = {
@@ -158,21 +143,11 @@ class UserController {
         }
     }
 
-    def tag = {
-        def tag = []
-        if(springSecurityService.isLoggedIn()){
-            tag = springSecurityService.getCurrentUser().tagCloud()
-        }
-        render (tag as JSON)
-    }
-
     def show = {
         def userInstance
-
         params.max = Math.min(params.max ? params.int('max') : 10, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
-
         if(params.username){
             userInstance=User.findByUsername(params.username)
         }

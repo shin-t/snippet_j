@@ -23,11 +23,6 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div>
-                <g:remoteLink controller="snippet" action="create" update="form_dialog" params="[status: 0]">snippet</g:remoteLink>
-                <g:remoteLink controller="snippet" action="create" update="form_dialog" params="[status: 1]">question</g:remoteLink>
-                <g:remoteLink controller="snippet" action="create" update="form_dialog" params="[status: 2]">problem</g:remoteLink>
-            </div>
             <div id="form_dialog">
                 <g:include action="create"/>
             </div>

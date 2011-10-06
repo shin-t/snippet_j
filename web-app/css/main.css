@@ -81,6 +81,34 @@ a, a:link { color: #64738B; }
     border-bottom: solid 1pt #BD767D;
     margin-bottom: 10pt;
 }
+.content .help { margin: 5pt; }
+.content .help span{
+    padding: 2pt;
+    border: solid 1pt #BD767D;
+    background-color: #E3BABE;
+}
+.content .solved { margin: 5pt; }
+.content .solved span{
+    padding: 2pt;
+    border: solid 1pt #C4C07A;
+    background-color: #E7E5BD;
+}
+.content .active { margin: 5pt; }
+.content .active span{
+    padding: 2pt;
+    color: #fff;
+    border: solid 1pt #E3BABE;
+    background-color: #BD767D;
+}
+.content .deadline {
+    margin: 5pt;
+    color: #BD767D;
+}
+.content .endless{ margin: 5pt; }
+.content .endless span{
+    padding: 2pt;
+    border: dashed 1pt #C4C07A;
+}
 .content ul.footer {
     float: right;
     list-style-type: none;

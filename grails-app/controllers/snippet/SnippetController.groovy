@@ -14,43 +14,41 @@ class SnippetController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def springSecurityService
-    def githubService
-    def tagsService
-    def starService
-    
+
     /* SignIn */
     def authenticationManager
 
-    @Secured(['ROLE_USER'])
     def star = {
-        def instance, status, user
-        user = springSecurityService.getCurrentUser()
-        if(params.id) instance = Star.get(user.id.toLong(), params.id.toLong())
-        switch(request.method){
-            case "GET":
-                status=instance?204:404
-                break
-            case "POST":
-                if(instance){
-                    instance.delete(flush: true)
-                    status=404
-                }
-                else{
-                    instance = Star.create(user, Snippet.get(params.id), true)
-                    status=204
-                }
-                break
-        }
+        def starInstance
+        def userInstance
+        def snippetInstance
+        def results = [:]
         if(params.id){
-            try{
-                def results = Star.executeQuery('select count(s) from snippet.Star as s where s.snippet.id = ?',[params.id.toLong()])
-                //render ([total:results[0]] as JSON)
-            }
-            catch(NumberFormatException e){
-                //render (status:400,text:"NumberFormatException")
+            snippetInstance = Snippet.get(params.id)
+            if(snippetInstance){
+                if(springSecurityService.isLoggedIn()){
+                    userInstance = springSecurityService.getCurrentUser()
+                    starInstance = Star.get(userInstance.id, snippetInstance.id)
+                    switch(request.method){
+                        case "GET":
+                            results['exists'] = starInstance?true:false
+                            break
+                        case "POST":
+                            if(starInstance){
+                                starInstance.delete(flush: true)
+                                results['exists'] = false
+                            }
+                            else{
+                                starInstance = Star.create(userInstance, snippetInstance, true)
+                                results['exists'] = true
+                            }
+                            break
+                    }
+                }
+                results['count'] = Star.countBySnippet(snippetInstance)
             }
         }
-        render (status:status,text:"")
+        render (results as JSON)
     }
 
     @Secured(['ROLE_USER'])

@@ -13,19 +13,16 @@
                         ${remoteFunction(controller:'user', action:'unfollow', params:[username: snippetInstance.user.username], onSuccess:'follow_update(false)')}
                         return false;
                     }));
-                    console.log("update unfollow");
                 }
                 else{
                     $('.follow_${snippetInstance.user.id}').html($("<a href='#'>follow</a>").click(function(){
                         ${remoteFunction(controller:'user', action:'follow', params:[username: snippetInstance.user.username], onSuccess:'follow_update(true)')}
                         return false;
                     }));
-                    console.log("update follow");
                 }
             }
             var follow_check = function(){
                 ${remoteFunction(controller:'user', action:'follow_check', params:[username: snippetInstance.user.username], onSuccess:'follow_update(data[0])')}
-                console.log("check");
             }
             follow_check();
         })();
@@ -52,7 +49,7 @@
     </div>
     <ul class="footer">
         <li><prettytime:display date="${snippetInstance.lastUpdated}" /></li>
-        <li><g:remoteLink action="star" id="${snippetInstance.id}">Add Star</g:remoteLink></li>
+        <li class="star_${snippetInstance.id}"></li>
         <li><g:remoteLink action="create" params="[parent_id:snippetInstance.id]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">Reply to This</g:remoteLink></li>
         <li><g:link action="show" id="${snippetInstance.id}">Chunk(${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
         <g:if test="${snippetInstance.root}">
@@ -61,6 +58,29 @@
         <li><g:link action="show" id="${snippetInstance.root.id}">Root</g:link></li>
         </g:if>
         </g:if>
+        <sec:ifLoggedIn>
+        <g:javascript>
+        (function(){
+            var update = function(data){
+                $('.star_${snippetInstance.id}').html($("<a href='#'></a>").text((data.exists?"unstar":"star")+" ("+data.count+")").click(function(){
+                    ${remoteFunction(controller:'snippet', action:'star', params:[id: snippetInstance.id], method:'POST', onSuccess:'update(data)')}
+                    return false;
+                }));
+            }
+            ${remoteFunction(controller:'snippet', action:'star', params:[id: snippetInstance.id], method:'GET', onSuccess:'update(data)')}
+        })();
+        </g:javascript>
+        </sec:ifLoggedIn>
+        <sec:ifNotLoggedIn>
+        <g:javascript>
+        (function(){
+            var update = function(data){
+                $('.star_${snippetInstance.id}').text("Star ("+data.count+")");
+            }
+            ${remoteFunction(controller:'snippet', action:'star', params:[id: snippetInstance.id], method:'GET', onSuccess:'update(data)')}
+        })();
+        </g:javascript>
+        </sec:ifNotLoggedIn>
     </ul>
     <div id="reply_${snippetInstance.id}" class="reply_form"></div>
 </div>

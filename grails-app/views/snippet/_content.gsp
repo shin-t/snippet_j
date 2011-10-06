@@ -35,10 +35,10 @@
             var solved = function(){
                 ${remoteFunction(controller:'snippet', action:'solved', params:[id: snippetInstance.id])}
                 if($(".help_${snippetInstance.id} input:checkbox").attr('checked')){
-                    $(".help_${snippetInstance.id} span").text("Help!");
+                    $(".help_${snippetInstance.id} span").text("Help!").parent().removeClass("solved").addClass("help");
                 }
                 else{
-                    $(".help_${snippetInstance.id} span").text("Solved!");
+                    $(".help_${snippetInstance.id} span").text("Solved!").parent().removeClass("help").addClass("solved");
                 }
             }
             $(".help_${snippetInstance.id} input:checkbox").click(solved);

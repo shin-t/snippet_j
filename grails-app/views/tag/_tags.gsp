@@ -5,4 +5,5 @@
         <li><g:link controller="tag" params="[tag: tag[0]]" class="tag">${tag[0].encodeAsHTML()}(${tag[1].encodeAsHTML()})</g:link></li>
         </g:each>
     </ul>
+    <div style="text-align:right"><g:link controller="tag">tags</g:link></div>
 </div>

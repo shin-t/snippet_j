@@ -36,14 +36,7 @@
             </div>
         </div>
         <g:if test="${snippetInstance?.status == 1}">
-        <div class="prop">
-            <div class="name">
-                <label for="help"><g:message code="snippet.help.label" default="Help" /></label>
-            </div>
-            <div class="value ${hasErrors(bean: snippetInstance, field: 'help', 'errors')}">
-                    <g:checkBox name="help" value="${snippetInstance?.help}" />
-            </div>
-        </div>
+        <g:hiddenField name="help" value="${snippetInstance?.help}" />
         </g:if>
         <g:elseif test="${snippetInstance?.status == 2}">
         <div class="prop">

@@ -57,7 +57,17 @@
     <div class="help_${snippetInstance.id} ${snippetInstance.help?'help':'solved'}"><span><g:formatBoolean boolean="${snippetInstance.help}" true="Help!" false="Solved!" /></span></div>
     </g:if>
     <g:elseif test="${snippetInstance?.status == 2}">
-    <div><g:formatDate date="${snippetInstance.deadline}" /></div>
+    <g:if test="${snippetInstance.deadline}">
+    <g:if test="${snippetInstance.deadline > new Date()}">
+    <div class="active"><span>active</span> deadline: <g:formatDate date="${snippetInstance.deadline}"/></div>
+    </g:if>
+    <g:else>
+    <div class="deadline">deadline: <g:formatDate date="${snippetInstance.deadline}"/></div>
+    </g:else>
+    </g:if>
+    <g:else>
+    <div class="endless"><span>endless</span></div>
+    </g:else>
     </g:elseif>
     <div style="float:left">
         <g:each in="${tags}" var="tag">

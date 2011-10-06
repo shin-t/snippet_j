@@ -50,9 +50,8 @@
             </span>
         </div>
         <div id="snippet_status">
-            <g:radio name="status" value="0" id="status_0"/><label for="status_0">Snippet</label>
-            <g:radio name="status" value="1" id="status_1"/><label for="status_1">Question</label>
-            <g:radio name="status" value="2" id="status_2"/><label for="status_2">Problem</label>
+            <g:radio name="status" value="0" id="status_0"/><g:radio name="status" value="1" id="status_1"/><g:radio name="status" value="2" id="status_2"/>
+            <label for="status_0">Snippet</label><label for="status_1">Question</label><label for="status_2">Problem</label>
         </div>
         <g:javascript>
         (function(){

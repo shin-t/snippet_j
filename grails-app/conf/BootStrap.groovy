@@ -24,7 +24,7 @@ class BootStrap {
                 snippets << new Snippet(text:"sum",file:"sum([],0).\nsum([N|R],S) :-\n  sum(R,S1),\n  S is N + S1.",user:user).save(flush:true)
                 snippets[0].parseTags("prolog,sum,math,program,logic")
                 snippets << new Snippet(text:"quicksort",file: "-module(quicksort).\n-export([qsort/1]).\n\nqsort([]) -> [];\nqsort([Pivot|Rest]) ->\n  qsort([ X || X <- Rest, X < Pivot]) ++ [Pivot] ++ qsort([ Y || Y <- Rest, Y >= Pivot]).",user:admin).save(flush:true)
-                snippets[1].parseTags("erlng,qsort,quicksort,sort,math,program")
+                snippets[1].parseTags("erlang,qsort,quicksort,sort,math,program")
                 snippets << new Snippet(text:"append diff lists", file:"append_dl([Xs, Ys], [Ys, Zs], [Xs, Zs]).",user:user).save(flush:true)
                 snippets[2].parseTags("prolog,append,diff,list,diff list,math,program,logic")
                 snippets << new Snippet(text:"total",file: "total :: [Int]\ntotal [] = 0\ntotal (x:xs) = x + total xs",user:admin).save(flush:true)

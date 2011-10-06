@@ -90,11 +90,18 @@ a, a:link { color: #64738B; }
     border-left: 1pt solid #BD767D;
     padding: 0 5pt;
 }
-.content .reply_form { clear:both; }
+.content .reply_form {
+    clear:both;
+}
 .content .file {
     padding: 5pt;
     margin: 10pt;
     border: solid 1pt #BD767D;
+}
+.reply_form form {
+    margin-top: 40pt;
+    padding-top: 15pt;
+    border-top: dashed 2pt #BD767D;
 }
 /* NAVIGATION MENU */
 /* MESSAGES AND ERRORS */

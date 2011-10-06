@@ -34,8 +34,14 @@
         (function(){
             var solved = function(){
                 ${remoteFunction(controller:'snippet', action:'solved', params:[id: snippetInstance.id])}
+                if($(".help_${snippetInstance.id} input:checkbox").attr('checked')){
+                    $(".help_${snippetInstance.id} span").text("Help!");
+                }
+                else{
+                    $(".help_${snippetInstance.id} span").text("Solved!");
+                }
             }
-            $(".help_${snippetInstance.id} input").click(solved);
+            $(".help_${snippetInstance.id} input:checkbox").click(solved);
         })();
         </g:javascript>
         </g:elseif>
@@ -48,7 +54,7 @@
     <div class="file"><pre><code>${fieldValue(bean: snippetInstance, field: "file")}</code></pre></div>
     </g:if>
     <g:if test="${snippetInstance?.status == 1}">
-    <div><g:formatBoolean boolean="${snippetInstance.help}" true="Help!" false="Solved!" /></div>
+    <div class="help_${snippetInstance.id} ${snippetInstance.help?'help':'solved'}"><span><g:formatBoolean boolean="${snippetInstance.help}" true="Help!" false="Solved!" /></span></div>
     </g:if>
     <g:elseif test="${snippetInstance?.status == 2}">
     <div><g:formatDate date="${snippetInstance.deadline}" /></div>

@@ -77,7 +77,7 @@
     <ul class="footer">
         <li><prettytime:display date="${snippetInstance.lastUpdated}" /></li>
         <li class="star_${snippetInstance.id}"></li>
-        <li><g:remoteLink action="create" params="[parent_id:snippetInstance.id]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">Reply to This</g:remoteLink></li>
+        <li><g:remoteLink controller="snippet" action="create" params="[parent_id:snippetInstance.id]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">Reply to This</g:remoteLink></li>
         <li><g:link action="show" id="${snippetInstance.id}">Chunk(${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
         <g:if test="${snippetInstance.root}">
         <li><g:link action="show" id="${snippetInstance.parent.id}" fragment="snippet_${snippetInstance.id}">Parent</g:link></li>

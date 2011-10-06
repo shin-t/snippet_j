@@ -8,7 +8,7 @@
             </label>
         </div>
         <div class="value ${hasErrors(bean: snippetInstance, field: 'text', 'errors')}">
-                <g:textArea name="text" value="${snippetInstance?.text}" />
+            <g:textArea name="text" value="${snippetInstance?.text}" />
         </div>
     </div>
     <div class="prop">
@@ -18,7 +18,7 @@
             </label>
         </div>
         <div class="value ${hasErrors(bean: snippetInstance, field: 'file', 'errors')}">
-                <g:textArea name="file" value="${snippetInstance?.file}" />
+            <g:textArea name="file" value="${snippetInstance?.file}" />
         </div>
     </div>
     <div class="prop">
@@ -28,7 +28,7 @@
             </label>
         </div>
         <div class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
-                <g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" />
+            <g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" />
         </div>
     </div>
     <div class="buttons">

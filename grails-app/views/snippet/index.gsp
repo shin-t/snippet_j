@@ -30,11 +30,16 @@
             <div id="form_dialog">
                 <g:include action="create"/>
             </div>
-            <div>
-                <g:remoteLink controller="snippet" action="list" update="lists" onComplete="reset_autopager()">all</g:remoteLink>
-                <g:remoteLink controller="snippet" action="user" update="lists" onComplete="reset_autopager()">user</g:remoteLink>
-                <g:remoteLink controller="snippet" action="tags" update="lists" onComplete="reset_autopager()">tags</g:remoteLink>
+            <div id="list_filter">
+                <g:radio id="filter_all" name="lists" checked="true"/><g:radio id="filter_user" name="lists"/><g:radio id="filter_tags" name="lists"/>
+                <label for="filter_all">all</label><label for="filter_user">user</label><label for="filter_tags">tags</label>
             </div>
+            <g:javascript>
+                $("#list_filter").buttonset().children(":radio")
+                                 .first().click(function(){${remoteFunction(controller:'snippet',action:'list',update:'lists',onComplete:'reset_autopager()')}})
+                                 .next().click(function(){${remoteFunction(controller:'snippet',action:'user',update:'lists',onComplete:'reset_autopager()')}})
+                                 .next().click(function(){${remoteFunction(controller:'snippet',action:'tags',update:'lists',onComplete:'reset_autopager()')}});
+            </g:javascript>
             <div id="lists"><g:include action="list"/></div>
         </div>
         <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>

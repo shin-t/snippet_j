@@ -1,4 +1,4 @@
-<g:formRemote name="reply" url="[controller:'snippet',action:'save']" update="[success:'lists',failure:'reply']">
+<g:formRemote name="reply" url="[controller:'snippet',action:'save']" update="[success:'reply',failure:'reply']" onSuccess="jQuery('.reply_form').empty()">
     <g:hiddenField name="parent_id" value="${parent_id}" />
     <div class="header">reply</div>
     <div class="prop">

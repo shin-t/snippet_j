@@ -8,7 +8,7 @@ body { background: #E7E5BD; }
 input[type="text"], input[type="password"], textarea {
     border: 1px solid #777;
     background-color: #f2f2f2;
-    font: 12pt verdana, arial, helvetica, sans-serif;
+    font: 10pt verdana, arial, helvetica, sans-serif;
 }
 a, a:link { color: #64738B; }
 #header {

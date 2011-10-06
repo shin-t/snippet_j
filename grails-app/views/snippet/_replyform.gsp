@@ -28,7 +28,7 @@
             </label>
         </div>
         <div class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
-            <g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" />
+            <g:textField name="tags" value="${snippetInstance.tags?.join(',')?:tags}" />
         </div>
     </div>
     <div class="buttons">

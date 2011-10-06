@@ -143,9 +143,8 @@ class SnippetController {
     def create = {
         def snippetInstance = new Snippet()
         snippetInstance.properties = params
-        if (params.tags) snippetInstance.parseTags(params.tags)
         if (params.parent_id) {
-            render template:'replyform',model:[parent_id: params.parent_id, snippetInstance: snippetInstance]
+            render template:'replyform',model:[parent_id: params.parent_id, snippetInstance: snippetInstance, tags: params.tags]
         } else {
             render template:'form',model:[snippetInstance: snippetInstance]
         }

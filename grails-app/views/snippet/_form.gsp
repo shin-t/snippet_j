@@ -27,7 +27,7 @@
                 <label for="tags"><g:message code="snippet.tags.label" default="Tags" /></label>
             </div>
             <div class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
-                <g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" />
+                <g:textField name="tags" value="${snippetInstance.tags?.join(',')}" />
             </div>
         </div>
         <g:hiddenField name="help" value="${snippetInstance?.help}" />

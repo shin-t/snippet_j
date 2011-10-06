@@ -56,6 +56,9 @@
             </g:javascript>
             </g:if>
             </g:if>
+            <g:else>
+            <div><sec:username /></div>
+            </g:else>
             <div id="lists"><g:include controller="user" action="snippets" params="[username: params.username]"/></div>
         </div>
         <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>

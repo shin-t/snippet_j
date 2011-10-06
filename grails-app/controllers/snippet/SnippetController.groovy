@@ -52,6 +52,19 @@ class SnippetController {
     }
 
     @Secured(['ROLE_USER'])
+    def solved = {
+        if(params.id){
+            def snippetInstance = Snippet.get(params.id)
+            def userId= springSecurityService.principal.id
+            if(snippetInstance && snippetInstance.user.id == userId){
+                snippetInstance.help = !snippetInstance.help
+                snippetInstance.save(flush:true)
+            }
+        }
+        render(status:204,text:"")
+    }
+
+    @Secured(['ROLE_USER'])
     def user = {
         params.max = Math.min(params.max ? params.int('max') : 5, 30)
         params.sort = params.sort?:'dateCreated'

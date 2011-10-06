@@ -28,6 +28,17 @@
         })();
         </g:javascript>
         </g:if>
+        <g:elseif test="${snippetInstance.status == 1}">
+        <div class="help_${snippetInstance.id}"><g:checkBox name="help" value="${snippetInstance.help}"/>Help!</div>
+        <g:javascript>
+        (function(){
+            var solved = function(){
+                ${remoteFunction(controller:'snippet', action:'solved', params:[id: snippetInstance.id])}
+            }
+            $(".help_${snippetInstance.id} input").click(solved);
+        })();
+        </g:javascript>
+        </g:elseif>
         <g:if test="${snippetInstance.root}">
         <div style="clear:both;">${fieldValue(bean: snippetInstance.root.user, field: "username")}: ${fieldValue(bean: snippetInstance.root, field: "text")}</div>
         </g:if>

@@ -56,6 +56,7 @@ class UserController {
     }
 
     def index = {
+        if(springSecurityService.isLoggedIn()) [username: springSecurityService.principal.username]
     }
 
     def list = {

@@ -25,6 +25,7 @@
             </g:if>
             <g:if test="${params.username}">
             <div>${params.username}</div>
+            <g:if test="${params.username!=username}">
             <div class="follow_${params.username}">
                 <a href="#"></a>
             </div>
@@ -53,6 +54,7 @@
                 follow_check();
             })();
             </g:javascript>
+            </g:if>
             </g:if>
             <div id="lists"><g:include controller="user" action="snippets" params="[username: params.username]"/></div>
         </div>

@@ -1,6 +1,6 @@
 <div id="snippet_${snippetInstance?.id}" class="content">
     <div class="header">
-        <div>${fieldValue(bean: snippetInstance.user, field: "username")}</div>
+        <div><g:link controller="user" params="[username:snippetInstance.user.username]">${fieldValue(bean: snippetInstance.user, field: "username")}</g:link></div>
         <g:if test="${username != snippetInstance.user.username}">
         <div class="follow_${snippetInstance.user.id}">
             <a href="#"></a>

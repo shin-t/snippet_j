@@ -44,9 +44,21 @@ a, a:link { color: #64738B; }
 #nav ul li.login, #nav ul li.logout { border-left: 1pt #E7D8BD solid; }
 #nav ul li a { text-decoration: none; }
 #container { margin: 20pt 80pt; }
+#list_filter {
+    margin: 15pt 0;
+    text-align: center;
+}
 #contents {
     width: 600pt;
     float: left;
+}
+#user_info, #tag_info{
+    background-color: #E3BABE;
+    border-bottom: 1pt solid #BD767D;
+    border-right: 1pt solid #BD767D;
+    margin: 15pt 0;
+    padding: 2pt;
+    font-size: 12pt;
 }
 #sidebar {
     width: 180pt;
@@ -62,7 +74,7 @@ a, a:link { color: #64738B; }
     width: 99%;
     height: 4em;
 }
-#snippetForm { margin-bottom: 30pt; }
+#snippetForm { margin: 15pt 0; }
 .dialog { border: solid 1pt #C4A97A; }
 .content { border: solid 1pt #BD767D; }
 .content, .dialog, .tags {
@@ -72,6 +84,9 @@ a, a:link { color: #64738B; }
     padding: 16pt;
     margin: 0 5pt 10pt;
 }
+.content .text pre, .content .file pre {
+    overflow: auto;
+}
 .tags ul {
     list-style-type: none;
 }
@@ -79,10 +94,12 @@ a, a:link { color: #64738B; }
     border-bottom: solid 1pt #C4C07A;
     border-right: solid 1pt #C4C07A;
     background-color: #E7E4B0;
+    padding: 2pt;
 }
 .content .header {
     border-bottom: solid 1pt #BD767D;
     margin-bottom: 10pt;
+    padding: 2pt;
 }
 .content .help { margin: 5pt; }
 .content .help span{
@@ -147,12 +164,9 @@ a, a:link { color: #64738B; }
     overflow: hidden;
 }
 div.errors {
-    border: 1px solid red;
-    color: #cc0000;
-    border-radius: 10pt / 10pt;
-    background-color: #fff;
+    color: #BD767D;
+    margin: 5pt 20pt;
 }
-div.errors ul { list-style: none; }
 select.errors, input.errors, textarea.errors { border: 1px solid red; }
 .error { color: #c00; }
 /* PAGINATION */

@@ -31,4 +31,13 @@ class Snippet implements Taggable {
     Date deadline
     Date dateCreated
     Date lastUpdated
+
+    static boolean remove(long id){
+        def snippetInstance = Snippet.get(id)
+        if(snippetInstance){
+            Snippet.executeUpdate("update Snippet s set s.root = null where s.parent = ?",[snippetInstance])
+            Snippet.executeUpdate("update Snippet s set s.parent = null where s.parent = ?",[snippetInstance])
+            Snippet.executeUpdate("update Snippet s set s.root = s.parent where s.root= ?",[snippetInstance])
+        }
+    }
 }

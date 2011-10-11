@@ -24,35 +24,37 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <g:if test="${params.tag}">
-            <div>${params.tag}</div>
-            <div class="follow_${params.tag}">
-                <a href="#"></a>
+            <div id="tag_info">
+                ${params.tag.encodeAsHTML()}
+                <div class="follow_${params.tag}">
+                    <a href="#"></a>
+                </div>
+                <g:javascript>
+                (function(){
+                    var follow_update = function(data){
+                        if(data){
+                            $('.follow_${params.tag}').html($("<a href='#'>unfollow</a>").click(function(){
+                                ${remoteFunction(controller:'tag', action:'unfollow', params:[tag: params.tag], onSuccess:'follow_update(false)')}
+                                return false;
+                            }));
+                            console.log("update unfollow");
+                        }
+                        else{
+                            $('.follow_${params.tag}').html($("<a href='#'>follow</a>").click(function(){
+                                ${remoteFunction(controller:'tag', action:'follow', params:[tag: params.tag], onSuccess:'follow_update(true)')}
+                                return false;
+                            }));
+                            console.log("update follow");
+                        }
+                    }
+                    var follow_check = function(){
+                        ${remoteFunction(controller:'tag', action:'follow_check', params:[tag: params.tag], onSuccess:'follow_update(data[0])')}
+                        console.log("check");
+                    }
+                    follow_check();
+                })();
+                </g:javascript>
             </div>
-            <g:javascript>
-            (function(){
-                var follow_update = function(data){
-                    if(data){
-                        $('.follow_${params.tag}').html($("<a href='#'>unfollow</a>").click(function(){
-                            ${remoteFunction(controller:'tag', action:'unfollow', params:[tag: params.tag], onSuccess:'follow_update(false)')}
-                            return false;
-                        }));
-                        console.log("update unfollow");
-                    }
-                    else{
-                        $('.follow_${params.tag}').html($("<a href='#'>follow</a>").click(function(){
-                            ${remoteFunction(controller:'tag', action:'follow', params:[tag: params.tag], onSuccess:'follow_update(true)')}
-                            return false;
-                        }));
-                        console.log("update follow");
-                    }
-                }
-                var follow_check = function(){
-                    ${remoteFunction(controller:'tag', action:'follow_check', params:[tag: params.tag], onSuccess:'follow_update(data[0])')}
-                    console.log("check");
-                }
-                follow_check();
-            })();
-            </g:javascript>
             <div id="lists"><g:include controller="tag" action="list"/></div>
             </g:if>
             <g:else>

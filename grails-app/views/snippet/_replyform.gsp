@@ -1,13 +1,16 @@
-<g:formRemote name="reply" url="[controller:'snippet',action:'save']" update="[success:'reply',failure:'reply']" onSuccess="jQuery('.reply_form').empty()">
+<g:formRemote name="reply" url="[controller:'snippet',action:'save']" update="[success:'reply_'+parent_id,failure:'reply_'+parent_id]" onSuccess="jQuery('.reply_form').empty()">
     <g:hiddenField name="parent_id" value="${parent_id}" />
     <div class="header"><g:message code="default.reply.label" default="reply"/></div>
+    <g:hasErrors bean="${snippetInstance}">
+    <div class="errors"><g:renderErrors bean="${snippetInstance}" as="list" /></div>
+    </g:hasErrors>
     <div class="prop">
         <div class="name">
             <label for="text">
                 <g:message code="snippet.text.label" default="Text" />
             </label>
         </div>
-        <div class="value ${hasErrors(bean: snippetInstance, field: 'text', 'errors')}">
+        <div class="value">
             <g:textArea name="text" value="${snippetInstance?.text}" />
         </div>
     </div>
@@ -17,7 +20,7 @@
                 <g:message code="snippet.file.label" default="File" />
             </label>
         </div>
-        <div class="value ${hasErrors(bean: snippetInstance, field: 'file', 'errors')}">
+        <div class="value">
             <g:textArea name="file" value="${snippetInstance?.file}" />
         </div>
     </div>
@@ -27,7 +30,7 @@
                 <g:message code="snippet.tags.label" default="Tags" />
             </label>
         </div>
-        <div class="value ${hasErrors(bean: snippetInstance, field: 'tags', 'errors')}">
+        <div class="value">
             <g:textField name="tags" value="${snippetInstance.tags?.join(',')?:tags}" />
         </div>
     </div>

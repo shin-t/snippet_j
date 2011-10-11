@@ -13,7 +13,7 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div><g:render template="content" model="[snippetInstance: snippetInstance]" /></div>
+            <div><g:render template="content" model="[snippetInstance: snippetInstance, tags: snippetInstance.tags]" /></div>
             <div id="lists"><g:render template="list" model="[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]" /></div>
             <r:script>
                 $.autopager({

@@ -69,7 +69,7 @@ class SnippetController {
         params.max = Math.min(params.max ? params.int('max') : 5, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
-        def query = "select s from Snippet s, UserUser u where s.user.id = u.user.id and u.follower.id = ?"
+        def query = "select s from Snippet s, UserUser u where s.user.id = u.user.id and u.follower.id = ? order by s.dateCreated desc"
         def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
         def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
         render template: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username]
@@ -85,7 +85,8 @@ class SnippetController {
             where s.id = t.tagRef
             and t.type = 'snippet'
             and u.tag.name = t.tag.name
-            and u.follower.id = ?"""
+            and u.follower.id = ?
+            order by s.dateCreated desc"""
         def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
         def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
         render template: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username]
@@ -169,7 +170,11 @@ class SnippetController {
         }
         else {
             // render(snippetInstance.errors.allErrors.collect{ message(error:it) } as JSON)
-            render(template:'form',model:[parent_id: params.parent_id, snippetInstance: snippetInstance],status:400)
+            if (params.parent_id) {
+                render status:403,template:'replyform',model:[parent_id: params.parent_id, snippetInstance: snippetInstance, tags: params.tags]
+            } else {
+                render status:403,template:'form',model:[snippetInstance: snippetInstance]
+            }
         }
     }
 
@@ -187,7 +192,7 @@ class SnippetController {
                 eq ('parent', snippetInstance)
             }
             def snippetInstanceTotal = snippetInstanceList.totalCount
-            [snippetInstance: snippetInstance, snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
+            [snippetInstance: snippetInstance, snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username]
         }
     }
 
@@ -237,18 +242,19 @@ class SnippetController {
         def snippetInstance = Snippet.get(params.id)
         if (snippetInstance&&(springSecurityService.getCurrentUser()==snippetInstance.user)) {
             try {
+                Snippet.remove(snippetInstance.id)
                 snippetInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
-                redirect(action: "list")
+                //flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
+                render(status:204,text:"")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
-                redirect(action: "show", id: params.id)
+                //flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
+                render(status:404,text:"not deleted")
             }
         }
         else{
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
-            redirect(action: "list")
+            //flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
+            render(status:404,text:"not found")
         }
     }
 }

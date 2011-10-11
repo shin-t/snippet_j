@@ -5,12 +5,24 @@
             <g:if test="${snippetInstance.root}">
             &raquo;
             <g:link controller="snippet" action="show" id="${snippetInstance.parent.id}" fragment="snippet_${snippetInstance.id}">
-                ${fieldValue(bean: snippetInstance.parent.user, field: "username")}: ${fieldValue(bean: snippetInstance.parent, field: "text")}
+                ${fieldValue(bean: snippetInstance.parent.user, field: "username")}:
+                <g:if test="${snippetInstance.parent.text.length() < 80}">
+                ${fieldValue(bean: snippetInstance.parent, field: "text")}
+                </g:if>
+                <g:else>
+                ${fieldValue(bean: snippetInstance.parent, field: "text")[0..79]}...
+                </g:else>
             </g:link>
             <g:if test="${snippetInstance.root!=snippetInstance.parent}">
             <div>
                 <g:link controller="snippet" action="show" id="${snippetInstance.root.id}">
-                    ${fieldValue(bean: snippetInstance.root.user, field: "username")}: ${fieldValue(bean: snippetInstance.root, field: "text")}
+                    ${fieldValue(bean: snippetInstance.root.user, field: "username")}:
+                    <g:if test="${snippetInstance.root.text.size() < 80}">
+                    ${fieldValue(bean: snippetInstance.root, field: "text")}
+                    </g:if>
+                    <g:else>
+                    ${fieldValue(bean: snippetInstance.root, field: "text")[0..79]}...
+                    </g:else>
                 </g:link>
             </div>
             </g:if>
@@ -63,14 +75,17 @@
         </g:each>
     </div>
     <ul class="footer">
-        <li><prettytime:display date="${snippetInstance.lastUpdated}" /></li>
+        <li><g:link action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/> (${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
         <li class="star_${snippetInstance.id}"></li>
         <li>
             <g:remoteLink controller="snippet" action="create" params="[parent_id:snippetInstance.id,tags:snippetInstance.tags.join(',')]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">
                 <g:message code="snippet.button.reply.label"/>
             </g:remoteLink>
         </li>
-        <li><g:link action="show" id="${snippetInstance.id}"><g:message code="snippet.button.chunk.label"/>(${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
+        <g:if test="${username == snippetInstance.user.username}">
+        <li><g:remoteLink controller="snippet" action="delete" id="${snippetInstance.id}" onSuccess="jQuery('#snippet_${snippetInstance.id}').remove()"
+                before="if(!confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}')) return false"><g:message code="default.button.delete.label" default="delete"/></g:remoteLink></li>
+        </g:if>
         <sec:ifLoggedIn>
         <g:javascript>
         (function(){

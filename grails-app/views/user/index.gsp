@@ -23,42 +23,44 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:if test="${params.username}">
-            <div>${params.username}</div>
-            <g:if test="${params.username!=username}">
-            <div class="follow_${params.username}">
-                <a href="#"></a>
+            <div id="user_info">
+                <g:if test="${params.username}">
+                ${params.username.encodeAsHTML()}
+                <g:if test="${params.username!=username}">
+                <div class="follow_${params.username}">
+                    <a href="#"></a>
+                </div>
+                <g:javascript>
+                (function(){
+                    var follow_update = function(data){
+                        if(data){
+                            $('.follow_${params.username}').html($("<a href='#'>unfollow</a>").click(function(){
+                                ${remoteFunction(controller:'user', action:'unfollow', params:[username: params.username], onSuccess:'follow_update(false)')}
+                                return false;
+                            }));
+                            console.log("update unfollow");
+                        }
+                        else{
+                            $('.follow_${params.username}').html($("<a href='#'>follow</a>").click(function(){
+                                ${remoteFunction(controller:'user', action:'follow', params:[username: params.username], onSuccess:'follow_update(true)')}
+                                return false;
+                            }));
+                            console.log("update follow");
+                        }
+                    }
+                    var follow_check = function(){
+                        ${remoteFunction(controller:'user', action:'follow_check', params:[username: params.username], onSuccess:'follow_update(data[0])')}
+                        console.log("check");
+                    }
+                    follow_check();
+                })();
+                </g:javascript>
+                </g:if>
+                </g:if>
+                <g:else>
+                <sec:username />
+                </g:else>
             </div>
-            <g:javascript>
-            (function(){
-                var follow_update = function(data){
-                    if(data){
-                        $('.follow_${params.username}').html($("<a href='#'>unfollow</a>").click(function(){
-                            ${remoteFunction(controller:'user', action:'unfollow', params:[username: params.username], onSuccess:'follow_update(false)')}
-                            return false;
-                        }));
-                        console.log("update unfollow");
-                    }
-                    else{
-                        $('.follow_${params.username}').html($("<a href='#'>follow</a>").click(function(){
-                            ${remoteFunction(controller:'user', action:'follow', params:[username: params.username], onSuccess:'follow_update(true)')}
-                            return false;
-                        }));
-                        console.log("update follow");
-                    }
-                }
-                var follow_check = function(){
-                    ${remoteFunction(controller:'user', action:'follow_check', params:[username: params.username], onSuccess:'follow_update(data[0])')}
-                    console.log("check");
-                }
-                follow_check();
-            })();
-            </g:javascript>
-            </g:if>
-            </g:if>
-            <g:else>
-            <div><sec:username /></div>
-            </g:else>
             <div id="lists"><g:include controller="user" action="snippets" params="[username: params.username]"/></div>
         </div>
         <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>

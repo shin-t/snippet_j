@@ -51,7 +51,7 @@
         </div>
         <div id="snippet_status">
             <g:radio name="status" value="0" id="status_0"/><g:radio name="status" value="1" id="status_1"/><g:radio name="status" value="2" id="status_2"/>
-            <label for="status_0">Snippet</label><label for="status_1">Question</label><label for="status_2">Problem</label>
+            <label for="status_0"><g:message code="snippet.status.snippet.label" default="Snippet"/></label><label for="status_1"><g:message code="snippet.status.question.label" default="Question"/></label><label for="status_2"><g:message code="snippet.status.problem.label" default="Problem"/></label>
         </div>
         <g:javascript>
         (function(){
@@ -59,15 +59,15 @@
                 switch($("#snippet_status input:checked").val()){
                     case '0':
                         $("input[name='deadline']").parent().parent().hide();
-                        $(".dialog .header").text("Snippet");
+                        $(".dialog .header").text("${message(code: 'snippet.status.snippet.label', default: 'Snippet')}");
                         break;
                     case '1':
                         $("input[name='deadline']").parent().parent().hide();
-                        $(".dialog .header").text("Question");
+                        $(".dialog .header").text("${message(code: 'snippet.status.question.label', default: 'Question')}");
                         break;
                     case '2':
                         $("input[name='deadline']").parent().parent().show();
-                        $(".dialog .header").text("Problem");
+                        $(".dialog .header").text("${message(code: 'snippet.status.problem.label', default: 'Problem')}");
                         break;
                     default:
                         break;

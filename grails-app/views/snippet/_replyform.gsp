@@ -1,6 +1,6 @@
 <g:formRemote name="reply" url="[controller:'snippet',action:'save']" update="[success:'reply',failure:'reply']" onSuccess="jQuery('.reply_form').empty()">
     <g:hiddenField name="parent_id" value="${parent_id}" />
-    <div class="header">reply</div>
+    <div class="header"><g:message code="default.reply.label" default="reply"/></div>
     <div class="prop">
         <div class="name">
             <label for="text">
@@ -34,7 +34,7 @@
     <div class="buttons">
         <span class="button">
             <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-            <input type="button" name="cancel" value="cancel" onClick="$('.reply\_form').empty()" />
+            <input type="button" name="cancel" value="${message(code: 'default.button.cancel.label', default: 'Cancel')}" onClick="$('.reply\_form').empty()" />
         </span>
     </div>
     <g:javascript>

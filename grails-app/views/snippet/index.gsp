@@ -32,7 +32,7 @@
             </div>
             <div id="list_filter">
                 <g:radio id="filter_all" name="lists" checked="true"/><g:radio id="filter_user" name="lists"/><g:radio id="filter_tags" name="lists"/>
-                <label for="filter_all">all</label><label for="filter_user">user</label><label for="filter_tags">tags</label>
+                <label for="filter_all"><g:message code="list.filter.all.label"/></label><label for="filter_user"><g:message code="list.filter.user.label"/></label><label for="filter_tags"><g:message code="list.filter.tags.label"/></label>
             </div>
             <g:javascript>
                 $("#list_filter").buttonset().children(":radio")

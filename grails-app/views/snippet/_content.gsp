@@ -44,10 +44,13 @@
     <g:elseif test="${snippetInstance?.status == 2}">
     <g:if test="${snippetInstance.deadline}">
     <g:if test="${snippetInstance.deadline > new Date()}">
-    <div class="active"><span>active</span> deadline: <g:formatDate date="${snippetInstance.deadline}"/></div>
+    <div class="active">
+        <span>active</span>
+        <g:message code="snippet.deadline.label" default="deadline"/>: <g:formatDate date="${snippetInstance.deadline}"/>
+    </div>
     </g:if>
     <g:else>
-    <div class="deadline">deadline: <g:formatDate date="${snippetInstance.deadline}"/></div>
+    <div class="deadline"><g:message code="snippet.deadline.label" default="deadline"/>: <g:formatDate date="${snippetInstance.deadline}"/></div>
     </g:else>
     </g:if>
     <g:else>

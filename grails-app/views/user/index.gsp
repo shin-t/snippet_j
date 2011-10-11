@@ -8,7 +8,6 @@
         <r:require modules="jquery-ui, common"/>
         <r:script>
             $("input:submit, input:button").button().css("font-size","8pt");
-            $("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false}).css("font-size","8pt");
             var button_icons = function(){
                 $("input:checkbox.up\_vote\_button").button({icons:{primary:"ui-icon-triangle-1-n"},text:false});
                 $("input:checkbox.down\_vote\_button").button({icons:{primary:"ui-icon-triangle-1-s"},text:false});

@@ -1,5 +1,3 @@
-
-
 <%@ page import="auth.User" %>
 <html>
     <head>
@@ -11,16 +9,10 @@
         <r:script>
             $(function(){
                 $("input:submit, input:button").button().css("font-size","8pt");
-                $("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false}).css("font-size","8pt");
             });
         </r:script>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>

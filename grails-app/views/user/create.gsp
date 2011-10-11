@@ -9,7 +9,6 @@
         <r:script>
             $(function(){
                 $("input:submit, input:button").button().css("font-size","8pt");
-                $("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false}).css("font-size","8pt");
             });
         </r:script>
     </head>

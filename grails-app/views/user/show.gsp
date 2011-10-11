@@ -25,47 +25,14 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                
-                        
                 <div class="header">
-                        
-                        
                         <div class="value">${fieldValue(bean: userInstance, field: "username")}</div>
-                        
-                        
                     </div>
-                        
-                
-                        
-                        
                         <div class="value">${fieldValue(bean: userInstance, field: "password")}</div>
-                        
-                        
-                
-                        
-                        
                         <div class="value"><g:formatBoolean boolean="${userInstance?.enabled}" /></div>
-                        
-                        
-                
-                        
-                        
                         <div class="value"><g:formatBoolean boolean="${userInstance?.accountExpired}" /></div>
-                        
-                        
-                
-                        
-                        
                         <div class="value"><g:formatBoolean boolean="${userInstance?.accountLocked}" /></div>
-                        
-                        
-                
-                        
-                        
                         <div class="value"><g:formatBoolean boolean="${userInstance?.passwordExpired}" /></div>
-                        
-                        
-                
                 <div><g:link action="show" id="${userInstance.id}"><g:formatDate date="${userInstance.lastUpdated}" /></g:link></div>
                 <div class="buttons">
                     <g:form>

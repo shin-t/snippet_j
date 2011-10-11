@@ -37,19 +37,16 @@
                                 ${remoteFunction(controller:'tag', action:'unfollow', params:[tag: params.tag], onSuccess:'follow_update(false)')}
                                 return false;
                             }));
-                            console.log("update unfollow");
                         }
                         else{
                             $('.follow_${params.tag}').html($("<a href='#'>follow</a>").click(function(){
                                 ${remoteFunction(controller:'tag', action:'follow', params:[tag: params.tag], onSuccess:'follow_update(true)')}
                                 return false;
                             }));
-                            console.log("update follow");
                         }
                     }
                     var follow_check = function(){
                         ${remoteFunction(controller:'tag', action:'follow_check', params:[tag: params.tag], onSuccess:'follow_update(data[0])')}
-                        console.log("check");
                     }
                     follow_check();
                 })();

@@ -66,8 +66,6 @@ class TagController {
             params.order = params.order?:'desc'
             snippetInstanceList = Snippet.executeQuery("select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc", [params.tag], params)
             snippetInstanceTotal = Snippet.executeQuery("select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ?", [params.tag]).size()
-            println snippetInstanceList.dump()
-            println snippetInstanceTotal
             render template:'/snippet/list', model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal?.username]
         }
     }

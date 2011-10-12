@@ -39,7 +39,6 @@ class BootStrap {
                 snippets[6].save(flush:true)
                 snippets[6].parseTags("merge,merge sort,sort,math,algorithm,program,problem,java")
                 assert Snippet.count() == 7
-                snippets.each { println it.dump() }
             }
         }
     }

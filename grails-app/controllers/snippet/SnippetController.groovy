@@ -2,54 +2,14 @@ package snippet
 
 import grails.plugins.springsecurity.Secured
 import grails.converters.*
-import groovyx.net.http.HTTPBuilder
 import static groovyx.net.http.Method.*
 import static groovyx.net.http.ContentType.*
-
-import org.springframework.security.core.context.SecurityContextHolder as SCH
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 
 class SnippetController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def springSecurityService
-
-    /* SignIn */
-    def authenticationManager
-
-    def star = {
-        def starInstance
-        def userInstance
-        def snippetInstance
-        def results = [:]
-        if(params.id){
-            snippetInstance = Snippet.get(params.id)
-            if(snippetInstance){
-                if(springSecurityService.isLoggedIn()){
-                    userInstance = springSecurityService.getCurrentUser()
-                    starInstance = Star.get(userInstance.id, snippetInstance.id)
-                    switch(request.method){
-                        case "GET":
-                            results['exists'] = starInstance?true:false
-                            break
-                        case "POST":
-                            if(starInstance){
-                                starInstance.delete(flush: true)
-                                results['exists'] = false
-                            }
-                            else{
-                                starInstance = Star.create(userInstance, snippetInstance, true)
-                                results['exists'] = true
-                            }
-                            break
-                    }
-                }
-                results['count'] = Star.countBySnippet(snippetInstance)
-            }
-        }
-        render (results as JSON)
-    }
 
     @Secured(['ROLE_USER'])
     def solved = {

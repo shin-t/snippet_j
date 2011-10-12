@@ -166,7 +166,7 @@ class SnippetController {
         if(snippetInstance.save(flush: true)){
             if (params.tags) snippetInstance.parseTags(params.tags)
             // flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
-            render(text:'')
+            render template:'content',model:[snippetInstance: snippetInstance, username: springSecurityService.principal.username]
         }
         else {
             // render(snippetInstance.errors.allErrors.collect{ message(error:it) } as JSON)

@@ -132,14 +132,16 @@ a, a:link { color: #64738B; }
     padding: 2pt;
     border: dashed 1pt #C4C07A;
 }
-.content ul.footer {
+.content .footer ul {
     float: right;
     list-style-type: none;
 }
-.content ul.footer li {
+.content .footer ul li {
     float: left;
-    border-left: 1pt solid #BD767D;
-    padding: 0 5pt;
+    padding: 0 2pt;
+}
+.content .footer ul li a {
+    font-size: 11pt;
 }
 .content .reply_form {
     clear:both;

@@ -136,7 +136,7 @@ class SnippetController {
                     }
                 }
             }
-            html { render template:'list',model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username] }
+            html { render template:'list',model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username, userid: springSecurityService.principal.id] }
         }
     }
 

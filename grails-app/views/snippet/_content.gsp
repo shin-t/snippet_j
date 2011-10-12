@@ -1,33 +1,32 @@
+<%@ page import="snippet.Star" %>
 <div id="snippet_${snippetInstance?.id}" class="content">
     <div class="header">
+        <g:link controller="user" params="[username:snippetInstance.user.username]">${fieldValue(bean: snippetInstance.user, field: "username")}</g:link>
+        <g:if test="${snippetInstance.root}">
+        &raquo;
+        <g:link controller="snippet" action="show" id="${snippetInstance.parent.id}" fragment="snippet_${snippetInstance.id}">
+            ${fieldValue(bean: snippetInstance.parent.user, field: "username")}:
+            <g:if test="${snippetInstance.parent.text.length() < 80}">
+            ${fieldValue(bean: snippetInstance.parent, field: "text")}
+            </g:if>
+            <g:else>
+            ${fieldValue(bean: snippetInstance.parent, field: "text")[0..79]}...
+            </g:else>
+        </g:link>
+        <g:if test="${snippetInstance.root!=snippetInstance.parent}">
         <div>
-            <g:link controller="user" params="[username:snippetInstance.user.username]">${fieldValue(bean: snippetInstance.user, field: "username")}</g:link>
-            <g:if test="${snippetInstance.root}">
-            &raquo;
-            <g:link controller="snippet" action="show" id="${snippetInstance.parent.id}" fragment="snippet_${snippetInstance.id}">
-                ${fieldValue(bean: snippetInstance.parent.user, field: "username")}:
-                <g:if test="${snippetInstance.parent.text.length() < 80}">
-                ${fieldValue(bean: snippetInstance.parent, field: "text")}
+            <g:link controller="snippet" action="show" id="${snippetInstance.root.id}">
+                ${fieldValue(bean: snippetInstance.root.user, field: "username")}:
+                <g:if test="${snippetInstance.root.text.size() < 80}">
+                ${fieldValue(bean: snippetInstance.root, field: "text")}
                 </g:if>
                 <g:else>
-                ${fieldValue(bean: snippetInstance.parent, field: "text")[0..79]}...
+                ${fieldValue(bean: snippetInstance.root, field: "text")[0..79]}...
                 </g:else>
             </g:link>
-            <g:if test="${snippetInstance.root!=snippetInstance.parent}">
-            <div>
-                <g:link controller="snippet" action="show" id="${snippetInstance.root.id}">
-                    ${fieldValue(bean: snippetInstance.root.user, field: "username")}:
-                    <g:if test="${snippetInstance.root.text.size() < 80}">
-                    ${fieldValue(bean: snippetInstance.root, field: "text")}
-                    </g:if>
-                    <g:else>
-                    ${fieldValue(bean: snippetInstance.root, field: "text")[0..79]}...
-                    </g:else>
-                </g:link>
-            </div>
-            </g:if>
-            </g:if>
         </div>
+        </g:if>
+        </g:if>
         <g:if test="${username == snippetInstance.user.username && snippetInstance.status == 1}">
         <div class="help_${snippetInstance.id}"><g:checkBox name="help" value="${snippetInstance.help}" onClick="${remoteFunction(controller:'snippet', action:'solved', params:[id: snippetInstance.id])}update_solved(${snippetInstance.id})"/>Help!</div>
         </g:if>
@@ -64,10 +63,8 @@
         <ul>
             <li><g:link action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/> (${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
             <li class="star_${snippetInstance.id}">
-                <g:remoteLink controller="snippet" action="star" params="[id: snippetInstance.id]" method="POST" onSuccess="update(data,${snippetInstance.id})"></g:remoteLink>
-                <g:javascript>
-                    ${remoteFunction(controller:'snippet', action:'star', params:[id: snippetInstance.id], method:'GET', onSuccess:'update(data,'+snippetInstance.id+')')}
-                </g:javascript>
+                <g:checkBox checked="${Star.get(userid, snippetInstance.id)}" name="star" onclick="${remoteFunction(controller:'snippet',action:'star',params:[id: snippetInstance.id],onSuccess:'update(data,'+snippetInstance.id+')')}"/>
+                <label for="star">star</label>
             </li>
             <sec:ifLoggedIn>
             <li class="reply">

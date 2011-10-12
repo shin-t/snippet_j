@@ -3,17 +3,6 @@
         <g:render template="/snippet/content" model="[snippetInstance: snippetInstance, tags: snippetInstance.tags, username: username]" />
     </g:each>
 </div>
-<g:javascript>
-    var update_solved = function(id){
-        if($(".help_"+id+" input:checkbox").attr('checked')){
-            $(".help_"+id+" span").text("Help!").parent().removeClass("solved").addClass("help");
-        }
-        else{
-            $(".help_"+id+" span").text("Solved!").parent().removeClass("help").addClass("solved");
-        }
-    }
-    var clearForm = function(){ $(".reply_form").empty() }
-</g:javascript>
 <sec:ifLoggedIn>
 <g:javascript>
 var update = function(data,id){

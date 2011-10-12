@@ -11,6 +11,9 @@
             $("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false}).css("font-size","8pt");
             var button_icons = function(){
                 $("input:checkbox.star\_button").button({icons:{primary:"ui-icon-star"},text:false});
+                $(".footer div a").button({icons:{primary:"ui-icon-tag"}});
+                $(".footer ul li.reply a").button({icons:{primary:"ui-icon-comment"}});
+                $(".footer ul li.delete a").button({icons:{primary:"ui-icon-trash"}});
             }
             var reset_autopager = function(){
                 $.autopager('destroy');

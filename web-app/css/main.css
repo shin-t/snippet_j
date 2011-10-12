@@ -107,6 +107,9 @@ a, a:link { color: #64738B; }
     margin-bottom: 10pt;
     padding: 2pt;
 }
+.content .header a {
+    font-size: 11pt;
+}
 .content .help { margin: 5pt; }
 .content .help span{
     padding: 2pt;

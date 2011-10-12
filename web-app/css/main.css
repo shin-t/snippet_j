@@ -10,6 +10,9 @@ input[type="text"], input[type="password"], textarea {
     background-color: #f2f2f2;
     font: 10pt verdana, arial, helvetica, sans-serif;
 }
+.ui-button-text {
+    font-size: 8pt;
+}
 .prop .value input#tags {
     width: 60%;
 }

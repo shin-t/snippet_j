@@ -56,15 +56,15 @@
     </g:elseif>
     <div class="footer">
         <div style="float:left">
-            <g:each in="${tags}" var="tag">
+            <g:each in="${snippetInstance.tags}" var="tag">
             <g:link controller="tag" params="[tag: tag]">${tag.encodeAsHTML()}</g:link>
             </g:each>
         </div>
         <ul>
             <li><g:link action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/> (${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
             <li class="star_${snippetInstance.id}">
-                <g:checkBox checked="${Star.get(userid, snippetInstance.id)}" name="star" onclick="${remoteFunction(controller:'snippet',action:'star',params:[id: snippetInstance.id],onSuccess:'update(data,'+snippetInstance.id+')')}"/>
-                <label for="star">star</label>
+                <g:checkBox checked="${Star.get(userid, snippetInstance.id)}" name="star_${snippetInstance.id}" onclick="${remoteFunction(controller:'snippet',action:'star',params:[id: snippetInstance.id],onSuccess:'update(data,'+snippetInstance.id+')')}"/>
+                <label for="star_${snippetInstance.id}">star</label>
             </li>
             <sec:ifLoggedIn>
             <li class="reply">

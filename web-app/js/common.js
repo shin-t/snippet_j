@@ -1,8 +1,8 @@
 var button_icons = function(){
-    $("input:checkbox.star\_button").button({icons:{primary:"ui-icon-star"},text:false});
     $(".footer div a").button({icons:{primary:"ui-icon-tag"}});
     $(".footer ul li.reply a").button({icons:{primary:"ui-icon-comment"}});
     $(".footer ul li.delete a").button({icons:{primary:"ui-icon-trash"}});
+    $(".footer ul li input:checkbox").button({icons:{primary:"ui-icon-star"}});
 }
 
 var reset_autopager = function(){
@@ -24,8 +24,6 @@ var clearForm = function(){
 }
 
 $("input:submit, input:button").button();
-
-$("#searchableForm button").button({icons:{primary:"ui-icon-search"},text:false});
 
 $("#list_filter").buttonset().children(":radio")
                  .first()

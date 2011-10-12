@@ -26,7 +26,7 @@ class Star implements Serializable {
         Star instance = Star.findByUserAndSnippet(user, snippet)
         instance ? instance.delete(flush: flush) : false
     }
-    
+
     String toString(){
         "$user , $snippet"
     }

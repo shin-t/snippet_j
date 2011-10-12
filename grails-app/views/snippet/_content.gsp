@@ -55,30 +55,33 @@
     <div class="endless"><span>endless</span></div>
     </g:else>
     </g:elseif>
-    <div style="float:left">
-        <g:each in="${tags}" var="tag">
-        <g:link controller="tag" params="[tag: tag]">${tag.encodeAsHTML()}</g:link>
-        </g:each>
+    <div class="footer">
+        <div style="float:left">
+            <g:each in="${tags}" var="tag">
+            <g:link controller="tag" params="[tag: tag]">${tag.encodeAsHTML()}</g:link>
+            </g:each>
+        </div>
+        <ul>
+            <li><g:link action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/> (${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
+            <li class="star_${snippetInstance.id}">
+                <g:remoteLink controller="snippet" action="star" params="[id: snippetInstance.id]" method="POST" onSuccess="update(data,${snippetInstance.id})"></g:remoteLink>
+                <g:javascript>
+                    ${remoteFunction(controller:'snippet', action:'star', params:[id: snippetInstance.id], method:'GET', onSuccess:'update(data,'+snippetInstance.id+')')}
+                </g:javascript>
+            </li>
+            <sec:ifLoggedIn>
+            <li class="reply">
+                <g:remoteLink controller="snippet" action="create" params="[parent_id:snippetInstance.id,tags:snippetInstance.tags.join(',')]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">
+                    <g:message code="snippet.button.reply.label"/>
+                </g:remoteLink>
+            </li>
+            </sec:ifLoggedIn>
+            <g:if test="${username == snippetInstance.user.username}">
+            <li class="delete">
+                <g:remoteLink controller="snippet" action="delete" id="${snippetInstance.id}" onSuccess="jQuery('#snippet_${snippetInstance.id}').remove()" before="if(!confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}')) return false"><g:message code="default.button.delete.label" default="delete"/></g:remoteLink>
+            </li>
+            </g:if>
+        </ul>
     </div>
-    <ul class="footer">
-        <li><g:link action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/> (${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
-        <li class="star_${snippetInstance.id}">
-            <g:remoteLink controller="snippet" action="star" params="[id: snippetInstance.id]" method="POST" onSuccess="update(data,${snippetInstance.id})"></g:remoteLink>
-            <g:javascript>
-                ${remoteFunction(controller:'snippet', action:'star', params:[id: snippetInstance.id], method:'GET', onSuccess:'update(data,'+snippetInstance.id+')')}
-            </g:javascript>
-        </li>
-        <sec:ifLoggedIn>
-        <li>
-            <g:remoteLink controller="snippet" action="create" params="[parent_id:snippetInstance.id,tags:snippetInstance.tags.join(',')]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">
-                <g:message code="snippet.button.reply.label"/>
-            </g:remoteLink>
-        </li>
-        </sec:ifLoggedIn>
-        <g:if test="${username == snippetInstance.user.username}">
-        <li><g:remoteLink controller="snippet" action="delete" id="${snippetInstance.id}" onSuccess="jQuery('#snippet_${snippetInstance.id}').remove()"
-                before="if(!confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}')) return false"><g:message code="default.button.delete.label" default="delete"/></g:remoteLink></li>
-        </g:if>
-    </ul>
     <div id="reply_${snippetInstance.id}" class="reply_form"></div>
 </div>

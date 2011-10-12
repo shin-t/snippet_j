@@ -88,7 +88,7 @@ a, a:link { color: #64738B; }
     box-shadow: 3pt 3pt 3pt 3pt rgba(0,0,0,0.125);
     border-radius: 24pt / 24pt;
     padding: 16pt;
-    margin: 0 5pt 10pt;
+    margin: 0 5pt 20pt;
 }
 .content .text pre, .content .file pre {
     overflow: auto;

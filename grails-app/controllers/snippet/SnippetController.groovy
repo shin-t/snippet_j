@@ -12,70 +12,20 @@ class SnippetController {
     def springSecurityService
 
     @Secured(['ROLE_USER'])
-    def solved = {
-        if(params.id){
-            def snippetInstance = Snippet.get(params.id)
-            def userId= springSecurityService.principal.id
-            if(snippetInstance && snippetInstance.user.id == userId){
-                snippetInstance.help = !snippetInstance.help
-                snippetInstance.save(flush:true)
-            }
-        }
-        render(status:204,text:"")
-    }
-
-    @Secured(['ROLE_USER'])
-    def user = {
-        params.max = Math.min(params.max ? params.int('max') : 5, 30)
-        params.sort = params.sort?:'dateCreated'
-        params.order = params.order?:'desc'
-        def query = "select s from Snippet s, UserUser u where s.user.id = u.user.id and u.follower.id = ? order by s.dateCreated desc"
-        def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
-        def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
-        render template: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username]
-    }
-
-    @Secured(['ROLE_USER'])
-    def tags = {
-        params.max = Math.min(params.max ? params.int('max') : 5, 30)
-        params.sort = params.sort?:'dateCreated'
-        params.order = params.order?:'desc'
-        def query = """select distinct(s)
-            from Snippet s, UserTag u, TagLink t
-            where s.id = t.tagRef
-            and t.type = 'snippet'
-            and u.tag.name = t.tag.name
-            and u.follower.id = ?
-            order by s.dateCreated desc"""
-        def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
-        def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
-        render template: "list", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username]
-    }
-
-    @Secured(['ROLE_USER'])
     def index = {
-        /* SignIn
-            SCH.context.authentication = new UsernamePasswordAuthenticationToken(User.get(2), springSecurityService.encodePassword('password'))
-            def authentication = new UsernamePasswordAuthenticationToken('user', springSecurityService.encodePassword('password'))
-            def authentication = new UsernamePasswordAuthenticationToken('user', 'password')
-            SCH.context.authentication = authenticationManager.authenticate(authentication)
-            println SCH.toString()
-            println SCH.context.authentication.dump()
-            println session
-        */
-        //redirect(action: "list", params: params)
     }
 
     @Secured(['ROLE_USER'])
     def list = {
         def snippetInstanceList
         def snippetInstanceTotal
-
+        def userInstance
         params.max = Math.min(params.max ? params.int('max') : 5, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
         snippetInstanceList = Snippet.list(params)
         snippetInstanceTotal = Snippet.count()
+        userInstance = springSecurityService.getCurrentUser()
         withFormat {
             json {
                 render (contentType:'text/json') {
@@ -96,8 +46,63 @@ class SnippetController {
                     }
                 }
             }
-            html { render template:'list',model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username, userid: springSecurityService.principal.id] }
+            html {
+                render template:'list',model:[
+                    snippetInstanceList: snippetInstanceList,
+                    snippetInstanceTotal: snippetInstanceTotal,
+                    userInstance: userInstance
+                ]
+            }
         }
+    }
+
+    @Secured(['ROLE_USER'])
+    def user = {
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+        def query = "select s from Snippet s, UserUser u where s.user.id = u.user.id and u.follower.id = ? order by s.dateCreated desc"
+        def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
+        def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
+        render template: "list", model: [
+            snippetInstanceList: snippetInstanceList,
+            snippetInstanceTotal: snippetInstanceTotal,
+            userInstance: springSecurityService.getCurrentUser()
+        ]
+    }
+
+    @Secured(['ROLE_USER'])
+    def tags = {
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+        def query = """select distinct(s)
+            from Snippet s, UserTag u, TagLink t
+            where s.id = t.tagRef
+            and t.type = 'snippet'
+            and u.tag.name = t.tag.name
+            and u.follower.id = ?
+            order by s.dateCreated desc"""
+        def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
+        def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
+        render template: "list", model: [
+            snippetInstanceList: snippetInstanceList,
+            snippetInstanceTotal: snippetInstanceTotal,
+            userInstance: springSecurityService.getCurrentUser()
+        ]
+    }
+
+    @Secured(['ROLE_USER'])
+    def solved = {
+        if(params.id){
+            def snippetInstance = Snippet.get(params.id)
+            def userId= springSecurityService.principal.id
+            if(snippetInstance && snippetInstance.user.id == userId){
+                snippetInstance.help = !snippetInstance.help
+                snippetInstance.save(flush:true)
+            }
+        }
+        render(status:204,text:"")
     }
 
     @Secured(['ROLE_USER'])
@@ -126,7 +131,7 @@ class SnippetController {
         if(snippetInstance.save(flush: true)){
             if (params.tags) snippetInstance.parseTags(params.tags)
             // flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
-            render template:'content',model:[snippetInstance: snippetInstance, username: springSecurityService.principal.username]
+            render template:'content',model:[snippetInstance: snippetInstance, userInstance: springSecurityService.getCurrentUser()]
         }
         else {
             // render(snippetInstance.errors.allErrors.collect{ message(error:it) } as JSON)
@@ -151,8 +156,12 @@ class SnippetController {
             def snippetInstanceList = Snippet.createCriteria().list(params) {
                 eq ('parent', snippetInstance)
             }
-            def snippetInstanceTotal = snippetInstanceList.totalCount
-            [snippetInstance: snippetInstance, snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, username: springSecurityService.principal.username]
+            [
+                snippetInstance: snippetInstance,
+                snippetInstanceList: snippetInstanceList,
+                snippetInstanceTotal: snippetInstanceList.totalCount,
+                userInstance: springSecurityService.getCurrentUser()
+            ]
         }
     }
 

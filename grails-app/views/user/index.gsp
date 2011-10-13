@@ -6,16 +6,6 @@
         <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}"/>
         <title><g:message code="default.list.label" args="[entityName]"/></title>
         <r:require modules="jquery-ui, common"/>
-        <r:script>
-            $("input:submit, input:button").button().css("font-size","8pt");
-            var button_icons = function(){
-                $("input:checkbox.up\_vote\_button").button({icons:{primary:"ui-icon-triangle-1-n"},text:false});
-                $("input:checkbox.down\_vote\_button").button({icons:{primary:"ui-icon-triangle-1-s"},text:false});
-                $("input:checkbox.star\_button").button({icons:{primary:"ui-icon-star"},text:false});
-            }
-            $.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons });
-            button_icons();
-        </r:script>
     </head>
     <body>
         <div id="contents">
@@ -25,7 +15,7 @@
             <div id="user_info">
                 <g:if test="${params.username}">
                 ${params.username.encodeAsHTML()}
-                <g:if test="${params.username!=username}">
+                <g:if test="${params.username != userInstance.username}">
                 <div class="follow_${params.username}">
                     <a href="#"></a>
                 </div>

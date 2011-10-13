@@ -2,7 +2,6 @@ package auth
 
 import grails.plugins.springsecurity.Secured
 import grails.converters.*
-
 import snippet.*
 
 class UserController {
@@ -56,7 +55,7 @@ class UserController {
     }
 
     def index = {
-        if(springSecurityService.isLoggedIn()) [username: springSecurityService.principal.username]
+        if(springSecurityService.isLoggedIn()) [userInstance: springSecurityService.getCurrentUser()]
     }
 
     def list = {

@@ -5,7 +5,7 @@
     }
     </g:javascript>
     <g:each in="${snippetInstanceList}" var="snippetInstance">
-        <g:render template="/snippet/content" model="[snippetInstance: snippetInstance, tags: snippetInstance.tags, username: username, userid: userid]" />
+        <g:render template="/snippet/content" model="[snippetInstance: snippetInstance, userInstance: userInstance]" />
     </g:each>
 </div>
 <div style="display:none"><g:paginate controller="${controllerName}" action="${actionName}" total="${snippetInstanceTotal}" params="${params}"/></div>

@@ -69,8 +69,8 @@ class TagController {
             render template:'/snippet/list', model: [
                 snippetInstanceList: snippetInstanceList,
                 snippetInstanceTotal: snippetInstanceTotal,
-                username: springSecurityService.principal?.username?:"",
-                userid: springSecurityService.principal?.id]
+                userInstance: springSecurityService.getCurrentUser()
+            ]
         }
     }
 

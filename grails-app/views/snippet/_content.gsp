@@ -1,5 +1,5 @@
 <%@ page import="snippet.Star" %>
-<div id="snippet_${snippetInstance?.id}" class="content">
+<div id="snippet_${snippetInstance.id}" class="content">
     <div class="header">
         <g:link controller="user" params="[username:snippetInstance.user.username]">${fieldValue(bean: snippetInstance.user, field: "username")}</g:link>
         <g:if test="${snippetInstance.root}">
@@ -27,18 +27,18 @@
         </div>
         </g:if>
         </g:if>
-        <g:if test="${username == snippetInstance.user.username && snippetInstance.status == 1}">
+        <g:if test="${userInstance.id == snippetInstance.user.id && snippetInstance.status == 1}">
         <div class="help_${snippetInstance.id}"><g:checkBox name="help" value="${snippetInstance.help}" onClick="${remoteFunction(controller:'snippet', action:'solved', params:[id: snippetInstance.id])}update_solved(${snippetInstance.id})"/>Help!</div>
         </g:if>
     </div>
     <div class="text"><pre>${fieldValue(bean: snippetInstance, field: "text")}</pre></div>
-    <g:if test="${snippetInstance?.file}">
+    <g:if test="${snippetInstance.file}">
     <div class="file"><pre><code>${fieldValue(bean: snippetInstance, field: "file")}</code></pre></div>
     </g:if>
-    <g:if test="${snippetInstance?.status == 1}">
+    <g:if test="${snippetInstance.status == 1}">
     <div class="help_${snippetInstance.id} ${snippetInstance.help?'help':'solved'}"><span><g:formatBoolean boolean="${snippetInstance.help}" true="Help!" false="Solved!" /></span></div>
     </g:if>
-    <g:elseif test="${snippetInstance?.status == 2}">
+    <g:elseif test="${snippetInstance.status == 2}">
     <g:if test="${snippetInstance.deadline}">
     <g:if test="${snippetInstance.deadline > new Date()}">
     <div class="active">
@@ -63,7 +63,7 @@
         <ul>
             <li><g:link action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/> (${snippetInstance.children.size().encodeAsHTML()})</g:link></li>
             <li class="star_${snippetInstance.id}">
-                <g:checkBox checked="${Star.get(userid, snippetInstance.id)}" name="star_${snippetInstance.id}" onclick="${remoteFunction(controller:'snippet',action:'star',params:[id: snippetInstance.id],onSuccess:'update(data,'+snippetInstance.id+')')}"/>
+                <g:checkBox checked="${Star.get(userInstance.id, snippetInstance.id)}" name="star_${snippetInstance.id}" onclick="${remoteFunction(controller:'snippet',action:'star',params:[id: snippetInstance.id],onSuccess:'update(data,'+snippetInstance.id+')')}"/>
                 <label for="star_${snippetInstance.id}">star</label>
             </li>
             <sec:ifLoggedIn>
@@ -73,7 +73,7 @@
                 </g:remoteLink>
             </li>
             </sec:ifLoggedIn>
-            <g:if test="${username == snippetInstance.user.username}">
+            <g:if test="${userInstance.id == snippetInstance.user.id}">
             <li class="delete">
                 <g:remoteLink controller="snippet" action="delete" id="${snippetInstance.id}" onSuccess="jQuery('#snippet_${snippetInstance.id}').remove()" before="if(!confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}')) return false"><g:message code="default.button.delete.label" default="delete"/></g:remoteLink>
             </li>

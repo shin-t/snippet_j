@@ -15,31 +15,30 @@
             <div id="user_info">
                 <g:if test="${params.username}">
                 ${params.username.encodeAsHTML()}
-                <g:if test="${params.username != userInstance.username}">
-                <div class="follow_${params.username}"><a href="#"></a></div>
+                <sec:ifLoggedIn>
+                <g:if test="${params.username != userInstance?.username}">
+                <div class="follow_${params.username}">
+                    <g:remoteLink controller="user" action="unfollow" params="[username: params.username]" onSuccess="follow_update(false)">unfollow</g:remoteLink>
+                    <g:remoteLink controller="user" action="follow" params="[username: params.username]" onSuccess="follow_update(true)">follow</g:remoteLink>
+                </div>
                 <g:javascript>
-                (function(){
                     var follow_update = function(data){
                         if(data){
-                            $('.follow_${params.username}').html($("<a href='#'>unfollow</a>").click(function(){
-                                ${remoteFunction(controller:'user', action:'unfollow', params:[username: params.username], onSuccess:'follow_update(false)')}
-                                return false;
-                            }));
+                            $('.follow_${params.username} a').first().show().next().hide();
                         }
                         else{
-                            $('.follow_${params.username}').html($("<a href='#'>follow</a>").click(function(){
-                                ${remoteFunction(controller:'user', action:'follow', params:[username: params.username], onSuccess:'follow_update(true)')}
-                                return false;
-                            }));
+                            $('.follow_${params.username} a').first().hide().next().show();
                         }
                     }
-                    var follow_check = function(){
-                        ${remoteFunction(controller:'user', action:'follow_check', params:[username: params.username], onSuccess:'follow_update(data[0])')}
-                    }
-                    follow_check();
-                })();
+                    $.ajax({
+                        url:"/snippet/user/${params.username}/follow_check",
+                        success: function(data){
+                            follow_update(data[0]);
+                        }
+                    });
                 </g:javascript>
                 </g:if>
+                </sec:ifLoggedIn>
                 </g:if>
                 <g:else>
                 <sec:username />

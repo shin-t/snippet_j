@@ -7,6 +7,7 @@ class UrlMappings {
         '/registration'(controller:'user',action:'save')
         "/user/$username"(controller:'user', action:'index')
         "/user/$username/$action"(controller:'user')
+        "/tag/"(controller:'tag', action:'index')
         "/tag/$tag"(controller:'tag', action:'index')
         "/tag/$tag/$action"(controller:'tag')
         "/$controller/$action?/$id?"{

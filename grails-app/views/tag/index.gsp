@@ -1,4 +1,5 @@
 <%@ page import="snippet.Snippet" %>
+<%@ page import="snippet.UserTag" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -15,31 +16,23 @@
             <g:if test="${params.tag}">
             <div id="tag_info">
                 ${params.tag.encodeAsHTML()}
+                <sec:ifLoggedIn>
                 <div class="follow_${params.tag}">
-                    <a href="#"></a>
+                    <g:remoteLink controller="tag" action="unfollow" params="[tag: params.tag]" onSuccess="follow_update(false)">unfollow</g:remoteLink>
+                    <g:remoteLink controller="tag" action="follow" params="[tag: params.tag]" onSuccess="follow_update(true)">follow</g:remoteLink>
                 </div>
                 <g:javascript>
-                (function(){
                     var follow_update = function(data){
                         if(data){
-                            $('.follow_${params.tag}').html($("<a href='#'>unfollow</a>").click(function(){
-                                ${remoteFunction(controller:'tag', action:'unfollow', params:[tag: params.tag], onSuccess:'follow_update(false)')}
-                                return false;
-                            }));
+                            $('.follow_${params.tag} a').first().show().next().hide();
                         }
                         else{
-                            $('.follow_${params.tag}').html($("<a href='#'>follow</a>").click(function(){
-                                ${remoteFunction(controller:'tag', action:'follow', params:[tag: params.tag], onSuccess:'follow_update(true)')}
-                                return false;
-                            }));
+                            $('.follow_${params.tag} a').first().hide().next().show();
                         }
                     }
-                    var follow_check = function(){
-                        ${remoteFunction(controller:'tag', action:'follow_check', params:[tag: params.tag], onSuccess:'follow_update(data[0])')}
-                    }
-                    follow_check();
-                })();
+                    follow_update(${UserTag.get(userInstance.id, params.tag)?true:false});
                 </g:javascript>
+                </sec:ifLoggedIn>
             </div>
             <div id="lists"><g:include controller="tag" action="list" params="[tag: params.tag]"/></div>
             </g:if>

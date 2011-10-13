@@ -54,6 +54,7 @@ class TagController {
     }
 
     def index = {
+        [userInstance: springSecurityService.getCurrentUser()]
     }
 
     def list = {

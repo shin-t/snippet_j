@@ -41,7 +41,7 @@
                 })();
                 </g:javascript>
             </div>
-            <div id="lists"><g:include controller="tag" action="list"/></div>
+            <div id="lists"><g:include controller="tag" action="list" params="[tag: params.tag]"/></div>
             </g:if>
             <g:else>
             <div id="content"><g:include controller="tag" action="tags"/></div>

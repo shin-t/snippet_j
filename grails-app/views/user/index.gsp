@@ -16,9 +16,7 @@
                 <g:if test="${params.username}">
                 ${params.username.encodeAsHTML()}
                 <g:if test="${params.username != userInstance.username}">
-                <div class="follow_${params.username}">
-                    <a href="#"></a>
-                </div>
+                <div class="follow_${params.username}"><a href="#"></a></div>
                 <g:javascript>
                 (function(){
                     var follow_update = function(data){

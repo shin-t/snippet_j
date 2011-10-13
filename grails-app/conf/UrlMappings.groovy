@@ -4,6 +4,11 @@ class UrlMappings {
         '/login'(controller:'login', action:'auth')
         '/logout'(controller:'logout', action:'index')
         '/signup'(controller:'user', action:'create')
+        '/registration'(controller:'user',action:'save')
+        "/user/$username"(controller:'user', action:'index')
+        "/user/$username/$action"(controller:'user')
+        "/tag/$tag"(controller:'tag', action:'index')
+        "/tag/$tag/$action"(controller:'tag')
         "/$controller/$action?/$id?"{
             constraints {
                 // apply constraints here

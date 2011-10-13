@@ -15,7 +15,7 @@
                 <g:link controller="tag" params="[tag: tag]">${tag.encodeAsHTML()}</g:link>
                 </g:each>
             </span>
-            <span class="date-created"><g:link action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/></g:link></span>
+            <span class="date-created"><g:link controller="snippet" action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/></g:link></span>
         </div>
     </div>
     <div class="text"><pre>${fieldValue(bean: snippetInstance, field: "text")}</pre></div>

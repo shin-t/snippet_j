@@ -1,4 +1,5 @@
 var button_icons = function(){
+    $("input:submit, input:button").button();
     $(".footer div a").button({icons:{primary:"ui-icon-tag"}});
     $(".footer ul li.reply a").button({icons:{primary:"ui-icon-comment"}});
     $(".footer ul li.delete a").button({icons:{primary:"ui-icon-trash"}});
@@ -8,6 +9,7 @@ var button_icons = function(){
 var reset_autopager = function(){
     $.autopager('destroy');
     $.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons });
+    button_icons();
 }
 
 var update_solved = function(id){
@@ -22,8 +24,6 @@ var update_solved = function(id){
 var clearForm = function(){
     $(".reply_form").empty()
 }
-
-$("input:submit, input:button").button();
 
 $("#list_filter").buttonset().children(":radio")
                  .first()

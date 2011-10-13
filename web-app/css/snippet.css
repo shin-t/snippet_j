@@ -1,17 +1,37 @@
-.username a {
+.content .header div:first-child {
+    float: left;
+}
+.username > a:link {
     font-size: 120%;
     text-decoration: none;
+    color: #777;
 }
-.parent a {
+.username > a:hover {
+    text-decoration: underline;
+}
+.parent > a:link {
     font-size: 100%;
     text-decoration: none;
+    color: #777;
 }
-.tags a {
-    text-decoration: none;
+.parent > a:hover {
+    text-decoration: underline;
+}
+.tags {
+    clear: left;
+    float: left;
 }
 .date-created {
     float: right;
 }
-.date-created a {
+.date-created > a:link {
+    font-size: 90%;
     text-decoration: none;
+    color: #777;
+}
+.date-created > a:hover {
+    text-decoration: underline;
+}
+.content .main {
+    clear: both;
 }

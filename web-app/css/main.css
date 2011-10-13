@@ -99,13 +99,9 @@ a, a:link {
     background-color: #E7E4B0;
     padding: 2pt;
 }
-.content .header {
-    border-bottom: solid 1pt #BD767D;
-    margin-bottom: 10pt;
-    padding: 2pt;
-}
-.content .header div {
-    margin: 2pt 0;
+.content .main {
+    border-top: solid 1pt #BD767D;
+    margin-top: 10pt;
 }
 .content .help {
     margin: 5pt;

@@ -5,4 +5,7 @@ modules = {
         resource url:'js/jquery.autopager-1.0.0.min.js'
         resource url:'js/common.js'
     }
+    snippet {
+        resource url:'css/snippet.css'
+    }
 }

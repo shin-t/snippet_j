@@ -1,10 +1,9 @@
-html * {
-    margin: 0;
-    padding: 0;
+html * { margin: 0; }
+/* GENERAL */
+body {
+    background: #E7E5BD;
     font: 10pt verdana, arial, helvetica, sans-serif;
 }
-/* GENERAL */
-body { background: #E7E5BD; }
 input[type="text"], input[type="password"], textarea {
     border: 1px solid #777;
     background-color: #f2f2f2;
@@ -19,7 +18,9 @@ input[type="text"], input[type="password"], textarea {
 .prop .value input#tags {
     width: 60%;
 }
-a, a:link { color: #64738B; }
+a, a:link {
+    color: #64738B;
+}
 #header {
     border-bottom: 1pt #BD767D solid;
     background: #CB8D93;
@@ -36,29 +37,18 @@ a, a:link { color: #64738B; }
     font-size: 24pt;
     text-decoration: none;
 }
-#nav {
-    height: 15pt;
-    margin-top: 30pt;
-    text-align: right;
-    float: right;
+#container {
+    margin: 0 80pt;
+    padding: 5pt 0;
 }
-#nav ul { list-style-type: none; }
-#nav ul li {
-    padding: 0 5pt;
-    float:left;
-}
-#nav ul li.login, #nav ul li.logout { border-left: 1pt #E7D8BD solid; }
-#nav ul li a { text-decoration: none; }
-#container { margin: 20pt 80pt; }
 #list_filter {
-    margin: 15pt 0;
-    text-align: center;
+    margin: 10pt 0;
 }
 #contents {
     width: 600pt;
     float: left;
 }
-#user_info, #tag_info{
+#user_info, #tag_info {
     background-color: #E3BABE;
     border-bottom: 1pt solid #BD767D;
     border-right: 1pt solid #BD767D;
@@ -80,21 +70,28 @@ a, a:link { color: #64738B; }
     width: 99%;
     height: 4em;
 }
-#snippetForm { margin: 15pt 0; }
-.dialog { border: solid 1pt #C4A97A; }
-.content { border: solid 1pt #BD767D; }
-.content, .dialog, .tags {
+#snippetForm {
+    margin: 15pt 0;
+}
+.dialog {
+    border: solid 1pt #777;
     background-color: #fff;
-    box-shadow: 3pt 3pt 3pt 3pt rgba(0,0,0,0.125);
+    border-radius: 8pt / 8pt;
+    padding: 16pt;
+    margin: 0 5pt 20pt;
+}
+.content {
+    border: solid 1pt #BD767D;
+}
+.content {
+    background-color: #fff;
+    box-shadow: 1pt 1pt 1pt 1pt rgba(0,0,0,0.25);
     border-radius: 24pt / 24pt;
     padding: 16pt;
     margin: 0 5pt 20pt;
 }
 .content .text pre, .content .file pre {
     overflow: auto;
-}
-.tags ul {
-    list-style-type: none;
 }
 .dialog .header {
     border-bottom: solid 1pt #C4C07A;
@@ -107,22 +104,28 @@ a, a:link { color: #64738B; }
     margin-bottom: 10pt;
     padding: 2pt;
 }
-.content .header a {
-    font-size: 11pt;
+.content .header div {
+    margin: 2pt 0;
 }
-.content .help { margin: 5pt; }
+.content .help {
+    margin: 5pt;
+}
 .content .help span{
     padding: 2pt;
     border: solid 1pt #BD767D;
     background-color: #E3BABE;
 }
-.content .solved { margin: 5pt; }
+.content .solved {
+    margin: 5pt;
+}
 .content .solved span{
     padding: 2pt;
     border: solid 1pt #C4C07A;
     background-color: #E7E5BD;
 }
-.content .active { margin: 5pt; }
+.content .active {
+    margin: 5pt;
+}
 .content .active span{
     padding: 2pt;
     color: #fff;
@@ -133,7 +136,9 @@ a, a:link { color: #64738B; }
     margin: 5pt;
     color: #BD767D;
 }
-.content .endless{ margin: 5pt; }
+.content .endless{
+    margin: 5pt;
+}
 .content .endless span{
     padding: 2pt;
     border: dashed 1pt #C4C07A;
@@ -158,28 +163,42 @@ a, a:link { color: #64738B; }
     border: solid 1pt #BD767D;
 }
 .reply_form form {
-    margin-top: 40pt;
-    padding-top: 15pt;
     border-top: dashed 2pt #BD767D;
+    margin-top: 10pt;
+    padding: 10pt 20pt 0pt;
 }
 /* NAVIGATION MENU */
+#nav {
+    height: 15pt;
+    margin-top: 30pt;
+    text-align: right;
+    float: right;
+}
+#nav ul { list-style-type: none; }
+#nav ul li {
+    padding: 0 5pt;
+    float:left;
+}
+#nav ul li.login, #nav ul li.logout { border-left: 1pt #E7D8BD solid; }
+#nav ul li a { text-decoration: none; }
 /* MESSAGES AND ERRORS */
 .message {
+    margin: 20pt;
+}
+.message span {
     border: 1px solid #b2d1ff;
-    border-radius: 10pt / 10pt;
+    border-radius: 8pt / 8pt;
     color: #006dba;
     background-color: #fff;
     padding: 5pt;
-    margin: 20pt;
-    width: 200pt;
-    overflow: hidden;
 }
 div.errors {
     color: #BD767D;
     margin: 5pt 20pt;
 }
-select.errors, input.errors, textarea.errors { border: 1px solid red; }
-.error { color: #c00; }
+.error {
+    color: #c00;
+}
 /* PAGINATION */
 .paginateButtons {
     text-align: center;
@@ -196,6 +215,11 @@ select.errors, input.errors, textarea.errors { border: 1px solid red; }
     margin: 0 3px;
     padding: 2px 6px;
 }
-.paginateButtons span { padding: 2pt; }
+.paginateButtons span {
+    padding: 2pt;
+}
 /* ACTION BUTTONS */
-.buttons { margin: 4pt; }
+.buttons {
+    margin: 4pt;
+    text-align: right;
+}

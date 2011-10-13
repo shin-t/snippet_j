@@ -1,9 +1,7 @@
 var button_icons = function(){
     $("input:submit, input:button").button();
-    $(".footer div a").button({icons:{primary:"ui-icon-tag"}});
-    $(".footer ul li.reply a").button({icons:{primary:"ui-icon-comment"}});
-    $(".footer ul li.delete a").button({icons:{primary:"ui-icon-trash"}});
-    $(".footer ul li input:checkbox").button({icons:{primary:"ui-icon-star"}});
+    $(".buttons a").button();
+    $(".buttons input:checkbox").button({icons:{primary:"ui-icon-star"}});
 }
 
 var reset_autopager = function(){
@@ -25,10 +23,7 @@ var clearForm = function(){
     $(".reply_form").empty()
 }
 
-$("#list_filter").buttonset().children(":radio")
-                 .first()
-                 .next().button({icons:{primary:"ui-icon-person"}})
-                 .next().button({icons:{primary:"ui-icon-tag"}});
+$("#list_filter").buttonset().children(":radio").button();
 
 $.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons });
 

@@ -1,0 +1,17 @@
+.username a {
+    font-size: 120%;
+    text-decoration: none;
+}
+.parent a {
+    font-size: 100%;
+    text-decoration: none;
+}
+.tags a {
+    text-decoration: none;
+}
+.date-created {
+    float: right;
+}
+.date-created a {
+    text-decoration: none;
+}

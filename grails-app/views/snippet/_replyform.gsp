@@ -37,6 +37,8 @@
     <div class="buttons">
         <span class="button">
             <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+        </span>
+        <span class="button">
             <input type="button" name="cancel" value="${message(code: 'default.button.cancel.label', default: 'Cancel')}" onClick="$('.reply\_form').empty()" />
         </span>
     </div>

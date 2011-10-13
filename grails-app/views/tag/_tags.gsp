@@ -1,5 +1,5 @@
-<div class="tags">
-    <h2><span style="float:left" class="ui-icon ui-icon-tag"></span><g:message code="snippet.tags.label" default="Tags" /></h2>
+<div class="content">
+    <h2><g:message code="snippet.tags.label" default="Tags" /></h2>
     <g:each in="${tags}" var="tag">
     <span><g:link controller="tag" params="[tag: tag[0]]" class="tag">${tag[0].encodeAsHTML()}(${tag[1].encodeAsHTML()})</g:link></span>
     </g:each>

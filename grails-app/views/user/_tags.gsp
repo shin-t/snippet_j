@@ -1,5 +1,5 @@
 <div class="content">
-    <div><g:message code="snippet.tags.label" default="Tags" /></div>
+    <div><g:message code="following.tags.label" default="Following tags" /></div>
     <div>
         <g:each in="${tags}" var="t">
         <span><g:link controller="t" params="[tag: t]" class="tag">${t.encodeAsHTML()}</g:link></span>

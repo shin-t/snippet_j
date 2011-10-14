@@ -5,6 +5,7 @@ class UrlMappings {
         '/logout'(controller:'logout', action:'index')
         '/signup'(controller:'user', action:'create')
         '/registration'(controller:'user',action:'save')
+        "/user/"(controller:'user',action:'index')
         "/user/$username"(controller:'user', action:'index')
         "/user/$username/$action"(controller:'user')
         "/tag/"(controller:'tag', action:'index')

@@ -1,4 +1,4 @@
-<g:formRemote name="reply" url="[controller:'snippet',action:'save']" update="[success:'reply_'+parent_id,failure:'reply_'+parent_id]" onSuccess="jQuery('.reply_form').empty()">
+<g:formRemote name="reply" url="[controller:'snippet',action:'save']" update="[success:'',failure:'reply_'+parent_id]" onSuccess="jQuery('.reply_form').empty();jQuery('#lists').prepend(data);button_icons()">
     <g:hiddenField name="parent_id" value="${parent_id}" />
     <div class="header"><g:message code="default.reply.label" default="reply"/></div>
     <g:hasErrors bean="${snippetInstance}">

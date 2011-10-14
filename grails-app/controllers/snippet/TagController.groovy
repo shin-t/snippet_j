@@ -78,25 +78,23 @@ class TagController {
     def tags = {
         def query
         query = """
-            select tl.tag.name, count(tl)
+            select tl.tag.name
             from TagLink as tl
             where tl.type = 'snippet'
             group by tl.tag.name
-            order by count(tl) desc, tl.tag.name asc
         """
         render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
     }
 
     def hot_tags = {
         def query = """
-            select t.name, count(tl)
+            select t.name
             from TagLink tl, Tag t, Snippet s
             where tl.type = 'snippet'
             and tl.tag.id = t.id
             and tl.tagRef = s.id
             and s.lastUpdated >= :date
             group by t.name
-            order by count(tl) desc, t.name asc
         """
         def date = new Date() - 7
         render template: 'tags', model: [tags:Snippet.executeQuery(query,[date:date],[max:10])]

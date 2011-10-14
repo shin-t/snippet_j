@@ -26,6 +26,8 @@
         <div id="sidebar">
             <g:include controller="tag" action="hot_tags"/>
             <g:include controller="user" action="list"/>
+            <g:include controller="user" action="tags"/>
+            <g:include controller="user" action="users"/>
         </div>
     </body>
 </html>

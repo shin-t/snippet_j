@@ -1,7 +1,15 @@
 <div class="list">
     <g:javascript>
-    var update = function(data,id){
-        $('.star_'+id+' input').button("option","label",(data.exists?"unstar":"star")+" ("+data.count+")");
+    var star_update = function(e){
+        var label = $(this).attr("checked")?"unstar":"star";
+        var obj = $(this)
+        $.ajax({
+            type:'POST',
+            url:'/snippet/star/'+$(obj).button("option","label")+'/'+e.data.id,
+            success: function(){
+                $(obj).button("option","label",label);
+            }
+        });
     }
     </g:javascript>
     <g:each in="${snippetInstanceList}" var="snippetInstance">

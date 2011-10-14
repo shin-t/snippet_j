@@ -5,7 +5,9 @@ import grails.converters.*
 
 class StarController {
 
-    static allowedMethods = [save: "POST", delete: "POST"]
+    static allowedMethods = [unstar: "POST"]
+
+    def springSecurityService
 
     def index = {
         def snippetInstance
@@ -23,7 +25,7 @@ class StarController {
     }
 
     @Secured(['ROLE_USER'])
-    def check = {
+    def star = {
         def starInstance
         def snippetInstance
         def results = [:]
@@ -31,7 +33,12 @@ class StarController {
             snippetInstance = Snippet.get(params.id)
             if(snippetInstance){
                 starInstance = Star.get(springSecurityService.principal.id, snippetInstance.id)
-                results['exists'] = starInstance?true:false
+                if(request.get){
+                    results['exists'] = starInstance?true:false
+                }
+                else if(request.post){
+                    if(!starInstance) Star.create(springSecurityService.getCurrentUser(), snippetInstance, true)
+                }
             }
             else{
                 results['message'] = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
@@ -41,23 +48,7 @@ class StarController {
     }
 
     @Secured(['ROLE_USER'])
-    def save = {
-        def snippetInstance
-        def results = [:]
-        if(params.id){
-            snippetInstance = Snippet.get(params.id)
-            if(snippetInstance){
-                if(!Star.get(springSecurityService.principal.id, snippetInstance.id)) Star.create(userInstance, snippetInstance, true)
-            }
-            else{
-                results['message'] = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
-            }
-        }
-        render (results as JSON)
-    }
-
-    @Secured(['ROLE_USER'])
-    def delete = {
+    def unstar = {
         def snippetInstance
         def results = [:]
         if(params.id){

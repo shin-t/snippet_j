@@ -1,7 +1,25 @@
 var button_icons = function(){
     $("input:submit, input:button").button();
     $(".buttons a").button();
-    $(".buttons input:checkbox").button({icons:{primary:"ui-icon-star"}});
+    $(".buttons .star_button:checkbox").each(function(){
+        var obj = $(this);
+        var id = $(this).prev().prev().val();
+        $.ajax({
+            type:'GET',
+            url:'/snippet/star/star/'+id,
+            success: function(data){
+                var label;
+                if(data.exists){
+                    label = "unstar";
+                    $(obj).attr("checked","checked");
+                }
+                else{
+                    label = "star";
+                }
+                $(obj).button({label:label,icons:{primary:"ui-icon-star"}}).click({id:id},star_update);
+            }
+        });
+    });
 }
 
 var reset_autopager = function(){
@@ -12,10 +30,10 @@ var reset_autopager = function(){
 
 var update_solved = function(id){
     if($(".help_"+id+" input:checkbox").attr('checked')){
-        $(".help_"+id+" span").text("Help!").parent().removeClass("solved",250).addClass("help",250);
+        $(".help_"+id+" span").text("Help!").parent().removeClass("solved").addClass("help",250);
     }
     else{
-        $(".help_"+id+" span").text("Solved!").parent().removeClass("help",250).addClass("solved",250);
+        $(".help_"+id+" span").text("Solved!").parent().removeClass("help").addClass("solved",250);
     }
 }
 

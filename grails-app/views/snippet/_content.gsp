@@ -50,8 +50,9 @@
     </div>
     <div class="buttons" style="text-align:right">
         <sec:ifLoggedIn>
-        <g:checkBox class="star_${snippetInstance.id}" checked="${Star.get(userInstance.id, snippetInstance.id)}" name="star_${snippetInstance.id}" onclick="${remoteFunction(controller:'snippet',action:'star',params:[id: snippetInstance.id],onSuccess:'update(data,'+snippetInstance.id+')')}"/>
-        <label for="star_${snippetInstance.id}">star</label>
+        <g:hiddenField class="snippet_id" name="snippet_${snippetInstance.id}" value="${snippetInstance.id}"/>
+        <g:checkBox name="star_${snippetInstance.id}" class="star_button"/>
+        <label for="star_${snippetInstance.id}"></label>
         <g:remoteLink class="reply" controller="snippet" action="create" params="[parent_id:snippetInstance.id,tags:snippetInstance.tags.join(',')]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">
             <g:message code="snippet.button.reply.label"/>
         </g:remoteLink>

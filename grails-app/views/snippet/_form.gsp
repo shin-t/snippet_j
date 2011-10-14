@@ -39,6 +39,7 @@
                 <g:textField name="deadline" value="${snippetInstance?.deadline}" />
             </div>
         </div>
+        <div class="buttons">
         <div id="snippet_status" style="float:left">
             <g:radio name="status" value="0" id="status_0"/><g:radio name="status" value="1" id="status_1"/><g:radio name="status" value="2" id="status_2"/>
             <label for="status_0"><g:message code="snippet.status.snippet.label" default="Snippet"/></label><label for="status_1"><g:message code="snippet.status.question.label" default="Question"/></label><label for="status_2"><g:message code="snippet.status.problem.label" default="Problem"/></label>
@@ -69,7 +70,6 @@
             $("input#deadline").datepicker({dateFormat:'yy/mm/dd'});
         })();
         </g:javascript>
-        <div class="buttons">
             <span class="button">
                 <sec:ifLoggedIn>
                 <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

@@ -17,20 +17,35 @@
             <div id="tag_info">
                 ${params.tag.encodeAsHTML()}
                 <sec:ifLoggedIn>
-                <div class="follow_${params.tag}">
-                    <g:remoteLink controller="tag" action="unfollow" params="[tag: params.tag]" onSuccess="follow_update(false)">unfollow</g:remoteLink>
-                    <g:remoteLink controller="tag" action="follow" params="[tag: params.tag]" onSuccess="follow_update(true)">follow</g:remoteLink>
+                <div class="follow_button">
+                    <a href="/snippet/tag/${params.tag.encodeAsURL()}/unfollow"
+                        onclick="jQuery.ajax({
+                            url:'/snippet/tag/${params.tag.encodeAsURL()}/unfollow',
+                            success:function(data,textStatus){follow_update(false);},
+                            error:function(XMLHttpRequest,textStatus,errorThrown){}});
+                            return false;">unfollow</a>
+                    <a href="/snippet/tag/${params.tag.encodeAsURL()}/follow"
+                        onclick="jQuery.ajax({
+                            url:'/snippet/tag/${params.tag.encodeAsURL()}/follow',
+                            success:function(data,textStatus){follow_update(true);},
+                            error:function(XMLHttpRequest,textStatus,errorThrown){}});
+                            return false;">follow</a>
                 </div>
                 <g:javascript>
                     var follow_update = function(data){
                         if(data){
-                            $('.follow_${params.tag} a').first().show().next().hide();
+                            $('.follow_button a').first().show().next().hide();
                         }
                         else{
-                            $('.follow_${params.tag} a').first().hide().next().show();
+                            $('.follow_button a').first().hide().next().show();
                         }
                     }
-                    follow_update(${UserTag.get(userInstance.id, params.tag)?true:false});
+                    $.ajax({
+                        url:"/snippet/tag/${params.tag.encodeAsURL()}/follow_check",
+                        success: function(data){
+                            follow_update(data[0]);
+                        }
+                    });
                 </g:javascript>
                 </sec:ifLoggedIn>
             </div>

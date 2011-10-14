@@ -17,21 +17,31 @@
                 ${params.username.encodeAsHTML()}
                 <sec:ifLoggedIn>
                 <g:if test="${params.username != userInstance?.username}">
-                <div class="follow_${params.username}">
-                    <g:remoteLink controller="user" action="unfollow" params="[username: params.username]" onSuccess="follow_update(false)">unfollow</g:remoteLink>
-                    <g:remoteLink controller="user" action="follow" params="[username: params.username]" onSuccess="follow_update(true)">follow</g:remoteLink>
+                <div class="follow_button">
+                    <a href="/snippet/user/${params.username.encodeAsURL()}/unfollow"
+                        onclick="jQuery.ajax({
+                            url:'/snippet/user/${params.username.encodeAsURL()}/unfollow',
+                            success:function(data,textStatus){follow_update(false);},
+                            error:function(XMLHttpRequest,textStatus,errorThrown){}});
+                            return false;">unfollow</a>
+                    <a href="/snippet/user/${params.username.encodeAsURL()}/follow"
+                        onclick="jQuery.ajax({
+                            url:'/snippet/user/${params.username.encodeAsURL()}/follow',
+                            success:function(data,textStatus){follow_update(true);},
+                            error:function(XMLHttpRequest,textStatus,errorThrown){}});
+                            return false;">follow</a>
                 </div>
                 <g:javascript>
                     var follow_update = function(data){
                         if(data){
-                            $('.follow_${params.username} a').first().show().next().hide();
+                            $('.follow_button a').first().show().next().hide();
                         }
                         else{
-                            $('.follow_${params.username} a').first().hide().next().show();
+                            $('.follow_button a').first().hide().next().show();
                         }
                     }
                     $.ajax({
-                        url:"/snippet/user/${params.username}/follow_check",
+                        url:"/snippet/user/${params.username.encodeAsURL()}/follow_check",
                         success: function(data){
                             follow_update(data[0]);
                         }

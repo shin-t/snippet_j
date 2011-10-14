@@ -129,7 +129,7 @@ class SnippetController {
         }
         snippetInstance.setTags()
         if(snippetInstance.save(flush: true)){
-            if (params.tags) snippetInstance.parseTags(params.tags)
+            if (params.tags) snippetInstance.parseTags(params.tags,' ')
             // flash.message = "${message(code: 'default.created.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
             render template:'content',model:[snippetInstance: snippetInstance, userInstance: springSecurityService.getCurrentUser()]
         }

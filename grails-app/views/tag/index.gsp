@@ -17,33 +17,31 @@
             <div id="tag_info">
                 ${params.tag.encodeAsHTML()}
                 <sec:ifLoggedIn>
-                <div class="follow_button">
-                    <a href="/snippet/tag/${params.tag.encodeAsURL()}/unfollow"
-                        onclick="jQuery.ajax({
-                            url:'/snippet/tag/${params.tag.encodeAsURL()}/unfollow',
-                            success:function(data,textStatus){follow_update(false);},
-                            error:function(XMLHttpRequest,textStatus,errorThrown){}});
-                            return false;">unfollow</a>
-                    <a href="/snippet/tag/${params.tag.encodeAsURL()}/follow"
-                        onclick="jQuery.ajax({
-                            url:'/snippet/tag/${params.tag.encodeAsURL()}/follow',
-                            success:function(data,textStatus){follow_update(true);},
-                            error:function(XMLHttpRequest,textStatus,errorThrown){}});
-                            return false;">follow</a>
-                </div>
+                <g:checkBox name="follow_button"/>
+                <label for="follow_button"></label>
                 <g:javascript>
-                    var follow_update = function(data){
-                        if(data){
-                            $('.follow_button a').first().show().next().hide();
-                        }
-                        else{
-                            $('.follow_button a').first().hide().next().show();
-                        }
+                    var follow_update = function(){
+                        var label = $(this).attr("checked")?"unfollow":"follow";
+                        $.ajax({
+                            url:'/snippet/tag/${params.tag.encodeAsURL()}/'+$(this).button("option","label"),
+                            success:function(data,textStatus){
+                                $("#follow_button").button("option","label",label);
+                            },
+                            error:function(XMLHttpRequest,textStatus,errorThrown){}
+                        });
                     }
                     $.ajax({
-                        url:"/snippet/tag/${params.tag.encodeAsURL()}/follow_check",
+                        url:'/snippet/tag/${params.tag.encodeAsURL()}/follow_check',
                         success: function(data){
-                            follow_update(data[0]);
+                            var label;
+                            if(data[0]){
+                                label = "unfollow";
+                                $("#follow_button").attr("checked","checked");
+                            }
+                            else{
+                                label = "follow";
+                            }
+                            $("#follow_button").button({label:label,icons:{primary:"ui-icon-heart"}}).click(follow_update);
                         }
                     });
                 </g:javascript>

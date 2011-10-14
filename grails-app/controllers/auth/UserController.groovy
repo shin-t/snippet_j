@@ -10,6 +10,68 @@ class UserController {
 
     def springSecurityService
 
+    def snippets = {
+        def userInstance
+        def snippetInstanceList
+        def snippetInstanceTotal = 0
+        if(!params.username && springSecurityService.isLoggedIn()) params.username = springSecurityService.principal.username
+        if(params.username){
+            userInstance = User.findByUsername(params.username)
+            if(userInstance){
+                params.max = Math.min(params.max ? params.int('max') : 10, 30)
+                params.sort = params.sort?:'dateCreated'
+                params.order = params.order?:'desc'
+                snippetInstanceList = Snippet.findAllByUser(userInstance, params)
+                snippetInstanceTotal = Snippet.countByUser(userInstance)
+            }
+        }
+        render template:"/snippet/list",model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
+    }
+
+    def tags = {
+        if(params.username){
+            def query = "select t.name from UserTag u, TagLink t where t.tag.name = u.tag.name and u.follower.id = ?"
+        }
+    }
+    def users = {
+        if(params.username){
+            def query = "select u.username from User u, UserUser uu where u.username = uu.user.username and uu.follower.id = ?"
+        }
+    }
+
+    def starred = {
+        def userInstance
+        def snippetInstanceList, snippetInstanceTotal = 0
+        def query
+
+        params.max = Math.min(params.max ? params.int('max') : 10, 30)
+        params.sort = params.sort?:'dateCreated'
+        params.order = params.order?:'desc'
+
+        if(params.username){
+            userInstance=User.findByUsername(params.username)
+        }
+        else if(springSecurityService.isLoggedIn()){
+            userInstance=springSecurityService.getCurrentUser()
+            params.username=userInstance.username
+        }
+        if(userInstance){
+            query = """
+                select sn
+                from Snippet sn, Star st
+                where sn = st.snippet
+                and st.user = ?
+                order by sn.dateCreated desc
+                """
+                snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)
+                snippetInstanceTotal = Snippet.executeQuery(query,[userInstance]).size()
+            render(view: "snippets", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, currentUser: springSecurityService.getCurrentUser()])
+        }
+        else{
+            redirect(controller:"login",view:"auth")
+        }
+    }
+
     @Secured(['ROLE_USER'])
     def follow_check = {
         if(params.username){
@@ -59,14 +121,8 @@ class UserController {
     }
 
     def list = {
-        def query = """
-            select u.username, sum(v.vote)
-            from User as u, Vote as v, Snippet as s
-            where u = s.author
-            and s = v.snippet
-            group by u.username
-        """
-        [users:User.executeQuery(query,[],params),total:User.executeQuery(query,[])]
+        def query = "select u.username, count(uu.user.username) from User u, UserUser uu where u.username = uu.user.username group by u.username order by count(uu.user.username)"
+        render template:'users', model: [users:User.executeQuery(query,params),total:User.executeQuery(query).size()]
     }
 
     def create = {
@@ -89,57 +145,6 @@ class UserController {
         else {
             userInstance.password = params.password
             render(view: "create", model: [userInstance: userInstance])
-        }
-    }
-
-    def snippets = {
-        def userInstance
-        def snippetInstanceList
-        def snippetInstanceTotal = 0
-        if(!params.username && springSecurityService.isLoggedIn()) params.username = springSecurityService.principal.username
-        if(params.username){
-            userInstance = User.findByUsername(params.username)
-            if(userInstance){
-                params.max = Math.min(params.max ? params.int('max') : 10, 30)
-                params.sort = params.sort?:'dateCreated'
-                params.order = params.order?:'desc'
-                snippetInstanceList = Snippet.findAllByUser(userInstance, params)
-                snippetInstanceTotal = Snippet.countByUser(userInstance)
-            }
-        }
-        render template:"/snippet/list",model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
-    }
-
-    def starred = {
-        def userInstance
-        def snippetInstanceList, snippetInstanceTotal = 0
-        def query
-
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
-        params.sort = params.sort?:'dateCreated'
-        params.order = params.order?:'desc'
-
-        if(params.username){
-            userInstance=User.findByUsername(params.username)
-        }
-        else if(springSecurityService.isLoggedIn()){
-            userInstance=springSecurityService.getCurrentUser()
-            params.username=userInstance.username
-        }
-        if(userInstance){
-            query = """
-                select sn
-                from Snippet sn, Star st
-                where sn = st.snippet
-                and st.user = ?
-                order by sn.dateCreated desc
-                """
-                snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)
-                snippetInstanceTotal = Snippet.executeQuery(query,[userInstance]).size()
-            render(view: "snippets", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, currentUser: springSecurityService.getCurrentUser()])
-        }
-        else{
-            redirect(controller:"login",view:"auth")
         }
     }
 

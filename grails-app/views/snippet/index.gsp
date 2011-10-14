@@ -23,6 +23,9 @@
             </div>
             <div id="lists"><g:include action="list"/></div>
         </div>
-        <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>
+        <div id="sidebar">
+            <g:include controller="tag" action="hot_tags"/>
+            <g:include controller="user" action="list"/>
+        </div>
     </body>
 </html>

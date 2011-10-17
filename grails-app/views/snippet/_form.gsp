@@ -19,7 +19,7 @@
                 <label for="file"><g:message code="snippet.file.label" default="File" /></label>
             </div>
             <div class="value">
-                <g:textArea name="file" value="${snippetInstance?.file}" />
+                <g:textArea name="file" value="${snippetInstance?.file}" placeholder="コード、入出力例、ログ等"/>
             </div>
         </div>
         <div class="prop">
@@ -27,10 +27,9 @@
                 <label for="tags"><g:message code="snippet.tags.label" default="Tags" /></label>
             </div>
             <div class="value">
-                <g:textField name="tags" value="${snippetInstance.tags?.join(',')}" />
+                <g:textField name="tags" value="${snippetInstance.tags?.join(',')}" placeholder="空白文字で区切る" />
             </div>
         </div>
-        <g:hiddenField name="help" value="${snippetInstance?.help}" />
         <div class="prop" style="${snippetInstance?.status==2?'':'display:none'}">
             <div class="name">
                 <label for="deadline"><g:message code="snippet.deadline.label" default="Deadline" /></label>

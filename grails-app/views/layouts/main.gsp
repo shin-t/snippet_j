@@ -15,7 +15,7 @@
             <div id="nav">
                 <ul>
                     <sec:ifLoggedIn>
-                    <li><g:link controller='user' action='index'><sec:username /></g:link></li>
+                    <li><g:link controller='user' action='index' params="[username: sec.loggedInUserInfo(field:'username')]"><sec:username /></g:link></li>
                     <li class="logout"><g:link controller='logout'><g:message code="logout.label" default="Log Out"/></g:link></li>
                     </sec:ifLoggedIn>
                     <sec:ifNotLoggedIn>

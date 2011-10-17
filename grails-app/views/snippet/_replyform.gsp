@@ -31,7 +31,7 @@
             </label>
         </div>
         <div class="value">
-            <g:textField name="tags" value="${snippetInstance.tags?.join(',')?:tags}" />
+            <g:textField name="tags" value="${snippetInstance.tags?.join(' ')?:tags}" />
         </div>
     </div>
     <div class="buttons">

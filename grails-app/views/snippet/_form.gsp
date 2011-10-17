@@ -28,7 +28,7 @@
                 <label for="tags"><g:message code="snippet.tags.label" default="Tags" /></label>
             </div>
             <div class="value">
-                <g:textField name="tags" value="${snippetInstance.tags?.join(',')}" placeholder="空白文字で区切る" />
+                <g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" placeholder="空白文字で区切る" />
             </div>
         </div>
         <div class="prop" style="${snippetInstance?.status==2?'':'display:none'}">

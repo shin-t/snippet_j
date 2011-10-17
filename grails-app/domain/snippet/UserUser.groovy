@@ -12,6 +12,9 @@ class UserUser implements Serializable {
     static constraints = {
     }
 
+    Date dateCreated
+    Date lastUpdated
+
     static UserUser get(long followerId, long userId) {
         find 'from UserUser where follower.id=:followerId and user.id=:userId',
             [followerId: followerId, userId: userId]

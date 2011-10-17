@@ -13,6 +13,9 @@ class UserTag implements Serializable {
     static constraints = {
     }
 
+    Date dateCreated
+    Date lastUpdated
+
     static UserTag get(long followerId, String tagName) {
         find 'from UserTag where follower.id=:followerId and tag.name=:tagName',
             [followerId: followerId, tagName: tagName]

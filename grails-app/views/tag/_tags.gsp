@@ -2,7 +2,7 @@
     <div><g:message code="snippet.tags.label" default="Tags" /></div>
     <div>
         <g:each in="${tags}" var="t">
-        <span><g:link controller="t" params="[tag: t]" class="tag">${t.encodeAsHTML()}</g:link></span>
+        <span><g:link controller="tag" params="[tag: t]" class="tag">${t.encodeAsHTML()}</g:link></span>
         </g:each>
     </div>
     <div style="text-align:right"><g:link controller="tag"><g:message code="tags.all.label" default="tags"/></g:link></div>

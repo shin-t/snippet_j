@@ -1,3 +1,6 @@
+<g:if test="${flash.message}">
+<div class="message"><span>${flash.message}</span></div>
+</g:if>
 <div class="list">
     <g:javascript>
     var star_update = function(e){

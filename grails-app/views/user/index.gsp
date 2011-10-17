@@ -12,11 +12,11 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            <g:if test="${userInstance}">
             <div id="user_info">
-                <g:if test="${params.username}">
                 ${params.username.encodeAsHTML()}
                 <sec:ifLoggedIn>
-                <g:if test="${params.username != userInstance?.username}">
+                <g:if test="${currentUser?.username != userInstance.username}">
                 <g:checkBox name="follow_button"/>
                 <label for="follow_button"></label>
                 <g:javascript>
@@ -47,13 +47,18 @@
                 </g:javascript>
                 </g:if>
                 </sec:ifLoggedIn>
-                </g:if>
-                <g:else>
-                <sec:username />
-                </g:else>
             </div>
             <div id="lists"><g:include controller="user" action="snippets" params="[username: params.username]"/></div>
+            </g:if>
+            <g:else>
+            <g:include controller="user" action="list"/>
+            </g:else>
         </div>
-        <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>
+        <div id="sidebar">
+            <g:include controller="user" action="tags" params="[username: params.username]"/>
+            <g:include controller="user" action="users" params="[username: params.username]"/>
+            <g:include controller="tag" action="hot_tags"/>
+            <g:include controller="user" action="list"/>
+        </div>
     </body>
 </html>

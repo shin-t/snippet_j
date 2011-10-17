@@ -1,5 +1,7 @@
 package auth
 
+import snippet.*
+
 class User {
 
     static constraints = {
@@ -14,6 +16,10 @@ class User {
     static mapping = {
         password column: '`password`'
     }
+
+    static hasMany = [follower: UserUser]
+
+    static mappedBy = [follower: 'user']
 
     String username
     String password

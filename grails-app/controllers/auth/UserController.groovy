@@ -29,7 +29,7 @@ class UserController {
     }
 
     def tags = {
-        def query = "select t.tag.name from UserTag u, TagLink t where t.type = 'snippet' and t.tag.name = u.tag.name and u.follower.username = ? group by t.tag.name"
+        def query = "select distinct new map(u.tag.name as name, u.dateCreated as dateCreated) from UserTag u, TagLink t where t.type = 'snippet' and t.tag.name = u.tag.name and u.follower.username = ? order by u.dateCreated desc"
         if(params.username){
             render template: "/user/tags", model: [tags:Snippet.executeQuery(query,[params.username])]
         }
@@ -126,11 +126,20 @@ class UserController {
     }
 
     def index = {
-        if(springSecurityService.isLoggedIn()) [userInstance: springSecurityService.getCurrentUser()]
+        def model = [:]
+        if(springSecurityService.isLoggedIn()){
+            model['currentUser'] = springSecurityService.getCurrentUser()
+        }
+        if(params.username){
+            model['userInstance'] = User.findByUsername(params.username)
+            if(model.userInstance){
+                model
+            }
+        }
     }
 
     def list = {
-        def query = "select u.username from User u, UserUser uu where u.username = uu.user.username group by u.username"
+        def query = "select new map(u.username as username, u.follower.size as followers) from User u order by u.follower.size desc"
         render template:'list', model: [users:User.executeQuery(query,[],params),total:User.executeQuery(query).size()]
     }
 

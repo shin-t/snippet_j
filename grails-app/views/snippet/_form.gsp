@@ -1,6 +1,7 @@
 <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
 <g:formRemote name="snippetForm" url="[controller:'snippet',action:'save']" update="[success:'', failure:'form_dialog']" onSuccess="jQuery('input:text, textarea','.dialog').val('');jQuery('#lists').prepend(data);button_icons()">
     <g:hiddenField name="parent_id" value="${parent_id}" />
+    <g:hiddenField name="help" value="${snippetInstance?.help}" />
     <div class="dialog">
         <div class="header">${entityName}</div>
         <g:hasErrors bean="${snippetInstance}">

@@ -55,8 +55,16 @@
             </g:else>
         </div>
         <div id="sidebar">
+            <g:if test="${params.username}">
             <g:include controller="user" action="tags" params="[username: params.username]"/>
             <g:include controller="user" action="users" params="[username: params.username]"/>
+            </g:if>
+            <g:else>
+            <sec:ifLoggedIn>
+            <g:include controller="user" action="tags"/>
+            <g:include controller="user" action="users"/>
+            </sec:ifLoggedIn>
+            </g:else>
             <g:include controller="tag" action="hot_tags"/>
             <g:include controller="user" action="list"/>
         </div>

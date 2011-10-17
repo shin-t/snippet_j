@@ -1,3 +1,6 @@
+.prop .value input#tags {
+    width: 70%;
+}
 .content .header div:first-child {
     float: left;
 }
@@ -17,6 +20,10 @@
 .parent > a:hover {
     text-decoration: underline;
 }
+.content .text pre, .content .file pre {
+    overflow: auto;
+    font-size: 86%;
+}
 .tags {
     clear: left;
     float: left;
@@ -26,12 +33,46 @@
 }
 .date-created > a:link {
     font-size: 90%;
-    text-decoration: none;
     color: #777;
 }
-.date-created > a:hover {
-    text-decoration: underline;
+.content .help {
+    margin: 5px;
 }
-.content .main {
-    clear: both;
+.content .help span{
+    padding: 4px;
+    border: solid 1px #BD767D;
+    background-color: #E3BABE;
+}
+.content .solved {
+    margin: 5px;
+}
+.content .solved span{
+    padding: 4px;
+    border: solid 1px #C4C07A;
+    background-color: #E7E5BD;
+}
+.content .active {
+    margin: 5px;
+}
+.content .active span{
+    padding: 4px;
+    color: #fff;
+    border: solid 1px #E3BABE;
+    background-color: #BD767D;
+}
+.content .deadline {
+    margin: 5px;
+    color: #BD767D;
+}
+.content .endless{
+    margin: 5px;
+}
+.content .endless span{
+    padding: 4px;
+    border: dashed 1px #C4C07A;
+}
+.content .file {
+    padding: 6px;
+    margin: 12px;
+    border: solid 1px #BD767D;
 }

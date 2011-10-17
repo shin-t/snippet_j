@@ -5,7 +5,7 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
-        <r:require modules="jquery-ui, common" />
+        <r:require modules="jquery-ui, common, snippet" />
     </head>
     <body>
         <div id="contents">

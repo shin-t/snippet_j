@@ -61,18 +61,17 @@ a:hover {
     margin-top: 40px;
     text-align: right;
     float: right;
-}
-#nav ul {
     list-style-type: none;
 }
-#nav ul li {
+#nav > * {
     padding: 0 6px;
     float:left;
+    height: 24px;
 }
-#nav ul li.login, #nav ul li.logout {
-    border-left: 1px #BD767D solid;
+#nav > *:first-child {
+    border-right: 1px #BD767D solid;
 }
-#nav ul li a {
+#nav a {
     text-decoration: none;
 }
 /* DIALOG */
@@ -113,10 +112,10 @@ a:hover {
     padding: 16px;
     margin-bottom: 24px;
 }
-.content .main {
-    border-top: solid 1px #BD767D;
-    padding-top: 12px;
-    clear: both;
+.content .header{
+    border-bottom: solid 1px #BD767D;
+    padding-bottom: 4px;
+    margin-bottom: 4px;
 }
 /* MESSAGES AND ERRORS */
 .message {

@@ -20,6 +20,17 @@ var button_icons = function(){
             }
         });
     });
+    $(".buttons .help_button:checkbox").each(function(){
+        var id = $(this).parent().children().first().val();
+        var label;
+        if($(this).attr("checked")){
+            label = "solved";
+        }
+        else{
+            label = "unsolved";
+        }
+        $(this).button({label:label,icons:{primary:"ui-icon-star"}}).click({id:id},update_solved);
+    });
 }
 
 var reset_autopager = function(){
@@ -28,13 +39,29 @@ var reset_autopager = function(){
     button_icons();
 }
 
-var update_solved = function(id){
-    if($(".help_"+id+" input:checkbox").attr('checked')){
-        $(".help_"+id+" span").text("Help!").parent().removeClass("solved").addClass("help");
-    }
-    else{
-        $(".help_"+id+" span").text("Solved!").parent().removeClass("help").addClass("solved");
-    }
+var star_update = function(e){
+    var label = $(this).attr("checked")?"unstar":"star";
+    var obj = $(this)
+    $.ajax({
+        type:'POST',
+        url:'/snippet/star/'+$(obj).button("option","label")+'/'+e.data.id,
+        success: function(){
+            $(obj).button("option","label",label);
+        }
+    });
+}
+
+var update_solved = function(e){
+    var label = $(this).attr("checked")?"solved":"unsolved";
+    var obj = $(this)
+    $.ajax({
+        type:'POST',
+        url:'/snippet/snippet/solved/'+e.data.id,
+        success: function(){
+            $(obj).button("option","label",label);
+            $(".help_"+e.data.id+" span").text("Help!").parent().removeClass("help").addClass("solved");
+        }
+    });
 }
 
 var clearForm = function(){

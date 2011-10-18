@@ -39,18 +39,6 @@ a:hover {
     width: 240px;
     padding-left: 20px;
 }
-#list_filter {
-    margin: 32px 16px 16px;
-}
-#user_info, #tag_info {
-    background-color: #E3BABE;
-    border-radius: 16px / 16px;
-    border-bottom: 1px solid #BD767D;
-    border-right: 1px solid #BD767D;
-    padding: 8px;
-    font-size: 100%;
-    margin: 0 0 32px;
-}
 /* HEADER */
 #header {
     border-bottom: 1px #BD767D solid;
@@ -106,10 +94,6 @@ a:hover {
 .dialog .prop {
     margin: 8px 4px;
 }
-.dialog .prop .value textarea {
-    width: 99%;
-    height: 4em;
-}
 .dialog .prop .name {
     font-size: 92%;
 }
@@ -133,14 +117,6 @@ a:hover {
     border-top: solid 1px #BD767D;
     padding-top: 12px;
     clear: both;
-}
-.content .reply_form {
-    clear:both;
-}
-.content .reply_form form {
-    border-top: dashed 2px #BD767D;
-    margin-top: 12px;
-    padding: 12px 20px 0px;
 }
 /* MESSAGES AND ERRORS */
 .message {

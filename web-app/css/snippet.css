@@ -1,78 +1,102 @@
-.prop .value input#tags {
+/* GENERAL */
+#sidebar a.tag {
+    display: block;
+}
+#list_filter {
+    margin: 32px 16px 16px;
+}
+#user_info, #tag_info {
+    background-color: #E3BABE;
+    border-radius: 16px / 16px;
+    border-bottom: 1px solid #BD767D;
+    border-right: 1px solid #BD767D;
+    padding: 8px 16px;
+    font-size: 100%;
+    margin: 0 0 32px;
+}
+/* DIALOG */
+.dialog .prop .value textarea, #reply .prop .value textarea {
+    width: 99%;
+    height: 4em;
+}
+.dialog .prop .value input#tags {
     width: 70%;
+}
+/* CONTENT */
+.content .reply_form {
+    clear:both;
+}
+.content .reply_form form {
+    border-top: dashed 2px #BD767D;
+    margin-top: 12px;
+    padding: 12px 20px 0px;
 }
 .content .header div:first-child {
     float: left;
 }
-.username > a:link {
+.content .username > a:link {
     font-size: 120%;
     text-decoration: none;
     color: #777;
 }
-.username > a:hover {
+.content .username > a:hover {
     text-decoration: underline;
 }
-.parent > a:link {
+.content .parent > a:link {
     font-size: 100%;
     text-decoration: none;
     color: #777;
 }
-.parent > a:hover {
+.content .parent > a:hover {
     text-decoration: underline;
 }
 .content .text pre, .content .file pre {
     overflow: auto;
     font-size: 86%;
 }
-.tags {
-    clear: left;
-    float: left;
+.content .file {
+    padding: 6px;
+    margin: 12px;
+    border: solid 1px #BD767D;
 }
-.date-created {
+.content .date-created {
     float: right;
 }
-.date-created > a:link {
+.content .date-created > a:link {
     font-size: 90%;
     color: #777;
 }
-.content .help {
-    margin: 5px;
+.content .tags,
+.content .help,
+.content .solved,
+.content .active,
+.content .deadline,
+.content .endless {
+    font-size: 86%;
+    clear: left;
+    float: left;
+    margin: 2px 0;
 }
 .content .help span{
-    padding: 4px;
+    padding: 2px;
     border: solid 1px #BD767D;
     background-color: #E3BABE;
 }
-.content .solved {
-    margin: 5px;
-}
 .content .solved span{
-    padding: 4px;
+    padding: 2px;
     border: solid 1px #C4C07A;
     background-color: #E7E5BD;
 }
-.content .active {
-    margin: 5px;
-}
 .content .active span{
-    padding: 4px;
+    padding: 2px;
     color: #fff;
     border: solid 1px #E3BABE;
     background-color: #BD767D;
 }
 .content .deadline {
-    margin: 5px;
     color: #BD767D;
 }
-.content .endless{
-    margin: 5px;
-}
 .content .endless span{
-    padding: 4px;
+    padding: 2px;
     border: dashed 1px #C4C07A;
-}
-.content .file {
-    padding: 6px;
-    margin: 12px;
-    border: solid 1px #BD767D;
 }

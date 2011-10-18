@@ -34,7 +34,7 @@
             <g:include controller="user" action="users"/>
             </sec:ifLoggedIn>
             </g:else>
-            <g:include controller="tag" action="hot_tags"/>
+            <g:include controller="tag" action="ranking"/>
             <g:include controller="user" action="list"/>
         </div>
     </body>

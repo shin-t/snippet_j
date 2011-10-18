@@ -86,7 +86,7 @@ class TagController {
         render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
     }
 
-    def hot_tags = {
+    def ranking = {
         def query = """
             select t.name
             from TagLink tl, Tag t, Snippet s

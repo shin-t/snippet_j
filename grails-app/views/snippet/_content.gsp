@@ -16,20 +16,8 @@
             </g:each>
         </div>
         </g:if>
-        <div class="date-created"><g:link controller="snippet" action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/></g:link></div>
-    </div>
-    <div class="main">
-        <div class="text"><pre>${fieldValue(bean: snippetInstance, field: "text")}</pre></div>
-        <g:if test="${snippetInstance.file}">
-        <div class="file"><pre><code>${fieldValue(bean: snippetInstance, field: "file")}</code></pre></div>
-        </g:if>
         <g:if test="${snippetInstance.status == 1}">
         <div class="help_${snippetInstance.id} ${snippetInstance.help?'help':'solved'}"><span><g:formatBoolean boolean="${snippetInstance.help}" true="Help!" false="Solved!" /></span></div>
-        <g:if test="${userInstance.id == snippetInstance.user.id && snippetInstance.status == 1}">
-        <div class="help_${snippetInstance.id}">
-            <g:checkBox name="help" value="${snippetInstance.help}" onClick="${remoteFunction(controller:'snippet', action:'solved', params:[id: snippetInstance.id])}update_solved(${snippetInstance.id})"/>Help!
-        </div>
-        </g:if>
         </g:if>
         <g:elseif test="${snippetInstance.status == 2}">
         <g:if test="${snippetInstance.deadline}">
@@ -47,10 +35,22 @@
         <div class="endless"><span>endless</span></div>
         </g:else>
         </g:elseif>
+        <div class="date-created"><g:link controller="snippet" action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/></g:link></div>
+    </div>
+    <div class="main">
+        <div class="text"><pre>${fieldValue(bean: snippetInstance, field: "text")}</pre></div>
+        <g:if test="${snippetInstance.file}">
+        <div class="file"><pre><code>${fieldValue(bean: snippetInstance, field: "file")}</code></pre></div>
+        </g:if>
     </div>
     <div class="buttons" style="text-align:right">
         <sec:ifLoggedIn>
         <g:hiddenField class="snippet_id" name="snippet_${snippetInstance.id}" value="${snippetInstance.id}"/>
+        <g:if test="${userInstance.id == snippetInstance.user.id && snippetInstance.status == 1}">
+        <div class="help_${snippetInstance.id}">
+            <g:checkBox name="help" value="${snippetInstance.help}" onClick="${remoteFunction(controller:'snippet', action:'solved', params:[id: snippetInstance.id])}update_solved(${snippetInstance.id})"/>Help!
+        </div>
+        </g:if>
         <g:checkBox name="star_${snippetInstance.id}" class="star_button"/>
         <label for="star_${snippetInstance.id}"></label>
         <g:remoteLink class="reply" controller="snippet" action="create" params="[parent_id:snippetInstance.id,tags:snippetInstance.tags.join(',')]" update="reply_${snippetInstance.id}" onLoaded="clearForm()">

@@ -30,10 +30,10 @@ var reset_autopager = function(){
 
 var update_solved = function(id){
     if($(".help_"+id+" input:checkbox").attr('checked')){
-        $(".help_"+id+" span").text("Help!").parent().removeClass("solved").addClass("help",250);
+        $(".help_"+id+" span").text("Help!").parent().removeClass("solved").addClass("help");
     }
     else{
-        $(".help_"+id+" span").text("Solved!").parent().removeClass("help").addClass("solved",250);
+        $(".help_"+id+" span").text("Solved!").parent().removeClass("help").addClass("solved");
     }
 }
 

@@ -61,41 +61,22 @@ class TagController {
         params.max = Math.min(params.max ? params.int('max') : 5, 30)
         def snippetInstanceList
         def snippetInstanceTotal
-        def tags = []
+        def query = "select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
         if(params.tag){
-            params.sort = params.sort?:'dateCreated'
-            params.order = params.order?:'desc'
-            snippetInstanceList = Snippet.executeQuery("select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc", [params.tag], params)
-            snippetInstanceTotal = Snippet.executeQuery("select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ?", [params.tag]).size()
-            render template:'/snippet/list', model: [
-                snippetInstanceList: snippetInstanceList,
-                snippetInstanceTotal: snippetInstanceTotal,
-                userInstance: springSecurityService.getCurrentUser()
-            ]
+            snippetInstanceList = Snippet.executeQuery(query, [params.tag], params)
+            snippetInstanceTotal = Snippet.executeQuery(query, [params.tag]).size()
+            render template:'/snippet/list', model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
         }
     }
 
     def tags = {
         def query
-        query = """
-            select tl.tag.name
-            from TagLink as tl
-            where tl.type = 'snippet'
-            group by tl.tag.name
-        """
+        query = "select tl.tag.name from TagLink as tl where tl.type = 'snippet' group by tl.tag.name"
         render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
     }
 
     def ranking = {
-        def query = """
-            select t.name
-            from TagLink tl, Tag t, Snippet s
-            where tl.type = 'snippet'
-            and tl.tag.id = t.id
-            and tl.tagRef = s.id
-            and s.lastUpdated >= :date
-            group by t.name
-        """
+        def query = "select t.name from TagLink tl, Tag t, Snippet s where tl.type = 'snippet' and tl.tag.id = t.id and tl.tagRef = s.id and s.lastUpdated >= :date group by t.name"
         def date = new Date() - 7
         render template: 'tags', model: [tags:Snippet.executeQuery(query,[date:date],[max:10])]
     }

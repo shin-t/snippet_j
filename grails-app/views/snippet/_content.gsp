@@ -38,7 +38,7 @@
     </div>
     <pre class="text">${fieldValue(bean: snippetInstance, field: "text")}</pre>
     <g:if test="${snippetInstance.file}">
-    <pre class="file"><code>${fieldValue(bean: snippetInstance, field: "file")}</code></pre>
+    <pre class="file"><code class="prettyprint">${fieldValue(bean: snippetInstance, field: "file")}</code></pre>
     </g:if>
     <sec:ifLoggedIn>
     <div class="buttons">

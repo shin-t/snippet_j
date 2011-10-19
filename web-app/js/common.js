@@ -31,6 +31,7 @@ var button_icons = function(){
         }
         $(this).button({label:label,icons:{primary:"ui-icon-star"}}).click({id:id},update_solved);
     });
+    prettyPrint();
 }
 
 var reset_autopager = function(){
@@ -73,4 +74,6 @@ $("#list_filter").buttonset().children(":radio").button();
 $.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons });
 
 button_icons();
+
+prettyPrint();
 

@@ -5,5 +5,5 @@
         <span><g:link controller="user" params="[username: c]" class="username">${c.encodeAsHTML()}</g:link></span>
         </g:each>
     </div>
-    <div style="text-align:right"><g:link controller="user"><g:message code="users.all.label" default="users"/></g:link></div>
+    <div style="text-align:right"><g:link controller="user"><g:message code="more.link.label" default="users"/></g:link></div>
 </div>

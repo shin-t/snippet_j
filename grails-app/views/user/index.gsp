@@ -14,11 +14,14 @@
             </g:if>
             <g:if test="${userInstance}">
             <div id="user_info">
-                ${params.username.encodeAsHTML()}
+                <p>${params.username.encodeAsHTML()}</p>
+                <p>Snippet &times;${Snippet.countByUserAndStatus(userInstance,0)},
+                Question &times;${Snippet.countByUserAndStatus(userInstance,1)},
+                Problem &times;${Snippet.countByUserAndStatus(userInstance,2)}<br/>
+                Follower &times;${userInstance.follower.size()}</p>
                 <sec:ifLoggedIn>
                 <g:if test="${currentUser?.username != userInstance.username}">
-                <g:checkBox name="follow_button"/>
-                <label for="follow_button"></label>
+                <div><g:checkBox name="follow_button"/><label for="follow_button"></label></div>
                 <g:javascript>
                     var follow_update = function(){
                         var label = $(this).attr("checked")?"unfollow":"follow";

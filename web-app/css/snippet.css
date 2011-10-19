@@ -20,6 +20,13 @@
     font-size: 100%;
     margin: 0 0 32px;
 }
+#user_info p:first-child + p, #tag_info p:first-child + p {
+    font-size: 82%;
+    margin-left: 1em;
+}
+#user_info div, #tag_info div {
+    text-align: right;
+}
 /* DIALOG */
 .dialog .prop .value textarea, #reply .prop .value textarea {
     width: 99%;

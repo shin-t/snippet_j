@@ -15,10 +15,13 @@
             </g:if>
             <g:if test="${params.tag}">
             <div id="tag_info">
-                ${params.tag.encodeAsHTML()}
+                <p>${params.tag.encodeAsHTML()}</p>
+                <p>Snippet &times;${count_snippet},
+                Question &times;${count_question},
+                Problem &times;${count_problem}<br/>
+                Follower &times;${follower}</p>
                 <sec:ifLoggedIn>
-                <g:checkBox name="follow_button"/>
-                <label for="follow_button"></label>
+                <div><g:checkBox name="follow_button"/><label for="follow_button"></label></div>
                 <g:javascript>
                     var follow_update = function(){
                         var label = $(this).attr("checked")?"unfollow":"follow";

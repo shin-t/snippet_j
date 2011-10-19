@@ -151,7 +151,7 @@ class SnippetController {
         else {
             params.max = Math.min(params.max ? params.int('max') : 10, 30)
             params.sort = params.sort?:'dateCreated'
-            params.order = params.order?:'desc'
+            params.order = params.order?:'asc'
             def snippetInstanceList = Snippet.createCriteria().list(params) {
                 eq ('parent', snippetInstance)
             }

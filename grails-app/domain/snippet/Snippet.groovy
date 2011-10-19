@@ -7,7 +7,7 @@ class Snippet implements Taggable {
 
     static belongsTo = [user: User]
     static mappedBy = [children:'parent']
-    static hasMany = [children: Snippet]
+    static hasMany = [children: Snippet, star: Star]
     static constraints = {
         user display:false
         text blank:false, widget:'textarea'

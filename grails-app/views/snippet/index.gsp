@@ -31,7 +31,7 @@
             </sec:ifLoggedIn>
             </g:else>
             <g:include controller="tag" action="ranking"/>
-            <g:include controller="user" action="list"/>
+            <g:include controller="user" action="list" params="[max:10]"/>
         </div>
     </body>
 </html>

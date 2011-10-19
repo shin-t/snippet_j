@@ -2,6 +2,9 @@
 #sidebar a.tag {
     display: block;
 }
+#content a.tag {
+    margin: 0 2px;
+}
 #list_filter {
     margin: 32px 16px 16px;
 }

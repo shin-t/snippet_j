@@ -58,21 +58,19 @@ class TagController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 5, 30)
-        def snippetInstanceList
-        def snippetInstanceTotal
-        def query = "select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
         if(params.tag){
+            params.max = Math.min(params.max ? params.int('max') : 5, 30)
+            def snippetInstanceList
+            def snippetInstanceTotal
+            def query = "select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
             snippetInstanceList = Snippet.executeQuery(query, [params.tag], params)
             snippetInstanceTotal = Snippet.executeQuery(query, [params.tag]).size()
             render template:'/snippet/list', model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
         }
-    }
-
-    def tags = {
-        def query
-        query = "select tl.tag.name from TagLink as tl where tl.type = 'snippet' group by tl.tag.name"
-        render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
+        else{
+            def query = "select tl.tag.name from TagLink as tl where tl.type = 'snippet' group by tl.tag.name"
+            render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
+        }
     }
 
     def ranking = {

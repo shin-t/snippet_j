@@ -50,9 +50,12 @@
             <div id="lists"><g:include controller="tag" action="list" params="[tag: params.tag]"/></div>
             </g:if>
             <g:else>
-            <div id="content"><g:include controller="tag" action="tags"/></div>
+            <div id="content"><g:include controller="tag" action="list"/></div>
             </g:else>
         </div>
-        <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>
+        <div id="sidebar">
+            <g:include controller="tag" action="ranking"/>
+            <g:include controller="user" action="list"/>
+        </div>
     </body>
 </html>

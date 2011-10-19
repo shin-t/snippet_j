@@ -13,11 +13,13 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <g:include controller="snippet" action="create"/>
+            <sec:ifLoggedIn>
             <div id="list_filter">
                 <div><g:remoteLink controller='snippet' action='list' update='lists' onComplete='reset_autopager()'><g:message code="list.filter.all.label"/></g:remoteLink></div>
                 <div><g:remoteLink controller='snippet' action='user' update='lists' onComplete='reset_autopager()'><g:message code="user.label"/></g:remoteLink></div>
                 <div><g:remoteLink controller='snippet' action='tags' update='lists' onComplete='reset_autopager()'><g:message code="snippet.tags.label"/></g:remoteLink></div>
             </div>
+            </sec:ifLoggedIn>
             <div id="lists"><g:include action="list"/></div>
         </div>
         <div id="sidebar">

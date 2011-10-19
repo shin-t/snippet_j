@@ -11,7 +11,6 @@ class SnippetController {
 
     def springSecurityService
 
-    @Secured(['ROLE_USER'])
     def index = {
     }
 

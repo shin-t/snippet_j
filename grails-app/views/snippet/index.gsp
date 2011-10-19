@@ -26,8 +26,8 @@
             <g:include controller="user" action="users"/>
             </g:if><g:else>
             <sec:ifLoggedIn>
-            <g:include controller="user" action="tags"/>
-            <g:include controller="user" action="users"/>
+            <g:include controller="user" action="tags" params="[max:10]"/>
+            <g:include controller="user" action="users" params="[max:10]"/>
             </sec:ifLoggedIn>
             </g:else>
             <g:include controller="tag" action="ranking"/>

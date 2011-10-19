@@ -31,20 +31,20 @@ class UserController {
     def tags = {
         def query = "select distinct new map(u.tag.name as name, u.dateCreated as dateCreated) from UserTag u, TagLink t where t.type = 'snippet' and t.tag.name = u.tag.name and u.follower.username = ? order by u.dateCreated desc"
         if(params.username){
-            render template: "/user/tags", model: [tags:Snippet.executeQuery(query,[params.username])]
+            render template: "/user/tags", model: [tags:Snippet.executeQuery(query,[params.username],params)]
         }
         else if(springSecurityService.isLoggedIn()){
-            render template: "/user/tags", model: [tags:Snippet.executeQuery(query,[springSecurityService.principal.username])]
+            render template: "/user/tags", model: [tags:Snippet.executeQuery(query,[springSecurityService.principal.username],params)]
         }
     }
 
     def users = {
         def query = "select u.username from User u, UserUser uu where u.username = uu.user.username and uu.follower.username = ? group by u.username"
         if(params.username){
-            render template: "/user/users", model: [users:Snippet.executeQuery(query,[params.username])]
+            render template: "/user/users", model: [users:Snippet.executeQuery(query,[params.username],params)]
         }
         else if(springSecurityService.isLoggedIn()){
-            render template: "/user/users", model: [users:Snippet.executeQuery(query,[springSecurityService.principal.username])]
+            render template: "/user/users", model: [users:Snippet.executeQuery(query,[springSecurityService.principal.username],params)]
         }
     }
 

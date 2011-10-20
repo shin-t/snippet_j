@@ -6,8 +6,8 @@
         <span><g:link controller="user" params="[username: c.username]" class="username">${c.username.encodeAsHTML()}</g:link></span>
         </g:each>
     </div>
-    </g:if>
     <g:if test="${params.max}">
     <div class="more_link"><g:link controller="user"><g:message code="users.all.label" default="users"/></g:link></div>
+    </g:if>
     </g:if>
 </div>

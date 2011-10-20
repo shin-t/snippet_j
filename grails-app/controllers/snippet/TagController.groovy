@@ -73,14 +73,13 @@ class TagController {
             render template:'/snippet/list', model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
         }
         else{
-            def query = "select tl.tag.name from TagLink as tl where tl.type = 'snippet' group by tl.tag.name"
-            render template: 'tags', model: [tags:Snippet.executeQuery(query,[],params)]
+            def query = "select tl.tag.name from TagLink tl where tl.type = 'snippet' order by tl.tag.name"
+            render template: 'tags', model: [tags:Snippet.executeQuery(query,[])]
         }
     }
 
     def ranking = {
-        def query = "select t.name from TagLink tl, Tag t, Snippet s where tl.type = 'snippet' and tl.tag.id = t.id and tl.tagRef = s.id and s.lastUpdated >= :date group by t.name"
-        def date = new Date() - 7
-        render template: 'tags', model: [tags:Snippet.executeQuery(query,[date:date],[max:10])]
+        def query = "select tl.tag.name from TagLink tl, Snippet s where tl.type = 'snippet' and tl.tagRef = s.id group by tl.tag.name order by count(*) desc"
+        render template: 'tags', model: [tags:Snippet.executeQuery(query,[],[max:10])]
     }
 }

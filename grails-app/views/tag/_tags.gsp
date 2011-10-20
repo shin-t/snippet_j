@@ -1,9 +1,10 @@
+<%@ page import="snippet.Snippet" %>
 <div class="content">
     <div><g:message code="snippet.tags.label" default="Tags" /></div>
     <g:if test="${tags}">
     <div>
         <g:each in="${tags}" var="t">
-        <span><g:link controller="tag" params="[tag: t]" class="tag">${t.encodeAsHTML()}</g:link></span>
+        <span><g:link controller="tag" params="[tag: t]" class="tag">${t.encodeAsHTML()}&nbsp;&times;${Snippet.countByTag(t).encodeAsHTML()}</g:link></span>
         </g:each>
     </div>
     <g:if test="${actionName=='ranking'}">

@@ -14,7 +14,6 @@ class SnippetController {
     def index = {
     }
 
-    @Secured(['ROLE_USER'])
     def list = {
         def snippetInstanceList
         def snippetInstanceTotal
@@ -24,7 +23,7 @@ class SnippetController {
         params.order = params.order?:'desc'
         snippetInstanceList = Snippet.list(params)
         snippetInstanceTotal = Snippet.count()
-        userInstance = springSecurityService.getCurrentUser()
+        if(springSecurityService.isLoggedIn())userInstance = springSecurityService.getCurrentUser()
         withFormat {
             json {
                 render (contentType:'text/json') {

@@ -44,7 +44,7 @@
     <div class="buttons">
         <g:hiddenField name="snippet_${snippetInstance.id}" value="${snippetInstance.id}"/>
         <g:checkBox name="star_${snippetInstance.id}" class="star_button"/><label for="star_${snippetInstance.id}"></label>
-        <g:remoteLink class="reply" controller="snippet" action="create" params="[parent_id:snippetInstance.id,tags:snippetInstance.tags.join(',')]" update="reply_${snippetInstance.id}" onLoaded="clearForm()"><g:message code="snippet.button.reply.label"/></g:remoteLink>
+        <g:remoteLink class="reply" controller="snippet" action="create" params="[parent_id:snippetInstance.id,tags:snippetInstance.tags.join(' ')]" update="reply_${snippetInstance.id}" onLoaded="clearForm()"><g:message code="snippet.button.reply.label"/></g:remoteLink>
         <g:if test="${userInstance.id == snippetInstance.user.id}">
         <g:if test="${snippetInstance.status == 1}">
         <g:checkBox name="help_${snippetInstance.id}" value="${snippetInstance.help}" class="help_button"/><label for="help_${snippetInstance.id}"></label>

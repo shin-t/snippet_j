@@ -10,7 +10,7 @@
     <body>
         <div id="contents">
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <p class="message"><span>${flash.message}</span></p>
             </g:if>
             <g:include controller="snippet" action="create"/>
             <sec:ifLoggedIn>

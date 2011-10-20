@@ -14,7 +14,7 @@
     </div>
     <div class="prop">
         <div class="name"><label for="tags"><g:message code="snippet.tags.label" default="Tags" /></label></div>
-        <div class="value"><g:textField name="tags" value="${snippetInstance.tags?.join(' ')?:tags}" /></div>
+        <div class="value"><g:textField name="tags" value="${tags}" /></div>
     </div>
     <div class="buttons">
         <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
@@ -22,8 +22,7 @@
     </div>
     <g:javascript>
         $(function(){
-            $("input:submit, input:button").button().css("font-size","8pt");
-            $("input#deadline").datepicker({dateFormat:'yy/mm/dd'});
+            $("input:submit, input:button").button();
         });
     </g:javascript>
 </g:formRemote>

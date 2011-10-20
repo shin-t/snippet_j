@@ -46,6 +46,7 @@ class SnippetController {
             }
             html {
                 render template:'list',model:[
+                    message: message(code:'list.filter.all.label'),
                     snippetInstanceList: snippetInstanceList,
                     snippetInstanceTotal: snippetInstanceTotal,
                     userInstance: userInstance
@@ -63,6 +64,7 @@ class SnippetController {
         def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
         def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
         render template: "list", model: [
+            message: message(code:'user.label'),
             snippetInstanceList: snippetInstanceList,
             snippetInstanceTotal: snippetInstanceTotal,
             userInstance: springSecurityService.getCurrentUser()
@@ -84,6 +86,7 @@ class SnippetController {
         def snippetInstanceList = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id],params)
         def snippetInstanceTotal = Snippet.executeQuery(query,[springSecurityService.getCurrentUser().id]).size()
         render template: "list", model: [
+            message: message(code:'snippet.tags.label'),
             snippetInstanceList: snippetInstanceList,
             snippetInstanceTotal: snippetInstanceTotal,
             userInstance: springSecurityService.getCurrentUser()
@@ -148,7 +151,6 @@ class SnippetController {
             redirect(action: 'list')
         }
         else {
-            flash.message = message(code:'snippet.button.reply.label')
             params.max = Math.min(params.max ? params.int('max') : 5, 30)
             params.sort = params.sort?:'dateCreated'
             params.order = params.order?:'desc'
@@ -156,6 +158,7 @@ class SnippetController {
                 eq ('parent', snippetInstance)
             }
             [
+                message: message(code:'snippet.button.reply.label'),
                 snippetInstance: snippetInstance,
                 snippetInstanceList: snippetInstanceList,
                 snippetInstanceTotal: snippetInstanceList.totalCount,

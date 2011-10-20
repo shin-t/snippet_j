@@ -1,8 +1,8 @@
 /* GENERAL */
-#sidebar a.tag {
+#sidebar a.tag, #sidebar a.username {
     display: block;
 }
-#content a.tag {
+#content a.tag, #sidebar a.username {
     margin: 0 2px;
 }
 #list_filter {

@@ -21,6 +21,7 @@ class UrlMappings {
                 action(matches:/follow_check|follow|unfollow/)
             }
         }
+        "/show/$id"(controller:'snippet', action:'show')
         "/$controller/$action?/$id?"{
             constraints {
                 // apply constraints here

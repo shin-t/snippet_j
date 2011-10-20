@@ -10,13 +10,23 @@ var button_icons = function(){
             success: function(data){
                 var label;
                 if(data.exists){
-                    label = "unstar";
+                    label = "Unstar";
                     $(obj).attr("checked","checked");
                 }
                 else{
-                    label = "star";
+                    label = "Star";
                 }
                 $(obj).button({label:label,icons:{primary:"ui-icon-star"}}).click({id:id},star_update);
+                $.ajax({
+                    type:'GET',
+                    url:'/snippet/star/index/'+id,
+                    success: function(data){
+                        if(!data.message){
+                            var label = $(obj).button("option","label") +' &times;'+ data.count;
+                            $(obj).button("option","label",label);
+                        }
+                    }
+                });
             }
         });
     });
@@ -41,13 +51,23 @@ var reset_autopager = function(){
 }
 
 var star_update = function(e){
-    var label = $(this).attr("checked")?"unstar":"star";
+    var label = $(this).attr("checked")?"Unstar":"Star";
     var obj = $(this)
     $.ajax({
         type:'POST',
-        url:'/snippet/star/'+$(obj).button("option","label")+'/'+e.data.id,
+        url:'/snippet/star/'+($(obj).attr("checked")?"star":"unstar")+'/'+e.data.id,
         success: function(){
             $(obj).button("option","label",label);
+            $.ajax({
+                type:'GET',
+                url:'/snippet/star/index/'+e.data.id,
+                success: function(data){
+                    if(!data.message){
+                        var label = $(obj).button("option","label") +' &times;'+ data.count;
+                        $(obj).button("option","label",label);
+                    }
+                }
+            });
         }
     });
 }

@@ -121,7 +121,7 @@ a:hover {
 .message {
     margin: 16px;
 }
-.message span {
+.message * {
     border: 1px solid #b2d1ff;
     border-radius: 8px / 8px;
     color: #006dba;

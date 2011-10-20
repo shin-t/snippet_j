@@ -10,7 +10,7 @@
     <body>
         <div id="contents">
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <p class="message"><span>${flash.message}</span></p>
             </g:if>
             <g:if test="${userInstance}">
             <div id="user_info">

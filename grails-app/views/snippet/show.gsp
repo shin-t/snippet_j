@@ -9,11 +9,12 @@
     </head>
     <body>
         <div id="contents">
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
             <div><g:render template="content" model="[snippetInstance: snippetInstance, userInstance: userInstance]" /></div>
-            <div id="lists"><g:render template="list" model="[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance: userInstance]" /></div>
+            <div id="lists">
+                <g:if test="${snippetInstanceList}">
+                <g:render template="list" model="[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance: userInstance]" />
+                </g:if>
+            </div>
         </div>
         <div id="sidebar"><g:include controller="tag" action="hot_tags"/></div>
     </body>

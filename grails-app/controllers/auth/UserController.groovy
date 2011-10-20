@@ -242,7 +242,7 @@ class UserController {
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-                redirect(action: "show", model: [username: userInstance.username])
+                redirect(action: "edit", model: [username: userInstance.username])
             }
         }
         else {

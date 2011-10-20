@@ -17,9 +17,9 @@ class User {
         password column: '`password`'
     }
 
-    static hasMany = [follower: UserUser]
+    static hasMany = [follower: UserUser, follow: UserUser]
 
-    static mappedBy = [follower: 'user']
+    static mappedBy = [follower: 'user', follow: 'follower']
 
     String username
     String password

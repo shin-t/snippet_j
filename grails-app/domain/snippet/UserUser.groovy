@@ -25,6 +25,10 @@ class UserUser implements Serializable {
         return instance
     }
 
+    static void removeAll(User user) {
+        executeUpdate 'DELETE FROM UserUser WHERE user=:user', [user: user]
+    }
+
     static boolean remove(User follower, User user, boolean flush = false) {
         UserUser instance = UserUser.findByFollowerAndUser(follower, user)
         instance ? instance.delete(flush: flush) : false

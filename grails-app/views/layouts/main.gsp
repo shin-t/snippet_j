@@ -13,6 +13,7 @@
             <div id="nav">
                 <sec:ifLoggedIn>
                 <div><g:link controller='user' action='index' params="[username: sec.loggedInUserInfo(field:'username')]"><sec:username /></g:link></div>
+                <div><g:link controller='user' action='edit'><g:message code="user.settings.label" default="Settings"/></g:link></div>
                 <div><g:link controller='logout'><g:message code="logout.label" default="Log Out"/></g:link></div>
                 </sec:ifLoggedIn><sec:ifNotLoggedIn>
                 <div><g:link controller='user' action='create'><g:message code="login.signup.label" default="Sign Up"/></g:link></div>

@@ -27,6 +27,10 @@ class Star implements Serializable {
         instance ? instance.delete(flush: flush) : false
     }
 
+    static void removeAll(User user) {
+        executeUpdate 'DELETE FROM Star WHERE user=:user', [user: user]
+    }
+
     String toString(){
         "$user , $snippet"
     }

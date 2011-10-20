@@ -40,4 +40,11 @@ class Snippet implements Taggable {
             Snippet.executeUpdate("update Snippet s set s.root = s.parent where s.root= ?",[snippetInstance])
         }
     }
+
+    static void removeAll(User user) {
+        Snippet.findAllByUser(user).each{
+            Snippet.remove(it.id)
+            it.delete(flush:true)
+        }
+    }
 }

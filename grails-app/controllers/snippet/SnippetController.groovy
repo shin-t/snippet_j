@@ -23,7 +23,7 @@ class SnippetController {
         params.order = params.order?:'desc'
         snippetInstanceList = Snippet.list(params)
         snippetInstanceTotal = Snippet.count()
-        if(springSecurityService.isLoggedIn())userInstance = springSecurityService.getCurrentUser()
+        if(springSecurityService.isLoggedIn()) userInstance = springSecurityService.getCurrentUser()
         withFormat {
             json {
                 render (contentType:'text/json') {

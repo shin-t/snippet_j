@@ -187,15 +187,9 @@ class UserController {
 
     @Secured(['ROLE_USER'])
     def edit = {
-        def userInstance = User.get(params.id)
-        if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
-            userInstance.password = ""
-            [userInstance: userInstance]
-        }
-        else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-            redirect(controller: "snippet", action: "list")
-        }
+        def userInstance = springSecurityService.getCurrentUser()
+        userInstance.password = ""
+        [userInstance: userInstance]
     }
 
     @Secured(['ROLE_USER'])
@@ -220,7 +214,7 @@ class UserController {
                     springSecurityService.reauthenticate userInstance.username
                 }
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])}"
-                redirect(action: "show", id: userInstance.id)
+                redirect(action: "show", model: [username: userInstance.username])
             }
             else {
                 render(view: "edit", model: [userInstance: userInstance])
@@ -237,6 +231,9 @@ class UserController {
         def userInstance = User.get(params.id)
         if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
             try {
+                Snippet.removeAll(userInstance)
+                UserUser.removeAll(userInstance)
+                Star.removeAll(userInstance)
                 UserRole.removeAll(userInstance)
                 userInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
@@ -244,7 +241,7 @@ class UserController {
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-                redirect(action: "show", id: params.id)
+                redirect(action: "show", model: [username: userInstance.username])
             }
         }
         else {

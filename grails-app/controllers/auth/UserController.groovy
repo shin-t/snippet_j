@@ -233,6 +233,7 @@ class UserController {
             try {
                 Snippet.removeAll(userInstance)
                 UserUser.removeAll(userInstance)
+                UserTag.removeAll(userInstance)
                 Star.removeAll(userInstance)
                 UserRole.removeAll(userInstance)
                 userInstance.delete(flush: true)

@@ -26,6 +26,10 @@ class UserTag implements Serializable {
         return instance
     }
 
+    static void removeAll(User user) {
+        executeUpdate 'DELETE FROM UserTag WHERE follower=:user', [user: user]
+    }
+
     static boolean remove(User follower, Tag tag, boolean flush = false) {
         UserTag instance = UserTag.findByFollowerAndTag(follower, Tag)
         instance ? instance.delete(flush: flush) : false

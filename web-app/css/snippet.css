@@ -1,8 +1,20 @@
 /* GENERAL */
+#sidebar .content {
+    border-color: #C4A97A;
+}
+#sidebar .content .more_link {
+    text-align: right;
+}
+#sidebar .content .more_link a {
+    font-size: 82%;
+}
 #sidebar a.tag, #sidebar a.username {
     display: block;
 }
-#content a.tag, #sidebar a.username {
+#sidebar .content div:first-child + div {
+    border-top: solid 1px #C4A97A;
+}
+#contents a.tag, #contents a.username {
     margin: 0 2px;
 }
 #list_filter {
@@ -32,7 +44,7 @@
     width: 99%;
     height: 4em;
 }
-.dialog .prop .value input#tags {
+.dialog .prop .value input#tags, #reply .prop .value input#tags {
     width: 70%;
 }
 /* CONTENT */

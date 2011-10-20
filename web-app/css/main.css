@@ -68,8 +68,11 @@ a:hover {
     float:left;
     height: 24px;
 }
-#nav > *:first-child, #nav > *:first-child + * {
+#nav > *:first-child {
     border-right: 1px #BD767D solid;
+}
+#nav > *:first-child + * + * {
+    border-left: 1px #BD767D solid;
 }
 #nav a {
     text-decoration: none;

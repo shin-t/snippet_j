@@ -11,8 +11,13 @@
 #sidebar a.tag, #sidebar a.username {
     display: block;
 }
+#contents .content > div:first-child {
+    border-bottom: solid 1px #BD767D;
+    margin-bottom: 4px;
+}
 #sidebar .content div:first-child + div {
     border-top: solid 1px #C4A97A;
+    padding-top: 4px;
 }
 #contents a.tag, #contents a.username {
     margin: 0 2px;

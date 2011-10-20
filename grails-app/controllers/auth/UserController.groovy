@@ -213,8 +213,8 @@ class UserController {
                 if (springSecurityService.loggedIn && springSecurityService.principal.username == userInstance.username) {
                     springSecurityService.reauthenticate userInstance.username
                 }
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])}"
-                redirect(action: "show", model: [username: userInstance.username])
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.username])}"
+                redirect(action: 'index', params: [username: userInstance.username])
             }
             else {
                 render(view: "edit", model: [userInstance: userInstance])

@@ -14,7 +14,10 @@
             </g:if>
             <g:if test="${userInstance}">
             <div id="user_info">
-                <p>${params.username.encodeAsHTML()}</p>
+                <p>
+                    <gravatar:img hash="${userInstance.gravatar_hash}" size="32"/>
+                    ${params.username.encodeAsHTML()}
+                </p>
                 <p>Snippet &times;${Snippet.countByUserAndStatus(userInstance,0)},
                 Question &times;${Snippet.countByUserAndStatus(userInstance,1)},
                 Problem &times;${Snippet.countByUserAndStatus(userInstance,2)}<br/>

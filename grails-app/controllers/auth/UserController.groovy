@@ -39,7 +39,7 @@ class UserController {
     }
 
     def users = {
-        def query = "select u.username from User u, UserUser uu where u.username = uu.user.username and uu.follower.username = ? group by u.username"
+        def query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash) from User u, UserUser uu where u.username = uu.user.username and uu.follower.username = ? "
         if(params.username){
             render template: "/user/users", model: [users:Snippet.executeQuery(query,[params.username],params)]
         }
@@ -139,7 +139,7 @@ class UserController {
     }
 
     def list = {
-        def query = "select new map(u.username as username, u.follower.size as followers) from User u order by u.follower.size desc"
+        def query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash, u.follower.size as followers) from User u order by u.follower.size desc"
         render template:'list', model: [users:User.executeQuery(query,[],params),total:User.executeQuery(query).size()]
     }
 

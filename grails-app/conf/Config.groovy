@@ -102,10 +102,7 @@ grails.plugins.springsecurity.authority.className = 'auth.Role'
 // jQuery Plugin
 grails.views.javascript.library="jquery"
 
-// OAuth
-oauth.github.domain = 'https://api.github.com'
-oauth.github.authorize_url = 'https://github.com/login/oauth/authorize'
-oauth.github.access_token_url = 'https://github.com/login/oauth/access_token'
-// oauth.github.client_id = 
-// oauth.github.client_secret = 
-
+// Gravatar
+gravatar.profile_request.url = 'http://www.gravatar.com/'
+gravatar.image_request.url = 'http://www.gravatar.com/avatar/'
+gravatar.image_request.params = '?r=G&d=identicon&s='

@@ -3,7 +3,10 @@
     <g:if test="${users}">
     <div>
         <g:each in="${users}" var="c">
-        <span><g:link controller="user" params="[username: c]" class="username">${c.encodeAsHTML()}</g:link></span>
+        <span class="user">
+            <gravatar:img hash="${c.gravatar_hash}" size="16"/>
+            <g:link controller="user" params="[username: c.username]">${c.username.encodeAsHTML()}</g:link>
+        </span>
         </g:each>
     </div>
     <g:if test="${!params.username}">

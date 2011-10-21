@@ -1,10 +1,16 @@
 <div class="content">
     <div class="header">
         <p>
-            <span class="username"><g:link controller="user" params="[username:snippetInstance.user.username]">${fieldValue(bean: snippetInstance.user, field: "username")}</g:link></span>
+            <span class="username">
+                <gravatar:img hash="${snippetInstance.user.gravatar_hash}" size="18"/>
+                <g:link controller="user" params="[username:snippetInstance.user.username]">${fieldValue(bean: snippetInstance.user, field: "username")}</g:link>
+            </span>
             <g:if test="${snippetInstance.parent}">
             &raquo;
-            <span class="parent"><g:link controller="snippet" action="show" id="${snippetInstance.parent.id}" fragment="snippet_${snippetInstance.id}">${fieldValue(bean: snippetInstance.parent.user, field: "username")}</g:link></span>
+            <span class="parent">
+                <gravatar:img hash="${snippetInstance.parent.user.gravatar_hash}" size="16"/>
+                <g:link controller="snippet" action="show" id="${snippetInstance.parent.id}" fragment="snippet_${snippetInstance.id}">${fieldValue(bean: snippetInstance.parent.user, field: "username")}</g:link>
+            </span>
             </g:if>
         </p>
         <g:if test="${snippetInstance.tags}">

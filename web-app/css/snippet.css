@@ -8,7 +8,7 @@
 #sidebar .content .more_link a {
     font-size: 82%;
 }
-#sidebar a.tag, #sidebar a.username {
+#sidebar a.tag, #sidebar span.user {
     display: block;
 }
 #contents .content > div:first-child {
@@ -19,7 +19,7 @@
     border-top: solid 1px #C4A97A;
     padding-top: 4px;
 }
-#contents a.tag, #contents a.username {
+#contents a.tag, #contents span.user {
     margin: 0 4px;
 }
 #list_filter {

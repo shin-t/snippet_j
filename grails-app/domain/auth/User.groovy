@@ -7,6 +7,8 @@ class User {
     static constraints = {
         username blank: false, unique: true
         password blank: false, password: true
+        email blank: false, email: true, unique: true
+        //gravatar_hash blank: false, unique: true
         enabled display: false
         accountExpired display: false
         accountLocked display: false
@@ -23,6 +25,8 @@ class User {
 
     String username
     String password
+    String email
+    //String gravatar_hash
     boolean enabled
     boolean accountExpired
     boolean accountLocked

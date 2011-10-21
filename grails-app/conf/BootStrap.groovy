@@ -14,8 +14,9 @@ class BootStrap {
         }
 
         if(User.count() == 0){
-            def user = new User(username: 'user', password: springSecurityService.encodePassword('pass'), enabled: true).save()
-            def admin = new User(username: 'admin', password: springSecurityService.encodePassword('pass'), enabled: true).save()
+            def user = new User(username: 'user', password: springSecurityService.encodePassword('pass'), email: 'Abc@example.com', enabled: true).save()
+            def admin = new User(username: 'admin', password: springSecurityService.encodePassword('pass'), email: 'Abc.123@example.com', enabled: true).save()
+            println user.email.trim().toLowerCase()
             UserRole.create user, Role.findByAuthority('ROLE_USER'), true
             UserRole.create admin, Role.findByAuthority('ROLE_USER'), true
             assert User.count() == 2

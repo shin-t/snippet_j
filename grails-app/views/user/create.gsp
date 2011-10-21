@@ -26,6 +26,10 @@
                             <div class="name"><label for="password"><g:message code="user.password.label" default="Password" /></label></div>
                             <div class="value"><g:passwordField name="password" value="${userInstance?.password}" /></div>
                         </div>
+                        <div class="prop">
+                            <div class="name"><label for="email"><g:message code="user.email.label" default="Email" /></label></div>
+                            <div class="value"><g:passwordField name="email" value="${userInstance?.email}" /></div>
+                        </div>
                     <div class="buttons">
                         <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                     </div>

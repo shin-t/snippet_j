@@ -6,8 +6,10 @@ class UserRoleTests extends GroovyTestCase {
     protected void setUp() {
         super.setUp()
 
-        def user1 = new User(username:"admin",password:"password").save()
-        def user2 = new User(username:"user",password:"password").save()
+        assert 0 == User.count()
+
+        def user1 = new User(username:"admin",password:"password",email:"abc@example.com",gravatar_hash:"abc@example.com".trim().toLowerCase().encodeAsMD5()).save()
+        def user2 = new User(username:"user",password:"password",email:"abc.123@example.com",gravatar_hash:"abc.123@example.com".trim().toLowerCase().encodeAsMD5()).save()
 
         assert new UserRole(user:user1,role:Role.findByAuthority("ROLE_ADMIN")).save()?.instanceOf(UserRole)
         assert new UserRole(user:user1,role:Role.findByAuthority("ROLE_USER")).save()?.instanceOf(UserRole)

@@ -9,7 +9,7 @@ class StarTests extends GrailsUnitTestCase {
         super.setUp()
 
         mockDomain(User,[new User(username:"user",password:"password")])
-        mockDomain(Snippet,[new Snippet(name:"snippet",snippet:"snippet...",author:User.get(1))])
+        mockDomain(Snippet,[new Snippet(text:"snippet",file:"snippet...",user:User.get(1))])
         mockDomain(Star,[new Star(user:User.get(1),snippet:Snippet.get(1))])
     }
 

@@ -8,10 +8,11 @@ class StarTests extends GroovyTestCase {
     protected void setUp() {
         super.setUp()
 
-        def user = new User(username:"user",password:"password")
+        def user = new User(username:"username",password:"password",email:"MyEmailAddress@example.com ")
+        user.gravatar_hash = user.email.trim().toLowerCase().encodeAsMD5()
         assert user.save() instanceof User
 
-        def snippet = new Snippet(name:"snippet",snippet:"snippet...",author:user)
+        def snippet = new Snippet(text:"snippet",file:"snippet...",user:user)
         assert snippet.save() instanceof Snippet
 
         assert new Star(user:user,snippet:snippet).save() instanceof Star
@@ -22,6 +23,11 @@ class StarTests extends GroovyTestCase {
     }
 
     void "test get"() {
-        assert Star.get(User.findByUsername("user").id,Snippet.findByName("snippet").id).instanceOf(Star)
+        assert Star.get(User.findByUsername("username").id,Snippet.findByText("snippet").id).instanceOf(Star)
+    }
+    void "test removeall"() {
+        assert 1 == Star.count()
+        Star.removeAll User.findByUsername("username")
+        assert 0 == Star.count()
     }
 }

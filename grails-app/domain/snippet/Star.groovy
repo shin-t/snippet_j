@@ -30,8 +30,4 @@ class Star implements Serializable {
     static void removeAll(User user) {
         executeUpdate 'DELETE FROM Star WHERE user=:user', [user: user]
     }
-
-    String toString(){
-        "$user , $snippet"
-    }
 }

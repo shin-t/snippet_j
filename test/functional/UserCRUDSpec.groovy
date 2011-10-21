@@ -12,7 +12,7 @@ class UserCRUDSpec extends GebSpec {
     }
     def "user create"() {
         when:
-        go "/auth/user/create"
+        go "/snippet/signup"
         then:
         println page
         println page.dump()

@@ -8,7 +8,7 @@ class User {
         username blank: false, unique: true
         password blank: false, password: true
         email blank: false, email: true, unique: true
-        gravatar_hash blank: false, unique: true
+        gravatar_hash blank: false, unique: true, validator: { val, obj -> val == obj.email.trim().toLowerCase().encodeAsMD5() }
         enabled display: false
         accountExpired display: false
         accountLocked display: false
@@ -19,7 +19,7 @@ class User {
         password column: '`password`'
     }
 
-    static hasMany = [follower: UserUser, follow: UserUser]
+    static hasMany = [follower: UserUser, follow: UserUser, snippet: Snippet]
 
     static mappedBy = [follower: 'user', follow: 'follower']
 

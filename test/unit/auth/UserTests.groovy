@@ -5,6 +5,7 @@ import grails.test.*
 class UserTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
+        loadCodec(org.codehaus.groovy.grails.plugins.codecs.MD5Codec)
     }
 
     protected void tearDown() {
@@ -49,6 +50,11 @@ class UserTests extends GrailsUnitTestCase {
 
         user.password = "password"
         assertTrue user.validate(["password"])
+
+        user.email = "MyEmailAddress.123@example.com "
+        assertTrue user.validate(["email"])
+
+        user.gravatar_hash = user.email.trim().toLowerCase().encodeAsMD5()
 
         assertTrue user.validate()
     }

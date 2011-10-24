@@ -37,7 +37,7 @@ class StarController {
                     results['exists'] = starInstance?true:false
                 }
                 else if(request.post){
-                    if(!starInstance) Star.create(springSecurityService.getCurrentUser(), snippetInstance, true)
+                    if(!starInstance) Star.create(springSecurityService.currentUser, snippetInstance, true)
                 }
             }
             else{

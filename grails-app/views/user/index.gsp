@@ -54,19 +54,12 @@
                 </g:if>
                 </sec:ifLoggedIn>
             </div>
-            <div id="lists"><g:include controller="user" action="snippets" params="[username: params.username]"/></div>
             </g:if>
             <g:else>
             <g:include controller="user" action="list"/>
             </g:else>
         </div>
         <div id="sidebar">
-            <g:if test="${params.username}">
-            <g:include controller="user" action="tags" params="[username: params.username]"/>
-            <g:include controller="user" action="users" params="[username: params.username]"/>
-            </g:if>
-            <g:include controller="tag" action="ranking"/>
-            <g:include controller="user" action="list" params="[max:10]"/>
         </div>
     </body>
 </html>

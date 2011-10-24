@@ -12,7 +12,7 @@ class Snippet implements Taggable {
         user display:false
         text blank:false, widget:'textarea'
         file nullable:true, blank:false, widget:'textarea'
-        status display:false
+        status display:false, matches: /snippet|question|problem/
         help ()
         deadline nullable:true
         dateCreated ()
@@ -26,7 +26,7 @@ class Snippet implements Taggable {
     Snippet parent
     String text
     String file
-    Integer status = 0
+    String status = 'snippet'
     Boolean help = true
     Date deadline
     Date dateCreated

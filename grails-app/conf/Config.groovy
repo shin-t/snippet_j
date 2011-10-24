@@ -72,7 +72,11 @@ log4j = {
     // appender:
     appenders {
         console name:'stdout', layout:pattern(conversionPattern: '[%5p] %c{2} %d{hh:mm:ss} (%F:%M:%L) %m%n')
-        file name:'file', file:'debug.log'
+        environments {
+            development {
+                rollingFile name:'file', maxFileSize: 1024, file:'debug.log'
+            }
+        }
     }
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
@@ -89,9 +93,11 @@ log4j = {
 
     warn   'org.mortbay.log'
 
-    debug 'file': 'grails.app.controller'
-    debug 'file': 'grails.app.service'
-    debug 'file': 'grails.app.task'
+    debug  file:['grails.app.bootstrap',
+                 'grails.app.tagLib.snippet',
+                 'grails.app.controller.snippet',
+                 'grails.app.controller.auth',
+                 'grails.app.domain']
 }
 
 // Added by the Spring Security Core plugin:
@@ -100,7 +106,7 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'auth.UserRole
 grails.plugins.springsecurity.authority.className = 'auth.Role'
 
 // jQuery Plugin
-grails.views.javascript.library="jquery"
+grails.views.javascript.library = 'jquery'
 
 // Gravatar
 gravatar.profile_request.url = 'http://www.gravatar.com/'

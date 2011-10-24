@@ -6,92 +6,21 @@ import snippet.*
 
 class UserController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: 'POST', update: 'POST', delete: 'POST']
 
     def springSecurityService
-
-    def snippets = {
-        def userInstance
-        def snippetInstanceList
-        def snippetInstanceTotal = 0
-        if(!params.username && springSecurityService.isLoggedIn()) params.username = springSecurityService.principal.username
-        if(params.username){
-            userInstance = User.findByUsername(params.username)
-            if(userInstance){
-                params.max = Math.min(params.max ? params.int('max') : 10, 30)
-                params.sort = params.sort?:'dateCreated'
-                params.order = params.order?:'desc'
-                snippetInstanceList = Snippet.findAllByUser(userInstance, params)
-                snippetInstanceTotal = Snippet.countByUser(userInstance)
-            }
-        }
-        render template:"/snippet/list",model:[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal]
-    }
-
-    def tags = {
-        def query = "select distinct new map(u.tag.name as name, u.dateCreated as dateCreated) from UserTag u, TagLink t where t.type = 'snippet' and t.tag.name = u.tag.name and u.follower.username = ? order by u.dateCreated desc"
-        if(params.username){
-            render template: "/user/tags", model: [tags:Snippet.executeQuery(query,[params.username],params)]
-        }
-        else if(springSecurityService.isLoggedIn()){
-            render template: "/user/tags", model: [tags:Snippet.executeQuery(query,[springSecurityService.principal.username],params)]
-        }
-    }
-
-    def users = {
-        def query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash) from User u, UserUser uu where u.username = uu.user.username and uu.follower.username = ? "
-        if(params.username){
-            render template: "/user/users", model: [users:Snippet.executeQuery(query,[params.username],params)]
-        }
-        else if(springSecurityService.isLoggedIn()){
-            render template: "/user/users", model: [users:Snippet.executeQuery(query,[springSecurityService.principal.username],params)]
-        }
-    }
-
-    def starred = {
-        def userInstance
-        def snippetInstanceList, snippetInstanceTotal = 0
-        def query
-
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
-        params.sort = params.sort?:'dateCreated'
-        params.order = params.order?:'desc'
-
-        if(params.username){
-            userInstance=User.findByUsername(params.username)
-        }
-        else if(springSecurityService.isLoggedIn()){
-            userInstance=springSecurityService.getCurrentUser()
-            params.username=userInstance.username
-        }
-        if(userInstance){
-            query = """
-                select sn
-                from Snippet sn, Star st
-                where sn = st.snippet
-                and st.user = ?
-                order by sn.dateCreated desc
-                """
-                snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)
-                snippetInstanceTotal = Snippet.executeQuery(query,[userInstance]).size()
-            render(view: "snippets", model: [snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, user:userInstance, currentUser: springSecurityService.getCurrentUser()])
-        }
-        else{
-            redirect(controller:"login",view:"auth")
-        }
-    }
 
     @Secured(['ROLE_USER'])
     def follow_check = {
         if(params.username){
             def user = User.findByUsername(params.username)
-            def currentUser = springSecurityService.getCurrentUser()
+            def currentUser = springSecurityService.currentUser
             def result
             if(user){
                 result = UserUser.get(currentUser.id, user.id)?true:false
                 render ([result] as JSON)
             }
-            else render ([message: "Not Found"] as JSON)
+            else render ([message: 'Not Found'] as JSON)
         }
     }
 
@@ -99,12 +28,12 @@ class UserController {
     def follow = {
         if(params.username){
             def user = User.findByUsername(params.username)
-            def currentUser = springSecurityService.getCurrentUser()
+            def currentUser = springSecurityService.currentUser
             if(user && user != currentUser){
                 UserUser.create(currentUser, user, true)
-                render (status:204, text:"")
+                render (status:204, text:'')
             }
-            else render ([message: "Not Found"] as JSON)
+            else render ([message: 'Not Found'] as JSON)
         }
     }
 
@@ -112,49 +41,51 @@ class UserController {
     def unfollow = {
         if(params.username){
             def user = User.findByUsername(params.username)
-            def currentUser = springSecurityService.getCurrentUser()
+            def currentUser = springSecurityService.currentUser
             def instance
             if(user){
                 instance = UserUser.get(currentUser.id, user.id)
                 if(instance){
                     instance.delete(flush:true)
                 }
-                render (status:204, text:"")
+                render (status:204, text:'')
             }
-            else render ([message: "Not Found"] as JSON)
+            else render ([message: 'Not Found'] as JSON)
         }
     }
 
     def index = {
-        def model = [:]
-        if(springSecurityService.isLoggedIn()){
-            model['currentUser'] = springSecurityService.getCurrentUser()
-        }
-        if(params.username){
-            model['userInstance'] = User.findByUsername(params.username)
-            if(model.userInstance){
-                model
+        if(params.username) {
+            def userInstance = User.findByUsername(params.username)
+            if(userInstance) {
+                [userInstance:userInstance]
             }
         }
     }
 
     def list = {
-        def query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash, u.follower.size as followers) from User u order by u.follower.size desc"
-        render template:'list', model: [users:User.executeQuery(query,[],params),total:User.executeQuery(query).size()]
+        def query
+        if(params.username) {
+            query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash) from User u, UserUser uu where u.username = uu.user.username and uu.follower.username = ? "
+            render template:'list', model:[users:Snippet.executeQuery(query,[params.username],params)]
+        } else {
+            query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash, u.follower.size as followers) from User u order by u.follower.size desc"
+            render template:'list', model:[users:User.executeQuery(query,[],params),total:User.executeQuery(query).size()]
+        }
     }
 
     def create = {
         def userInstance = new User()
         userInstance.properties = params
-        userInstance.password = ""
+        userInstance.password = ''
         return [userInstance: userInstance]
     }
 
     def save = {
         log.debug params
         def userInstance = new User(params)
-        userInstance.password = params.password?springSecurityService.encodePassword(params.password):""
-        userInstance.password2 = params.password2?springSecurityService.encodePassword(params.password2):""
+        userInstance.password = params.password?springSecurityService.encodePassword(params.password):''
+        userInstance.password2 = params.password2?springSecurityService.encodePassword(params.password2):''
         userInstance.gravatar_hash = userInstance.email.trim().toLowerCase().encodeAsMD5()
         userInstance.enabled = true
         if (userInstance.save(flush: true)) {
@@ -164,7 +95,7 @@ class UserController {
         }
         else {
             userInstance.password = params.password
-            render(view: "create", model: [userInstance: userInstance])
+            render(view: 'create', model: [userInstance: userInstance])
         }
     }
 
@@ -177,33 +108,33 @@ class UserController {
             userInstance=User.findByUsername(params.username)
         }
         else if(springSecurityService.isLoggedIn()){
-            userInstance=springSecurityService.getCurrentUser()
+            userInstance=springSecurityService.currentUser
         }
         if(userInstance){
-            [currentUser: springSecurityService.getCurrentUser(), user:userInstance]
+            [currentUser: springSecurityService.currentUser, user:userInstance]
         }
         else{
-            redirect(controller:"login",view:"auth")
+            redirect(controller:'login',view:'auth')
         }
     }
 
     @Secured(['ROLE_USER'])
     def edit = {
-        def userInstance = springSecurityService.getCurrentUser()
-        userInstance.password = ""
+        def userInstance = springSecurityService.currentUser
+        userInstance.password = ''
         [userInstance: userInstance]
     }
 
     @Secured(['ROLE_USER'])
     def update = {
         def userInstance = User.get(params.id)
-        if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
+        if (userInstance&&(userInstance==springSecurityService.currentUser)) {
             if (params.version) {
                 def version = params.version.toLong()
                 if (userInstance.version > version) {
                     
-                    userInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'user.label', default: 'User')] as Object[], "Another user has updated this User while you were editing")
-                    render(view: "edit", model: [userInstance: userInstance])
+                    userInstance.errors.rejectValue('version', 'default.optimistic.locking.failure', [message(code: 'user.label', default: 'User')] as Object[], 'Another user has updated this User while you were editing')
+                    render(view: 'edit', model: [userInstance: userInstance])
                     return
                 }
             }
@@ -219,19 +150,19 @@ class UserController {
                 redirect(action: 'index', params: [username: userInstance.username])
             }
             else {
-                render(view: "edit", model: [userInstance: userInstance])
+                render(view: 'edit', model: [userInstance: userInstance])
             }
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-            redirect(controller: "snippet", action: "list")
+            redirect(controller: 'snippet', action: 'list')
         }
     }
 
     @Secured(['ROLE_USER'])
     def delete = {
         def userInstance = User.get(params.id)
-        if (userInstance&&(userInstance==springSecurityService.getCurrentUser())) {
+        if (userInstance&&(userInstance==springSecurityService.currentUser)) {
             try {
                 Snippet.removeAll(userInstance)
                 UserUser.removeAll(userInstance)
@@ -240,16 +171,16 @@ class UserController {
                 UserRole.removeAll(userInstance)
                 userInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-                redirect(controller: "logout")
+                redirect(controller: 'logout')
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-                redirect(action: "edit", model: [username: userInstance.username])
+                redirect(action: 'edit', model: [username: userInstance.username])
             }
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-            redirect(controller: "snippet", action: "list")
+            redirect(controller: 'snippet', action: 'list')
         }
     }
 }

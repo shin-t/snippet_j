@@ -12,28 +12,23 @@
             <g:if test="${flash.message}">
             <p class="message"><span>${flash.message}</span></p>
             </g:if>
-            <g:include controller="snippet" action="create"/>
+            <g:include controller="snippet" action="create" params="[status:params.status]"/>
             <sec:ifLoggedIn>
             <div id="list_filter">
-                <div><g:remoteLink controller='snippet' action='list' update='lists' onComplete='reset_autopager()'><g:message code="list.filter.all.label"/></g:remoteLink></div>
-                <div><g:remoteLink controller='snippet' action='user' update='lists' onComplete='reset_autopager()'><g:message code="user.label"/></g:remoteLink></div>
-                <div><g:remoteLink controller='snippet' action='tags' update='lists' onComplete='reset_autopager()'><g:message code="snippet.tags.label"/></g:remoteLink></div>
+                <div><g:link controller='snippet' action='list' params="[status: params.status]"><g:message code="list.filter.all.label"/></g:link></div>
+                <div><g:link controller='snippet' action='users' params="[status: params.status]"><g:message code="user.label"/></g:link></div>
+                <div><g:link controller='snippet' action='tags' params="[status: params.status]"><g:message code="snippet.tags.label"/></g:link></div>
             </div>
             </sec:ifLoggedIn>
-            <div id="lists"><g:include action="list"/></div>
+            <div id="lists"><g:render template="list"/></div>
         </div>
         <div id="sidebar">
-            <g:if test="${params.username}">
-            <g:include controller="user" action="tags"/>
-            <g:include controller="user" action="users"/>
-            </g:if><g:else>
             <sec:ifLoggedIn>
-            <g:include controller="user" action="tags" params="[max:10]"/>
-            <g:include controller="user" action="users" params="[max:10]"/>
+            <g:include controller="tag" action="list" params="[status:params.status, username: sec.loggedInUserInfo(field:'username')]"/>
+            <g:include controller="user" action="list" params="[status:params.status, username: sec.loggedInUserInfo(field:'username')]"/>
             </sec:ifLoggedIn>
-            </g:else>
-            <g:include controller="tag" action="ranking"/>
-            <g:include controller="user" action="list" params="[max:10]"/>
+            <g:include controller="tag" action="list" params="[status:params.status]"/>
+            <g:include controller="user" action="list" params="[status:params.status]"/>
         </div>
     </body>
 </html>

@@ -154,6 +154,7 @@ class UserController {
         log.debug params
         def userInstance = new User(params)
         userInstance.password = params.password?springSecurityService.encodePassword(params.password):""
+        userInstance.password2 = params.password2?springSecurityService.encodePassword(params.password2):""
         userInstance.gravatar_hash = userInstance.email.trim().toLowerCase().encodeAsMD5()
         userInstance.enabled = true
         if (userInstance.save(flush: true)) {

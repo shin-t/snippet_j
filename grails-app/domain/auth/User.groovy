@@ -6,8 +6,8 @@ class User {
 
     static constraints = {
         username blank: false, unique: true
-        password blank: false, password: true
-        email blank: false, email: true, unique: true
+        password blank: false, password: true, validator: { val, obj -> val == obj.password2 ? true : ['password.mismatch'] }
+        email blank: false, email: true, unique: true, validator: { val, obj -> val == obj.email2 ? true : ['email.mismatch'] }
         gravatar_hash blank: false, unique: true, validator: { val, obj -> val == obj.email.trim().toLowerCase().encodeAsMD5() }
         enabled display: false
         accountExpired display: false
@@ -23,9 +23,13 @@ class User {
 
     static mappedBy = [follower: 'user', follow: 'follower']
 
+    static transients = ['password2','email2']
+
     String username
     String password
+    String password2
     String email
+    String email2
     String gravatar_hash
     boolean enabled
     boolean accountExpired

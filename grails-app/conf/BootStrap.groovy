@@ -19,8 +19,12 @@ class BootStrap {
                     def user = new User(username: 'user', password: springSecurityService.encodePassword('pass'), email: 'MyEmailAddress@example.com ', enabled: true)
                     def admin = new User(username: 'admin', password: springSecurityService.encodePassword('pass'), email: 'Abc.123@example.com', enabled: true)
                     user.gravatar_hash = user.email.trim().toLowerCase().encodeAsMD5()
+                    user.password2 = user.password
+                    user.email2 = user.email
                     user.save()
                     admin.gravatar_hash = admin.email.trim().toLowerCase().encodeAsMD5()
+                    admin.password2 = admin.password
+                    admin.email2 = admin.email
                     admin.save()
                     UserRole.create user, Role.findByAuthority('ROLE_USER'), true
                     UserRole.create admin, Role.findByAuthority('ROLE_USER'), true

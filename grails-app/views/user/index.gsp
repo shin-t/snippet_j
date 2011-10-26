@@ -53,6 +53,9 @@
             </div>
             </g:if>
             <g:else>
+            <sec:ifLoggedIn>
+            <g:include controller="user" action="list" params="[username:sec.loggedInUserInfo(field:'username')]"/>
+            </sec:ifLoggedIn>
             <g:include controller="user" action="list"/>
             </g:else>
         </div>

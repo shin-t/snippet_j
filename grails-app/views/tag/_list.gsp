@@ -21,7 +21,7 @@
         </span>
         </g:if>
         <g:else>
-        <span><g:link controller="tag" action="index" params="[tag: t]" class="tag">${t.encodeAsHTML()}&nbsp;&times;${Snippet.countByTag(t).encodeAsHTML()}</g:link></span>
+        <span><g:link controller="tag" action="index" params="[tag: t.name.encodeAsURL()]" class="tag">${t.name.encodeAsHTML()}&nbsp;&times;${t.count.encodeAsHTML()}</g:link></span>
         </g:else>
         </g:each>
     </div>

@@ -9,7 +9,7 @@
             &raquo;
             <span class="parent">
                 <gravatar:img hash="${snippetInstance.parent.user.gravatar_hash}" size="16"/>
-                <g:link controller="snippet" action="show" id="${snippetInstance.parent.id}" fragment="snippet_${snippetInstance.id}">${fieldValue(bean: snippetInstance.parent.user, field: "username")}</g:link>
+                <g:link controller="snippet" action="show" id="${snippetInstance.parent.id}" params="[status:params.status]" fragment="snippet_${snippetInstance.id}">${fieldValue(bean: snippetInstance.parent.user, field: "username")}</g:link>
             </span>
             </g:if>
         </p>

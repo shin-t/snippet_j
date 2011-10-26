@@ -58,18 +58,30 @@ class TagController {
 
     def list = {
         def query
+        def tags
         if(params.status){
             if(params.username) {
-                query = "select distinct u.tag.name from UserTag u, TagLink t where t.type = 'snippet' and t.tag.name = u.tag.name and u.follower.username = ?"
-                render template:'list', model:[tags:Snippet.executeQuery(query, [params.username], params)]
+                query = "\
+                    select new map(u.tag.name as name, count(distinct u.tag.name) as count)\
+                    from UserTag u, TagLink t\
+                    where t.type = 'snippet' and t.tag.name = u.tag.name and u.follower.username = ?\
+                    group by name"
+                tags = Snippet.executeQuery(query, [params.username], params)
             } else {
-                query = "select tl.tag.name from TagLink tl, Snippet s where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ? group by tl.tag.name order by count(*) desc"
-                render template:'list', model:[tags:Snippet.executeQuery(query, [params.status], params)]
+                query = "\
+                    select new map(tl.tag.name as name, count(*) as count)\
+                    from TagLink tl, Snippet s\
+                    where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ?\
+                    group by tl.tag.name\
+                    order by count(*) desc"
+                tags = Snippet.executeQuery(query, [params.status], params)
             }
         } else {
             query = "select tl.tag.name from TagLink tl, Snippet s where tl.type = 'snippet' and tl.tagRef = s.id group by tl.tag.name order by count(*) desc"
-            render template:'list', model:[tags:Snippet.executeQuery(query, [], params)]
+            tags = Snippet.executeQuery(query, [], params)
         }
+        log.debug tags
+        render template:'list', model: [tags:tags]
     }
 
     def show = {

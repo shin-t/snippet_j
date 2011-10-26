@@ -9,7 +9,16 @@
     <div>
         <g:each in="${tags}" var="t">
         <g:if test="${params.status}">
-        <span><g:link controller="snippet" action="tag" params="[status: params.status, tag: t]" class="tag">${t.encodeAsHTML()}&nbsp;&times;${Snippet.countByTag(t).encodeAsHTML()}</g:link></span>
+        <span><g:link controller="snippet" action="tag" params="[status: params.status, tag: t.name.encodeAsURL()]" class="tag">${t.name.encodeAsHTML()}</g:link></span>
+        <span>
+            <g:if test="${params.username}">
+            <g:message code="following.label" default="Follow"/>
+            </g:if>
+            <g:else>
+            <g:message code="snippet.${params.status}.label" default="${params.status}"/>
+            </g:else>
+            &times;${t.count.encodeAsHTML()}
+        </span>
         </g:if>
         <g:else>
         <span><g:link controller="tag" action="index" params="[tag: t]" class="tag">${t.encodeAsHTML()}&nbsp;&times;${Snippet.countByTag(t).encodeAsHTML()}</g:link></span>

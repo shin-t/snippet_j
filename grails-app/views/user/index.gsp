@@ -51,6 +51,7 @@
                 </g:if>
                 </sec:ifLoggedIn>
             </div>
+            <div id="lists"><g:include controller="snippet" action="user" params="[username:userInstance.username]"/></div>
             </g:if>
             <g:else>
             <sec:ifLoggedIn>

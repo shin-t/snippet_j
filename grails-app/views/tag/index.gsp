@@ -50,6 +50,7 @@
                 </g:javascript>
                 </sec:ifLoggedIn>
             </div>
+            <div id="lists"><g:include controller="snippet" action="tag" params="[tag:params.tag]"/></div>
             </g:if>
             <g:else>
             <sec:ifLoggedIn>

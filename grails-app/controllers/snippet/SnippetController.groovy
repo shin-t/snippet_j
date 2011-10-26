@@ -14,31 +14,50 @@ class SnippetController {
     def tag = {
         log.debug params
         params.max = Math.min(params.max ? params.int('max') : 5, 30)
-        if(params.status && params.tag){
-            def query = "select s from Snippet s, TagLink t where s.status = ? and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
-            render view:'index', model:[
-                snippetInstanceList: Snippet.executeQuery(query, [params.status, params.tag], params),
-                snippetInstanceTotal: Snippet.executeQuery(query, [params.status, params.tag]).size(),
-                userInstance: springSecurityService.currentUser
-            ]
+        if(params.tag) {
+            if(params.status) {
+                def query = "select s from Snippet s, TagLink t where s.status = ? and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
+                render view:'index', model:[
+                    snippetInstanceList: Snippet.executeQuery(query, [params.status, params.tag], params),
+                    snippetInstanceTotal: Snippet.executeQuery(query, [params.status, params.tag]).size(),
+                    userInstance: springSecurityService.currentUser
+                ]
+            } else {
+                def query = "select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
+                render template:'list', model:[
+                    snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
+                    snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
+                    userInstance: springSecurityService.currentUser
+                ]
+            }
         } else {
             redirect action:list
         }
     }
 
     def user = {
-        log.debug params
-        params.max = Math.min(params.max ? params.int('max') : 5, 30)
-        params.sort = params.sort?:'dateCreated'
-        params.order = params.order?:'desc'
-        if(params.status && params.username){
+        if(params.username) {
             def userInstance = User.findByUsername(params.username)
+            params.max = Math.min(params.max ? params.int('max') : 5, 30)
+            params.sort = params.sort?:'dateCreated'
+            params.order = params.order?:'desc'
+            log.debug params
             if(userInstance){
-                render view:'index', model:[
-                    snippetInstanceList: Snippet.findAllByStatusAndUser(params.status, userInstance, params),
-                    snippetInstanceTotal: Snippet.countByStatusAndUser(params.status, userInstance),
-                    userInstance: springSecurityService.currentUser
-                ]
+                if(params.status) {
+                    render view:'index', model:[
+                        snippetInstanceList: Snippet.findAllByStatusAndUser(params.status, userInstance, params),
+                        snippetInstanceTotal: Snippet.countByStatusAndUser(params.status, userInstance),
+                        userInstance: springSecurityService.currentUser
+                    ]
+                } else {
+                    render template:'list', model:[
+                        snippetInstanceList: Snippet.findAllByUser(userInstance, params),
+                        snippetInstanceTotal: Snippet.countByUser(userInstance),
+                        userInstance: springSecurityService.currentUser
+                    ]
+                }
+            } else {
+                redirect action:list
             }
         } else {
             redirect action:list

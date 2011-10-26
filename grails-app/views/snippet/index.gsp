@@ -12,6 +12,7 @@
             <g:if test="${flash.message}">
             <p class="message"><span>${flash.message}</span></p>
             </g:if>
+            <g:if test="${actionName ==~ /list|tags|users/}">
             <g:include controller="snippet" action="create" params="[status:params.status]"/>
             <sec:ifLoggedIn>
             <div id="list_filter">
@@ -20,6 +21,7 @@
                 <div><g:link controller='snippet' action='users' params="[status: params.status]"><g:message code="user.label" default="Users"/></g:link></div>
             </div>
             </sec:ifLoggedIn>
+            </g:if>
             <div id="lists"><g:render template="list"/></div>
         </div>
         <div id="sidebar">

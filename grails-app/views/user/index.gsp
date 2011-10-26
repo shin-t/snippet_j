@@ -23,7 +23,7 @@
                 Problem &times;${Snippet.countByUserAndStatus(userInstance,2)}<br/>
                 Follower &times;${userInstance.follower.size()}</p>
                 <sec:ifLoggedIn>
-                <g:if test="${currentUser?.username != userInstance.username}">
+                <g:if test="${currentUser.username != userInstance.username}">
                 <div><g:checkBox name="follow_button"/><label for="follow_button"></label></div>
                 <g:javascript>
                     var follow_update = function(){

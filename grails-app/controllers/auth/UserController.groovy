@@ -58,7 +58,11 @@ class UserController {
         if(params.username) {
             def userInstance = User.findByUsername(params.username)
             if(userInstance) {
-                [userInstance:userInstance]
+                if(springSecurityService.isLoggedIn()) {
+                    [userInstance:userInstance, currentUser:springSecurityService.currentUser]
+                } else {
+                    [userInstance:userInstance]
+                }
             }
         }
     }

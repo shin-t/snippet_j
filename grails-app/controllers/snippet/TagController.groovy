@@ -57,8 +57,8 @@ class TagController {
     }
 
     def list = {
+        def query
         if(params.status){
-            def query
             if(params.username) {
                 query = "select distinct u.tag.name from UserTag u, TagLink t where t.type = 'snippet' and t.tag.name = u.tag.name and u.follower.username = ?"
                 render template:'list', model:[tags:Snippet.executeQuery(query, [params.username], params)]
@@ -66,6 +66,9 @@ class TagController {
                 query = "select tl.tag.name from TagLink tl, Snippet s where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ? group by tl.tag.name order by count(*) desc"
                 render template:'list', model:[tags:Snippet.executeQuery(query, [params.status], params)]
             }
+        } else {
+            query = "select tl.tag.name from TagLink tl, Snippet s where tl.type = 'snippet' and tl.tagRef = s.id group by tl.tag.name order by count(*) desc"
+            render template:'list', model:[tags:Snippet.executeQuery(query, [], params)]
         }
     }
 

@@ -1,6 +1,6 @@
 <g:formRemote name="reply" url="[controller:'snippet',action:'save']" update="[success:'',failure:'reply_'+parent_id]" onSuccess="jQuery('.reply_form').empty();jQuery('#lists').prepend(data);button_icons()">
     <g:hiddenField name="parent_id" value="${parent_id}" />
-    <div class="header"><g:message code="default.reply.label" default="reply"/></div>
+    <div class="header"><g:message code="snippet.button.reply.label" default="reply"/></div>
     <g:hasErrors bean="${snippetInstance}">
     <div class="errors"><g:renderErrors bean="${snippetInstance}" as="list" /></div>
     </g:hasErrors>
@@ -13,7 +13,7 @@
         <div class="value"><g:textArea name="file" value="${snippetInstance?.file}" /></div>
     </div>
     <div class="prop">
-        <div class="name"><label for="tags"><g:message code="snippet.tags.label" default="Tags" /></label></div>
+        <div class="name"><label for="tags"><g:message code="tag.label" default="Tags" /></label></div>
         <div class="value"><g:textField name="tags" value="${tags}" /></div>
     </div>
     <div class="buttons">

@@ -3,7 +3,7 @@
         <g:hiddenField name="parent_id" value="${parent_id}"/>
         <g:hiddenField name="help" value="${snippetInstance.help}"/>
         <g:hiddenField name="status" value="${snippetInstance.status}"/>
-        <h1 class="header"><g:message code="snippet.status.${snippetInstance.status}.label" default="Snippet"/></h1>
+        <h1 class="header"><g:message code="snippet.${snippetInstance.status}.label" default="Snippet"/></h1>
         <g:hasErrors bean="${snippetInstance}">
         <div class="errors"><g:renderErrors bean="${snippetInstance}" as="list"/></div>
         </g:hasErrors>
@@ -16,7 +16,7 @@
             <div class="value"><g:textArea name="file" value="${snippetInstance.file}" placeholder="コード、入出力例、ログ等"/></div>
         </div>
         <div class="prop">
-            <div class="name"><label for="tags"><g:message code="snippet.tags.label" default="Tags"/></label></div>
+            <div class="name"><label for="tags"><g:message code="tag.label" default="Tags"/></label></div>
             <div class="value"><g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" placeholder="空白文字で区切る"/></div>
         </div>
         <div class="prop" style="${snippetInstance.status=='problem'?'':'display:none'}">

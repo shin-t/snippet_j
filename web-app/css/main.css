@@ -77,6 +77,14 @@ a:hover {
 #nav a {
     text-decoration: none;
 }
+#nav-list {
+    list-style-type: none;
+}
+#nav-list > li {
+    float:left;
+    margin: 40px 8px 0;
+    height: 24px;
+}
 /* DIALOG */
 .dialog {
     border: solid 1px #777;

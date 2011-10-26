@@ -9,7 +9,12 @@
         <g:each in="${users}" var="c">
         <span class="user">
             <gravatar:img hash="${c.gravatar_hash}" size="16"/>
+            <g:if test="${params.status}">
             <g:link controller="snippet" action="user" params="[status: params.status, username: c.username]">${c.username.encodeAsHTML()}</g:link>
+            </g:if>
+            <g:else>
+            <g:link controller="user" action="index" params="[username: c.username]">${c.username.encodeAsHTML()}</g:link>
+            </g:else>
         </span>
         </g:each>
     </div>

@@ -16,8 +16,8 @@
             <sec:ifLoggedIn>
             <div id="list_filter">
                 <div><g:link controller='snippet' action='list' params="[status: params.status]"><g:message code="list.filter.all.label"/></g:link></div>
-                <div><g:link controller='snippet' action='users' params="[status: params.status]"><g:message code="user.label"/></g:link></div>
-                <div><g:link controller='snippet' action='tags' params="[status: params.status]"><g:message code="snippet.tags.label"/></g:link></div>
+                <div><g:link controller='snippet' action='tags' params="[status: params.status]"><g:message code="tag.label" default="Tags"/></g:link></div>
+                <div><g:link controller='snippet' action='users' params="[status: params.status]"><g:message code="user.label" default="Users"/></g:link></div>
             </div>
             </sec:ifLoggedIn>
             <div id="lists"><g:render template="list"/></div>

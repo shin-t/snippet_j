@@ -14,14 +14,11 @@
             </g:if>
             <g:if test="${userInstance}">
             <div id="user_info">
-                <p>
-                    <gravatar:img hash="${userInstance.gravatar_hash}" size="32"/>
-                    ${params.username.encodeAsHTML()}
-                </p>
-                <p>Snippet &times;${Snippet.countByUserAndStatus(userInstance,0)},
-                Question &times;${Snippet.countByUserAndStatus(userInstance,1)},
-                Problem &times;${Snippet.countByUserAndStatus(userInstance,2)}<br/>
-                Follower &times;${userInstance.follower.size()}</p>
+                <p><gravatar:img hash="${userInstance.gravatar_hash}" size="32"/>${userInstance.username.encodeAsHTML()}</p>
+                <p><g:message code="snippet.snippet.label" default="Snippet"/> &times;${Snippet.countByUserAndStatus(userInstance,'snippet')},
+                <g:message code="snippet.question.label" default="Question"/>  &times;${Snippet.countByUserAndStatus(userInstance,'question')},
+                <g:message code="snippet.problem.label" default="Problem"/> &times;${Snippet.countByUserAndStatus(userInstance,'problem')}<br/>
+                <g:message code="following.label" default="Follow"/> &times;${userInstance.follower.size()}</p>
                 <sec:ifLoggedIn>
                 <g:if test="${currentUser.username != userInstance.username}">
                 <div><g:checkBox name="follow_button"/><label for="follow_button"></label></div>

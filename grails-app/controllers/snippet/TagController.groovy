@@ -54,6 +54,15 @@ class TagController {
     }
 
     def index = {
+        if(params.status) {
+        } else {
+            def query = "from Snippet s, TagLink t where s.status = ? and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ?"
+            [userInstance: springSecurityService.currentUser,
+                count_snippet: Snippet.executeQuery(query,['snippet', params.tag]).size(),
+                count_question: Snippet.executeQuery(query,['question', params.tag]).size(),
+                count_problem: Snippet.executeQuery(query,['problem', params.tag]).size(),
+                follower: Snippet.executeQuery("from UserTag u where u.tag.name = ?",[params.tag]).size()]
+        }
     }
 
     def list = {
@@ -85,9 +94,5 @@ class TagController {
     }
 
     def show = {
-            def query = "from Snippet s, TagLink t where s.status = ? and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ?"
-        [userInstance: springSecurityService.currentUser,
-            count: Snippet.executeQuery(query,[params.status, params.tag]).size(),
-            follower: Snippet.executeQuery("from UserTag u where u.tag.name = ?",[params.tag]).size()]
     }
 }

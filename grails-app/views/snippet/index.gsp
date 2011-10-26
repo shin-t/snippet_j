@@ -29,8 +29,8 @@
             <g:include controller="tag" action="list" params="[status:params.status, username: sec.loggedInUserInfo(field:'username')]"/>
             <g:include controller="user" action="list" params="[status:params.status, username: sec.loggedInUserInfo(field:'username')]"/>
             </sec:ifLoggedIn>
-            <g:include controller="tag" action="list" params="[status:params.status]"/>
-            <g:include controller="user" action="list" params="[status:params.status]"/>
+            <g:include controller="tag" action="list" params="[status:params.status, max:5]"/>
+            <g:include controller="user" action="list" params="[status:params.status, max:5]"/>
         </div>
     </body>
 </html>

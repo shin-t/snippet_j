@@ -56,12 +56,10 @@ class TagController {
     def index = {
         if(params.status) {
         } else {
-            def query = "from Snippet s, TagLink t where s.status = ? and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ?"
-            [userInstance: springSecurityService.currentUser,
-                count_snippet: Snippet.executeQuery(query,['snippet', params.tag]).size(),
-                count_question: Snippet.executeQuery(query,['question', params.tag]).size(),
-                count_problem: Snippet.executeQuery(query,['problem', params.tag]).size(),
-                follower: Snippet.executeQuery("from UserTag u where u.tag.name = ?",[params.tag]).size()]
+            def query = "select new map(s.status as status, count(*) as count) from Snippet s, TagLink tl where s.id = tl.tagRef and tl.type = 'snippet' and tl.tag.name = ? group by s.status"
+            def counts = Snippet.executeQuery(query,[params.tag]).inject([:]){ s, e -> s << [(e.status):e.count] }
+            log.debug counts
+            [userInstance: springSecurityService.currentUser, counts: counts , follower: Snippet.executeQuery("from UserTag u where u.tag.name = ?",[params.tag]).size()]
         }
     }
 

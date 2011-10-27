@@ -9,7 +9,6 @@ class UrlMappings {
 
         /* snippet */
         "/show/$id"(controller:'snippet', action:'show')
-
         "/$status" {
             controller = 'snippet'
             action = 'list'
@@ -17,7 +16,6 @@ class UrlMappings {
                 status matches:/snippet|question|problem/
             }
         }
-
         "/$status/tags" {
             controller = 'snippet'
             action = 'tags'
@@ -25,7 +23,6 @@ class UrlMappings {
                 status matches:/snippet|question|problem/
             }
         }
-
         "/$status/tag/$tag" {
             controller = 'snippet'
             action = 'tag'
@@ -33,7 +30,6 @@ class UrlMappings {
                 status matches:/snippet|question|problem/
             }
         }
-
         "/$status/users" {
             controller = 'snippet'
             action = 'users'
@@ -41,7 +37,6 @@ class UrlMappings {
                 status matches:/snippet|question|problem/
             }
         }
-
         "/$status/user/$username" {
             controller = 'snippet'
             action = 'user'
@@ -55,7 +50,6 @@ class UrlMappings {
             controller = 'user'
             action = 'index'
         }
-
         "/user/$username/$action" {
             controller = 'user'
             constraints {
@@ -64,11 +58,11 @@ class UrlMappings {
         }
 
         /* tag */
-        "/tag/$tag?" {
+        '/tag' (controller:'tag', action:'index')
+        "/tag/$tag" {
             controller = 'tag'
-            action = 'index'
+            action = 'show'
         }
-
         "/tag/$tag/$action" {
             controller = 'tag'
             constraints {
@@ -82,7 +76,7 @@ class UrlMappings {
                 // apply constraints here
             }
         }
-        
+
         '/'(view:'/index')
         '500'(view:'/error')
     }

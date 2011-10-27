@@ -24,7 +24,7 @@
                     </p>
                 </g:if>
                 <g:else>
-                    <span><g:link controller="tag" action="index" params="[tag: t.name.encodeAsURL()]" class="tag">${t.name.encodeAsHTML()}</g:link></span>
+                    <span><g:link controller="tag" action="show" params="[tag: t.name.encodeAsURL()]" class="tag">${t.name.encodeAsHTML()}</g:link></span>
                 </g:else>
             </g:each>
         </div>

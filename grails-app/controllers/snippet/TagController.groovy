@@ -76,8 +76,8 @@ class TagController {
                 select new map(tl.tag.name as name, count(*) as count)\
                 from TagLink tl, Snippet s\
                 where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ?\
-                group by tl.tag.name\
-                order by count(*) desc"
+                group by name\
+                order by count(*) desc, name asc"
             tags = Snippet.executeQuery(query, [params.status], params)
         } else {
             query = "select new map(tl.tag.name as name) from TagLink tl where tl.type = 'snippet' group by tl.tag.name order by count(name) desc, name asc"

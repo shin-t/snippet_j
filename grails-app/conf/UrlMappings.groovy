@@ -45,26 +45,21 @@ class UrlMappings {
             }
         }
 
-        /* user */
-        "/user/$username?" {
-            controller = 'user'
-            action = 'index'
-        }
-        "/user/$username/$action" {
-            controller = 'user'
+        /* tag */
+        '/tag' (controller:'tag', action:'index')
+        "/tag/$tag" (controller:'tag', action:'show')
+        "/tag/$tag/$action" {
+            controller = 'tag'
             constraints {
                 action(matches:/follow_check|follow|unfollow/)
             }
         }
 
-        /* tag */
-        '/tag' (controller:'tag', action:'index')
-        "/tag/$tag" {
-            controller = 'tag'
-            action = 'show'
-        }
-        "/tag/$tag/$action" {
-            controller = 'tag'
+        /* user */
+        '/user' (controller:'user', action:'index')
+        "/user/$username" (controller:'user', action:'show')
+        "/user/$username/$action" {
+            controller = 'user'
             constraints {
                 action(matches:/follow_check|follow|unfollow/)
             }

@@ -110,15 +110,9 @@ class UserController {
         params.order = params.order?:'desc'
         if(params.username){
             userInstance=User.findByUsername(params.username)
-        }
-        else if(springSecurityService.isLoggedIn()){
-            userInstance=springSecurityService.currentUser
-        }
-        if(userInstance){
-            [currentUser: springSecurityService.currentUser, user:userInstance]
-        }
-        else{
-            redirect(controller:'login',view:'auth')
+            if(userInstance){
+                [currentUser: springSecurityService.currentUser, userInstance:userInstance]
+            }
         }
     }
 

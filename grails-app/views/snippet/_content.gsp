@@ -3,7 +3,7 @@
         <p>
             <span class="username">
                 <gravatar:img hash="${snippetInstance.user.gravatar_hash}" size="18"/>
-                <g:link controller="user" params="[username:snippetInstance.user.username]">${fieldValue(bean: snippetInstance.user, field: "username")}</g:link>
+                <g:link controller="user" action="show" params="[username:snippetInstance.user.username]">${fieldValue(bean: snippetInstance.user, field: "username")}</g:link>
             </span>
             <g:if test="${snippetInstance.parent}">
             &raquo;

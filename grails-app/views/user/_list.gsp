@@ -13,7 +13,7 @@
             <g:link controller="snippet" action="user" params="[status: params.status, username: c.username]">${c.username.encodeAsHTML()}</g:link>
             </g:if>
             <g:else>
-            <g:link controller="user" action="index" params="[username: c.username]">${c.username.encodeAsHTML()}</g:link>
+            <g:link controller="user" action="show" params="[username: c.username]">${c.username.encodeAsHTML()}</g:link>
             </g:else>
         </span>
         </g:each>

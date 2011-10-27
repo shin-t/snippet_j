@@ -11,8 +11,7 @@
             <g:each in="${tags}" var="t">
                 <g:if test="${params.status}">
                     <p>
-                        <g:link controller="snippet" action="tag" params="[status: params.status, tag: t.name.encodeAsURL()]" class="tag">${t.name.encodeAsHTML()}</g:link>
-                        <br/>
+                        <g:link controller="snippet" action="tag" params="[status: params.status, tag: t.name.encodeAsURL()]" class="tag">${t.name.encodeAsHTML()}</g:link><br/>
                         <span>
                         <g:if test="${params.username}">
                             <g:message code="following.label" default="Follow"/>
@@ -25,7 +24,7 @@
                     </p>
                 </g:if>
                 <g:else>
-                    <span><g:link controller="tag" action="index" params="[tag: t.name.encodeAsURL()]" class="tag">${t.name.encodeAsHTML()}&nbsp;&times;${t.count.encodeAsHTML()}</g:link></span>
+                    <span><g:link controller="tag" action="index" params="[tag: t.name.encodeAsURL()]" class="tag">${t.name.encodeAsHTML()}</g:link></span>
                 </g:else>
             </g:each>
         </div>

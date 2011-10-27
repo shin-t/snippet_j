@@ -44,9 +44,7 @@ class TagController {
             def instance
             if(tag){
                 instance = UserTag.get(currentUser.id, tag.name)
-                if(instance){
-                    instance.delete(flush:true)
-                }
+                if(instance) instance.delete(flush:true)
                 render (status:204, text:'')
             }
             else render ([message: 'Not Found'] as JSON)
@@ -73,7 +71,7 @@ class TagController {
                 where t.type = 'snippet' and t.tag.name = u.tag.name and u.follower.username = ?\
                 group by name"
             tags = Snippet.executeQuery(query, [params.username], params)
-        } else if(params.status){
+        } else if(params.status) {
             query = "\
                 select new map(tl.tag.name as name, count(*) as count)\
                 from TagLink tl, Snippet s\
@@ -82,7 +80,7 @@ class TagController {
                 order by count(*) desc"
             tags = Snippet.executeQuery(query, [params.status], params)
         } else {
-            query = "select new map(tl.tag.name as name, count(*) as count) from TagLink tl, Snippet s where tl.type = 'snippet' and tl.tagRef = s.id group by tl.tag.name order by count(*) desc"
+            query = "select new map(tl.tag.name as name) from TagLink tl where tl.type = 'snippet' group by tl.tag.name order by count(name) desc, name asc"
             tags = Snippet.executeQuery(query, [], params)
         }
         log.debug tags

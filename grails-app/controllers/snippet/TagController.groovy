@@ -51,33 +51,30 @@ class TagController {
         }
     }
 
-    def index = {
-    }
-
-    def list = {
-        def query
-        def tags
-        if(params.username) {
-            query = "\
+    @Secured(['ROLE_USER'])
+    def following = {
+        def query = "\
                 select new map(u.tag.name as name, count(distinct u.tag.name) as count)\
                 from UserTag u, TagLink t\
                 where t.type = 'snippet' and t.tag.name = u.tag.name and u.follower.username = ?\
                 group by name"
-            tags = Snippet.executeQuery(query, [params.username], params)
-        } else if(params.status) {
-            query = "\
-                select new map(tl.tag.name as name, count(*) as count)\
-                from TagLink tl, Snippet s\
-                where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ?\
-                group by name\
-                order by count(*) desc, name asc"
-            tags = Snippet.executeQuery(query, [params.status], params)
-        } else {
-            query = "select new map(tl.tag.name as name) from TagLink tl where tl.type = 'snippet' group by tl.tag.name order by count(name) desc, name asc"
-            tags = Snippet.executeQuery(query, [], params)
-        }
-        log.debug tags
-        render template:'list', model:[tags:tags]
+        render template:'list', model:[
+            tags:Snippet.executeQuery(query, [springSecurityService.principal.username], params),
+            total:Snippet.executeQuery(query, [springSecurityService.principal.username])
+        ]
+    }
+
+    def index = {
+    }
+
+    def list = {
+        def query = "\
+            select new map(tl.tag.name as name, count(*) as count)\
+            from TagLink tl, Snippet s\
+            where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ?\
+            group by name\
+            order by count(*) desc, name asc"
+        render template:'list', model:[tags:Snippet.executeQuery(query, [params.status], params), total:Snippet.executeQuery(query, [params.status])]
     }
 
     def show = {

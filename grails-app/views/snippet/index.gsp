@@ -26,7 +26,7 @@
         </div>
         <div id="sidebar">
             <sec:ifLoggedIn>
-            <g:include controller="tag" action="list" params="[status:params.status, username: sec.loggedInUserInfo(field:'username'), max:5]"/>
+            <g:include controller="tag" action="following" params="[status:params.status]"/>
             </sec:ifLoggedIn>
             <g:include controller="tag" action="list" params="[status:params.status, max:5]"/>
         </div>

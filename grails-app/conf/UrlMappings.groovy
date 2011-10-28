@@ -44,6 +44,10 @@ class UrlMappings {
                 status matches:/snippet|question|problem/
             }
         }
+        '/tag/following' {
+            controller = 'tag'
+            action = 'following'
+        }
         "/tag/$tag/$action" {
             controller = 'tag'
             constraints {

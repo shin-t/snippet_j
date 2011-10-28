@@ -107,16 +107,8 @@ class UserController {
     }
 
     def list = {
-        def query
-        if(params.username) {
-            // following
-            query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash) from User u, UserUser uu where u.username = uu.user.username and uu.follower.username = ? "
-            render template:'list', model:[users:User.executeQuery(query,[params.username],params), total:User.executeQuery(query,[params.username])]
-        } else {
-            // users
-            query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash, u.follower.size as followers) from User u order by u.follower.size desc"
-            render template:'list', model:[users:User.executeQuery(query,[],params), total:User.executeQuery(query)]
-        }
+        def query= "select new map(u.username as username, u.gravatar_hash as gravatar_hash, u.follower.size as followers) from User u order by u.follower.size desc"
+        [users:User.executeQuery(query,[],params), total:User.executeQuery(query)]
     }
 
     def create = {

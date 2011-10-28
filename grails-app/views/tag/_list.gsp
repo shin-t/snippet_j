@@ -5,7 +5,7 @@
         <g:message code="following.tags.label" default="Following tags"/>
         </g:if>
         <g:else>
-        <g:message code="snippet.${params.status}.label" default=""/> / <g:message code="tag.label" default="Tags"/>
+        <g:message code="tag.label" default="Tags"/>
         </g:else>
     </div>
     <g:if test="${tags}">

@@ -28,6 +28,7 @@
             <sec:ifLoggedIn>
             <g:include controller="tag" action="following" params="[status:params.status]"/>
             </sec:ifLoggedIn>
+            <g:include controller="tag" action="recent" params="[status:params.status]"/>
         </div>
     </body>
 </html>

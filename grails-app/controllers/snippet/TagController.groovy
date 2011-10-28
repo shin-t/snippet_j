@@ -51,6 +51,17 @@ class TagController {
         }
     }
 
+    def recent = {
+        def date = new Date() - 7
+        def query = "\
+            select new map(tl.tag.name as name, count(*) as count)\
+            from TagLink tl, Snippet s\
+            where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ? and s.dateCreated > ?\
+            group by name\
+            order by count(*) desc, name asc"
+        render template:'list', model:[tags:Snippet.executeQuery(query, [params.status, date], [max:10]), total:Snippet.executeQuery(query, [params.status, date])]
+    }
+
     @Secured(['ROLE_USER'])
     def following = {
         def query = "\

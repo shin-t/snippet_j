@@ -110,14 +110,6 @@ class SnippetController {
     }
 
     def index = {
-        /*
-        println "--"
-        println "${Snippet.class}"
-        println "${Snippet.name}"
-        println "${Snippet.simpleName}"
-        println "${GrailsClassUtils.getShortName(Snippet)}"
-        println "${Snippet.get(1).class.name}"
-        */
     }
 
     def list = {

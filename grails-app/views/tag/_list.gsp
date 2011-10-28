@@ -24,7 +24,12 @@
             </g:each>
         </div>
         <g:if test="${params.max}">
-            <div class="more_link"><g:link controller="tag" params="[status: params.status]"><g:message code="tags.all.label" default="tags"/></g:link></div>
+            <g:if test="${params.username}">
+            <div class="more_link"><g:link controller="tag" params="[status:params.status, username:params.username]"><g:message code="tags.all.label" default="tags"/></g:link></div>
+            </g:if>
+            <g:else>
+            <div class="more_link"><g:link controller="tag" params="[status:params.status]"><g:message code="tags.all.label" default="tags"/></g:link></div>
+            </g:else>
         </g:if>
     </g:if>
 </div>

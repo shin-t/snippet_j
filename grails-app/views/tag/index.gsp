@@ -13,10 +13,12 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <sec:ifLoggedIn>
+            <g:if test="${params.username}">
             <div id="content"><g:include controller="tag" action="list" params="[status:params.status, username:sec.loggedInUserInfo(field:'username')]"/></div>
-            </sec:ifLoggedIn>
+            </g:if>
+            <g:else>
             <div id="content"><g:include controller="tag" action="list" params="[status:params.status]"/></div>
+            </g:else>
         </div>
         <div id="sidebar">
         </div>

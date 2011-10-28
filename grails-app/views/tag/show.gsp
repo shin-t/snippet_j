@@ -50,6 +50,7 @@
                 </g:javascript>
                 </sec:ifLoggedIn>
             </div>
+            <div id="lists"><g:include controller="tag" action="${params.status}" params="[tag:params.tag, status:params.status]"/></div>
         </div>
         <div id="sidebar">
         </div>

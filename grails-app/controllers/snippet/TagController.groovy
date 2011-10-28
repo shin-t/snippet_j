@@ -51,6 +51,40 @@ class TagController {
         }
     }
 
+    def snippet = {
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
+        def query = "select s from Snippet s, TagLink t where s.status = 'snippet' and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
+        render template:'/snippet/list', model:[
+            snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
+            snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
+            userInstance: springSecurityService.currentUser
+        ]
+    }
+
+    def question = {
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
+        def query = "select s from Snippet s, TagLink t where s.status = 'question' and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
+        render template:'/snippet/list', model:[
+            snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
+            snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
+            userInstance: springSecurityService.currentUser
+        ]
+    }
+
+    def problem = {
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
+        if(params.tag) {
+            if(params.status) {
+                def query = "select s from Snippet s, TagLink t where s.status = 'problem' and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
+                render template:'/snippet/list', model:[
+                    snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
+                    snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
+                    userInstance: springSecurityService.currentUser
+                ]
+            }
+        }
+    }
+
     def recent = {
         def date = new Date() - 7
         def query = "\

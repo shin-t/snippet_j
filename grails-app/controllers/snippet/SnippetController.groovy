@@ -11,21 +11,6 @@ class SnippetController {
 
     def springSecurityService
 
-    def tag = {
-        log.debug params
-        params.max = Math.min(params.max ? params.int('max') : 5, 30)
-        if(params.tag) {
-            if(params.status) {
-                def query = "select s from Snippet s, TagLink t where s.status = ? and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
-                render view:'index', model:[
-                    snippetInstanceList: Snippet.executeQuery(query, [params.status, params.tag], params),
-                    snippetInstanceTotal: Snippet.executeQuery(query, [params.status, params.tag]).size(),
-                    userInstance: springSecurityService.currentUser
-                ]
-            }
-        }
-    }
-
     @Secured(['ROLE_USER'])
     def tags = {
         log.debug params

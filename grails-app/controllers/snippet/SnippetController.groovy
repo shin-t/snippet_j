@@ -22,16 +22,7 @@ class SnippetController {
                     snippetInstanceTotal: Snippet.executeQuery(query, [params.status, params.tag]).size(),
                     userInstance: springSecurityService.currentUser
                 ]
-            } else {
-                def query = "select s from Snippet s, TagLink t where s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
-                render template:'list', model:[
-                    snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
-                    snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
-                    userInstance: springSecurityService.currentUser
-                ]
             }
-        } else {
-            redirect action:list
         }
     }
 

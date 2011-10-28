@@ -52,7 +52,7 @@
             </div>
             <g:if test="${params.status}">
                 <div id="lists">
-                    <g:include controller="user" action="${params.status}" params="[username:params.username]"/>
+                    <g:include controller="user" action="${params.status}" params="[username:params.username, status:params.status]"/>
                 </div>
             </g:if>
             <g:else>

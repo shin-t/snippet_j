@@ -17,7 +17,7 @@
         <p class="tags">
             <g:message code="snippet.tags.label" default="Tags"/>
             <g:each in="${snippetInstance.tags}" var="tag">
-            <g:link controller="tag" action="show" params="[tag: tag]">${tag.encodeAsHTML()}</g:link>
+            <g:link controller="tag" action="show" params="[tag: tag, status: params.status]">${tag.encodeAsHTML()}</g:link>
             </g:each>
         </p>
         </g:if>

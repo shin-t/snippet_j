@@ -16,7 +16,6 @@
                 </g:if>
             </div>
         </div>
-        <div id="sidebar">
-        </div>
+        <div id="sidebar"></div>
     </body>
 </html>

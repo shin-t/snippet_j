@@ -10,18 +10,13 @@
         <div id="spinner" class="spinner" style="display:none;"><img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}"/></div>
         <div id="header">
             <h1><g:link url="[controller:null]">Snippet</g:link></h1>
+            <g:if test="${params.status}">
             <ul id="nav-list">
-                <g:if test="${params.status}">
                 <li><g:link controller="snippet" action="list" params="[status:params.status]"><g:message code="snippet.${params.status}.label" default="Snippets"/></g:link></li>
                 <li><g:link controller="tag" action="list" params="[status:params.status]"><g:message code="tag.label" default="Tags"/></g:link></li>
-                </g:if>
-                <g:else>
-                <li><g:link controller="snippet" action="list" params="[status:'snippet']"><g:message code="snippet.snippet.label" default="Snippets"/></g:link></li>
-                <li><g:link controller="snippet" action="list" params="[status:'question']"><g:message code="snippet.question.label" default="Questions"/></g:link></li>
-                <li><g:link controller="snippet" action="list" params="[status:'problem']"><g:message code="snippet.problem.label" default="Problems"/></g:link></li>
-                <li><g:link controller="user" action="index"><g:message code="user.label" default="Users"/></g:link></li>
-                </g:else>
+                <li><g:link controller="user" action="index" params="[status:params.status]"><g:message code="user.label" default="Users"/></g:link></li>
             </ul>
+            </g:if>
             <div id="nav">
                 <sec:ifLoggedIn>
                 <div><g:link controller='user' action='show' params="[username: sec.loggedInUserInfo(field:'username')]"><sec:username /></g:link></div>

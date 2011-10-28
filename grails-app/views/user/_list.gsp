@@ -1,6 +1,7 @@
+<g:if test="${users}">
 <div id="users" class="content">
     <g:if test="${params.username}">
-    <div><g:message code="following.users.label" default="Follwing users" /></div>
+    <div><g:message code="${actionName}.users.label" default="Follwing users" /></div>
     </g:if><g:else>
     <div><g:message code="user.label" default="Users" /></div>
     </g:else>
@@ -17,3 +18,4 @@
     </g:each>
     <g:paginate total="${total}"/>
 </div>
+</g:if>

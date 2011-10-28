@@ -55,6 +55,10 @@
                     <g:include controller="user" action="${params.status}" params="[username:params.username]"/>
                 </div>
             </g:if>
+            <g:else>
+                <g:include controller="user" action="following" params="[username:params.username]"/>
+                <g:include controller="user" action="followers" params="[username:params.username]"/>
+            </g:else>
         </div>
         <div id="sidebar">
         </div>

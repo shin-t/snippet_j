@@ -32,7 +32,7 @@ class UrlMappings {
         }
         "/$status/tag" {
             controller = 'tag'
-            action = 'index'
+            action = 'list'
             constraints {
                 status matches:/snippet|question|problem/
             }

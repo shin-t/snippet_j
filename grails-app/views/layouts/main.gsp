@@ -13,7 +13,7 @@
             <ul id="nav-list">
                 <g:if test="${params.status}">
                 <li><g:link controller="snippet" action="list" params="[status:params.status]"><g:message code="snippet.${params.status}.label" default="Snippets"/></g:link></li>
-                <li><g:link controller="tag" action="index" params="[status:params.status]"><g:message code="tag.label" default="Tags"/></g:link></li>
+                <li><g:link controller="tag" action="list" params="[status:params.status]"><g:message code="tag.label" default="Tags"/></g:link></li>
                 </g:if>
                 <g:else>
                 <li><g:link controller="snippet" action="list" params="[status:'snippet']"><g:message code="snippet.snippet.label" default="Snippets"/></g:link></li>

@@ -64,9 +64,6 @@ class TagController {
         ]
     }
 
-    def index = {
-    }
-
     def list = {
         def query = "\
             select new map(tl.tag.name as name, count(*) as count)\
@@ -74,7 +71,7 @@ class TagController {
             where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ?\
             group by name\
             order by count(*) desc, name asc"
-        render template:'list', model:[tags:Snippet.executeQuery(query, [params.status], params), total:Snippet.executeQuery(query, [params.status])]
+        [tags:Snippet.executeQuery(query, [params.status], params), total:Snippet.executeQuery(query, [params.status])]
     }
 
     def show = {

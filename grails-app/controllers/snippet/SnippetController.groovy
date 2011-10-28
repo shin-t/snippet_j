@@ -35,35 +35,6 @@ class SnippetController {
         }
     }
 
-    def user = {
-        if(params.username) {
-            def userInstance = User.findByUsername(params.username)
-            params.max = Math.min(params.max ? params.int('max') : 5, 30)
-            params.sort = params.sort?:'dateCreated'
-            params.order = params.order?:'desc'
-            log.debug params
-            if(userInstance){
-                if(params.status) {
-                    render view:'index', model:[
-                        snippetInstanceList: Snippet.findAllByStatusAndUser(params.status, userInstance, params),
-                        snippetInstanceTotal: Snippet.countByStatusAndUser(params.status, userInstance),
-                        userInstance: springSecurityService.currentUser
-                    ]
-                } else {
-                    render template:'list', model:[
-                        snippetInstanceList: Snippet.findAllByUser(userInstance, params),
-                        snippetInstanceTotal: Snippet.countByUser(userInstance),
-                        userInstance: springSecurityService.currentUser
-                    ]
-                }
-            } else {
-                redirect action:list
-            }
-        } else {
-            redirect action:list
-        }
-    }
-
     @Secured(['ROLE_USER'])
     def tags = {
         log.debug params

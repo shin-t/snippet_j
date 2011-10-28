@@ -50,6 +50,11 @@
                 </g:if>
                 </sec:ifLoggedIn>
             </div>
+            <g:if test="${params.status}">
+                <div id="lists">
+                    <g:include controller="user" action="${params.status}" params="[username:params.username]"/>
+                </div>
+            </g:if>
         </div>
         <div id="sidebar">
         </div>

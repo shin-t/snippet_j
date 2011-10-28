@@ -54,6 +54,45 @@ class UserController {
         }
     }
 
+    def snippet = {
+        if(params.username) {
+            def userInstance = User.findByUsername(params.username)
+            if(userInstance) {
+                render template:'/snippet/list', model:[
+                    userInstance:userInstance,
+                    snippetInstanceList:Snippet.findAllByStatusAndUser('snippet',userInstance),
+                    snippetInstanceTotal:Snippet.countByStatusAndUser('snippet',userInstance)
+                ]
+            }
+        }
+    }
+
+    def question = {
+        if(params.username) {
+            def userInstance = User.findByUsername(params.username)
+            if(userInstance) {
+                render template:'/snippet/list', model:[
+                    userInstance:userInstance,
+                    snippetInstanceList:Snippet.findAllByStatusAndUser('question',userInstance),
+                    snippetInstanceTotal:Snippet.countByStatusAndUser('question',userInstance)
+                ]
+            }
+        }
+    }
+
+    def problem = {
+        if(params.username) {
+            def userInstance = User.findByUsername(params.username)
+            if(userInstance) {
+                render template:'/snippet/list', model:[
+                    userInstance:userInstance,
+                    snippetInstanceList:Snippet.findAllByStatusAndUser('problem',userInstance),
+                    snippetInstanceTotal:Snippet.countByStatusAndUser('problem',userInstance)
+                ]
+            }
+        }
+    }
+
     def index = {
         if(params.username) {
             def userInstance = User.findByUsername(params.username)
@@ -108,6 +147,7 @@ class UserController {
         params.max = Math.min(params.max ? params.int('max') : 10, 30)
         params.sort = params.sort?:'dateCreated'
         params.order = params.order?:'desc'
+        log.debug params
         if(params.username){
             userInstance=User.findByUsername(params.username)
             if(userInstance){

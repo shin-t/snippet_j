@@ -8,7 +8,6 @@ class UrlMappings {
         '/settings'(controller:'user',action:'edit')
 
         /* snippet */
-        "/show/$id"(controller:'snippet', action:'show')
         "/$status" {
             controller = 'snippet'
             action = 'list'
@@ -16,16 +15,10 @@ class UrlMappings {
                 status matches:/snippet|question|problem/
             }
         }
+        "/show/$id"(controller:'snippet', action:'show')
         "/$status/tags" {
             controller = 'snippet'
             action = 'tags'
-            constraints {
-                status matches:/snippet|question|problem/
-            }
-        }
-        "/$status/tag/$tag" {
-            controller = 'snippet'
-            action = 'tag'
             constraints {
                 status matches:/snippet|question|problem/
             }
@@ -37,31 +30,44 @@ class UrlMappings {
                 status matches:/snippet|question|problem/
             }
         }
-        "/$status/user/$username" {
-            controller = 'snippet'
-            action = 'user'
+        "/$status/tag" {
+            controller = 'tag'
+            action = 'index'
             constraints {
                 status matches:/snippet|question|problem/
             }
         }
-
-        /* tag */
-        '/tag' (controller:'tag', action:'index')
-        "/tag/$tag" (controller:'tag', action:'show')
+        "/$status/tag/$tag" {
+            controller = 'tag'
+            action = 'show'
+            constraints {
+                status matches:/snippet|question|problem/
+            }
+        }
         "/tag/$tag/$action" {
             controller = 'tag'
             constraints {
-                action(matches:/follow_check|follow|unfollow/)
+                action matches:/follow_check|follow|unfollow/
             }
         }
 
         /* user */
-        '/user' (controller:'user', action:'index')
-        "/user/$username" (controller:'user', action:'show')
+        '/user'(controller:'user', action='index')
+        "/user/$username" {
+            controller = 'user'
+            action = 'show'
+        }
+        "/user/$username/$status" {
+            controller = 'user'
+            action = 'show'
+            constraints {
+                status matches:/snippet|question|problem/
+            }
+        }
         "/user/$username/$action" {
             controller = 'user'
             constraints {
-                action(matches:/follow_check|follow|unfollow/)
+                action matches:/follow_check|follow|unfollow/
             }
         }
 

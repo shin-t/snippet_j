@@ -14,9 +14,9 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <sec:ifLoggedIn>
-            <div id="content"><g:include controller="tag" action="list" params="[username:sec.loggedInUserInfo(field:'username')]"/></div>
+            <div id="content"><g:include controller="tag" action="list" params="[status:params.status, username:sec.loggedInUserInfo(field:'username')]"/></div>
             </sec:ifLoggedIn>
-            <div id="content"><g:include controller="tag" action="list"/></div>
+            <div id="content"><g:include controller="tag" action="list" params="[status:params.status]"/></div>
         </div>
         <div id="sidebar">
         </div>

@@ -11,11 +11,16 @@
         <div id="header">
             <h1><g:link url="[controller:null]">Snippet</g:link></h1>
             <ul id="nav-list">
-                <li><g:link controller="snippet" action="list" params="[status:'snippet']"><g:message code="snippet.label" default="Snippets"/></g:link></li>
+                <g:if test="${params.status}">
+                <li><g:link controller="snippet" action="list" params="[status:params.status]"><g:message code="snippet.${params.status}.label" default="Snippets"/></g:link></li>
+                <li><g:link controller="tag" action="index" params="[status:params.status]"><g:message code="tag.label" default="Tags"/></g:link></li>
+                </g:if>
+                <g:else>
+                <li><g:link controller="snippet" action="list" params="[status:'snippet']"><g:message code="snippet.snippet.label" default="Snippets"/></g:link></li>
                 <li><g:link controller="snippet" action="list" params="[status:'question']"><g:message code="snippet.question.label" default="Questions"/></g:link></li>
                 <li><g:link controller="snippet" action="list" params="[status:'problem']"><g:message code="snippet.problem.label" default="Problems"/></g:link></li>
-                <li><g:link controller="tag" action="index"><g:message code="tag.label" default="Tags"/></g:link></li>
                 <li><g:link controller="user" action="index"><g:message code="user.label" default="Users"/></g:link></li>
+                </g:else>
             </ul>
             <div id="nav">
                 <sec:ifLoggedIn>

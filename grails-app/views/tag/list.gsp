@@ -21,9 +21,6 @@
                             <span>&times;${t.count.encodeAsHTML()}</span>
                         </p>
                     </g:each>
-                    <g:if test="${params.max}">
-                        <div class="more_link"><g:link controller="tag" params="[status:params.status]"><g:message code="more.link.label" default="tags"/></g:link></div>
-                    </g:if>
                 </g:if>
             </div>
         </div>

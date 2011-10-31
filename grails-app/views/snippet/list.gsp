@@ -12,9 +12,7 @@
             <g:if test="${flash.message}">
             <p class="message"><span>${flash.message}</span></p>
             </g:if>
-            <g:if test="${actionName ==~ /list|tags|users/}">
             <g:include controller="snippet" action="create" params="[status:params.status]"/>
-            </g:if>
             <div id="lists"><g:render template="list"/></div>
         </div>
         <div id="sidebar">

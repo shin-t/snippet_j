@@ -6,8 +6,8 @@ class User {
 
     static constraints = {
         username blank: false, unique: true
-        password blank: false, password: true, validator: { val, obj -> val == obj.password2 ? true : ['password.mismatch'] }
-        email blank: false, email: true, unique: true, validator: { val, obj -> val == obj.email2 ? true : ['email.mismatch'] }
+        password blank: false, password: true, validator: { val, obj -> val == obj.password2 ? true : ['user.password.mismatch.message'] }
+        email blank: false, email: true, unique: true, validator: { val, obj -> val == obj.email2 ? true : ['user.email.mismatch.message'] }
         gravatar_hash blank: false, unique: true, validator: { val, obj -> val == obj.email.trim().toLowerCase().encodeAsMD5() }
         enabled display: false
         accountExpired display: false

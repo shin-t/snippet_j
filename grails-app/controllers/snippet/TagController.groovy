@@ -110,13 +110,14 @@ class TagController {
     }
 
     def list = {
+        params.max = Math.min(params.max ? params.int('max') : 15, 30)
         def query = "\
             select new map(tl.tag.name as name, count(*) as count)\
             from TagLink tl, Snippet s\
             where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ?\
             group by name\
             order by count(*) desc, name asc"
-        [tags:Snippet.executeQuery(query, [params.status], params), total:Snippet.executeQuery(query, [params.status])]
+        [tags:Snippet.executeQuery(query, [params.status], params), total:Snippet.executeQuery(query, [params.status]).size()]
     }
 
     def show = {

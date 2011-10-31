@@ -21,6 +21,7 @@
                             <span>&times;${t.count.encodeAsHTML()}</span>
                         </p>
                     </g:each>
+                    <div class="paginateButtons"><g:paginate total="${total}" params="[status: params.status]"/></div>
                 </g:if>
             </div>
         </div>

@@ -21,7 +21,7 @@ class SnippetController {
             def query = "select distinct(s) from Snippet s, UserTag u, TagLink t where s.status = ? and s.id = t.tagRef and t.type = 'snippet' and u.tag.name = t.tag.name and u.follower.id = ?  order by s.dateCreated desc"
             def snippetInstanceList = Snippet.executeQuery(query,[params.status, springSecurityService.principal.id],params)
             def snippetInstanceTotal = Snippet.executeQuery(query,[params.status, springSecurityService.principal.id]).size()
-            render view: 'index', model: [ snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance: springSecurityService.currentUser, status:params.status ]
+            render view: 'list', model: [ snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance: springSecurityService.currentUser, status:params.status ]
         }
     }
 
@@ -35,7 +35,7 @@ class SnippetController {
             def query = "select s from Snippet s, UserUser u where s.status = ? and s.user.id = u.user.id and u.follower.id = ? order by s.dateCreated desc"
             def snippetInstanceList = Snippet.executeQuery(query,[params.status, springSecurityService.principal.id],params)
             def snippetInstanceTotal = Snippet.executeQuery(query,[params.status, springSecurityService.principal.id]).size()
-            render view: 'index', model: [ snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance: springSecurityService.currentUser, status:params.status ]
+            render view: 'list', model: [ snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance: springSecurityService.currentUser, status:params.status ]
         }
     }
 
@@ -85,9 +85,6 @@ class SnippetController {
         }
     }
 
-    def index = {
-    }
-
     def list = {
         def userInstance
         params.max = Math.min(params.max ? params.int('max') : 5, 30)
@@ -95,7 +92,7 @@ class SnippetController {
         params.order = params.order?:'desc'
         if(params.status){
             if(springSecurityService.isLoggedIn()) userInstance = springSecurityService.currentUser
-            render view:'index', model:[
+            render view:'list', model:[
                 snippetInstanceList:Snippet.findAllByStatus(params.status,params),
                 snippetInstanceTotal: Snippet.countByStatus(params.status),
                 userInstance: userInstance

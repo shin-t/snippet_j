@@ -124,7 +124,7 @@ class SnippetController {
         snippetInstance.setTags()
         if(snippetInstance.save(flush: true)){
             if (params.tags) snippetInstance.parseTags(params.tags,' ')
-            render status:204, text:""
+            render status:200, text:message(code:'default.created.message', args:[snippetInstance.status, snippetInstance.id])
         }
         else {
             if (params.parent_id) {

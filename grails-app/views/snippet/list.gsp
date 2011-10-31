@@ -9,6 +9,7 @@
     </head>
     <body>
         <div id="contents">
+            <p class="message"><span style="display:none;"></span></p>
             <g:if test="${flash.message}">
             <p class="message"><span>${flash.message}</span></p>
             </g:if>

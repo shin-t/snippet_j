@@ -19,6 +19,7 @@
             <g:if test="${actionName == 'users'}">
             <sec:ifLoggedIn>
             <g:include controller="user" action="following" params="[status:params.status, username:sec.loggedInUserInfo(field:'username'), max:5]"/>
+            <g:include controller="user" action="followers" params="[status:params.status, username:sec.loggedInUserInfo(field:'username'), max:5]"/>
             </sec:ifLoggedIn>
             </g:if>
             <g:elseif test="${actionName == 'tags'}">

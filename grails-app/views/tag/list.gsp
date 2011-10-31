@@ -13,7 +13,7 @@
             <p class="message"><span>${flash.message}</span></p>
             </g:if>
             <div id="tags" class="content">
-                <div><g:message code="snippet.${params.status}.label" default=""/> / <g:message code="tag.label" default="Tags"/></div>
+                <div><g:message code="tag.label" default="Tags"/></div>
                 <g:if test="${tags}">
                     <g:each in="${tags}" var="t">
                         <p>

@@ -26,7 +26,9 @@
             </ul>
             <div id="nav">
                 <sec:ifLoggedIn>
-                <div><g:link controller='user' action='show' params="[username: sec.loggedInUserInfo(field:'username')]"><sec:username /></g:link></div>
+                <g:if test="${params.status}">
+                <div><g:link controller='user' action='show' params="[status:params.status, username:sec.loggedInUserInfo(field:'username')]"><sec:username /></g:link></div>
+                </g:if>
                 <div><g:link controller='user' action='edit'><g:message code="user.settings.label" default="Settings"/></g:link></div>
                 <div><g:link controller='logout'><g:message code="logout.label" default="Log Out"/></g:link></div>
                 </sec:ifLoggedIn><sec:ifNotLoggedIn>

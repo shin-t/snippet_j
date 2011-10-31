@@ -12,9 +12,11 @@
             <h1><g:link url="[controller:null]">Snippet</g:link></h1>
             <g:if test="${params.status}">
             <ul id="nav-list">
-                <li><g:link controller="snippet" action="list" params="[status:params.status]"><g:message code="snippet.${params.status}.label" default="Snippets"/></g:link></li>
-                <li><g:link controller="tag" action="list" params="[status:params.status]"><g:message code="tag.label" default="Tags"/></g:link></li>
-                <li><g:link controller="user" action="index" params="[status:params.status]"><g:message code="user.label" default="Users"/></g:link></li>
+                <sec:ifLoggedIn>
+                <li><g:link controller='snippet' action='tags' params="[status: params.status]"><g:message code="tag.label" default="Tags"/></g:link></li>
+                <li><g:link controller='snippet' action='users' params="[status: params.status]"><g:message code="user.label" default="Users"/></g:link></li>
+                </sec:ifLoggedIn>
+                <li><g:link controller='snippet' action='list' params="[status: params.status]"><g:message code="snippet.${params.status}.label" default="Snippet"/></g:link></li>
             </ul>
             </g:if>
             <div id="nav">

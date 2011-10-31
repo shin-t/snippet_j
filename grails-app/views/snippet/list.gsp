@@ -14,13 +14,6 @@
             </g:if>
             <g:if test="${actionName ==~ /list|tags|users/}">
             <g:include controller="snippet" action="create" params="[status:params.status]"/>
-            <sec:ifLoggedIn>
-            <div id="list_filter">
-                <div><g:link controller='snippet' action='list' params="[status: params.status]"><g:message code="list.filter.all.label"/></g:link></div>
-                <div><g:link controller='snippet' action='tags' params="[status: params.status]"><g:message code="tag.label" default="Tags"/></g:link></div>
-                <div><g:link controller='snippet' action='users' params="[status: params.status]"><g:message code="user.label" default="Users"/></g:link></div>
-            </div>
-            </sec:ifLoggedIn>
             </g:if>
             <div id="lists"><g:render template="list"/></div>
         </div>

@@ -16,10 +16,17 @@
             <div id="lists"><g:render template="list"/></div>
         </div>
         <div id="sidebar">
+            <g:if test="${actionName == 'users'}">
+            <sec:ifLoggedIn>
+            <g:include controller="user" action="following" params="[status:params.status, username:sec.loggedInUserInfo(field:'username'), max:5]"/>
+            </sec:ifLoggedIn>
+            </g:if>
+            <g:elseif test="${actionName == 'tags'}">
             <sec:ifLoggedIn>
             <g:include controller="tag" action="following" params="[status:params.status]"/>
             </sec:ifLoggedIn>
             <g:include controller="tag" action="recent" params="[status:params.status]"/>
+            </g:elseif>
         </div>
     </body>
 </html>

@@ -9,6 +9,7 @@
     </head>
     <body>
         <div id="contents">
+            <p class="message"><span style="display:none;"></span></p>
             <div><g:render template="content" model="[snippetInstance: snippetInstance, userInstance: userInstance]" /></div>
             <div id="lists">
                 <g:if test="${snippetInstanceList}">

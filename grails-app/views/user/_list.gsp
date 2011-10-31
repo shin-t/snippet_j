@@ -16,6 +16,11 @@
         </g:else>
     </p>
     </g:each>
-    <g:paginate total="${total}"/>
+    <g:if test="${params.max == 5}">
+        <div class="more_link"><g:link controller="user" action="show" params="[username:sec.loggedInUserInfo(field:'username')]"><g:message code="more.link.label" default="Following users"/></g:link></div>
+    </g:if>
+    <g:else>
+        <div class="paginateButtons"><g:paginate total="${total}" controller="user" action="show" params="[username:userInstance.username]"/></div>
+    </g:else>
 </div>
 </g:if>

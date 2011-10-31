@@ -1,7 +1,7 @@
 <%@ page import="snippet.Snippet" %>
 <html>
     <head>
-        <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}"/>
+        <g:set var="entityName" value="${message(code: 'snippet.'+params.status+'.label', default: 'Snippet')}"/>
         <r:require modules="jquery-ui, common, snippet"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="main"/>

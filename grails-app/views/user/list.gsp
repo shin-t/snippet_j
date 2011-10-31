@@ -12,9 +12,10 @@
             <g:if test="${flash.message}">
             <p class="message"><span>${flash.message}</span></p>
             </g:if>
+            <g:render template="user"/>
             <div id="users" class="content">
                 <g:if test="${params.username}">
-                <div><g:message code="following.users.label" default="Follwing users" /></div>
+                <div><g:message code="${actionName}.users.label" default="Users" /></div>
                 </g:if><g:else>
                 <div><g:message code="user.label" default="Users" /></div>
                 </g:else>

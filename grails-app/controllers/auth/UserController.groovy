@@ -104,38 +104,44 @@ class UserController {
 
     def following = {
         if(params.username) {
-            params.max = Math.min(params.max ? params.int('max') : 15, 30)
-            def query = "\
-                select new map(u.username as username, u.gravatar_hash as gravatar_hash)\
-                from User u, UserUser uu\
-                where u.username = uu.user.username\
-                and uu.follower.username = ?\
-                order by uu.dateCreated desc"
-            def userInstanceList = User.executeQuery(query,[params.username],params)
-            def userInstanceTotal = User.executeQuery(query,[params.username]).size()
-            if(params.max > 5){
-                render view:'list', model:[userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
-            } else {
-                render template:'list', model:[userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+            def userInstance = User.findByUsername(params.username)
+            if(userInstance) {
+                params.max = Math.min(params.max ? params.int('max') : 15, 30)
+                def query = "\
+                    select new map(u.username as username, u.gravatar_hash as gravatar_hash)\
+                    from User u, UserUser uu\
+                    where u.username = uu.user.username\
+                    and uu.follower.username = ?\
+                    order by uu.dateCreated desc"
+                def userInstanceList = User.executeQuery(query,[params.username],params)
+                def userInstanceTotal = User.executeQuery(query,[params.username]).size()
+                if(params.max > 5){
+                    render view:'list', model:[currentUser:springSecurityService.currentUser, userInstance:userInstance, userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+                } else {
+                    render template:'list', model:[currentUser:springSecurityService.currentUser, userInstance:userInstance, userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+                }
             }
         }
     }
 
     def followers = {
         if(params.username) {
-            params.max = Math.min(params.max ? params.int('max') : 15, 30)
-            def query = "\
-                select new map(u.username as username, u.gravatar_hash as gravatar_hash)\
-                from User u, UserUser uu\
-                where u.username = uu.follower.username\
-                and uu.user.username = ?\
-                order by uu.dateCreated desc"
-            def userInstanceList = User.executeQuery(query,[params.username],params)
-            def userInstanceTotal = User.executeQuery(query,[params.username]).size()
-            if(params.max > 5){
-                render view:'list', model:[userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
-            } else {
-                render template:'list', model:[userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+            def userInstance = User.findByUsername(params.username)
+            if(userInstance) {
+                params.max = Math.min(params.max ? params.int('max') : 15, 30)
+                def query = "\
+                    select new map(u.username as username, u.gravatar_hash as gravatar_hash)\
+                    from User u, UserUser uu\
+                    where u.username = uu.follower.username\
+                    and uu.user.username = ?\
+                    order by uu.dateCreated desc"
+                def userInstanceList = User.executeQuery(query,[params.username],params)
+                def userInstanceTotal = User.executeQuery(query,[params.username]).size()
+                if(params.max > 5){
+                    render view:'list', model:[currentUser:springSecurityService.currentUser, userInstance:userInstance, userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+                } else {
+                    render template:'list', model:[currentUser:springSecurityService.currentUser, userInstance:userInstance, userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+                }
             }
         }
     }

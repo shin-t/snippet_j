@@ -71,7 +71,7 @@ class UrlMappings {
         "/user/$username/$action" {
             controller = 'user'
             constraints {
-                action matches:/follow_check|follow|unfollow/
+                action matches:/follow_check|follow|unfollow|following|followers/
             }
         }
 

@@ -111,7 +111,13 @@ class UserController {
                 where u.username = uu.user.username\
                 and uu.follower.username = ?\
                 order by uu.dateCreated desc"
-            render template:'list', model:[users:User.executeQuery(query,[params.username],params), total:User.executeQuery(query,[params.username]).size()]
+            def userInstanceList = User.executeQuery(query,[params.username],params)
+            def userInstanceTotal = User.executeQuery(query,[params.username]).size()
+            if(params.max > 5){
+                render view:'list', model:[userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+            } else {
+                render template:'list', model:[userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+            }
         }
     }
 
@@ -124,7 +130,13 @@ class UserController {
                 where u.username = uu.follower.username\
                 and uu.user.username = ?\
                 order by uu.dateCreated desc"
-            render template:'list', model:[users:User.executeQuery(query,[params.username],params), total:User.executeQuery(query,[params.username]).size()]
+            def userInstanceList = User.executeQuery(query,[params.username],params)
+            def userInstanceTotal = User.executeQuery(query,[params.username]).size()
+            if(params.max > 5){
+                render view:'list', model:[userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+            } else {
+                render template:'list', model:[userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
+            }
         }
     }
 

@@ -18,7 +18,7 @@
                 </g:if><g:else>
                 <div><g:message code="user.label" default="Users" /></div>
                 </g:else>
-                <g:each in="${users}" var="c">
+                <g:each in="${userInstanceList}" var="c">
                 <p>
                     <gravatar:img hash="${c.gravatar_hash}" size="16"/>
                     <g:if test="${params.status}">
@@ -29,7 +29,7 @@
                     </g:else>
                 </p>
                 </g:each>
-                <g:paginate total="${total}"/>
+                <g:paginate total="${userInstanceTotal}"/>
             </div>
         </div>
         <div id="sidebar">

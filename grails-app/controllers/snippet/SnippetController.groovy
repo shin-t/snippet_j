@@ -43,8 +43,7 @@ class SnippetController {
     def solved = {
         if(params.id){
             def snippetInstance = Snippet.get(params.id)
-            def userId= springSecurityService.principal.id
-            if(snippetInstance && snippetInstance.user.id == userId){
+            if(snippetInstance && snippetInstance.user.id == springSecurityService.principal.id){
                 snippetInstance.help = !snippetInstance.help
                 snippetInstance.save(flush:true)
             }

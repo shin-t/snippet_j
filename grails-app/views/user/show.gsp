@@ -14,10 +14,18 @@
             </g:if>
             <div id="user_info">
                 <p><gravatar:img hash="${userInstance.gravatar_hash}" size="72"/>${userInstance.username.encodeAsHTML()}</p>
-                <p><g:message code="snippet.snippet.label" default="Snippet"/> &times;${Snippet.countByUserAndStatus(userInstance,'snippet')},
-                <g:message code="snippet.question.label" default="Question"/>  &times;${Snippet.countByUserAndStatus(userInstance,'question')},
-                <g:message code="snippet.problem.label" default="Problem"/> &times;${Snippet.countByUserAndStatus(userInstance,'problem')}<br/>
-                <g:message code="following.label" default="Follow"/> &times;${userInstance.follower.size()}</p>
+                <p>
+                    <g:if test="${params.status}">
+                    <g:message code="snippet.${params.status}.label" default="Snippet"/> &times;${Snippet.countByUserAndStatus(userInstance, params.status)}
+                    </g:if>
+                    <g:else>
+                    <g:message code="snippet.snippet.label" default="Snippet"/> &times;${Snippet.countByUserAndStatus(userInstance, 'snippet')},
+                    <g:message code="snippet.question.label" default="Question"/> &times;${Snippet.countByUserAndStatus(userInstance, 'question')},
+                    <g:message code="snippet.problem.label" default="Problem"/> &times;${Snippet.countByUserAndStatus(userInstance, 'problem')}
+                    </g:else>
+                    <br/>
+                    <g:message code="followers.users.label" default="Followers"/> &times;${userInstance.follower.size()}
+                </p>
                 <sec:ifLoggedIn>
                 <g:if test="${currentUser.username != userInstance.username}">
                 <div><g:checkBox name="follow_button"/><label for="follow_button"></label></div>
@@ -55,12 +63,10 @@
                     <g:include controller="user" action="${params.status}" params="[username:params.username, status:params.status]"/>
                 </div>
             </g:if>
-            <g:else>
-                <g:include controller="user" action="following" params="[username:params.username]"/>
-                <g:include controller="user" action="followers" params="[username:params.username]"/>
-            </g:else>
         </div>
         <div id="sidebar">
+            <g:include controller="user" action="following" params="[status:params.status, username:userInstance.username, max:5]"/>
+            <g:include controller="user" action="followers" params="[status:params.status, username:userInstance.username, max:5]"/>
         </div>
     </body>
 </html>

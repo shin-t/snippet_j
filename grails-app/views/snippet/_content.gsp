@@ -15,7 +15,7 @@
         </p>
         <g:if test="${snippetInstance.tags}">
         <p class="tags">
-            <g:message code="snippet.tags.label" default="Tags"/>
+            <g:message code="tag.label" default="Tags"/>
             <g:each in="${snippetInstance.tags}" var="tag">
             <g:link controller="tag" action="show" params="[tag: tag, status: params.status]">${tag.encodeAsHTML()}</g:link>
             </g:each>

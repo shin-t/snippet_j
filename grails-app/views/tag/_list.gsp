@@ -1,4 +1,4 @@
-<%@ page import="snippet.Snippet"%>
+<g:if test="${tags}">
 <div id="tags" class="content">
     <div>
         <g:if test="${actionName == 'following'}">
@@ -8,7 +8,6 @@
         <g:message code="tag.label" default="Tags"/>
         </g:else>
     </div>
-    <g:if test="${tags}">
         <g:each in="${tags}" var="t">
             <p>
                 <g:link controller="tag" action="show" params="[status: params.status, tag: t.name.encodeAsURL()]">${t.name.encodeAsHTML()}</g:link>
@@ -18,5 +17,5 @@
         <g:if test="${actionName == 'recent'}">
             <div class="more_link"><g:link controller="tag" action="list" params="[status:params.status]"><g:message code="more.link.label" default="tags"/></g:link></div>
         </g:if>
-    </g:if>
 </div>
+</g:if>

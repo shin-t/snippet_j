@@ -56,11 +56,14 @@ class UserController {
 
     def snippet = {
         if(params.username) {
+            params.max = Math.min(params.max ? params.int('max') : 5, 30)
+            params.sort = params.sort?:'dateCreated'
+            params.order = params.order?:'desc'
             def userInstance = User.findByUsername(params.username)
             if(userInstance) {
                 render template:'/snippet/list', model:[
                     userInstance:userInstance,
-                    snippetInstanceList:Snippet.findAllByStatusAndUser('snippet',userInstance),
+                    snippetInstanceList:Snippet.findAllByStatusAndUser('snippet',userInstance,params),
                     snippetInstanceTotal:Snippet.countByStatusAndUser('snippet',userInstance)
                 ]
             }
@@ -69,11 +72,14 @@ class UserController {
 
     def question = {
         if(params.username) {
+            params.max = Math.min(params.max ? params.int('max') : 5, 30)
+            params.sort = params.sort?:'dateCreated'
+            params.order = params.order?:'desc'
             def userInstance = User.findByUsername(params.username)
             if(userInstance) {
                 render template:'/snippet/list', model:[
                     userInstance:userInstance,
-                    snippetInstanceList:Snippet.findAllByStatusAndUser('question',userInstance),
+                    snippetInstanceList:Snippet.findAllByStatusAndUser('question',userInstance,params),
                     snippetInstanceTotal:Snippet.countByStatusAndUser('question',userInstance)
                 ]
             }
@@ -82,11 +88,14 @@ class UserController {
 
     def problem = {
         if(params.username) {
+            params.max = Math.min(params.max ? params.int('max') : 5, 30)
+            params.sort = params.sort?:'dateCreated'
+            params.order = params.order?:'desc'
             def userInstance = User.findByUsername(params.username)
             if(userInstance) {
                 render template:'/snippet/list', model:[
                     userInstance:userInstance,
-                    snippetInstanceList:Snippet.findAllByStatusAndUser('problem',userInstance),
+                    snippetInstanceList:Snippet.findAllByStatusAndUser('problem',userInstance,params),
                     snippetInstanceTotal:Snippet.countByStatusAndUser('problem',userInstance)
                 ]
             }
@@ -95,6 +104,7 @@ class UserController {
 
     def following = {
         if(params.username) {
+            params.max = Math.min(params.max ? params.int('max') : 15, 30)
             def query = "\
                 select new map(u.username as username, u.gravatar_hash as gravatar_hash)\
                 from User u, UserUser uu\
@@ -107,6 +117,7 @@ class UserController {
 
     def followers = {
         if(params.username) {
+            params.max = Math.min(params.max ? params.int('max') : 15, 30)
             def query = "\
                 select new map(u.username as username, u.gravatar_hash as gravatar_hash)\
                 from User u, UserUser uu\
@@ -131,6 +142,7 @@ class UserController {
     }
 
     def list = {
+        params.max = Math.min(params.max ? params.int('max') : 5, 30)
         def query= "select new map(u.username as username, u.gravatar_hash as gravatar_hash, u.follower.size as followers) from User u order by u.follower.size desc"
         [users:User.executeQuery(query,[],params), total:User.executeQuery(query)]
     }

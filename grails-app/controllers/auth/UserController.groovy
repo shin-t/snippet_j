@@ -95,15 +95,25 @@ class UserController {
 
     def following = {
         if(params.username) {
-            def query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash) from User u, UserUser uu where u.username = uu.user.username and uu.follower.username = ? "
-            render template:'list', model:[users:User.executeQuery(query,[params.username],params), total:User.executeQuery(query,[params.username])]
+            def query = "\
+                select new map(u.username as username, u.gravatar_hash as gravatar_hash)\
+                from User u, UserUser uu\
+                where u.username = uu.user.username\
+                and uu.follower.username = ?\
+                order by uu.dateCreated desc"
+            render template:'list', model:[users:User.executeQuery(query,[params.username],params), total:User.executeQuery(query,[params.username]).size()]
         }
     }
 
     def followers = {
         if(params.username) {
-            def query = "select new map(u.username as username, u.gravatar_hash as gravatar_hash) from User u, UserUser uu where u.username = uu.user.username and uu.user.username = ? "
-            render template:'list', model:[users:User.executeQuery(query,[params.username],params), total:User.executeQuery(query,[params.username])]
+            def query = "\
+                select new map(u.username as username, u.gravatar_hash as gravatar_hash)\
+                from User u, UserUser uu\
+                where u.username = uu.follower.username\
+                and uu.user.username = ?\
+                order by uu.dateCreated desc"
+            render template:'list', model:[users:User.executeQuery(query,[params.username],params), total:User.executeQuery(query,[params.username]).size()]
         }
     }
 

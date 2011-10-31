@@ -14,12 +14,8 @@
             </g:if>
             <div id="tag_info">
                 <p>${params.tag.encodeAsHTML()}</p>
-                <p>
-                    <g:message code="snippet.snippet.label" default="Snippet"/> &times;${counts.snippet?:0},
-                    <g:message code="snippet.question.label" default="Question"/> &times;${counts.question?:0},
-                    <g:message code="snippet.problem.label" default="Problem"/> &times;${counts.problem?:0}<br/>
-                    Follower &times;${follower}
-                </p>
+                <p><g:message code="snippet.${params.status}.label" default="Snippet"/> &times;${counts[(params.status)]?:0}<br/>
+                <g:message code="followers.users.label" default="Follower"/> &times;${follower}</p>
                 <sec:ifLoggedIn>
                 <div><g:checkBox name="follow_button"/><label for="follow_button"></label></div>
                 <g:javascript>

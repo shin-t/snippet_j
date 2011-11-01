@@ -13,10 +13,9 @@ class TagController {
     def follow_check = {
         if(params.tag){
             def tag = Tag.findByName(params.tag)
-            def currentUser = springSecurityService.currentUser
             def result
             if(tag){
-                result = UserTag.get(currentUser.id, tag.name)?true:false
+                result = UserTag.get(springSecurityService.principal.id, tag.name)?true:false
                 render ([result] as JSON)
             }
             else render ([message: 'Not Found'] as JSON)
@@ -40,10 +39,9 @@ class TagController {
     def unfollow = {
         if(params.tag){
             def tag = Tag.findByName(params.tag)
-            def currentUser = springSecurityService.currentUser
             def instance
             if(tag){
-                instance = UserTag.get(currentUser.id, tag.name)
+                instance = UserTag.get(springSecurityService.principal.id, tag.name)
                 if(instance) instance.delete(flush:true)
                 render (status:204, text:'')
             }
@@ -123,7 +121,6 @@ class TagController {
     def show = {
         def query = "select new map(s.status as status, count(*) as count) from Snippet s, TagLink tl where s.id = tl.tagRef and tl.type = 'snippet' and tl.tag.name = ? group by s.status"
         def counts = Snippet.executeQuery(query,[params.tag]).inject([:]){ s, e -> s << [(e.status):e.count] }
-        log.debug counts
         [userInstance:springSecurityService.currentUser, counts:counts, follower:Snippet.executeQuery("select count(*) from UserTag u where u.tag.name = ?",[params.tag]).first()]
     }
 }

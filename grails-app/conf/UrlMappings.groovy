@@ -24,6 +24,9 @@ class UrlMappings {
         "/$status/show/$id" {
             controller = 'snippet'
             action = 'show'
+            constraints {
+                status matches:/snippet|question|problem/
+            }
         }
         "/$status/tags" {
             controller = 'snippet'
@@ -85,7 +88,7 @@ class UrlMappings {
         }
 
         /* default */
-        "/$controller/$action?/$id?"{
+        "/$controller/$action?/$id?" {
             constraints {
                 // apply constraints here
             }

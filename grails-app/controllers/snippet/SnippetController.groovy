@@ -39,18 +39,6 @@ class SnippetController {
         }
     }
 
-    @Secured(['ROLE_USER'])
-    def solved = {
-        if(params.id){
-            def snippetInstance = Snippet.get(params.id)
-            if(snippetInstance && snippetInstance.user.id == springSecurityService.principal.id){
-                snippetInstance.help = !snippetInstance.help
-                snippetInstance.save(flush:true)
-            }
-        }
-        render(status:204,text:'')
-    }
-
     def starred = {
         def userInstance
         def snippetInstanceList, snippetInstanceTotal = 0

@@ -21,7 +21,7 @@
             </g:each>
         </p>
         </g:if>
-        <p class="date-created"><g:link controller="snippet" action="show" id="${snippetInstance.id}"><prettytime:display date="${snippetInstance.lastUpdated}"/></g:link></p>
+        <p class="date-created"><g:link controller="snippet" action="show" id="${snippetInstance.id}" params="[status:params.status]"><prettytime:display date="${snippetInstance.lastUpdated}"/></g:link></p>
     </div>
     <pre class="text">${fieldValue(bean: snippetInstance, field: "text")}</pre>
     <g:if test="${snippetInstance.file}">

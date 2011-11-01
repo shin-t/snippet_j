@@ -7,7 +7,7 @@ class UrlMappings {
         '/registration'(controller:'user',action:'save')
         '/settings'(controller:'user',action:'edit')
 
-        /* snippet */
+        /* Snippet */
         "/$status" {
             controller = 'snippet'
             action = 'list'
@@ -15,7 +15,10 @@ class UrlMappings {
                 status matches:/snippet|question|problem/
             }
         }
-        "/show/$id"(controller:'snippet', action:'show')
+        "/$status/show/$id" {
+            controller = 'snippet'
+            action = 'show'
+        }
         "/$status/tags" {
             controller = 'snippet'
             action = 'tags'
@@ -44,18 +47,18 @@ class UrlMappings {
                 status matches:/snippet|question|problem/
             }
         }
-        '/tag/following' {
+        "/$status/tag/following" {
             controller = 'tag'
             action = 'following'
         }
-        "/tag/$tag/$action" {
+        "/$status/tag/$tag/$action" {
             controller = 'tag'
             constraints {
                 action matches:/follow_check|follow|unfollow/
             }
         }
 
-        /* user */
+        /* User */
         '/user'(controller:'user', action='index')
         "/user/$username" {
             controller = 'user'

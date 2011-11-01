@@ -117,17 +117,17 @@ class SnippetController {
         snippetInstance.help = params.help?true:false
         snippetInstance.user = springSecurityService.currentUser
         snippetInstance.deadline = params.deadline?new Date(params.deadline):null
-        if (params.parent_id) {
+        if(params.parent_id) {
             snippetInstance.parent = Snippet.get(params.parent_id)
             snippetInstance.root = snippetInstance.parent.root?:snippetInstance.parent
+            snippetInstance.status = snippetInstance.parent.status
         }
         snippetInstance.setTags()
         if(snippetInstance.save(flush: true)){
-            if (params.tags) snippetInstance.parseTags(params.tags,' ')
+            if(params.tags) snippetInstance.parseTags(params.tags,' ')
             render status:200, text:message(code:'default.created.message', args:[snippetInstance.status, snippetInstance.id])
-        }
-        else {
-            if (params.parent_id) {
+        } else {
+            if(params.parent_id) {
                 render status:403,template:'replyform',model:[parent_id: params.parent_id, snippetInstance: snippetInstance, tags: params.tags]
             } else {
                 render status:403,template:'form',model:[snippetInstance: snippetInstance]

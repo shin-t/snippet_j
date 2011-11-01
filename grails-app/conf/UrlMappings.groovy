@@ -5,7 +5,13 @@ class UrlMappings {
         '/logout'(controller:'logout', action:'index')
         '/signup'(controller:'user', action:'create')
         '/registration'(controller:'user',action:'save')
-        '/settings'(controller:'user',action:'edit')
+        "/settings/$prop?" {
+            controller = 'user'
+            action = 'edit'
+            constraints {
+                prop matches:/password|email/
+            }
+        }
 
         /* Snippet */
         "/$status" {

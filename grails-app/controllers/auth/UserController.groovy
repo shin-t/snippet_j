@@ -214,32 +214,40 @@ class UserController {
     @Secured(['ROLE_USER'])
     def update = {
         def userInstance = User.get(params.id)
-        if (userInstance&&(userInstance==springSecurityService.currentUser)) {
-            if (params.version) {
+        if(userInstance&&(userInstance==springSecurityService.currentUser)) {
+            if(params.version) {
                 def version = params.version.toLong()
-                if (userInstance.version > version) {
+                if(userInstance.version > version) {
                     
                     userInstance.errors.rejectValue('version', 'default.optimistic.locking.failure', [message(code: 'user.label', default: 'User')] as Object[], 'Another user has updated this User while you were editing')
                     render(view: 'edit', model: [userInstance: userInstance])
                     return
                 }
             }
-            if(params.password) {
-                params.password = springSecurityService.encodePassword(params.password)
+            if(params.password || params.password2) {
+                params.password = params.password?springSecurityService.encodePassword(params.password):''
+                params.password2 = params.password2?springSecurityService.encodePassword(params.password2):''
+                params.prop = 'password'
+            } else {
+                userInstance.password2 = userInstance.password
+            }
+            if(params.email || params.email2) {
+                params.prop = 'email'
+            } else {
+                userInstance.email2 = userInstance.email
             }
             userInstance.properties = params
-            if (!userInstance.hasErrors() && userInstance.save(flush: true)) {
-                if (springSecurityService.loggedIn && springSecurityService.principal.username == userInstance.username) {
+            userInstance.gravatar_hash = userInstance.email.trim().toLowerCase().encodeAsMD5()
+            if(!userInstance.hasErrors() && userInstance.save(flush: true)) {
+                if(springSecurityService.loggedIn && springSecurityService.principal.username == userInstance.username) {
                     springSecurityService.reauthenticate userInstance.username
                 }
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.username])}"
-                redirect(action: 'index', params: [username: userInstance.username])
+                redirect(action:'show', params:[username: userInstance.username])
+            } else {
+                render(view:'edit', model:[userInstance: userInstance])
             }
-            else {
-                render(view: 'edit', model: [userInstance: userInstance])
-            }
-        }
-        else {
+        } else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
             redirect(controller: 'snippet', action: 'list')
         }

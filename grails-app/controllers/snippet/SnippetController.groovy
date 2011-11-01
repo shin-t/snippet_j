@@ -111,7 +111,7 @@ class SnippetController {
         snippetInstance.setTags()
         if(snippetInstance.save(flush: true)){
             if(params.tags) snippetInstance.parseTags(params.tags,' ')
-            render status:200, text:message(code:'default.created.message', args:[snippetInstance.status, snippetInstance.id])
+            render "${message(code:'default.created.message', args:[message(code:'snippet.'+snippetInstance.status+'.label'), snippetInstance.id])}"
         } else {
             if(params.parent_id) {
                 render status:403,template:'replyform',model:[parent_id: params.parent_id, snippetInstance: snippetInstance, tags: params.tags]
@@ -174,12 +174,10 @@ class SnippetController {
                 if (params.tags) snippetInstance.parseTags(params.tags)
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
                 redirect(action: 'show', id: snippetInstance.id)
-            }
-            else {
+            } else {
                 render(view: 'edit', model: [snippetInstance: snippetInstance])
             }
-        }
-        else {
+        } else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), params.id])}"
             redirect(action: 'list')
         }
@@ -188,18 +186,16 @@ class SnippetController {
     @Secured(['ROLE_USER'])
     def delete = {
         def snippetInstance = Snippet.get(params.id)
-        if (snippetInstance&&(springSecurityService.currentUser==snippetInstance.user)) {
+        if(snippetInstance&&(springSecurityService.currentUser==snippetInstance.user)) {
             try {
                 Snippet.remove(snippetInstance.id)
                 snippetInstance.delete(flush: true)
-                render(status:204,text:'')
+                render "${message(code:'default.deleted.message', args:[message(code:'snippet.'+snippetInstance.status+'.label', default:'Snippet'), snippetInstance.id], default:'deleted')}"
+            } catch(org.springframework.dao.DataIntegrityViolationException e) {
+                render(status:404,text:"${message(code:'default.not.deleted.message', args:[message(code:'snippet.'+snippetInstance.status+'.label', default:'Snippet'), snippetInstance.id], default:'not deleted')}")
             }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                render(status:404,text:'not deleted')
-            }
-        }
-        else{
-            render(status:404,text:'not found')
+        } else {
+            render(status:404,text:"${message(code:'default.not.found.message', args:[message(code:'snippet.'+snippetInstance.status+'.label', default:'Snippet'), snippetInstance.id], default:'not found')}")
         }
     }
 }

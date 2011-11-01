@@ -33,7 +33,7 @@
         <g:checkBox name="star_${snippetInstance.id}" class="star_button"/><label for="star_${snippetInstance.id}"></label>
         <g:remoteLink class="reply" controller="snippet" action="create" params="[parent_id:snippetInstance.id,tags:snippetInstance.tags.join(' ')]" update="reply_${snippetInstance.id}" onLoaded="clearForm()"><g:message code="snippet.button.reply.label"/></g:remoteLink>
         <g:if test="${userInstance.id == snippetInstance.user.id}">
-        <g:remoteLink class="delete" controller="snippet" action="delete" id="${snippetInstance.id}" onSuccess="jQuery('#snippet_${snippetInstance.id}').parent().parent().remove()" before="if(!confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}')) return false"><g:message code="default.button.delete.label" default="delete"/></g:remoteLink>
+        <g:remoteLink class="delete" controller="snippet" action="delete" id="${snippetInstance.id}" onSuccess="jQuery('#snippet_${snippetInstance.id}').parent().parent().remove();jQuery('.message span').first().text(data).show()" before="if(!confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}')) return false"><g:message code="default.button.delete.label" default="delete"/></g:remoteLink>
         </g:if>
     </div>
     <div id="reply_${snippetInstance.id}" class="reply_form"></div>

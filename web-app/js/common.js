@@ -72,19 +72,6 @@ var star_update = function(e){
     });
 }
 
-var update_solved = function(e){
-    var label = $(this).attr("checked")?"solved":"unsolved";
-    var obj = $(this)
-    $.ajax({
-        type:'POST',
-        url:'/snippet/snippet/solved/'+e.data.id,
-        success: function(){
-            $(obj).button("option","label",label);
-            $(".help_"+e.data.id+" span").text("Help!").parent().removeClass("help").addClass("solved");
-        }
-    });
-}
-
 var clearForm = function(){
     $(".reply_form").empty()
 }

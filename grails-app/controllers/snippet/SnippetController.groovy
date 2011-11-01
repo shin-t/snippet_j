@@ -102,9 +102,7 @@ class SnippetController {
     def save = {
         def snippetInstance = new Snippet()
         snippetInstance.properties['text','file','status'] = params
-        snippetInstance.help = params.help?true:false
         snippetInstance.user = springSecurityService.currentUser
-        snippetInstance.deadline = params.deadline?new Date(params.deadline):null
         if(params.parent_id) {
             snippetInstance.parent = Snippet.get(params.parent_id)
             snippetInstance.root = snippetInstance.parent.root?:snippetInstance.parent

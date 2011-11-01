@@ -34,7 +34,18 @@
     font-size: 100%;
     margin: 0 0 32px;
 }
-#user_info p:first-child + p, #tag_info p:first-child + p {
+#user_info h1 {
+    height: 72px;
+    line-height: 72px;
+    font-size: 160%;
+}
+#user_info span img {
+    vertical-align: middle;
+    position: relative;
+    padding: 2px;
+    background-color: #eee;
+}
+#user_info p, #tag_info p:first-child + p {
     font-size: 82%;
     margin-left: 1em;
 }

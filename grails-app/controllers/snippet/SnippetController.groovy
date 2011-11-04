@@ -3,7 +3,6 @@ package snippet
 import grails.plugins.springsecurity.Secured
 import grails.converters.*
 import auth.*
-import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
 class SnippetController {
 
@@ -34,39 +33,6 @@ class SnippetController {
             render view:'list', model:[snippetInstanceList:snippetInstanceList, snippetInstanceTotal:snippetInstanceTotal, userInstance:springSecurityService.currentUser, status:params.status]
         } else {
             render status:404, text:'Not Found'
-        }
-    }
-
-    def starred = {
-        def userInstance
-        def snippetInstanceList, snippetInstanceTotal = 0
-        def query
-
-        params.max = Math.min(params.max ? params.int('max') : 10, 30)
-        params.sort = params.sort?:'dateCreated'
-        params.order = params.order?:'desc'
-
-        if(params.username){
-            userInstance=User.findByUsername(params.username)
-        }
-        else if(springSecurityService.isLoggedIn()){
-            userInstance=springSecurityService.currentUser
-            params.username=userInstance.username
-        }
-        if(userInstance){
-            query = """
-                select sn
-                from Snippet sn, Star st
-                where sn = st.snippet
-                and st.user = ?
-                order by sn.dateCreated desc
-                """
-                snippetInstanceList = Snippet.executeQuery(query,[userInstance],params)
-                snippetInstanceTotal = Snippet.executeQuery(query,[userInstance]).size()
-            render(view:'snippets', model:[snippetInstanceList:snippetInstanceList, snippetInstanceTotal:snippetInstanceTotal, user:userInstance, currentUser:springSecurityService.currentUser])
-        }
-        else{
-            redirect(controller:'login',view:'auth')
         }
     }
 

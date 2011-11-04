@@ -15,18 +15,23 @@ class BootStrap {
             development {
                 if(User.count() == 0){
                     def user = new User(username: 'user', password: springSecurityService.encodePassword('pass'), email: 'MyEmailAddress@example.com ', enabled: true)
+                    def user2 = new User(username: 'user2', password: springSecurityService.encodePassword('pass'), email: 'MyEmail@example.com ', enabled: true)
                     def admin = new User(username: 'admin', password: springSecurityService.encodePassword('pass'), email: 'Abc.123@example.com', enabled: true)
                     user.gravatar_hash = user.email.trim().toLowerCase().encodeAsMD5()
                     user.password2 = user.password
                     user.email2 = user.email
                     user.save()
+                    user2.gravatar_hash = user2.email.trim().toLowerCase().encodeAsMD5()
+                    user2.password2 = user2.password
+                    user2.email2 = user2.email
+                    user2.save()
                     admin.gravatar_hash = admin.email.trim().toLowerCase().encodeAsMD5()
                     admin.password2 = admin.password
                     admin.email2 = admin.email
                     admin.save()
                     UserRole.create user, Role.findByAuthority('ROLE_USER'), true
                     UserRole.create admin, Role.findByAuthority('ROLE_USER'), true
-                    assert User.count() == 2
+                    assert User.count() == 3
                     if(Snippet.count() == 0){
                         def snippet
 

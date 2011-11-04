@@ -2,16 +2,21 @@
 #sidebar .content {
     border-color: #C4A97A;
 }
+#sidebar .content h1 {
+    font-size: 100%;
+}
 #sidebar .content .more_link {
     text-align: right;
 }
 #sidebar .content .more_link a {
     font-size: 82%;
 }
+#contents #tags h1, #contents #users h1 {
+    font-size: 110%;
+}
 #tags h1, #users h1 {
     border-bottom: solid 1px #BD767D;
     margin-bottom: 4px;
-    font-size: 110%;
 }
 #tags p span {
     font-size: 78%;

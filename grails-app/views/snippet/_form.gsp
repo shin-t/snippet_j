@@ -1,3 +1,4 @@
+<sec:ifLoggedIn>
 <g:formRemote name="snippetForm" url="[controller:'snippet', action:'save']" update="[success:'', failure:'snippetForm']" onSuccess="jQuery('input:text, textarea','.dialog').val('');jQuery('.message span').first().text(data).show()">
     <div class="dialog">
         <g:hiddenField name="parent_id" value="${parent_id}"/>
@@ -19,14 +20,8 @@
             <div class="value"><g:textField name="tags" value="${snippetInstance.tags?.join(' ')}" placeholder="空白文字で区切る"/></div>
         </div>
         <div class="buttons">
-            <span class="button">
-                <sec:ifLoggedIn>
-                <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-                </sec:ifLoggedIn>
-                <sec:ifNotLoggedIn>
-                <g:link controller="login" action="index">ログイン/ユーザー登録して投稿してください。</g:link>
-                </sec:ifNotLoggedIn>
-            </span>
+            <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}"/></span>
         </div>
     </div>
 </g:formRemote>
+</sec:ifLoggedIn>

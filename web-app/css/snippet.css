@@ -14,11 +14,10 @@
 #list_filter > *:first-child, #list_filter > *:first-child + * {
     float: left;
 }
-#tags {
-}
-#tags > div:first-child, #users > div:first-child {
+#tags h1, #users h1 {
     border-bottom: solid 1px #BD767D;
     margin-bottom: 4px;
+    font-size: 120%;
 }
 #tags p a {
 }
@@ -61,6 +60,11 @@
     width: 70%;
 }
 /* CONTENT */
+.content .reply_form h1 {
+    border-bottom: solid 1px #BD767D;
+    margin-bottom: 4px;
+    font-size: 110%;
+}
 .content .reply_form {
     clear:both;
 }
@@ -103,34 +107,4 @@
 }
 .content .tags {
     font-size: 86%;
-}
-.content .help,
-.content .solved,
-.content .active,
-.content .deadline,
-.content .endless {
-    font-size: 82%;
-}
-.content .help span {
-    padding: 2px;
-    border: solid 1px #BD767D;
-    background-color: #E3BABE;
-}
-.content .solved span {
-    padding: 2px;
-    border: solid 1px #C4C07A;
-    background-color: #E7E5BD;
-}
-.content .active span{
-    padding: 2px;
-    color: #fff;
-    border: solid 1px #E3BABE;
-    background-color: #BD767D;
-}
-.content .deadline span {
-    color: #BD767D;
-}
-.content .endless span {
-    padding: 2px;
-    border: dashed 1px #C4C07A;
 }

@@ -14,7 +14,7 @@
             </g:if>
             <g:form controller="user" action="save">
                 <div class="dialog">
-                    <div class="header">${entityName}</div>
+                    <h1>${entityName}</h1>
                     <g:hasErrors bean="${userInstance}">
                     <div class="errors"><g:renderErrors bean="${userInstance}" as="list"/></div>
                     </g:hasErrors>

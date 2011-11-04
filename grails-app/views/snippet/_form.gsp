@@ -3,7 +3,7 @@
     <div class="dialog">
         <g:hiddenField name="parent_id" value="${parent_id}"/>
         <g:hiddenField name="status" value="${snippetInstance.status}"/>
-        <h1 class="header"><g:message code="snippet.${snippetInstance.status}.label" default="Snippet"/></h1>
+        <h1><g:message code="snippet.${snippetInstance.status}.label" default="Snippet"/></h1>
         <g:hasErrors bean="${snippetInstance}">
         <div class="errors"><g:renderErrors bean="${snippetInstance}" as="list"/></div>
         </g:hasErrors>

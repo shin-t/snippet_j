@@ -16,11 +16,13 @@
             <g:render template="user"/>
             </sec:ifLoggedIn>
             <div id="users" class="content">
-                <g:if test="${params.username}">
-                <div><g:message code="${actionName}.users.label" default="Users" /></div>
-                </g:if><g:else>
-                <div><g:message code="user.label" default="Users" /></div>
-                </g:else>
+                <h1>
+                    <g:if test="${params.username}">
+                    <g:message code="${actionName}.users.label" default="Users" />
+                    </g:if><g:else>
+                    <g:message code="user.label" default="Users" />
+                    </g:else>
+                </h1>
                 <g:each in="${userInstanceList}" var="c">
                 <p>
                     <gravatar:img hash="${c.gravatar_hash}" size="16"/>

@@ -10,7 +10,7 @@
         <div id="spinner" class="spinner" style="display:none;"><img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}"/></div>
         <div id="header">
             <h1><g:link url="[controller:null]">Snippet</g:link></h1>
-            <ul id="nav-list">
+            <ul class="nav">
                 <g:if test="${params.status}">
                 <li><g:link controller='snippet' action='list' params="[status: params.status]"><g:message code="snippet.${params.status}.label" default="Snippet"/></g:link></li>
                 <sec:ifLoggedIn>
@@ -24,18 +24,18 @@
                 <li><g:link controller='snippet' action='list' params="[status: 'problem']"><g:message code="snippet.problem.label" default="Problem"/></g:link></li>
                 </g:else>
             </ul>
-            <div id="nav">
+            <ul class="nav">
                 <sec:ifLoggedIn>
                 <g:if test="${params.status}">
-                <div><g:link controller='user' action='show' params="[status:params.status, username:sec.loggedInUserInfo(field:'username')]"><sec:username /></g:link></div>
+                <li><g:link controller='user' action='show' params="[status:params.status, username:sec.loggedInUserInfo(field:'username')]"><sec:username /></g:link></li>
                 </g:if>
-                <div><g:link controller='user' action='edit'><g:message code="user.settings.label" default="Settings"/></g:link></div>
-                <div><g:link controller='logout'><g:message code="logout.label" default="Log Out"/></g:link></div>
+                <li><g:link controller='user' action='edit'><g:message code="user.settings.label" default="Settings"/></g:link></li>
+                <li><g:link controller='logout'><g:message code="logout.label" default="Log Out"/></g:link></li>
                 </sec:ifLoggedIn><sec:ifNotLoggedIn>
-                <div><g:link controller='user' action='create'><g:message code="login.signup.label" default="Sign Up"/></g:link></div>
-                <div><g:link controller='login' action='auth'><g:message code="login.label" default="Log In"/></g:link></div>
+                <li><g:link controller='user' action='create'><g:message code="login.signup.label" default="Sign Up"/></g:link></li>
+                <li><g:link controller='login' action='auth'><g:message code="login.label" default="Log In"/></g:link></li>
                 </sec:ifNotLoggedIn>
-            </div>
+            </li>
         </div>
         <div id="container"><g:layoutBody /></div>
         <r:layoutResources />

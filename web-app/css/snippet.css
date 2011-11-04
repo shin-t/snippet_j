@@ -8,18 +8,10 @@
 #sidebar .content .more_link a {
     font-size: 82%;
 }
-#list_filter {
-    margin: 32px 16px 16px;
-}
-#list_filter > *:first-child, #list_filter > *:first-child + * {
-    float: left;
-}
 #tags h1, #users h1 {
     border-bottom: solid 1px #BD767D;
     margin-bottom: 4px;
     font-size: 120%;
-}
-#tags p a {
 }
 #tags p span {
     font-size: 78%;

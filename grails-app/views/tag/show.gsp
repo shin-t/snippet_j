@@ -12,8 +12,8 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div id="tag_info">
-                <p>${params.tag.encodeAsHTML()}</p>
+            <div id="tag_info" class="content">
+                <h1>${params.tag.encodeAsHTML()}</h1>
                 <p><g:message code="snippet.${params.status}.label" default="Snippet"/> &times;${counts[(params.status)]?:0}<br/>
                 <g:message code="followers.users.label" default="Follower"/> &times;${follower}</p>
                 <sec:ifLoggedIn>

@@ -11,13 +11,12 @@
 #tags h1, #users h1 {
     border-bottom: solid 1px #BD767D;
     margin-bottom: 4px;
-    font-size: 120%;
+    font-size: 110%;
 }
 #tags p span {
     font-size: 78%;
 }
 #user_info, #tag_info {
-    background-color: #E3BABE;
     border-radius: 16px / 16px;
     border-bottom: 1px solid #BD767D;
     border-right: 1px solid #BD767D;
@@ -25,10 +24,17 @@
     font-size: 100%;
     margin: 0 0 32px;
 }
+#user_info p, #tag_info p {
+    font-size: 82%;
+    margin-left: 1em;
+}
+#user_info div, #tag_info div {
+    text-align: right;
+}
 #user_info h1 {
     height: 72px;
     line-height: 72px;
-    font-size: 160%;
+    font-size: 110%;
 }
 #user_info span img {
     vertical-align: middle;
@@ -36,12 +42,8 @@
     padding: 2px;
     background-color: #eee;
 }
-#user_info p, #tag_info p:first-child + p {
-    font-size: 82%;
-    margin-left: 1em;
-}
-#user_info div, #tag_info div {
-    text-align: right;
+#tag_info h1 {
+    font-size: 110%;
 }
 /* DIALOG */
 .dialog .prop .value textarea, #reply .prop .value textarea {

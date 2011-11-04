@@ -1,5 +1,5 @@
 <%@ page import="snippet.Snippet" %>
-<div id="user_info">
+<div id="user_info" class="content">
     <h1>
         <span>
             <gravatar:img hash="${userInstance.gravatar_hash}" size="48"/>

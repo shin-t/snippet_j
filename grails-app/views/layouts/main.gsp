@@ -14,8 +14,8 @@
                 <g:if test="${params.status}">
                 <li><g:link controller='snippet' action='list' params="[status: params.status]"><g:message code="snippet.${params.status}.label" default="Snippet"/></g:link></li>
                 <sec:ifLoggedIn>
-                <li><g:link controller='snippet' action='tags' params="[status: params.status]"><g:message code="tag.label" default="Tags"/></g:link></li>
-                <li><g:link controller='snippet' action='users' params="[status: params.status]"><g:message code="user.label" default="Users"/></g:link></li>
+                <li><g:link controller='snippet' action='tags' params="[status: params.status]"><g:message code="following.tags.label" default="Tags"/></g:link></li>
+                <li><g:link controller='snippet' action='users' params="[status: params.status]"><g:message code="following.users.label" default="Users"/></g:link></li>
                 </sec:ifLoggedIn>
                 </g:if>
                 <g:else>

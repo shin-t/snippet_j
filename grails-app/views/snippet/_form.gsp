@@ -8,7 +8,7 @@
         </g:hasErrors>
         <div class="prop">
             <div class="name"><label for="text"><g:message code="snippet.text.label" default="Text"/></label></div>
-            <div class="value"><g:textArea name="text" value="${snippetInstance.text}" /></div>
+            <div class="value"><g:textArea name="text" value="${snippetInstance.text}"/></div>
         </div>
         <div class="prop">
             <div class="name"><label for="file"><g:message code="snippet.file.label" default="File"/></label></div>

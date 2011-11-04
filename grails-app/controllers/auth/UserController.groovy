@@ -147,23 +147,10 @@ class UserController {
         }
     }
 
-    def index = {
-        if(params.username) {
-            def userInstance = User.findByUsername(params.username)
-            if(userInstance) {
-                if(springSecurityService.isLoggedIn()) {
-                    [userInstance:userInstance, currentUser:springSecurityService.currentUser]
-                } else {
-                    [userInstance:userInstance]
-                }
-            } else render (["${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"] as JSON)
-        }
-    }
-
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 5, 30)
         def query= "select new map(u.username as username, u.gravatar_hash as gravatar_hash, u.follower.size as followers) from User u order by u.follower.size desc"
-        [users:User.executeQuery(query,[],params), total:User.executeQuery(query)]
+        [userInstanceList:User.executeQuery(query,[],params), userInstanceTotal:User.executeQuery(query).size()]
     }
 
     def create = {

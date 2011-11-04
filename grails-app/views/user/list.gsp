@@ -12,7 +12,9 @@
             <g:if test="${flash.message}">
             <p class="message"><span>${flash.message}</span></p>
             </g:if>
+            <sec:ifLoggedIn>
             <g:render template="user"/>
+            </sec:ifLoggedIn>
             <div id="users" class="content">
                 <g:if test="${params.username}">
                 <div><g:message code="${actionName}.users.label" default="Users" /></div>

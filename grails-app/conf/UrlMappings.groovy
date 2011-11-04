@@ -68,7 +68,7 @@ class UrlMappings {
         }
 
         /* User */
-        '/user'(controller:'user', action='index')
+        '/user'(controller:'user', action='list')
         "/user/$username" {
             controller = 'user'
             action = 'show'

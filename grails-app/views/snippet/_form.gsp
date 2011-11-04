@@ -1,5 +1,5 @@
-<div class="dialog">
-    <g:formRemote name="snippetForm" url="[controller:'snippet',action:'save']" update="[success:'', failure:'form_dialog']" onSuccess="jQuery('input:text, textarea','.dialog').val('');jQuery('.message span').first().text(data).show()">
+<g:formRemote name="snippetForm" url="[controller:'snippet', action:'save']" update="[success:'', failure:'snippetForm']" onSuccess="jQuery('input:text, textarea','.dialog').val('');jQuery('.message span').first().text(data).show()">
+    <div class="dialog">
         <g:hiddenField name="parent_id" value="${parent_id}"/>
         <g:hiddenField name="status" value="${snippetInstance.status}"/>
         <h1 class="header"><g:message code="snippet.${snippetInstance.status}.label" default="Snippet"/></h1>
@@ -28,5 +28,5 @@
                 </sec:ifNotLoggedIn>
             </span>
         </div>
-    </g:formRemote>
-</div>
+    </div>
+</g:formRemote>

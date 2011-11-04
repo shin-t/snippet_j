@@ -22,7 +22,7 @@
                     var follow_update = function(){
                         var label = $(this).attr("checked")?"unfollow":"follow";
                         $.ajax({
-                            url:'/snippet/tag/${params.tag.encodeAsURL()}/'+$(this).button("option","label"),
+                            url:'/snippet/${params.status}/tag/${params.tag.encodeAsURL()}/'+$(this).button("option","label"),
                             success:function(data,textStatus){
                                 $("#follow_button").button("option","label",label);
                             },
@@ -30,7 +30,7 @@
                         });
                     }
                     $.ajax({
-                        url:'/snippet/tag/${params.tag.encodeAsURL()}/follow_check',
+                        url:'/snippet/${params.status}/tag/${params.tag.encodeAsURL()}/follow_check',
                         success: function(data){
                             var label;
                             if(data[0]){

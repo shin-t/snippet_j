@@ -1,27 +1,27 @@
 <div class="content">
     <div class="header">
         <p>
-            <span class="username">
+            <span>
                 <gravatar:img hash="${snippetInstance.user.gravatar_hash}" size="18"/>
                 <g:link controller="user" action="show" params="[username:snippetInstance.user.username]">${fieldValue(bean: snippetInstance.user, field: "username")}</g:link>
             </span>
             <g:if test="${snippetInstance.parent}">
-            &raquo;
-            <span class="parent">
+            <span class="small">
+                &raquo;
                 <gravatar:img hash="${snippetInstance.parent.user.gravatar_hash}" size="16"/>
                 <g:link controller="snippet" action="show" id="${snippetInstance.parent.id}" params="[status:params.status]" fragment="snippet_${snippetInstance.id}">${fieldValue(bean: snippetInstance.parent.user, field: "username")}</g:link>
             </span>
             </g:if>
         </p>
         <g:if test="${snippetInstance.tags}">
-        <p class="tags">
+        <p class="tags small">
             <g:message code="tag.label" default="Tags"/>
             <g:each in="${snippetInstance.tags}" var="tag">
-            <g:link controller="tag" action="show" params="[tag: tag, status: params.status]">${tag.encodeAsHTML()}</g:link>
+            <g:link controller="tag" action="show" params="[tag:tag, status:params.status]">${tag.encodeAsHTML()}</g:link>
             </g:each>
         </p>
         </g:if>
-        <p class="date-created"><g:link controller="snippet" action="show" id="${snippetInstance.id}" params="[status:params.status]"><prettytime:display date="${snippetInstance.lastUpdated}"/></g:link></p>
+        <p class="date-created small"><g:link controller="snippet" action="show" id="${snippetInstance.id}" params="[status:params.status]"><prettytime:display date="${snippetInstance.lastUpdated}"/></g:link></p>
     </div>
     <pre class="text">${fieldValue(bean: snippetInstance, field: "text")}</pre>
     <g:if test="${snippetInstance.file}">

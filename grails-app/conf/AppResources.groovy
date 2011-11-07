@@ -6,7 +6,4 @@ modules = {
         resource url:'google-code-prettify/prettify.js'
         resource url:'js/common.js'
     }
-    snippet {
-        resource url:'css/snippet.css'
-    }
 }

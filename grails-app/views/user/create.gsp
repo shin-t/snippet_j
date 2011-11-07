@@ -13,8 +13,8 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <g:form controller="user" action="save">
-                <div class="dialog">
-                    <h1>${entityName}</h1>
+                <div class="dialog box">
+                    <p>${entityName}</p>
                     <g:hasErrors bean="${userInstance}">
                     <div class="errors"><g:renderErrors bean="${userInstance}" as="list"/></div>
                     </g:hasErrors>

@@ -5,7 +5,7 @@
         <meta name="layout" content="main"/>
         <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
         <title><g:message code="default.list.label" args="[entityName]"/></title>
-        <r:require modules="jquery-ui, common, snippet"/>
+        <r:require modules="jquery-ui, common"/>
     </head>
     <body>
         <div id="contents">
@@ -15,14 +15,14 @@
             <sec:ifLoggedIn>
             <g:render template="user"/>
             </sec:ifLoggedIn>
-            <div id="users" class="content">
-                <h1>
+            <div class="box">
+                <p>
                     <g:if test="${params.username}">
                     <g:message code="${actionName}.users.label" default="Users" />
                     </g:if><g:else>
                     <g:message code="user.label" default="Users" />
                     </g:else>
-                </h1>
+                </p>
                 <g:each in="${userInstanceList}" var="c">
                 <p>
                     <gravatar:img hash="${c.gravatar_hash}" size="16"/>

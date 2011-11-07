@@ -4,7 +4,7 @@
         <meta name="layout" content="main"/>
         <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}"/>
         <title><g:message code="default.list.label" args="[entityName]"/></title>
-        <r:require modules="jquery-ui, common, snippet"/>
+        <r:require modules="jquery-ui, common"/>
     </head>
     <body>
         <div id="contents">
@@ -13,7 +13,7 @@
             </g:if>
             <g:render template="user"/>
             <g:if test="${params.status}">
-                <div id="lists">
+                <div class="box">
                     <g:include controller="user" action="${params.status}" params="[username:params.username, status:params.status]"/>
                 </div>
             </g:if>

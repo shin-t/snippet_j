@@ -1,5 +1,6 @@
 html * {
     margin: 0;
+    padding: 0;
 }
 /* GENERAL */
 body {
@@ -10,9 +11,6 @@ input[type="text"], input[type="password"], textarea {
     border: 1px solid #777;
     background-color: #f2f2f2;
     font-size: 86%;
-}
-h1 {
-    font-weight: normal;
 }
 a, a:link {
     color: #64738B;
@@ -27,7 +25,17 @@ a:hover {
     right: 0;
 }
 .ui-button, .ui-button-text {
-    font-size: 92%;
+    font-size: 86%;
+}
+.prop .name {
+    font-size: 86%;
+}
+.prop .value textarea {
+    width: 99%;
+    height: 4em;
+}
+input#tags {
+    width: 70%;
 }
 #container {
     margin: 32px auto 0;
@@ -37,25 +45,39 @@ a:hover {
     width: 820px;
     float: left;
 }
+.box {
+    background-color: #fff;
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.25);
+    border-radius: 24px / 24px;
+    padding: 16px;
+    margin: 24px 0;
+}
+.box > p:first-child {
+    margin-bottom: 8px;
+}
+.small {
+    font-size: 86%;
+}
+/* SIDEBAR */
 #sidebar {
     float: right;
     width: 240px;
     padding-left: 20px;
+}
+.box .more_link {
+    text-align: right;
 }
 /* HEADER */
 #header {
     border-bottom: 1px #BD767D solid;
     background: #CB8D93;
     padding: 0 100px;
-    height: 64px;
+    height: 40px;
 }
-#header h1 {
-    height: 48px;
-    margin-top: 16px;
+#header > a {
+    line-height: 40px;
     float: left;
     font-weight: bold;
-}
-#header h1 a {
     font-size: 124%;
     text-decoration: none;
 }
@@ -65,8 +87,8 @@ a:hover {
 }
 .nav > * {
     float:left;
-    margin: 40px 8px 0;
-    height: 24px;
+    margin: 0px 8px 0;
+    line-height: 40px;
 }
 .nav > *:first-child {
     margin-left:32px;
@@ -74,46 +96,38 @@ a:hover {
 .nav + .nav {
     float:right;
 }
-/* DIALOG */
-.dialog {
-    border: solid 1px #777;
-    border-radius: 16px / 16px;
-    background-color: #fff;
-    padding: 16px;
-    margin-bottom: 20px;
-}
-.dialog h1 {
-    border-radius: 6px / 6px;
-    border-bottom: solid 1px #C4C07A;
-    border-right: solid 1px #C4C07A;
-    font-size: 100%;
-    background-color: #E7E4B0;
-    padding: 6px;
-}
-.dialog .prop {
-    margin: 8px 4px;
-}
-.dialog .prop .name {
-    font-size: 92%;
-}
 /* ACTION BUTTONS */
 .buttons {
     margin: 16px 2px 0;
     text-align: right;
 }
 /* CONTENT */
-.content {
-    background-color: #fff;
-    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.25);
-    border-radius: 24px / 24px;
-    border: solid 1px #BD767D;
-    padding: 16px;
-    margin-bottom: 24px;
+.list .content {
+    border-top: solid 1px #BD767D;
 }
-.content .header{
-    border-bottom: solid 1px #BD767D;
-    padding-bottom: 4px;
-    margin-bottom: 4px;
+.content {
+    padding: 24px 0;
+}
+.content .reply_form {
+    clear:both;
+}
+.content .reply_form form {
+    border-top: dashed 1px #BD767D;
+    margin-top: 12px;
+    padding: 12px 24px 0px;
+}
+.content .text, .content .file {
+    overflow: auto;
+    font-size: 86%;
+}
+.content .file {
+    padding: 6px;
+    margin: 12px;
+    border: solid 1px #BD767D;
+    border-radius: 8px / 8px;
+}
+.content .date-created {
+    text-align: right;
 }
 /* MESSAGES AND ERRORS */
 .message {

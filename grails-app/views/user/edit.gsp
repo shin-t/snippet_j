@@ -12,8 +12,8 @@
             <g:if test="${flash.message}">
             <p class="message"><span>${flash.message}</span></p>
             </g:if>
-            <div class="dialog">
-                <h1><g:fieldValue bean="${userInstance}" field="username"/></h1>
+            <div class="dialog box">
+                <p><g:fieldValue bean="${userInstance}" field="username"/></p>
                 <g:if test="${params.prop == 'password'}">
                     <g:render template="password"/>
                 </g:if>

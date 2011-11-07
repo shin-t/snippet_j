@@ -1,6 +1,6 @@
 <html>
     <head>
-        <r:require modules="jquery-ui, common, snippet"/>
+        <r:require modules="jquery-ui, common"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="main"/>
         <title><g:message code="snippet.label" default="Snippet"/></title>

@@ -1,12 +1,12 @@
 <g:if test="${userInstanceList}">
-<div id="users" class="content">
-    <h1>
+<div class="box">
+    <p>
         <g:if test="${params.username}">
         <g:message code="${actionName}.users.label" default="Follwing users" /></h1>
         </g:if><g:else>
         <g:message code="user.label" default="Users" />
         </g:else>
-    </h1>
+    </p>
     <g:each in="${userInstanceList}" var="c">
     <p>
         <gravatar:img hash="${c.gravatar_hash}" size="16"/>
@@ -19,7 +19,7 @@
     </p>
     </g:each>
     <g:if test="${params.max == 5}">
-        <div class="more_link"><g:link controller="user" action="${actionName}" params="[username:userInstance]"><g:message code="more.link.label" default="Users"/></g:link></div>
+        <div class="more_link small"><g:link controller="user" action="${actionName}" params="[username:userInstance]"><g:message code="more.link.label" default="Users"/></g:link></div>
     </g:if>
     <g:else>
         <div class="paginateButtons"><g:paginate total="${userInstanceTotal}" controller="user" action="show" params="[username:userInstance.username]"/></div>

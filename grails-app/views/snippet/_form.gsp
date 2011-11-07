@@ -1,9 +1,9 @@
 <sec:ifLoggedIn>
 <g:formRemote name="snippetForm" url="[controller:'snippet', action:'save']" update="[success:'', failure:'snippetForm']" onSuccess="jQuery('input:text, textarea','.dialog').val('');jQuery('.message span').first().text(data).show()">
-    <div class="dialog">
+    <div class="dialog box">
         <g:hiddenField name="parent_id" value="${parent_id}"/>
         <g:hiddenField name="status" value="${snippetInstance.status}"/>
-        <h1><g:message code="snippet.${snippetInstance.status}.label" default="Snippet"/></h1>
+        <p><g:message code="snippet.${snippetInstance.status}.label" default="Snippet"/></p>
         <g:hasErrors bean="${snippetInstance}">
         <div class="errors"><g:renderErrors bean="${snippetInstance}" as="list"/></div>
         </g:hasErrors>

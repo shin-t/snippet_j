@@ -5,16 +5,16 @@
         <meta name="layout" content="main"/>
         <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}"/>
         <title><g:message code="default.list.label" args="[entityName]"/></title>
-        <r:require modules="jquery-ui, common, snippet"/>
+        <r:require modules="jquery-ui, common"/>
     </head>
     <body>
         <div id="contents">
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div id="tag_info" class="content">
-                <h1>${params.tag.encodeAsHTML()}</h1>
-                <p><g:message code="snippet.${params.status}.label" default="Snippet"/> &times;${counts[(params.status)]?:0}<br/>
+            <div class="box">
+                <p>${params.tag.encodeAsHTML()}</p>
+                <p class="small"><g:message code="snippet.${params.status}.label" default="Snippet"/> &times;${counts[(params.status)]?:0}<br/>
                 <g:message code="followers.users.label" default="Follower"/> &times;${follower}</p>
                 <sec:ifLoggedIn>
                 <div><g:checkBox name="follow_button"/><label for="follow_button"></label></div>
@@ -46,7 +46,7 @@
                 </g:javascript>
                 </sec:ifLoggedIn>
             </div>
-            <div id="lists"><g:include controller="tag" action="${params.status}" params="[tag:params.tag, status:params.status]"/></div>
+            <div class="box"><g:include controller="tag" action="${params.status}" params="[tag:params.tag, status:params.status]"/></div>
         </div>
         <div id="sidebar">
         </div>

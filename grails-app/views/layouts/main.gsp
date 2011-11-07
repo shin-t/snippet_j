@@ -9,7 +9,7 @@
     <body>
         <div id="spinner" class="spinner" style="display:none;"><img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}"/></div>
         <div id="header">
-            <h1><g:link controller='snippet'>Snippet</g:link></h1>
+            <a><g:link controller='snippet'>Snippet</g:link></a>
             <ul class="nav">
                 <g:if test="${params.status}">
                 <li><g:link controller='snippet' action='list' params="[status: params.status]"><g:message code="snippet.${params.status}.label" default="Snippet"/></g:link></li>

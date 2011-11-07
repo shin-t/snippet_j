@@ -1,6 +1,6 @@
 <g:formRemote name="reply" url="[controller:'snippet',action:'save']" update="[success:'',failure:'reply_'+parent_id]" onSuccess="jQuery('.reply_form').empty();jQuery('.message span').first().text(data).show()">
     <g:hiddenField name="parent_id" value="${parent_id}" />
-    <h1><g:message code="snippet.button.reply.label" default="reply"/></h1>
+    <p><g:message code="snippet.button.reply.label" default="reply"/></p>
     <g:hasErrors bean="${snippetInstance}">
     <div class="errors"><g:renderErrors bean="${snippetInstance}" as="list" /></div>
     </g:hasErrors>

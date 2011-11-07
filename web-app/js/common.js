@@ -45,8 +45,6 @@ var button_icons = function(){
 }
 
 var reset_autopager = function(){
-    $.autopager('destroy');
-    $.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons });
     button_icons();
 }
 
@@ -76,11 +74,5 @@ var clearForm = function(){
     $(".reply_form").empty()
 }
 
-$("#list_filter").buttonset().children(":radio").button();
-
-$.autopager({ link:'.nextLink', appendTo:'#lists', content:'.list', load: button_icons });
-
 button_icons();
-
 prettyPrint();
-

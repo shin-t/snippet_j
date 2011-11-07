@@ -161,7 +161,6 @@ class UserController {
     }
 
     def save = {
-        log.debug params
         def userInstance = new User(params)
         userInstance.password = params.password?springSecurityService.encodePassword(params.password):''
         userInstance.password2 = params.password2?springSecurityService.encodePassword(params.password2):''
@@ -184,7 +183,6 @@ class UserController {
             params.max = Math.min(params.max ? params.int('max') : 10, 30)
             params.sort = params.sort?:'dateCreated'
             params.order = params.order?:'desc'
-            log.debug params
             userInstance=User.findByUsername(params.username)
             if(userInstance){
                 [currentUser:springSecurityService.currentUser, userInstance:userInstance]

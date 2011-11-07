@@ -10,7 +10,6 @@
     <body>
         <div id="contents">
             <p class="message"><span style="display:none;"></span></p>
-            <div class="box"><g:render template="content" model="[snippetInstance: snippetInstance, userInstance: userInstance]" /></div>
             <g:if test="${snippetInstanceList}">
             <div class="box">
                 <g:render template="list" model="[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance: userInstance]" />

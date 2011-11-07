@@ -92,13 +92,14 @@ class SnippetController {
         if(snippetInstance) {
             params.max = Math.min(params.max ? params.int('max') : 5, 30)
             params.sort = params.sort?:'dateCreated'
-            params.order = params.order?:'desc'
+            params.order = params.order?:'asc'
             def snippetInstanceList = Snippet.createCriteria().list(params) {
-                eq ('parent', snippetInstance)
+                or {
+                    eq ('parent', snippetInstance)
+                    eq ('id', snippetInstance.id)
+                }
             }
             [
-                message: message(code:'snippet.button.reply.label'),
-                snippetInstance: snippetInstance,
                 snippetInstanceList: snippetInstanceList,
                 snippetInstanceTotal: snippetInstanceList.totalCount,
                 userInstance: springSecurityService.currentUser

@@ -55,7 +55,7 @@ class TagController {
         render template:'/snippet/list', model:[
             snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
             snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
-            userInstance: springSecurityService.currentUser
+            currentUser: springSecurityService.currentUser
         ]
     }
 
@@ -65,7 +65,7 @@ class TagController {
         render template:'/snippet/list', model:[
             snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
             snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
-            userInstance: springSecurityService.currentUser
+            currentUser: springSecurityService.currentUser
         ]
     }
 
@@ -77,7 +77,7 @@ class TagController {
                 render template:'/snippet/list', model:[
                     snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
                     snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
-                    userInstance: springSecurityService.currentUser
+                    currentUser: springSecurityService.currentUser
                 ]
             }
         }
@@ -121,6 +121,6 @@ class TagController {
     def show = {
         def query = "select new map(s.status as status, count(*) as count) from Snippet s, TagLink tl where s.id = tl.tagRef and tl.type = 'snippet' and tl.tag.name = ? group by s.status"
         def counts = Snippet.executeQuery(query,[params.tag]).inject([:]){ s, e -> s << [(e.status):e.count] }
-        [userInstance:springSecurityService.currentUser, counts:counts, follower:Snippet.executeQuery("select count(*) from UserTag u where u.tag.name = ?",[params.tag]).first()]
+        [currentUser:springSecurityService.currentUser, counts:counts, follower:Snippet.executeQuery("select count(*) from UserTag u where u.tag.name = ?",[params.tag]).first()]
     }
 }

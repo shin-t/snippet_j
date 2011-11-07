@@ -61,6 +61,7 @@ class UserController {
             params.sort = params.sort?:'dateCreated'
             params.order = params.order?:'desc'
             render template:'/snippet/list', model:[
+                currentUser:springSecurityService.currentUser,
                 userInstance:userInstance,
                 snippetInstanceList:Snippet.findAllByStatusAndUser('snippet',userInstance,params),
                 snippetInstanceTotal:Snippet.countByStatusAndUser('snippet',userInstance)
@@ -79,6 +80,7 @@ class UserController {
             def userInstance = User.findByUsername(params.username)
             if(userInstance) {
                 render template:'/snippet/list', model:[
+                    currentUser:springSecurityService.currentUser,
                     userInstance:userInstance,
                     snippetInstanceList:Snippet.findAllByStatusAndUser('question',userInstance,params),
                     snippetInstanceTotal:Snippet.countByStatusAndUser('question',userInstance)
@@ -95,6 +97,7 @@ class UserController {
             def userInstance = User.findByUsername(params.username)
             if(userInstance) {
                 render template:'/snippet/list', model:[
+                    currentUser:springSecurityService.currentUser,
                     userInstance:userInstance,
                     snippetInstanceList:Snippet.findAllByStatusAndUser('problem',userInstance,params),
                     snippetInstanceTotal:Snippet.countByStatusAndUser('problem',userInstance)

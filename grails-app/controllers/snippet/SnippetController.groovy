@@ -17,7 +17,7 @@ class SnippetController {
             def query = "select distinct(s) from Snippet s, UserTag u, TagLink t where s.status = ? and s.id = t.tagRef and t.type = 'snippet' and u.tag.name = t.tag.name and u.follower.id = ?  order by s.dateCreated desc"
             def snippetInstanceList = Snippet.executeQuery(query,[params.status, springSecurityService.principal.id],params)
             def snippetInstanceTotal = Snippet.executeQuery(query,[params.status, springSecurityService.principal.id]).size()
-            render view:'list', model:[snippetInstanceList:snippetInstanceList, snippetInstanceTotal:snippetInstanceTotal, userInstance:springSecurityService.currentUser, status:params.status]
+            render view:'list', model:[snippetInstanceList:snippetInstanceList, snippetInstanceTotal:snippetInstanceTotal, currentUser:springSecurityService.currentUser, status:params.status]
         } else {
             render status:404, text:'Not Found'
         }
@@ -30,7 +30,7 @@ class SnippetController {
             def query = "select s from Snippet s, UserUser u where s.status = ? and s.user.id = u.user.id and u.follower.id = ? order by s.dateCreated desc"
             def snippetInstanceList = Snippet.executeQuery(query,[params.status, springSecurityService.principal.id],params)
             def snippetInstanceTotal = Snippet.executeQuery(query,[params.status, springSecurityService.principal.id]).size()
-            render view:'list', model:[snippetInstanceList:snippetInstanceList, snippetInstanceTotal:snippetInstanceTotal, userInstance:springSecurityService.currentUser, status:params.status]
+            render view:'list', model:[snippetInstanceList:snippetInstanceList, snippetInstanceTotal:snippetInstanceTotal, currentUser:springSecurityService.currentUser, status:params.status]
         } else {
             render status:404, text:'Not Found'
         }
@@ -50,7 +50,7 @@ class SnippetController {
             snippetInstanceList = Snippet.list(params)
             snippetInstanceTotal = Snippet.count()
         }
-        [snippetInstanceList:snippetInstanceList, snippetInstanceTotal:snippetInstanceTotal , userInstance:userInstance]
+        [snippetInstanceList:snippetInstanceList, snippetInstanceTotal:snippetInstanceTotal , currentUser:userInstance]
     }
 
     @Secured(['ROLE_USER'])
@@ -102,7 +102,7 @@ class SnippetController {
             [
                 snippetInstanceList: snippetInstanceList,
                 snippetInstanceTotal: snippetInstanceList.totalCount,
-                userInstance: springSecurityService.currentUser
+                currentUser: springSecurityService.currentUser
             ]
         }
         else {

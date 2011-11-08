@@ -26,9 +26,8 @@ class TagController {
     def follow = {
         if(params.tag){
             def tag = Tag.findByName(params.tag)
-            def currentUser = springSecurityService.currentUser
             if(tag){
-                UserTag.create(currentUser, tag, true)
+                UserTag.create(springSecurityService.currentUser, tag, true)
                 render (status:204, text:'')
             }
             else render ([message: 'Not Found'] as JSON)

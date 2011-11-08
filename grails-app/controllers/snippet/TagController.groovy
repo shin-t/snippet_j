@@ -12,13 +12,11 @@ class TagController {
     @Secured(['ROLE_USER'])
     def follow_check = {
         if(params.tag){
-            def tag = Tag.findByName(params.tag)
-            def result
-            if(tag){
-                result = UserTag.get(springSecurityService.principal.id, tag.name)?true:false
-                render ([result] as JSON)
+            if(Tag.findByName(params.tag)){
+                render ([UserTag.get(springSecurityService.principal.id, params.tag)?true:false] as JSON)
+            } else {
+                render ([message: 'Not Found'] as JSON)
             }
-            else render ([message: 'Not Found'] as JSON)
         } else {
             render status:404, text:''
         }

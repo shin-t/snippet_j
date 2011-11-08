@@ -40,11 +40,8 @@ class TagController {
     @Secured(['ROLE_USER'])
     def unfollow = {
         if(params.tag){
-            def tag = Tag.findByName(params.tag)
-            def instance
-            if(tag){
-                instance = UserTag.get(springSecurityService.principal.id, tag.name)
-                if(instance) instance.delete(flush:true)
+            if(Tag.findByName(params.tag)){
+                UserTag.get(springSecurityService.principal.id, params.tag)?.delete(flush:true)
                 render (status:204, text:'')
             }
             else render ([message: 'Not Found'] as JSON)

@@ -16,6 +16,8 @@ class SnippetTests extends GroovyTestCase {
 
     void testSomething() {
         def user = new User(username:"username",password:"password",email:"MyEmailAddress@example.com ")
+        user.password2 = user.password
+        user.email2 = user.email
         user.gravatar_hash = user.email.trim().toLowerCase().encodeAsMD5()
         user.addToSnippet(new Snippet(text:"snippet1 name",file:"snippet1")).save()
         assert User.findByUsername("username")

@@ -8,8 +8,16 @@ class UserUserTests extends GroovyTestCase {
         super.setUp()
         assert 0 == User.count()
 
-        def user1 = new User(username:"admin",password:"password",email:"abc@example.com",gravatar_hash:"abc@example.com".trim().toLowerCase().encodeAsMD5()).save()
-        def user2 = new User(username:"user",password:"password",email:"abc.123@example.com",gravatar_hash:"abc.123@example.com".trim().toLowerCase().encodeAsMD5()).save()
+        def user1 = new User(username:"admin",password:"password",email:"abc@example.com")
+        user1.password2 = user1.password
+        user1.email2 = user1.email
+        user1.gravatar_hash = user1.email.trim().toLowerCase().encodeAsMD5()
+        user1.save()
+        def user2 = new User(username:"user",password:"password",email:"abc.123@example.com")
+        user2.password2 = user2.password
+        user2.email2 = user2.email
+        user2.gravatar_hash = user2.email.trim().toLowerCase().encodeAsMD5()
+        user2.save()
         
         assert 2 == User.count()
     }

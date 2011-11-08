@@ -31,7 +31,7 @@ class UserTag implements Serializable {
     }
 
     static boolean remove(User follower, Tag tag, boolean flush = false) {
-        UserTag instance = UserTag.findByFollowerAndTag(follower, Tag)
+        UserTag instance = UserTag.findByFollowerAndTag(follower, tag)
         instance ? instance.delete(flush: flush) : false
     }
 }

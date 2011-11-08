@@ -8,12 +8,21 @@ class UserRoleTests extends GroovyTestCase {
 
         assert 0 == User.count()
 
-        def user1 = new User(username:"admin",password:"password",email:"abc@example.com",gravatar_hash:"abc@example.com".trim().toLowerCase().encodeAsMD5()).save()
-        def user2 = new User(username:"user",password:"password",email:"abc.123@example.com",gravatar_hash:"abc.123@example.com".trim().toLowerCase().encodeAsMD5()).save()
+        def user1 = new User(username:"admin", password:"password",email:"abc@example.com")
+        user1.gravatar_hash = user1.email.trim().toLowerCase().encodeAsMD5()
+        user1.password2 = user1.password
+        user1.email2 = user1.email
+        user1.save()
+        def user2 = new User(username:"user",password:"password",email:"abc.123@example.com")
+        user2.gravatar_hash = user2.email.trim().toLowerCase().encodeAsMD5()
+        user2.password2 = user2.password
+        user2.email2 = user2.email
+        user2.save()
+
+        assert 2 == User.count()
 
         assert new UserRole(user:user1,role:Role.findByAuthority("ROLE_ADMIN")).save()?.instanceOf(UserRole)
         assert new UserRole(user:user1,role:Role.findByAuthority("ROLE_USER")).save()?.instanceOf(UserRole)
-
         assert new UserRole(user:user2,role:Role.findByAuthority("ROLE_USER")).save()?.instanceOf(UserRole)
     }
 
@@ -51,5 +60,4 @@ class UserRoleTests extends GroovyTestCase {
         UserRole.removeAll(Role.get(2))
         assert 1 == UserRole.count()
     }
-
 }

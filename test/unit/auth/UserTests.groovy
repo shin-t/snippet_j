@@ -49,10 +49,18 @@ class UserTests extends GrailsUnitTestCase {
         assertFalse user.validate(["password"])
 
         user.password = "password"
-        assertTrue user.validate(["password"])
+        assertFalse user.validate(["password"])
 
         user.email = "MyEmailAddress.123@example.com "
+        assertFalse user.validate(["email"])
+
+        user.password2 = "password"
+        assertTrue user.validate(["password"])
+        assertTrue user.validate(["password2"])
+
+        user.email2 = "MyEmailAddress.123@example.com "
         assertTrue user.validate(["email"])
+        assertTrue user.validate(["email2"])
 
         user.gravatar_hash = user.email.trim().toLowerCase().encodeAsMD5()
 

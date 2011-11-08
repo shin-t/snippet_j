@@ -1,6 +1,7 @@
 package snippet
 
 import grails.test.*
+import org.grails.taggable.*
 import auth.*
 
 class UserTagTests extends GroovyTestCase {
@@ -10,6 +11,8 @@ class UserTagTests extends GroovyTestCase {
         assert 0 == Snippet.count()
         assert 0 == UserTag.count()
         def user = new User(username:"username",password:"password",email:"MyEmailAddress@example.com ")
+        user.password2 = user.password
+        user.email2 = user.email
         user.gravatar_hash = user.email.trim().toLowerCase().encodeAsMD5()
         user.save(flush:true)
         assert 1 == User.count()
@@ -20,6 +23,8 @@ class UserTagTests extends GroovyTestCase {
         assert 2 == snippets.size()
         snippets[0].parseTags('snippet test',' ')
         snippets[1].parseTags('text test',' ')
+        UserTag.create user, Tag.findByName("snippet"), true
+        UserTag.create user, Tag.findByName("test"), true
     }
 
     protected void tearDown() {
@@ -27,12 +32,10 @@ class UserTagTests extends GroovyTestCase {
     }
 
     void "test get"() {
-        UserTag.create user, Tag.findByName("snippet"), true
-        UserTag.create user, Tag.findByName("test"), true
         assert 2 == UserTag.count()
         assert UserTag.get(User.findByUsername('username').id,'test') instanceof UserTag
     }
-    
+
     void "test remove"() {
         assert 2 == UserTag.count()
         UserTag.remove User.findByUsername('username'),Tag.findByName('test'),true

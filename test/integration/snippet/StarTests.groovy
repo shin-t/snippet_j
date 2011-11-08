@@ -9,6 +9,8 @@ class StarTests extends GroovyTestCase {
         super.setUp()
 
         def user = new User(username:"username",password:"password",email:"MyEmailAddress@example.com ")
+        user.password2 = user.password
+        user.email2 = user.email
         user.gravatar_hash = user.email.trim().toLowerCase().encodeAsMD5()
         assert user.save() instanceof User
 

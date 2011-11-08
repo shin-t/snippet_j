@@ -14,13 +14,13 @@ class UserController {
     def follow_check = {
         if(params.username) {
             def userInstance = User.findByUsername(params.username)
-            def result
+            def result = [:]
             if(userInstance) {
-                result = UserUser.get(springSecurityService.principal.id, userInstance.id)?true:false
+                result.exists = UserUser.get(springSecurityService.principal.id, userInstance.id)?true:false
             } else {
-                result = "${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"
+                result.message = "${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"
             }
-            render ([result] as JSON)
+            render (result as JSON)
         } else {
             render status:404, text:''
         }
@@ -39,6 +39,8 @@ class UserController {
             } else {
                 render (["${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"] as JSON)
             }
+        } else {
+            render status:404, text:''
         }
     }
 
@@ -51,24 +53,30 @@ class UserController {
                 render (status:204, text:'')
             }
             else render (["${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"] as JSON)
+        } else {
+            render status:404, text:''
         }
     }
 
     def snippet = {
-        def userInstance = User.findByUsername(params.username)
-        if(userInstance) {
-            params.max = Math.min(params.max ? params.int('max') : 5, 30)
-            params.sort = params.sort?:'dateCreated'
-            params.order = params.order?:'desc'
-            render template:'/snippet/list', model:[
-                currentUser:springSecurityService.currentUser,
-                userInstance:userInstance,
-                snippetInstanceList:Snippet.findAllByStatusAndUser('snippet',userInstance,params),
-                snippetInstanceTotal:Snippet.countByStatusAndUser('snippet',userInstance)
-            ]
+        if(params.username) {
+            def userInstance = User.findByUsername(params.username)
+            if(userInstance) {
+                params.max = Math.min(params.max ? params.int('max') : 5, 30)
+                params.sort = params.sort?:'dateCreated'
+                params.order = params.order?:'desc'
+                render template:'/snippet/list', model:[
+                    currentUser:springSecurityService.currentUser,
+                    userInstance:userInstance,
+                    snippetInstanceList:Snippet.findAllByStatusAndUser('snippet',userInstance,params),
+                    snippetInstanceTotal:Snippet.countByStatusAndUser('snippet',userInstance)
+                ]
+            } else {
+                flash.message = "${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"
+                redirect uri:'/'
+            }
         } else {
-            flash.message = "${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"
-            redirect uri:'/'
+            render status:404, text:''
         }
     }
 
@@ -86,6 +94,8 @@ class UserController {
                     snippetInstanceTotal:Snippet.countByStatusAndUser('question',userInstance)
                 ]
             } else render (["${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"] as JSON)
+        } else {
+            render status:404, text:''
         }
     }
 
@@ -103,6 +113,8 @@ class UserController {
                     snippetInstanceTotal:Snippet.countByStatusAndUser('problem',userInstance)
                 ]
             } else render (["${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"] as JSON)
+        } else {
+            render status:404, text:''
         }
     }
 
@@ -125,6 +137,8 @@ class UserController {
                     render template:'list', model:[currentUser:springSecurityService.currentUser, userInstance:userInstance, userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
                 }
             } else render (["${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"] as JSON)
+        } else {
+            render status:404, text:''
         }
     }
 
@@ -147,6 +161,8 @@ class UserController {
                     render template:'list', model:[currentUser:springSecurityService.currentUser, userInstance:userInstance, userInstanceList:userInstanceList, userInstanceTotal:userInstanceTotal]
                 }
             } else render (["${message(code:'default.not.found.message', args:[message(code:'user.label', default:'User'), params.username], default:'not found')}"] as JSON)
+        } else {
+            render status:404, text:''
         }
     }
 
@@ -160,7 +176,7 @@ class UserController {
         def userInstance = new User()
         userInstance.properties = params
         userInstance.password = ''
-        return [userInstance: userInstance]
+        return [userInstance:userInstance]
     }
 
     def save = {
@@ -172,11 +188,11 @@ class UserController {
         if (userInstance.save(flush: true)) {
             UserRole.create userInstance, Role.findByAuthority('ROLE_USER'), true
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.username])}"
-            redirect(controller: 'user', action: 'index', params: [username: userInstance.username])
+            redirect(controller:'user', action:'index', params:[username:userInstance.username])
         }
         else {
             userInstance.password = params.password
-            render(view: 'create', model: [userInstance: userInstance])
+            render(view:'create', model:[userInstance:userInstance])
         }
     }
 
@@ -194,8 +210,7 @@ class UserController {
                 redirect uri:'/'
             }
         } else {
-            flash.message = 'Not Found'
-            redirect uri:'/'
+            render status:404, text:''
         }
     }
 
@@ -213,7 +228,6 @@ class UserController {
             if(params.version) {
                 def version = params.version.toLong()
                 if(userInstance.version > version) {
-                    
                     userInstance.errors.rejectValue('version', 'default.optimistic.locking.failure', [message(code: 'user.label', default: 'User')] as Object[], 'Another user has updated this User while you were editing')
                     render(view: 'edit', model: [userInstance: userInstance])
                     return

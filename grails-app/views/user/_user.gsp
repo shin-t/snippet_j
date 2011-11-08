@@ -1,11 +1,6 @@
 <%@ page import="snippet.Snippet" %>
 <div class="box">
-    <p>
-        <span>
-            <gravatar:img hash="${userInstance.gravatar_hash}" size="48"/>
-        </span>
-        ${userInstance.username.encodeAsHTML()}
-    </p>
+    <p><span><gravatar:img hash="${userInstance.gravatar_hash}" size="48"/></span>${userInstance.username.encodeAsHTML()}</p>
     <p class="small">
         <g:if test="${params.status}">
         <g:message code="snippet.${params.status}.label" default="Snippet"/> &times;${Snippet.countByUserAndStatus(userInstance, params.status)}
@@ -25,25 +20,25 @@
         var follow_update = function(){
             var label = $(this).attr("checked")?"unfollow":"follow";
             $.ajax({
-                url:'/snippet/user/${params.username.encodeAsURL()}/'+$(this).button("option","label"),
+                url:'/snippet/user/${params.username.encodeAsURL()}/'+$(this).button("option", "label"),
                 success:function(data,textStatus){
-                    $("#follow_button").button("option","label",label);
+                    $("#follow_button").button("option", "label", label);
                 },
-                error:function(XMLHttpRequest,textStatus,errorThrown){}
+                error:function(XMLHttpRequest, textStatus, errorThrown){}
             });
         }
         $.ajax({
             url:'/snippet/user/${params.username.encodeAsURL()}/follow_check',
             success: function(data){
                 var label;
-                if(data[0]){
+                if(data.exists){
                     label = "unfollow";
-                    $("#follow_button").attr("checked","checked");
+                    $("#follow_button").attr("checked", "checked");
                 }
                 else{
                     label = "follow";
                 }
-                $("#follow_button").button({label:label,icons:{primary:"ui-icon-heart"}}).click(follow_update);
+                $("#follow_button").button({label:label, icons:{primary:"ui-icon-heart"}}).click(follow_update);
             }
         });
     </g:javascript>

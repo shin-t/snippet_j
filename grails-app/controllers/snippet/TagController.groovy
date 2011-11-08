@@ -19,6 +19,8 @@ class TagController {
                 render ([result] as JSON)
             }
             else render ([message: 'Not Found'] as JSON)
+        } else {
+            render status:404, text:''
         }
     }
 
@@ -32,6 +34,8 @@ class TagController {
                 render (status:204, text:'')
             }
             else render ([message: 'Not Found'] as JSON)
+        } else {
+            render status:404, text:''
         }
     }
 
@@ -46,52 +50,66 @@ class TagController {
                 render (status:204, text:'')
             }
             else render ([message: 'Not Found'] as JSON)
+        } else {
+            render status:404, text:''
         }
     }
 
     def snippet = {
-        params.max = Math.min(params.max ? params.int('max') : 5, 30)
-        def query = "select s from Snippet s, TagLink t where s.status = 'snippet' and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
-        render template:'/snippet/list', model:[
-            snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
-            snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
-            currentUser: springSecurityService.currentUser
-        ]
+        if(params.tag) {
+            params.max = Math.min(params.max ? params.int('max') : 5, 30)
+            def query = "select s from Snippet s, TagLink t where s.status = 'snippet' and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
+            render template:'/snippet/list', model:[
+                snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
+                snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
+                currentUser: springSecurityService.currentUser
+            ]
+        } else {
+            render status:404, text:''
+        }
     }
 
     def question = {
-        params.max = Math.min(params.max ? params.int('max') : 5, 30)
-        def query = "select s from Snippet s, TagLink t where s.status = 'question' and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
-        render template:'/snippet/list', model:[
-            snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
-            snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
-            currentUser: springSecurityService.currentUser
-        ]
+        if(params.tag) {
+            params.max = Math.min(params.max ? params.int('max') : 5, 30)
+            def query = "select s from Snippet s, TagLink t where s.status = 'question' and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
+            render template:'/snippet/list', model:[
+                snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
+                snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
+                currentUser: springSecurityService.currentUser
+            ]
+        } else {
+            render status:404, text:''
+        }
     }
 
     def problem = {
-        params.max = Math.min(params.max ? params.int('max') : 5, 30)
         if(params.tag) {
-            if(params.status) {
-                def query = "select s from Snippet s, TagLink t where s.status = 'problem' and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
-                render template:'/snippet/list', model:[
-                    snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
-                    snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
-                    currentUser: springSecurityService.currentUser
-                ]
-            }
+            params.max = Math.min(params.max ? params.int('max') : 5, 30)
+            def query = "select s from Snippet s, TagLink t where s.status = 'problem' and s.id = t.tagRef and t.type = 'snippet' and t.tag.name = ? order by s.dateCreated desc"
+            render template:'/snippet/list', model:[
+                snippetInstanceList: Snippet.executeQuery(query, [params.tag], params),
+                snippetInstanceTotal: Snippet.executeQuery(query, [params.tag]).size(),
+                currentUser: springSecurityService.currentUser
+            ]
+        } else {
+            render status:404, text:''
         }
     }
 
     def recent = {
-        def date = new Date() - 7
-        def query = "\
-            select new map(tl.tag.name as name, count(*) as count)\
-            from TagLink tl, Snippet s\
-            where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ? and s.dateCreated > ?\
-            group by name\
-            order by count(*) desc, name asc"
-        render template:'list', model:[tags:Snippet.executeQuery(query, [params.status, date], [max:10]), total:Snippet.executeQuery(query, [params.status, date])]
+        if(params.status) {
+            def date = new Date() - 7
+            def query = "\
+                select new map(tl.tag.name as name, count(*) as count)\
+                from TagLink tl, Snippet s\
+                where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ? and s.dateCreated > ?\
+                group by name\
+                order by count(*) desc, name asc"
+            render template:'list', model:[tags:Snippet.executeQuery(query, [params.status, date], [max:10]), total:Snippet.executeQuery(query, [params.status, date])]
+        } else {
+            render status:404, text:''
+        }
     }
 
     @Secured(['ROLE_USER'])
@@ -108,19 +126,27 @@ class TagController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 15, 30)
-        def query = "\
-            select new map(tl.tag.name as name, count(*) as count)\
-            from TagLink tl, Snippet s\
-            where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ?\
-            group by name\
-            order by count(*) desc, name asc"
-        [tags:Snippet.executeQuery(query, [params.status], params), total:Snippet.executeQuery(query, [params.status]).size()]
+        if(params.status) {
+            params.max = Math.min(params.max ? params.int('max') : 15, 30)
+            def query = "\
+                select new map(tl.tag.name as name, count(*) as count)\
+                from TagLink tl, Snippet s\
+                where tl.type = 'snippet' and tl.tagRef = s.id and s.status = ?\
+                group by name\
+                order by count(*) desc, name asc"
+            [tags:Snippet.executeQuery(query, [params.status], params), total:Snippet.executeQuery(query, [params.status]).size()]
+        } else {
+            render status:404, text:''
+        }
     }
 
     def show = {
-        def query = "select new map(s.status as status, count(*) as count) from Snippet s, TagLink tl where s.id = tl.tagRef and tl.type = 'snippet' and tl.tag.name = ? group by s.status"
-        def counts = Snippet.executeQuery(query,[params.tag]).inject([:]){ s, e -> s << [(e.status):e.count] }
-        [currentUser:springSecurityService.currentUser, counts:counts, follower:Snippet.executeQuery("select count(*) from UserTag u where u.tag.name = ?",[params.tag]).first()]
+        if(params.status) {
+            def query = "select new map(s.status as status, count(*) as count) from Snippet s, TagLink tl where s.id = tl.tagRef and tl.type = 'snippet' and tl.tag.name = ? group by s.status"
+            def counts = Snippet.executeQuery(query,[params.tag]).inject([:]){ s, e -> s << [(e.status):e.count] }
+            [currentUser:springSecurityService.currentUser, counts:counts, follower:Snippet.executeQuery("select count(*) from UserTag u where u.tag.name = ?",[params.tag]).first()]
+        } else {
+            render status:404, text:''
+        }
     }
 }

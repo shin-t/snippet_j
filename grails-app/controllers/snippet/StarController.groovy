@@ -20,8 +20,10 @@ class StarController {
             else{
                 results['message'] = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
             }
+            render (results as JSON)
+        } else {
+            render status:404, text:''
         }
-        render (results as JSON)
     }
 
     @Secured(['ROLE_USER'])
@@ -43,8 +45,10 @@ class StarController {
             else{
                 results['message'] = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
             }
+            render (results as JSON)
+        } else {
+            render status:404, text:''
         }
-        render (results as JSON)
     }
 
     @Secured(['ROLE_USER'])
@@ -59,7 +63,9 @@ class StarController {
             else{
                 results['message'] = "${message(code: 'default.not.found.message', args: [message(code: 'snippet.label', default: 'Snippet'), snippetInstance.id])}"
             }
+            render (results as JSON)
+        } else {
+            render status:404, text:''
         }
-        render (results as JSON)
     }
 }

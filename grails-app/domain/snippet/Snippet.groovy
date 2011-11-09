@@ -19,6 +19,10 @@ class Snippet implements Taggable {
         parent nullable:true, display:false
         children display:false
     }
+    static mapping = {
+        text type:'text'
+        file type:'text'
+    }
 
     Snippet root
     Snippet parent

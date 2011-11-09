@@ -1,13 +1,13 @@
 <g:if test="${tags}">
 <div class="box">
-    <p>
+    <h3>
         <g:if test="${actionName == 'following'}">
         <g:message code="following.tags.label" default="Following tags"/>
         </g:if>
         <g:else>
         <g:message code="tag.label" default="Tags"/>
         </g:else>
-    </p>
+    </h3>
     <g:each in="${tags}" var="t">
     <p>
         <g:link controller="tag" action="show" params="[status: params.status, tag: t.name.encodeAsURL()]">${t.name.encodeAsHTML()}</g:link>

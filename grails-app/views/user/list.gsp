@@ -5,10 +5,12 @@
         <meta name="layout" content="main"/>
         <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
         <title><g:message code="default.list.label" args="[entityName]"/></title>
-        <r:require modules="jquery-ui, common"/>
+        <r:require modules="jquery, bootstrap, common"/>
     </head>
     <body>
-        <div id="contents">
+        <div class="sidebar">
+        </div>
+        <div class="content">
             <g:if test="${flash.message}">
             <p class="message"><span>${flash.message}</span></p>
             </g:if>
@@ -16,13 +18,13 @@
             <g:render template="user"/>
             </sec:ifLoggedIn>
             <div class="box">
-                <p>
+                <h3>
                     <g:if test="${params.username}">
                     <g:message code="${actionName}.users.label" default="Users" />
                     </g:if><g:else>
                     <g:message code="user.label" default="Users" />
                     </g:else>
-                </p>
+                </h3>
                 <g:each in="${userInstanceList}" var="c">
                 <p>
                     <gravatar:img hash="${c.gravatar_hash}" size="16"/>
@@ -36,8 +38,6 @@
                 </g:each>
                 <g:paginate total="${userInstanceTotal}"/>
             </div>
-        </div>
-        <div id="sidebar">
         </div>
     </body>
 </html>

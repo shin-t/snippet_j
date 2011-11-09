@@ -1,34 +1,12 @@
-html * {
-    margin: 0;
-    padding: 0;
-}
 /* GENERAL */
 body {
+    padding-top: 40px;
     background: #E7E5BD;
-    font: 16px verdana, arial, helvetica, sans-serif;
 }
+/*
 input[type="text"], input[type="password"], textarea {
     border: 1px solid #777;
     background-color: #f2f2f2;
-    font-size: 86%;
-}
-a, a:link {
-    color: #64738B;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-.spinner {
-    padding: 5px;
-    position: absolute;
-    right: 0;
-}
-.ui-button, .ui-button-text {
-    font-size: 86%;
-}
-.prop .name {
-    font-size: 86%;
 }
 .prop .value textarea {
     width: 99%;
@@ -37,76 +15,31 @@ a:hover {
 input#tags {
     width: 70%;
 }
-#container {
-    margin: 32px auto 0;
-    width: 1080px;
+*/
+a, a:link {
+    color: #64738B;
 }
-#contents {
-    width: 820px;
-    float: left;
+.spinner {
+    padding: 5px;
+    position: absolute;
+    right: 0;
 }
 .box {
     background-color: #fff;
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.25);
     border-radius: 24px / 24px;
     padding: 16px;
-    margin: 24px 0;
-}
-.box > p:first-child {
-    margin-bottom: 8px;
-}
-.small {
-    font-size: 86%;
-}
-/* SIDEBAR */
-#sidebar {
-    float: right;
-    width: 240px;
-    padding-left: 20px;
+    margin: 24px;
 }
 .box .more_link {
     text-align: right;
 }
-/* HEADER */
-#header {
-    border-bottom: 1px #BD767D solid;
-    background: #CB8D93;
-    padding: 0 100px;
-    height: 40px;
-}
-#header > a {
-    line-height: 40px;
-    float: left;
-    font-weight: bold;
-    font-size: 124%;
-    text-decoration: none;
-}
 /* NAVIGATION MENU */
-.nav {
-    list-style-type: none;
-}
-.nav > * {
-    float:left;
-    margin: 0px 8px 0;
-    line-height: 40px;
-}
-.nav > *:first-child {
-    margin-left:32px;
-}
-.nav + .nav {
-    float:right;
-}
+/* DIALOG */
 /* ACTION BUTTONS */
-.buttons {
-    margin: 16px 2px 0;
-    text-align: right;
-}
 /* CONTENT */
 .list .content {
     border-top: solid 1px #BD767D;
-}
-.content {
-    padding: 24px 0;
 }
 .content .reply_form {
     clear:both;
@@ -118,7 +51,6 @@ input#tags {
 }
 .content .text, .content .file {
     overflow: auto;
-    font-size: 86%;
 }
 .content .file {
     padding: 6px;

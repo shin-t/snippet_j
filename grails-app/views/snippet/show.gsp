@@ -5,17 +5,15 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'snippet.label', default: 'Snippet')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
-        <r:require modules="jquery-ui, common" />
+        <r:require modules="jquery, bootstrap, common" />
     </head>
     <body>
-        <div id="contents">
+        <div class="sidebar"></div>
+        <div class="content">
             <p class="message"><span style="display:none;"></span></p>
             <g:if test="${snippetInstanceList}">
-            <div class="box">
-                <g:render template="list" model="[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance: userInstance]" />
-            </div>
+            <g:render template="list" model="[snippetInstanceList: snippetInstanceList, snippetInstanceTotal: snippetInstanceTotal, userInstance: userInstance]" />
             </g:if>
         </div>
-        <div id="sidebar"></div>
     </body>
 </html>

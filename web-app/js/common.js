@@ -1,6 +1,6 @@
 var button_icons = function(){
-    $("input:submit, input:button").button();
-    $(".buttons a").button();
+    //$("input:submit, input:button").button();
+    //$(".buttons a").button();
     $(".buttons .star_button:checkbox").each(function(){
         var obj = $(this);
         var id = $(this).prev().prev().val();
@@ -29,17 +29,6 @@ var button_icons = function(){
                 });
             }
         });
-    });
-    $(".buttons .help_button:checkbox").each(function(){
-        var id = $(this).parent().children().first().val();
-        var label;
-        if($(this).attr("checked")){
-            label = "solved";
-        }
-        else{
-            label = "unsolved";
-        }
-        $(this).button({label:label,icons:{primary:"ui-icon-star"}}).click({id:id},update_solved);
     });
     prettyPrint();
 }

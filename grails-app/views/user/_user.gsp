@@ -1,7 +1,7 @@
 <%@ page import="snippet.Snippet" %>
 <div class="box">
-    <p><span><gravatar:img hash="${userInstance.gravatar_hash}" size="48"/></span>${userInstance.username.encodeAsHTML()}</p>
-    <p class="small">
+    <h3><span><gravatar:img hash="${userInstance.gravatar_hash}" size="48"/></span>${userInstance.username.encodeAsHTML()}</h3>
+    <p>
         <g:if test="${params.status}">
         <g:message code="snippet.${params.status}.label" default="Snippet"/> &times;${Snippet.countByUserAndStatus(userInstance, params.status)}
         </g:if>
